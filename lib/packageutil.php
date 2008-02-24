@@ -66,7 +66,7 @@ class packageutil
 						break;
 					}
 				}
-				
+
 				if ($query) {
 					array_unshift($data, $query);
 					$db->query($data);
@@ -74,7 +74,7 @@ class packageutil
 			}
 		}
 	}
-	
+
 	/**
 	 * Run through node and get a list of template names
 	 *
@@ -88,7 +88,7 @@ class packageutil
 	function list_templates(&$nodes)
 	{
 		$templates_names = array();
-		
+
 		foreach ($nodes['child'] as $node) {
 			if ($node['name'] == 'TEMPLATE') {
 				$temp_name = "";
@@ -109,10 +109,9 @@ class packageutil
 				$templates_names[] = $temp_name;
 			}
 		}
-		
 		return $templates_names;
 	}
-	
+
 	/**
 	 * Run through node for templates to insert
 	 *
@@ -129,7 +128,7 @@ class packageutil
 	function insert_templates($skin_dir, &$db, &$nodes, $template_names = null)
 	{
 		$templates_inserted = array();
-		
+
 		foreach ($nodes['child'] as $node) {
 			if ($node['name'] == 'TEMPLATE') {
 				$temp_set = "";
@@ -171,10 +170,9 @@ class packageutil
 				}
 			}
 		}
-		
 		return $templates_inserted;
 	}
-	
+
 	/**
 	 * Pulls out details for a summary of what the package is and does
 	 *
@@ -185,7 +183,7 @@ class packageutil
 	function fetch_package_details($filename)
 	{
 		if (!is_readable($filename)) return false;
-		
+
 		if (strtolower(substr($filename, -4)) == '.tar' ||
 			(strtolower(substr($filename, -7)) == '.tar.gz' &&
 			$tarTool->can_gunzip()))
@@ -200,7 +198,6 @@ class packageutil
 			} else {
 				return false;
 			}
-
 		}
 		else if (strtolower(substr($file, -4)) == '.xml')
 		{
@@ -211,9 +208,9 @@ class packageutil
 		{
 			return false; // give up
 		}
-		
+
 		$results = array('file' => $xmlFilename);
-				
+
 		$node = $xmlInfo->GetNodeByPath('QSFMOD/TYPE');
 		$results['type'] = $node['content'];
 
@@ -232,7 +229,7 @@ class packageutil
 
 		$node = $xmlInfo->GetNodeByPath('QSFMOD/AUTHORNAME');
 		$results['author'] = $node['content'];
-		
+
 		return $results;
 	}
 
@@ -250,11 +247,11 @@ class packageutil
 		}
 
 		$packages = array();
-		
+
 		$tarTool = new archive_tar();
 
 		$xmlInfo = new xmlparser();
-		
+
 		$dp = opendir($folder);
 		while (($file = readdir($dp)) !== false)
 		{
@@ -265,7 +262,7 @@ class packageutil
 				if ($tarTool->open_file_reader($folder . $file)) {
 					// Okay. Look at packages.txt to find our xml file
 					$xmlFilename = $tarTool->extract_file('package.txt');
-					
+
 					if ($xmlFilename === false) continue;
 
 					$xmlInfo->parseTar($tarTool, $xmlFilename);
@@ -282,7 +279,7 @@ class packageutil
 			{
 				continue; // skip file
 			}
-				
+
 			$node = $xmlInfo->GetNodeByPath('QSFMOD/TYPE');
 			$package_type = $node['content'];
 
@@ -312,9 +309,9 @@ class packageutil
 
 			$xmlInfo->reset();
 		}
-			
+
 		closedir($dp);
-		
+
 		return $packages;
 	}
 }

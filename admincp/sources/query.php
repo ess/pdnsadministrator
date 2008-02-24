@@ -53,7 +53,7 @@ class query extends admin
 		if (!isset($this->post['submit'])) {
 			return $this->message($this->lang->query, "
 			<form action='{$this->self}?a=query' method='post'><div>
-				<textarea class='input' name='sql' cols='30' rows='15' style='width:100%'>SELECT * FROM {$this->pre}groups</textarea><br /><br />
+				<textarea class='input' name='sql' cols='30' rows='15' style='width:100%'>SELECT * FROM groups</textarea><br /><br />
 				<input type='submit' name='submit' value='{$this->lang->submit}' /></div>
 			</form>");
 		} else {
@@ -62,7 +62,6 @@ class query extends admin
 			if (is_resource($result)) {
 				$sql = htmlspecialchars($this->post['sql']);
 				$show_headers = true;
-				$this->iterator_init('tablelight', 'tabledark');
 
 				$out = $this->message($this->lang->query, "<form action='{$this->self}?a=query' method='post'><div>
 					<textarea class='input' name='sql' cols='30' rows='15' style='width:100%'>$sql</textarea><br /><br />
@@ -73,27 +72,26 @@ class query extends admin
 				while ($row = $this->db->nqfetch($result))
 				{
 					if ($show_headers) {
-						$out .= "<tr>\n";
+						$out .= "<span class=\"head\">\n";
 
 						foreach ($row as $col => $data)
 						{
-							$out .= "<td class='header'>$col</td>\n";
+							$out .= "<span class='starter'>$col</span>\n";
 						}
 
-						$out .= "</tr>\n";
+						$out .= "</span>\n<p></p>";
 
 						$show_headers = false;
 					}
 
 					$out .= "<tr>\n";
-					$this->iterate();
 
 					foreach ($row as $col => $data)
 					{
-						$out .= "<td class='" . $this->lastValue() . "'>" . $this->format($data, FORMAT_HTMLCHARS) . "</td>\n";
+						$out .= "<span class='starter'>" . $this->format($data, FORMAT_HTMLCHARS) . "</span>\n";
 					}
 
-					$out .= "</tr>\n";
+					$out .= "<p class='list_line'></p>\n";
 				}
 
 				return $out . $this->etable;

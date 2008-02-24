@@ -77,7 +77,6 @@ class domains extends qsfglobal
 	function delete_record()
 	{
 		$this->set_title($this->lang->domains_record_delete);
-		$this->tree($this->lang->domains_record_delete);
 
 		if (!isset($this->get['id'])) {
 			return $this->message($this->lang->domains_record_delete, $this->lang->domains_id_invalid);
@@ -120,7 +119,6 @@ class domains extends qsfglobal
 	function edit_record()
 	{
 		$this->set_title($this->lang->domains_record_edit);
-		$this->tree($this->lang->domains_record_edit);
 
 		if (!isset($this->get['id'])) {
 			return $this->message($this->lang->domains_record_edit, $this->lang->domains_id_invalid);
@@ -258,7 +256,6 @@ class domains extends qsfglobal
 	function new_record()
 	{
 		$this->set_title($this->lang->domains_record_add);
-		$this->tree($this->lang->domains_record_add);
 
 		if (!isset($this->get['id'])) {
 			return $this->message($this->lang->domains_record_add, $this->lang->domains_id_invalid);
@@ -376,7 +373,6 @@ class domains extends qsfglobal
 	function new_reverse_domain()
 	{
 		$this->set_title($this->lang->domains_new_reverse);
-		$this->tree($this->lang->domains_new_reverse);
 
 		if (!isset($this->post['submit'])) {
 			$users = $this->htmlwidgets->select_users($this->user['user_id']);
@@ -449,7 +445,6 @@ class domains extends qsfglobal
 	function new_domain()
 	{
 		$this->set_title($this->lang->domains_new);
-		$this->tree($this->lang->domains_new);
 
 		if (!isset($this->post['submit'])) {
 			$users = $this->htmlwidgets->select_users($this->user['user_id']);
@@ -538,6 +533,11 @@ class domains extends qsfglobal
 			VALUES( %d, '%s', 'MX', '%s', %d, 10, %d )",
 			$dom_id, $dom_name, $dom_mail, $this->sets['default_ttl'], $this->time);
 
+		// Insert the mail.domain.com A record for the new domain.
+		$this->db->query("INSERT INTO records (domain_id, name, type, content, ttl, prio, change_date)
+			VALUES( %d, '%s', 'A', '%s', %d, 0, %d )",
+			$dom_id, $dom_mail, $dom_ip, $this->sets['default_ttl'], $this->time);
+
 		// Insert the CNAME record for the new domain.
 		$this->db->query("INSERT INTO records (domain_id, name, type, content, ttl, prio, change_date)
 			VALUES( %d, '%s', 'CNAME', '%s', %d, 0, %d )",
@@ -600,10 +600,8 @@ class domains extends qsfglobal
 	function edit_domain()
 	{
 		$this->set_title($this->lang->domains_edit);
-		$this->tree($this->lang->domains_edit);
 
 		$records = '';
-		$this->iterator_init('tablelight', 'tabledark');
 
 		if (!isset($this->get['id'])) {
 			return $this->message($this->lang->domains_edit, $this->lang->domains_id_invalid);
@@ -627,7 +625,6 @@ class domains extends qsfglobal
 		$dom_records = $this->db->query("SELECT * FROM records WHERE domain_id=%d ORDER BY name ASC", $dom_id);
 		while( $record = $this->db->nqfetch($dom_records) )
 		{
-			$class = $this->iterate();
 			$rec_id = $record['id'];
 			$records .= eval($this->template('DOMAINS_RECORD'));
 		}
@@ -637,7 +634,6 @@ class domains extends qsfglobal
 	function delete_domain()
 	{
 		$this->set_title($this->lang->domains_delete);
-		$this->tree($this->lang->domains_delete);
 
 		if (!isset($this->get['id'])) {
 			return $this->message($this->lang->domains_delete, $this->lang->domains_id_invalid);

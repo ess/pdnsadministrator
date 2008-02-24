@@ -45,9 +45,6 @@ set_error_handler('error');
 error_reporting(E_ALL);
 set_magic_quotes_runtime(0);
 
-// Check for any addons available
-include_addons($set['include_path'] . '/addons/');
-
 if (!isset($_GET['a']) || !in_array($_GET['a'], $modules['admin_modules'])) {
 	$module = $modules['default_admin_module'];
 } else {
