@@ -321,11 +321,16 @@ class en
 		$this->perms_edit_domains = 'Can edit existing domains they do not own.';
 		$this->perms_do_anything = 'Can access PDNS-Admin. Should never be unchecked!';
 		$this->perms_edit_for = 'Edit permissions for';
+		$this->perms_for = 'Permissions For';
+		$this->perms_group = 'Group';
+		$this->perms_guest1 = 'Removing Guest user access will prevent anyone from logging in!';
+		$this->perms_guest2 = 'Removing Guest group access will prevent anyone from logging in!';
 		$this->perms_is_admin = 'Can access the admin control panel. This is an all or nothing setting.';
 		$this->perms_only_user = 'Use only group permissions for this user';
 		$this->perms_override_user = 'This will override the group permissions for this user.';
 		$this->perms_title = 'User Group Control';
 		$this->perms_updated = 'Permissions have been updated.';
+		$this->perms_user = 'User';
 		$this->perms_user_inherit = 'The user will inherit the group\'s permissions.';
 	}
 

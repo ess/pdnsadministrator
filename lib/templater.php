@@ -36,13 +36,11 @@ class templater extends tool
 {
 	var $temps   = array();		// Loaded templates @var array
 	var $skin = 'default';		// Skin to select from
-	var $qsf = null;		// Pointer to quicksilverforums object for modlets
 
 	var $macro;                     // Array of code to execute for each template
-	var $modlets = array();         // Array of modlet objects for running in templates
-	
+
 	var $debug_mode = false;	// Set to true if we want to use start/end comments
-    
+
 	/**
 	 * Constructor
 	 *
@@ -56,11 +54,8 @@ class templater extends tool
 		// Need the template selection
 		$this->skin = $qsf->skin;
 		$this->debug_mode = $qsf->debug_mode;
-
-		// Needed for modlets
-		$this->qsf = &$qsf;
 	}
-	
+
 	/**
 	 * Extends the existing templates array - see get_templates()
 	 *
@@ -73,7 +68,7 @@ class templater extends tool
 	{
 		$this->temps = array_merge($this->temps, $this->get_templates($section, 0));
 	}
-	
+
 	/**
 	 * Fetches templates and loads them into the temps property
 	 *
@@ -113,8 +108,6 @@ class templater extends tool
 
 		while ($template = $this->db->nqfetch($temp_query))
 		{
-			// Check for MODLET with optional parameter
-			$template['template_html'] = preg_replace('/<MODLET\s+(.*?)\((.*?)\)\s*>/se', '$this->_modlets_callback(\'\\1\', \'\\2\', $template[\'template_name\'])', $template['template_html']);
 			// Check for IF statements
 			$template['template_html'] = preg_replace('~<IF (.*?)(?<!\-)>(.*?)(<ELSE>(.*?))?</IF>~se', '$this->_iftag_callback(\'\\1\', \'\\2\', $template[\'template_name\'], \'\\3\')', $template['template_html']);
 			$templates[$template['template_name']] = $template['template_html'];
@@ -137,7 +130,7 @@ class templater extends tool
 			}
 		}
 	}
-	
+
 	/**
 	 * Quick check to see if the template exists
 	 *
@@ -157,21 +150,7 @@ class templater extends tool
 			return isset($this->temps[$piece]);
 		}
 	}
-	
-	/**
-	 * Run a modlet and return it's output
-	 *
-	 * @param string $modlet Name of the modlet
-	 * @param string $parameter Parameter string to pass
-	 * @author Geoffrey Dunn <geoff@warmage.com>
-	 * @since 1.2
-	 * @return html formatted text
-	 **/
-	function modlet_exec($modlet, $parameter)
-	{
-		return $this->modlets[$modlet]->run($parameter);
-	}
-	
+
 	/**
 	 * Stores if statements into an array (performance speed-up)
 	 *
@@ -195,41 +174,6 @@ class templater extends tool
 		return '{' . chr(36) . 'macro_replace[' . $macro_id . ']}';
 	}
 
-   	/**
-	 * Creates the modlet and stores modlet run statements into an array
-	 *
-	 * PROTECTED
-	 *
-	 * @param string $modlet modlet to run
-	 * @param string $parameter String parameter to pass to the modlet
-	 * @param string $piece template
-	 * @author Geoffrey Dunn <geoff@warmage.com>
-	 * @return string replace modlet statements with a var
-	 **/
-	function _modlets_callback($modlet, $parameter, $piece)
-	{
-		$macro_id = isset($this->macro[$piece]) ? count($this->macro[$piece]) : 0;
-        
-		// Check the modlet uses valid characters
-		if (preg_match('/[^a-zA-Z0-9_\-]/', $modlet)) {
-			return '<!-- ERROR: Modlet ' . htmlspecialchars($modlet) . ' is not a valid modlet name -->';
-		}
-		if (!isset($this->modlets[$modlet])) {
-			if (!is_readable($this->sets['include_path'] .  '/modlets/' . $modlet . '.php')) {
-				return '<!-- ERROR: Modlet ' . htmlspecialchars($modlet) . ' does not exist -->';
-			} else {
-				require_once($this->sets['include_path'] .  '/modlets/' . $modlet . '.php');
-			}
-			$this->modlets[$modlet] =& new $modlet($this->qsf);
-			if ($this->validate($modlet, TYPE_OBJECT, 'modlet')) {
-				return '<!-- ERROR: Modlet ' . htmlspecialchars($modlet) . ' is not a type of modlet -->';
-			}
-		}
-        
-		$this->macro[$piece][$macro_id] = '$macro_replace[' . $macro_id . '] = (isset($this)) ? $this->templater->modlet_exec("'. $modlet . '", "' . $parameter . '") : $qsf->templater->modlet_exec("'. $modlet . '", "' . $parameter . '"); ';
-		return '{' . chr(36) . 'macro_replace[' . $macro_id . ']}';
-	}
-    
 	/**
 	 * Returns a parsed template, for use in eval()
 	 *
@@ -252,7 +196,7 @@ class templater extends tool
 				$macro_output .= $macro_code;
 			}
 		}
-		
+
 		if ($this->debug_mode) {
 			return "$macro_output return \"<!-- START: $piece -->\r\n{$this->temps[$piece]}\r\n<!-- END: $piece -->\r\n\";";
 		}

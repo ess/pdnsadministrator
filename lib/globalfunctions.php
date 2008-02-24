@@ -68,26 +68,4 @@ function error($type, $message, $file = null, $line = 0)
 		break;
 	}
 }
-
-/**
- * Runs require_once on all addons
- *
- * @param string $dir Folder to check for php files
- * @author Geoffrey Dunn <geoff@warmage.com>
- * @since 1.2
- **/
-function include_addons($dir)
-{
-	if (is_dir($dir)) {
-		if ($dh = opendir($dir)) {
-			while (($file = readdir($dh)) !== false) {
-				if (filetype($dir . $file) == 'file' && preg_match('/^[^\.]+\.php$/', $file) ) {
-					// Include it!
-					include_once($dir . $file);
-				}
-			}
-			closedir($dh);
-		}
-	}
-}
 ?>

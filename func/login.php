@@ -48,25 +48,24 @@ class login extends qsfglobal
 		{
 		case 'off':
 			return $this->do_logout();
-			break;
 
 		case 'pass':
 			return $this->reset_pass();
-			break;
 
 		case 'request':
 			return $this->request_pass();
-			break;
 
-		default: //logon
+		case 'on':
 			return $this->do_login();
+
+		default:
+			return $this->message( $this->lang->login_header, $this->lang->login_cant_logged );
 		}
 	}
 
 	function do_login()
 	{
 		$this->set_title($this->lang->login_header);
-		$this->tree($this->lang->login_header);
 
 		if (!isset($this->post['submit'])) {
 			$request_uri = $this->get_uri();
@@ -77,12 +76,18 @@ class login extends qsfglobal
 
 			return eval($this->template('LOGIN_MAIN'));
 		} else {
+			if( !isset($this->post['user']) )
+				return $this->message( $this->lang->login_header, $this->lang->login_cant_logged );
+
 			$username = str_replace('\\', '&#092;', $this->format($this->post['user'], FORMAT_HTMLCHARS));
 
 			$data  = $this->db->fetch("SELECT user_id, user_password FROM users WHERE REPLACE(LOWER(user_name), ' ', '')='%s' AND user_id != %d LIMIT 1",
 				str_replace(' ', '', strtolower($username)), USER_GUEST_UID);
 			$pass  = $data['user_password'];
 			$user  = $data['user_id'];
+
+			if( !isset($this->post['pass']) )
+				return $this->message( $this->lang->login_header, $this->lang->login_cant_logged );
 
 			$this->post['pass'] = str_replace('$', '', $this->post['pass']);
 			$this->post['pass'] = md5($this->post['pass']);
@@ -108,7 +113,6 @@ class login extends qsfglobal
 	function do_logout()
 	{
 		$this->set_title($this->lang->login_out);
-		$this->tree($this->lang->login_out);
 
 		if (!isset($this->get['sure']) && !$this->perms->is_guest) {
 			return $this->message($this->lang->login_out, sprintf($this->lang->login_sure, $this->user['user_name']), $this->lang->continue, "$this->self?a=login&amp;s=off&amp;sure=1");
@@ -135,7 +139,6 @@ class login extends qsfglobal
 	function reset_pass()
 	{
 		$this->set_title($this->lang->login_pass_reset);
-		$this->tree($this->lang->login_pass_reset);
 
 		if (!isset($this->post['submit'])) {
 			return eval($this->template('LOGIN_PASS'));
@@ -169,7 +172,6 @@ class login extends qsfglobal
 	function request_pass()
 	{
 		$this->set_title($this->lang->login_pass_reset);
-		$this->tree($this->lang->login_pass_reset);
 
 		if (!isset($this->get['e'])) {
 			$this->get['e'] = null;
