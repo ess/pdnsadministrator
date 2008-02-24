@@ -65,7 +65,7 @@ class templates extends admin
 
 		$skins = array();
 
-		$query = $this->db->query("SELECT * FROM skins");
+		$query = $this->db->query('SELECT * FROM skins');
 		while ($s = $this->db->nqfetch($query))
 		{
 			$skins[$s['skin_dir']] = $s['skin_name'];

@@ -109,7 +109,7 @@ class templater extends tool
 		while ($template = $this->db->nqfetch($temp_query))
 		{
 			// Check for IF statements
-			$template['template_html'] = preg_replace('~<IF (.*?)(?<!\-)>(.*?)(<ELSE>(.*?))?</IF>~se', '$this->_iftag_callback(\'\\1\', \'\\2\', $template[\'template_name\'], \'\\3\')', $template['template_html']);
+			$template['template_html'] = $this->parse_ifs($template['template_html'], $template['template_name']);
 			$templates[$template['template_name']] = $template['template_html'];
 		}
 
@@ -152,6 +152,172 @@ class templater extends tool
 	}
 
 	/**
+	 * Parse if statements in a template.
+	 * @param string $string html template
+	 * @param string $piece templates name
+	 * @author Aaron Smith-Hayes (DavionKalhen@Gmail.com
+	 * @since 1.4.3
+	 * @return string with if's parsed.
+	 **/
+	function parse_ifs($string, $piece)
+	{
+		$stack = array();
+		$last = 0;
+		$pos = 0;
+		$output = "";
+
+		while( ($pos = strpos($string, '<', $pos) ) !== false )
+		{
+			$pos++;
+			$close = $pos;
+			while ( ($close = strpos($string, '>', $close )  ) !== false )
+			{
+				if($string{$close-1} == '-')
+					$close++;
+				else
+					break;
+			}
+
+			if( $close  !== false )
+			{
+				if( (substr($string, $pos, 3) == 'IF ' ) ) {
+					$condition = substr($string, $pos+3, $close-$pos-3);
+					if($pos != 1)
+						$stack[] = array("text", substr($string, $last, $pos-$last-1) );
+					$stack[] = array("if", str_replace('"', '\\"', $condition) );
+				} else if( (substr($string, $pos, 4) == 'ELSE' ) ) {
+					$stack[] = array("text", substr($string, $last, $pos-$last-1) );
+					$stack[] = array("else", 0);
+				} else if( (substr($string, $pos, 3) == '/IF') ) {
+					$stack[] = array("text", substr($string, $last, $pos-$last-1) );
+					$stack[] = array("endif", 0);
+				} else {
+					continue;
+				}
+				$pos = $last = $close+1;
+			}
+		}
+
+		if($last < strlen($string) )
+			$stack[] = array("text", substr($string, $last, strlen($string)-$last ) );
+
+		$nest = 0;
+		$max = count($stack);
+
+		for( $i = 0; $i < $max ; ++$i )
+		{
+			list($type, $value) = $stack[$i];
+			if($type == 'text')
+			{
+				$output  .= $value;
+				continue;
+			}
+
+			if($type == 'if')
+			{
+				list($else, $end) = $this->find_else_end($stack, $max, $i);
+				$output .= $this->get_macro_replace($stack, $max, $piece, $i, $else, $end);
+				$i = $end;
+			}
+		}
+		return $output;
+	}
+
+	/**
+	 * Replaces an ifstatement with a text representation and parses children.
+	 *
+	 * @param mixed $stack Stack queue of if's.
+         * @param int $max size of the stack passed.
+         * @param string $piece templates name
+         * @param int $i location of this if on the stack
+         * @param int $else location of the else -1 if no else.
+         * @param int $end location of endif on the stack.
+	 * @author Aaron Smith-Hayes (DavionKalhen@Gmail.com
+	 * @since 1.4.3
+	 * @return string representation of the if statement.
+	 **/
+	function get_macro_replace($stack, $max, $piece,  $i, $else, $end)
+	{
+		$if = $i++;
+		$success_string = '';
+		$fail_string = '';
+		$init = 'success_string';
+
+		for( ; $i < $max ; ++$i)
+		{
+			list($type, $value) = $stack[$i];
+	
+			if($type == 'text')
+				$$init .= $value;
+			if($type == 'else' && $i == $else)
+				$init = 'fail_string';
+			if($type == 'endif' && $i == $end)
+				break;
+			if($type == 'if')
+			{
+				list($nelse, $nend) = $this->find_else_end($stack, $max, $i);
+
+				$$init .= $this->get_macro_replace($stack, $max, $piece, $i, $nelse, $nend);
+				$i = $nend;
+			}
+		}
+		$success_string = str_replace('"', '\\"', $success_string);
+		$fail_string = str_replace('"', '\\"', $fail_string);
+		return $this->_iftag_callback($stack[$if][1], $success_string, $piece, $fail_string );
+	}
+
+	/**
+	 * Grab the else, and endif of an if statement
+	 *
+	 * @param mixed $stack Stack queue of if's.
+         * @param int $size size of the stack passed.
+         * @param int $if the if's location on the stack
+	 * @author Aaron Smith-Hayes (DavionKalhen@Gmail.com
+	 * @since 1.4.3
+	 * @return array containing the locations of the else and if on the stack
+	 **/
+	function find_else_end($stack, $size, $if)
+	{
+		$i = 0;
+		$nest = 0;
+		$ifnest = -1;
+		$ifelse = -1;
+		$ifend = -1;
+
+		for($i = 0 ; $i < $size ; ++$i )
+		{
+			list($type, $value) = $stack[$i];
+
+			if($type == 'if')
+			{
+				$nest++;
+				if($i == $if)
+					$ifnest = $nest;
+				continue;
+			}
+
+			if($type == 'else')
+			{
+				if($ifnest != -1 && $ifelse == -1 && $ifnest == $nest)
+					$ifelse = $i;
+				
+				continue;
+			}
+
+			if($type == 'endif')
+			{	
+				if($ifnest != -1 && $ifend == -1 && $ifnest == $nest)
+				{
+					$ifend = $i;
+					break;
+				}
+				$nest--;
+			}
+		}
+		return array($ifelse, $ifend);
+	}
+
+	/**
 	 * Stores if statements into an array (performance speed-up)
 	 *
 	 * PROTECTED
@@ -164,12 +330,8 @@ class templater extends tool
 	 * @return string replace if statements with a var
 	 **/
 	function _iftag_callback($condition, $code, $piece, $falseCode = '')
-	{
+	{	
 		$macro_id = isset($this->macro[$piece]) ? count($this->macro[$piece]) : 0;
-		if ($falseCode) {
-			// Strip off the <ELSE>
-			$falseCode = substr($falseCode, 6);
-		}
 		$this->macro[$piece][$macro_id] = '$macro_replace[' . $macro_id . '] = ((' . $condition . ') ? "' . $code . '" : "' . $falseCode . '"); ';
 		return '{' . chr(36) . 'macro_replace[' . $macro_id . ']}';
 	}

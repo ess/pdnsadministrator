@@ -1,7 +1,7 @@
 <?php
 /**
  * PDNS-Admin
- * Copyright (c) 2006-2007 Roger Libiez http://www.iguanadons.net
+ * Copyright (c) 2006-2008 Roger Libiez http://www.iguanadons.net
  *
  * Based on Quicksilver Forums
  * Copyright (c) 2005 The Quicksilver Forums Development Team
@@ -82,8 +82,19 @@ if (!isset($_GET['step'])) {
 	$step = $_GET['step'];
 }
 
-require 'new_install.php';
-$qsf = new new_install;
+$mode = '';
+if (!isset($_GET['mode'])) {
+	$mode = '';
+} else {
+	$mode = $_GET['mode'];
+}
+
+if ($mode) {
+	require $set['include_path'] . '/install/' . $mode . '.php';
+	$qsf = new $mode;
+} else {
+	$qsf = new qsfglobal;
+}
 
 include 'header.php';
 
@@ -110,7 +121,18 @@ if ($failed) {
 	$qsf->sets = $set;
 	$qsf->modules = $modules;
 
-	$qsf->install_console($step);
+	switch( $mode )
+	{
+		default:
+			include 'choose_install.php';
+			break;
+		case 'new':
+			$qsf->install_console($step);
+			break;
+		case 'upgrade':
+			$qsf->upgrade_console($step);
+			break;
+	}
 }
 
 include 'footer.php';

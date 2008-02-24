@@ -1,12 +1,12 @@
-<?xml version='1.0' encoding='utf-8'?>
+﻿<?xml version='1.0' encoding='utf-8'?>
 <qsfmod>
   <title>Skin: Ashlander</title>
   <type folder="default">skin</type>
-  <version>v1.1.1</version>
+  <version>v1.1.2</version>
   <description></description>
   <authorname>Skin Exporter</authorname>
   <files>
-    <file>packages/skin_default-v1.1.1.xml</file>
+    <file>packages/skin_default-v1.1.2.xml</file>
     <file>skins/default/images/Logo.gif</file>
     <file>skins/default/images/valid-css.png</file>
     <file>skins/default/images/background3.gif</file>
@@ -18,6 +18,7 @@
     <file>skins/default/images/icons/members.png</file>
     <file>skins/default/images/icons/help.png</file>
     <file>skins/default/images/icons/forum_read.png</file>
+    <file>skins/default/images/icons/table_add.png</file>
     <file>skins/default/images/icons/email.png</file>
     <file>skins/default/images/icons/user_online.png</file>
     <file>skins/default/images/icons/key.png</file>
@@ -136,7 +137,7 @@
       <html><![CDATA[
 {$admin->table}
    <a href="../" style="font-weight:bold">{$admin->lang->admin_your_board}</a>
-   -- {$admin->lang->powered} <a href="http://www.iguanadons.net/index.php?a=page&amp;p=4" style="font-weight:bold">{$admin->name}</a>
+   -- {$admin->lang->powered} <a href="http://www.iguanadons.net/pdns-admin" style="font-weight:bold">{$admin->name}</a>
   {$admin->etable}
  </div>
 
@@ -144,7 +145,7 @@
 </div>
 
 <div id="footer">
- {$admin->lang->powered} <a href="http://www.iguanadons.net/index.php?a=page&amp;p=4"><b>{$admin->name}</b></a> [{$admin->version}] &copy; 2006-2007 Roger Libiez<br />
+ {$admin->lang->powered} <a href="http://www.iguanadons.net/pdns-admin"><b>{$admin->name}</b></a> [{$admin->version}] &copy; 2006-2008 Roger Libiez<br />
  {$admin->lang->based_on} <a href="http://www.quicksilverforums.com" class="small"><b>Quicksilver Forums</b></a> v1.3.1 &copy; 2005-2006 The Quicksilver Forums Development Team<br />
  Ashlander 3 by Roger Libiez [<a href="http://www.iguanadons.net">Samson</a>]. {$admin->lang->based_on} Syridium HForum v3 skin &copy; 2006-2007 <a href="http://www.syridium.com/">Syridium SC</a><br />
  {$time_exec} seconds - {$admin->db->querycount} queries - {$server_load} load
@@ -1014,14 +1015,16 @@
  <span class="half">
   <span>{$this->lang->domains_type}: {$domain['type']}</span>
   <p class="line"></p>
-  <span class="field">{$this->lang->domains_type_change}:</span>
-  <span class="form">
-   <select class="select" name="type">
-    {$types}
-   </select>
-  </span>
-  <p class="line"></p>
-  <input name="submit" type="submit" value="{$this->lang->submit}" />
+  <IF $can_edit_domains>
+   <span class="field">{$this->lang->domains_type_change}:</span>
+   <span class="form">
+    <select class="select" name="type">
+     {$types}
+    </select>
+   </span>
+   <p class="line"></p>
+   <input name="submit" type="submit" value="{$this->lang->submit}" />
+  </IF>
  </span>
  </form>
 
@@ -1029,14 +1032,16 @@
  <span class="half">
   <span>{$this->lang->domains_owner}: {$domain['user_name']}</span>
   <p class="line"></p>
-  <span class="field">{$this->lang->domains_owner_change}:</span>
-  <span class="form">
-   <select class="select" name="owner">
-    {$users}
-   </select>
-  </span>
-  <p class="line"></p>
-  <input name="submit" type="submit" value="{$this->lang->submit}" />
+  <IF $can_edit_domains>
+   <span class="field">{$this->lang->domains_owner_change}:</span>
+   <span class="form">
+    <select class="select" name="owner">
+     {$users}
+    </select>
+   </span>
+   <p class="line"></p>
+   <input name="submit" type="submit" value="{$this->lang->submit}" />
+  </IF>
  </span>
  </form>
  <div style="clear:both"></div>
@@ -1318,7 +1323,7 @@
       <displayname>Copyright</displayname>
       <description>Format the look of the copyright on the board.&lt;br&gt;&lt;br&gt;&lt;b&gt;Warning: Modification to anything other than the style of this copyright will result in a violation of your terms of service&lt;/b&gt;</description>
       <html><![CDATA[
-{$qsf->lang->powered} <a href="http://www.iguanadons.net/index.php?a=page&amp;p=4"><b>{$qsf->name}</b></a> &copy; 2006-2007 Roger Libiez<br />
+{$qsf->lang->powered} <a href="http://www.iguanadons.net/pdns-admin"><b>{$qsf->name}</b></a> &copy; 2006-2008 Roger Libiez<br />
  {$qsf->lang->based_on} <a href="http://www.quicksilverforums.com">Quicksilver Forums</a> &copy; 2005-2006 The Quicksilver Forums Development Team<br />
  Ashlander 3 by Roger Libiez [<a href="http://www.iguanadons.net">Samson</a>]. {$qsf->lang->based_on} HForumv3.1 skin &copy; 2006-2007 <a href="http://www.syridium.com/">Syridium SC</a>
       ]]></html>

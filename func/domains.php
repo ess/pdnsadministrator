@@ -112,7 +112,7 @@ class domains extends qsfglobal
 		$this->db->query( "DELETE FROM records WHERE id=%d", $rec_id );
 		$this->update_soa_serial( $id );
 
-		$this->log_action( "delete_" . $rec['type'] . "_record", $id );
+		$this->log_action( 'delete_' . $rec['type'] . '_record', $id );
 		return $this->message($this->lang->domains_record_delete, $this->lang->domains_record_deleted, $this->lang->continue, "{$this->self}?a=domains&s=edit&id={$id}");
 	}
 
@@ -139,8 +139,8 @@ class domains extends qsfglobal
 			return $this->message($this->lang->domains_record_edit, $this->lang->domains_record_wrong);
 		}
 
-		$dom = $this->db->fetch( "SELECT name FROM domains WHERE id=%d", $id );
-		$record_types = array( "A", "MX", "NS", "CNAME", "SOA", "TXT", "PTR", "URL" );
+		$dom = $this->db->fetch( 'SELECT name FROM domains WHERE id=%d', $id );
+		$record_types = array( 'A', 'MX', 'NS', 'CNAME', 'SOA', 'TXT', 'PTR', 'URL' );
 
 		if( !isset($this->post['submit']) ) {
 			$rec_options = null;
@@ -192,7 +192,7 @@ class domains extends qsfglobal
 		// Don't let it point to the same thing as CNAME
 		if( $record == 'MX' ) {
 			if( $name != '' )
-				$name = $name . "." . $dom['name'];
+				$name = $name . '.' . $dom['name'];
 			else
 				$name = $dom['name'];
 
@@ -223,7 +223,7 @@ class domains extends qsfglobal
 		// CNAME record should balk at an empty name field. And apparently can't use the same content as an NS or MX record.
 		if( $record == 'CNAME' ) {
 			if( $name != '' )
-				$name = $name . "." . $dom['name'];
+				$name = $name . '.' . $dom['name'];
 			else
 				return $this->message($this->lang->domains_record_edit, $this->lang->domains_record_required3);
 
@@ -235,7 +235,7 @@ class domains extends qsfglobal
 
 		// PTR record requires in-addr.arpa, so check for it.
 		if( $record == 'PTR' ) {
-			if( !stristr( $name, "." ) === FALSE )
+			if( !stristr( $name, '.' ) === FALSE )
 				return $this->message($this->lang->domains_record_edit, $this->lang->domains_invalid_ptr);
 		}
 
@@ -249,7 +249,7 @@ class domains extends qsfglobal
 		if( $record != 'SOA' )
 			$this->update_soa_serial( $id );
 
-		$this->log_action( "edit_" . $record . "_record", $id );
+		$this->log_action( 'edit_' . $record . '_record', $id );
 		return $this->message($this->lang->domains_record_edit, $this->lang->domains_record_edited, $this->lang->continue, "{$this->self}?a=domains&s=edit&id={$id}");
 	}
 
@@ -266,8 +266,8 @@ class domains extends qsfglobal
 			return $this->message($this->lang->domains_record_add, $this->lang->domains_edit_not_permitted);
 		}
 
-		$domain = $this->db->fetch( "SELECT name FROM domains WHERE id=%d", $id );
-		$record_types = array( "A", "MX", "NS", "CNAME", "TXT", "PTR", "URL" );
+		$domain = $this->db->fetch( 'SELECT name FROM domains WHERE id=%d', $id );
+		$record_types = array( 'A', 'MX', 'NS', 'CNAME', 'TXT', 'PTR', 'URL' );
 
 		if (!isset($this->post['submit'])) {
 			$rec_options = null;
@@ -296,7 +296,7 @@ class domains extends qsfglobal
 		// "A" record is stored in the form of name.domain.tld
 		if( $record == 'A' ) {
 			if( $name != '' )
-				$name = $name . "." . $domain['name'];
+				$name = $name . '.' . $domain['name'];
 			else
 				$name = $domain['name'];
 
@@ -313,7 +313,7 @@ class domains extends qsfglobal
 		// Don't let it point to the same thing as CNAME
 		if( $record == 'MX' ) {
 			if( $name != '' )
-				$name = $name . "." . $domain['name'];
+				$name = $name . '.' . $domain['name'];
 			else
 				$name = $domain['name'];
 
@@ -344,7 +344,7 @@ class domains extends qsfglobal
 		// CNAME record should balk at an empty name field. And apparently can't use the same content as an NS or MX record.
 		if( $record == 'CNAME' ) {
 			if( $name != '' )
-				$name = $name . "." . $domain['name'];
+				$name = $name . '.' . $domain['name'];
 			else
 				return $this->message($this->lang->domains_record_add, $this->lang->domains_record_required3);
 
@@ -356,7 +356,7 @@ class domains extends qsfglobal
 
 		// PTR record requires in-addr.arpa, so check for it.
 		if( $record == 'PTR' ) {
-			if( !stristr( $name, "." ) === FALSE )
+			if( !stristr( $name, '.' ) === FALSE )
 				return $this->message($this->lang->domains_record_add, $this->lang->domains_invalid_ptr);
 		}
 
@@ -366,7 +366,7 @@ class domains extends qsfglobal
 
 		$this->update_soa_serial( $id );
 
-		$this->log_action( "new_" . $record . "_record", $id );
+		$this->log_action( 'new_' . $record . '_record', $id );
 		return $this->message($this->lang->domains_record_add, $this->lang->domains_record_added, $this->lang->continue, "{$this->self}?a=domains&s=edit&id={$id}");
 	}
 
@@ -374,9 +374,13 @@ class domains extends qsfglobal
 	{
 		$this->set_title($this->lang->domains_new_reverse);
 
+		if (!$this->perms->auth('create_domains')) {
+			return $this->message($this->lang->domains_new, $this->lang->domains_new_cant_create);
+		}
+
 		if (!isset($this->post['submit'])) {
 			$users = $this->htmlwidgets->select_users($this->user['user_id']);
-			$types = $this->htmlwidgets->select_domain_types("MASTER");
+			$types = $this->htmlwidgets->select_domain_types('MASTER');
 
 			return eval($this->template('DOMAINS_ADD_REVERSE'));
 		}
@@ -401,7 +405,7 @@ class domains extends qsfglobal
 			return $this->message($this->lang->domains_new_reverse, $this->lang->domains_invalid);
 		}
 
-		if (!$this->db->fetch("SELECT user_id FROM users WHERE user_id=%d LIMIT 1", $dom_owner)) {
+		if (!$this->db->fetch('SELECT user_id FROM users WHERE user_id=%d LIMIT 1', $dom_owner)) {
 			return $this->message($this->lang->domains_new_reverse, $this->lang->domains_user_not_exist);
 		}
 
@@ -416,14 +420,14 @@ class domains extends qsfglobal
 		// Insert the domain into the primary domain table
 		$this->db->query("INSERT INTO domains (name, type, master, notified_serial) VALUES( '%s', '%s', '%s', 1 )",
 			$dom_name, $dom_type, $dom_master);
-		$dom_id = $this->db->insert_id("domains");
+		$dom_id = $this->db->insert_id('domains');
 
 		// Set the owner in the zones table
-		$this->db->query("INSERT INTO zones (domain_id, owner, comment) VALUES( %d, %d, '%s' )", $dom_id, $dom_owner, "New Domain");
+		$this->db->query("INSERT INTO zones (domain_id, owner, comment) VALUES( %d, %d, '%s' )", $dom_id, $dom_owner, 'New Domain');
 
 		// Insert the SOA record for the new domain.
-		$new_serial = date('Ymd') . "00";
-		$soa = $this->sets['primary_nameserver'] . " " . $this->sets['admin_incoming'] . " " . $new_serial . " 10800 3600 432000 " . $this->sets['default_ttl'];
+		$new_serial = date('Ymd') . '00';
+		$soa = $this->sets['primary_nameserver'] . ' ' . $this->sets['admin_incoming'] . ' ' . $new_serial . ' 10800 3600 432000 ' . $this->sets['default_ttl'];
 		$this->db->query("INSERT INTO records (domain_id, name, type, content, ttl, prio, change_date)
 			VALUES( %d, '%s', 'SOA', '%s', %d, 0, %d )",
 			$dom_id, $dom_name, $soa, $this->sets['default_ttl'], $this->time);
@@ -438,7 +442,7 @@ class domains extends qsfglobal
 			VALUES( %d, '%s', 'NS', '%s', %d, 0, %d )",
 			$dom_id, $dom_name, $this->sets['secondary_nameserver'], $this->sets['default_ttl'], $this->time);
 
-		$this->log_action( "new_reverse_domain", $dom_id );
+		$this->log_action( 'new_reverse_domain', $dom_id );
 		return $this->message($this->lang->domains_new_reverse, $this->lang->domains_new_created, $this->lang->continue, "{$this->self}?a=domains&s=edit&id={$dom_id}");
 	}
 
@@ -446,9 +450,13 @@ class domains extends qsfglobal
 	{
 		$this->set_title($this->lang->domains_new);
 
+		if (!$this->perms->auth('create_domains')) {
+			return $this->message($this->lang->domains_new, $this->lang->domains_new_cant_create);
+		}
+
 		if (!isset($this->post['submit'])) {
 			$users = $this->htmlwidgets->select_users($this->user['user_id']);
-			$types = $this->htmlwidgets->select_domain_types("MASTER");
+			$types = $this->htmlwidgets->select_domain_types('MASTER');
 
 			return eval($this->template('DOMAINS_ADD'));
 		}
@@ -482,7 +490,7 @@ class domains extends qsfglobal
 			return $this->message($this->lang->domains_new, $this->lang->domains_ip_invalid);
 		}
 
-		if (!$this->db->fetch("SELECT user_id FROM users WHERE user_id=%d LIMIT 1", $dom_owner)) {
+		if (!$this->db->fetch('SELECT user_id FROM users WHERE user_id=%d LIMIT 1', $dom_owner)) {
 			return $this->message($this->lang->domains_new, $this->lang->domains_user_not_exist);
 		}
 
@@ -494,8 +502,8 @@ class domains extends qsfglobal
 		if ($dom_type == 'SLAVE')
 			$dom_master = $this->sets['domain_master_ip'];
 
-		$dom_mail = "mail." . $dom_name;
-		$dom_cname = "www." . $dom_name;
+		$dom_mail = 'mail.' . $dom_name;
+		$dom_cname = 'www.' . $dom_name;
 
 		// Insert the domain into the primary domain table
 		$this->db->query("INSERT INTO domains (name, type, master, notified_serial) VALUES( '%s', '%s', '%s', 1 )",
@@ -503,12 +511,12 @@ class domains extends qsfglobal
 		$dom_id = $this->db->insert_id("domains");
 
 		// Set the owner in the zones table
-		$this->db->query("INSERT INTO zones (domain_id, owner, comment) VALUES( %d, %d, '%s' )", $dom_id, $dom_owner, "New Domain");
+		$this->db->query("INSERT INTO zones (domain_id, owner, comment) VALUES( %d, %d, '%s' )", $dom_id, $dom_owner, 'New Domain');
 
 		// Insert the SOA record for the new domain.
-		$new_serial = date('Ymd') . "00";
+		$new_serial = date('Ymd') . '00';
 		$soa_email = str_replace( '@', '.', $this->sets['admin_incoming'] );
-		$soa = $this->sets['primary_nameserver'] . " " . $soa_email . " " . $new_serial . " 10800 3600 432000 " . $this->sets['default_ttl'];
+		$soa = $this->sets['primary_nameserver'] . ' ' . $soa_email . ' ' . $new_serial . ' 10800 3600 432000 ' . $this->sets['default_ttl'];
 		$this->db->query("INSERT INTO records (domain_id, name, type, content, ttl, prio, change_date)
 			VALUES( %d, '%s', 'SOA', '%s', %d, 0, %d )",
 			$dom_id, $dom_name, $soa, $this->sets['default_ttl'], $this->time);
@@ -543,25 +551,25 @@ class domains extends qsfglobal
 			VALUES( %d, '%s', 'CNAME', '%s', %d, 0, %d )",
 			$dom_id, $dom_cname, $dom_name, $this->sets['default_ttl'], $this->time);
 
-		$this->log_action( "new_domain", $dom_id );
+		$this->log_action( 'new_domain', $dom_id );
 		return $this->message($this->lang->domains_new, $this->lang->domains_new_created, $this->lang->continue, "{$this->self}?a=domains&s=edit&id={$dom_id}");
 	}
 
 	function change_domain_owner()
 	{
-		if (!isset($this->get['id'])) {
-			return $this->message($this->lang->domains_owner_change, $this->lang->domains_id_invalid);
-		}
-
 		if (!$this->perms->auth('edit_domains')) {
 			return $this->message($this->lang->domains_owner_change, $this->lang->domains_owner_cant_change);
+		}
+
+		if (!isset($this->get['id'])) {
+			return $this->message($this->lang->domains_owner_change, $this->lang->domains_id_invalid);
 		}
 
 		if (!isset($this->post['owner'])) {
 			return $this->message($this->lang->domains_owner_change, $this->lang->domains_user_invalid);
 		}
 
-		$zone_exists = $this->db->fetch( "SELECT id FROM zones WHERE domain_id=%d", $this->get['id'] );
+		$zone_exists = $this->db->fetch( 'SELECT id FROM zones WHERE domain_id=%d', $this->get['id'] );
 		$owner = intval($this->post['owner']);
 
 		if( $zone_exists ) {
@@ -571,18 +579,18 @@ class domains extends qsfglobal
 			$this->db->query( "INSERT INTO zones (domain_id, owner, comment) VALUES(%d, %d, '%s')",
 				$this->get['id'], $owner, "New Domain Owner" );
 		}
-		$this->log_action( "change_owner", $this->get['id'] );
+		$this->log_action( 'change_owner', $this->get['id'] );
 		return $this->message($this->lang->domains_owner_change, $this->lang->domains_owner_changed, $this->lang->continue, "{$this->self}?a=domains&s=edit&id={$this->get['id']}");
 	}
 
 	function change_domain_type()
 	{
-		if (!isset($this->get['id'])) {
-			return $this->message($this->lang->domains_type_change, $this->lang->domains_id_invalid);
+		if (!$this->perms->auth('edit_domains')) {
+			return $this->message($this->lang->domains_type_change, $this->lang->domains_type_cant_change);
 		}
 
-		if (!$this->is_owner($this->get['id'], true)) {
-			return $this->message($this->lang->domains_type_change, $this->lang->domains_edit_not_permitted);
+		if (!isset($this->get['id'])) {
+			return $this->message($this->lang->domains_type_change, $this->lang->domains_id_invalid);
 		}
 
 		if ($this->post['type'] == 'SLAVE') {
@@ -593,7 +601,7 @@ class domains extends qsfglobal
 				$this->post['type'], $this->get['id']);
 		}
 
-		$this->log_action( "change_domain_type", $this->get['id'] );
+		$this->log_action( 'change_domain_type', $this->get['id'] );
 		return $this->message($this->lang->domains_type_change, $this->lang->domains_type_changed, $this->lang->continue, "{$this->self}?a=domains&s=edit&id={$this->get['id']}");
 	}
 
@@ -614,20 +622,22 @@ class domains extends qsfglobal
 			return $this->message($this->lang->domains_edit, $this->lang->domains_edit_not_permitted);
 		}
 
-		$domain = $this->db->fetch("SELECT d.*, z.owner, u.user_name FROM domains d
+		$domain = $this->db->fetch('SELECT d.*, z.owner, u.user_name FROM domains d
 		    LEFT JOIN zones z ON d.id=z.domain_id
 		    LEFT JOIN users u ON u.user_id=z.owner
-		    WHERE d.id=%d", $dom_id);
+		    WHERE d.id=%d', $dom_id);
 
 		$users = $this->htmlwidgets->select_users($domain['owner']);
 		$types = $this->htmlwidgets->select_domain_types($domain['type']);
 
-		$dom_records = $this->db->query("SELECT * FROM records WHERE domain_id=%d ORDER BY name ASC", $dom_id);
+		$dom_records = $this->db->query('SELECT * FROM records WHERE domain_id=%d ORDER BY name ASC', $dom_id);
 		while( $record = $this->db->nqfetch($dom_records) )
 		{
 			$rec_id = $record['id'];
 			$records .= eval($this->template('DOMAINS_RECORD'));
 		}
+
+		$can_edit_domains = $this->perms->auth('edit_domains');
 		return eval($this->template('DOMAINS_EDIT'));
 	}
 
@@ -646,7 +656,7 @@ class domains extends qsfglobal
 			return $this->message($this->lang->domains_delete, $this->lang->domains_delete_not_permitted);
 		}
 
-		$domain = $this->db->fetch("SELECT name FROM domains WHERE id=%d", $dom_id);
+		$domain = $this->db->fetch('SELECT name FROM domains WHERE id=%d', $dom_id);
 
 		if (!isset($this->get['confirm'])) {
 			return $this->message($this->lang->domains_delete,
@@ -654,11 +664,11 @@ class domains extends qsfglobal
 			<a href='$this->self?a=domains&amp;s=delete&amp;id=$dom_id&amp;confirm=1'>{$this->lang->continue}</a>");
 		}
 
-		$this->db->query("DELETE FROM domains WHERE id=%d", $dom_id);
-		$this->db->query("DELETE FROM records WHERE domain_id=%d", $dom_id);
-		$this->db->query("DELETE FROM zones WHERE domain_id=%d", $dom_id);
+		$this->db->query('DELETE FROM domains WHERE id=%d', $dom_id);
+		$this->db->query('DELETE FROM records WHERE domain_id=%d', $dom_id);
+		$this->db->query('DELETE FROM zones WHERE domain_id=%d', $dom_id);
 
-		$this->log_action( "delete_domain_name", $dom_id );
+		$this->log_action( 'delete_domain_name', $dom_id );
 		return $this->message($this->lang->domains_delete, $this->lang->domains_deleted, $this->lang->continue, "{$this->self}");
 	}
 
@@ -691,7 +701,7 @@ class domains extends qsfglobal
 
 	function is_owner($dom_id, $edit)
 	{
-		$zone = $this->db->fetch("SELECT domain_id, owner FROM zones WHERE domain_id=%d", $dom_id);
+		$zone = $this->db->fetch('SELECT domain_id, owner FROM zones WHERE domain_id=%d', $dom_id);
 
 		if ($zone['owner'] != $this->user['user_id'] && $edit) {
 			if (!$this->perms->auth('edit_domains')) {
@@ -710,13 +720,13 @@ class domains extends qsfglobal
 	// Lifted this from PowerAdmin
 	function update_soa_serial( $domain_id )
 	{
-		$notify_serial = $this->db->fetch( "SELECT notified_serial FROM domains WHERE id=%d", $domain_id );
+		$notify_serial = $this->db->fetch( 'SELECT notified_serial FROM domains WHERE id=%d', $domain_id );
 		$content = $this->db->fetch( "SELECT content FROM records WHERE type='SOA' AND domain_id=%d", $domain_id );
 
 		$need_to_update = false;
 
 		// Getting the serial field.
-		$soa = explode( " ", $content['content'] );
+		$soa = explode( ' ', $content['content'] );
 
 		if( empty($notified_serial) ) {
 			// Ok native replication, so we have to update.
@@ -741,7 +751,7 @@ class domains extends qsfglobal
 				if( $revision_number == 99 )
 					return false;
 				++$revision_number;
-				$new_serial .= str_pad( $revision_number, 2, "0", STR_PAD_LEFT );
+				$new_serial .= str_pad( $revision_number, 2, '0', STR_PAD_LEFT );
 			} else {
 				/*
 			         * Current serial is not RFC1912 compilant, so let's make a new one
@@ -749,11 +759,11 @@ class domains extends qsfglobal
 				$new_serial .= '00';
 			}
 			$soa[2] = $new_serial; // change serial in SOA array
-			$new_soa = "";
+			$new_soa = '';
 			// build new soa and update SQL after that
 			for( $i = 0; $i < count($soa); $i++ )
 			{
-				$new_soa .= $soa[$i] . " ";
+				$new_soa .= $soa[$i] . ' ';
 			}
 			$this->db->query( "UPDATE records SET content='%s'
 			    WHERE domain_id=%d AND type='SOA'", $new_soa, $domain_id );

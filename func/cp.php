@@ -48,24 +48,17 @@ class cp extends qsfglobal
 			return $this->message($this->lang->cp_cp, $this->lang->cp_login_first);
 		}
 
-		$class['cpass']   = 'tablelight';
-		$class['prefs']   = 'tablelight';
-		$class['profile'] = 'tablelight';
-
 		switch($this->get['s'])
 		{
 		case 'cpass':
-			$class['cpass'] = 'tabledark';
 			$control_page = $this->edit_pass();
 			break;
 
 		case 'profile':
-			$class['profile'] = 'tabledark';
 			$control_page = $this->edit_profile();
 			break;
 
 		case 'prefs':
-			$class['prefs'] = 'tabledark';
 			$control_page = $this->edit_prefs();
 			break;
 

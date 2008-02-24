@@ -52,18 +52,18 @@ class main extends qsfglobal
 		$content = '';
 		$id = $this->user['user_id'];
 
-		$sql = "SELECT d.id, d.name, u.user_name, z.owner, COUNT(DISTINCT r.id) AS recs
+		$sql = 'SELECT d.id, d.name, u.user_name, z.owner, COUNT(DISTINCT r.id) AS recs
 		    FROM domains d
 		    LEFT JOIN zones z ON d.id=z.domain_id
 		    LEFT JOIN users u ON u.user_id=z.owner
-		    LEFT JOIN records r ON r.domain_id=d.id";
+		    LEFT JOIN records r ON r.domain_id=d.id';
 
 		if ($this->user['user_group'] == USER_MEMBER) {
 			$sql .= " WHERE z.owner=$id";
 		}
 
-		$sql .= " GROUP BY d.name, d.id
-		    ORDER BY d.name";
+		$sql .= ' GROUP BY d.name, d.id
+		    ORDER BY d.name';
 
 		$result = $this->db->query($sql);
 		while( $domain = $this->db->nqfetch($result) )

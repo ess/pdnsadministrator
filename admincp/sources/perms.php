@@ -38,7 +38,7 @@ class perms extends admin
 
 		if (isset($this->get['s']) && ($this->get['s'] == 'user')) {
 			if (!isset($this->get['id'])) {
-				header("Location: $this->self?a=member&amp;s=perms");
+				header('Location: $this->self?a=member&amp;s=perms');
 			}
 
 			$this->post['group'] = intval($this->get['id']);

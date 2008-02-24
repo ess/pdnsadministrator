@@ -154,6 +154,7 @@ class en
 		$this->domains_ip_invalid = 'The IP address entered was invalid!';
 		$this->domains_user_invalid = 'A valid user is required!';
 		$this->domains_new = 'Create New Domain';
+		$this->domains_new_cant_create = 'You cannot create new domains.';
 		$this->domains_new_created = 'New domain created.';
 		$this->domains_new_ip = 'IP Address';
 		$this->domains_new_name = 'Domain Name';
@@ -184,6 +185,7 @@ class en
 		$this->domains_required = 'A domain name is required.';
 		$this->domains_ip_required = 'An IP address is required.';
 		$this->domains_type = 'Domain Type';
+		$this->domains_type_cant_change = 'You cannot change the domain type.';
 		$this->domains_type_change = 'Change Domain Type';
 		$this->domains_type_changed = 'Type has been changed.';
 		$this->domains_type_required = 'A domain type of MASTER, SLAVE, or NATIVE is required.';

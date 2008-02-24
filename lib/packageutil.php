@@ -131,11 +131,11 @@ class packageutil
 
 		foreach ($nodes['child'] as $node) {
 			if ($node['name'] == 'TEMPLATE') {
-				$temp_set = "";
-				$temp_name = "";
-				$temp_display = "";
-				$temp_desc = "";
-				$temp_html = "";
+				$temp_set = '';
+				$temp_name = '';
+				$temp_display = '';
+				$temp_desc = '';
+				$temp_html = '';
 
 				foreach ($node['child'] as $element) {
 					if (isset($element['content'])) {
@@ -162,7 +162,7 @@ class packageutil
 					return "ERROR: No data available for template\n";
 				}
 				if ($template_names === null || in_array($temp_name, $template_names)) {
-					$db->query("INSERT INTO templates
+					$db->query("REPLACE INTO templates
 						(template_skin, template_set, template_name, template_html, template_displayname, template_description)
 						VALUES ('%s', '%s', '%s', '%s', '%s', '%s')",
 						$skin_dir, $temp_set, $temp_name, $temp_html, $temp_display, $temp_desc);

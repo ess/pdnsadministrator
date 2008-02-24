@@ -209,7 +209,7 @@ class admin extends qsfglobal
 		$tarray = array();
 
 		// This looks a bit strange, but it will pull all of the proper prefixed tables.
-		$tb = $this->db->query( "SHOW TABLES" );
+		$tb = $this->db->query( 'SHOW TABLES' );
 		while( $tb1 = $this->db->nqfetch($tb) )
 		{
 			foreach( $tb1 as $col => $data )

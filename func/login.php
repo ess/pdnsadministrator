@@ -150,16 +150,16 @@ class login extends qsfglobal
 				return $this->message($this->lang->login_pass_reset, $this->lang->login_pass_no_id);
 			}
 
-			$mailer = new $this->modules['mailer']($this->sets['admin_incoming'], $this->sets['admin_outgoing'], $this->sets['forum_name'], false);
+			$mailer = new $this->modules['mailer']($this->sets['admin_incoming'], $this->sets['admin_outgoing'], $this->sets['site_name'], false);
 
-			$message  = "{$this->sets['forum_name']}\n\n";
-			$message .= "Someone has requested a password reset for your forum account, {$this->post['user']}.\n";
+			$message  = "{$this->sets['site_name']}\n\n";
+			$message .= "Someone has requested a password reset for your DNS account, {$this->post['user']}.\n";
 			$message .= "If you do not want to reset your password, please ignore or delete this email.\n\n";
 			$message .= "Go to the below URL to continue with the password reset:\n";
-			$message .= "{$this->sets['loc_of_board']}{$this->mainfile}?a=login&s=request&e=" . md5($target['user_email'] . $target['user_name'] . $target['user_password'] . $target['user_created']) . "\n\n";
+			$message .= "{$this->sets['site_url']}{$this->mainfile}?a=login&s=request&e=" . md5($target['user_email'] . $target['user_name'] . $target['user_password'] . $target['user_created']) . "\n\n";
 			$message .= "Request IP: {$this->ip}";
 
-			$mailer->setSubject("{$this->sets['forum_name']} - Reset Password");
+			$mailer->setSubject("{$this->sets['site_name']} - Reset Password");
 			$mailer->setMessage($message);
 			$mailer->setRecipient($target['user_email']);
 			$mailer->setServer($this->sets['mailserver']);
@@ -184,7 +184,7 @@ class login extends qsfglobal
 			return $this->message($this->lang->login_pass_reset, $this->lang->login_pass_no_id);
 		}
 
-		$mailer = new $this->modules['mailer']($this->sets['admin_incoming'], $this->sets['admin_outgoing'], $this->sets['forum_name'], false);
+		$mailer = new $this->modules['mailer']($this->sets['admin_incoming'], $this->sets['admin_outgoing'], $this->sets['site_name'], false);
 
 		$newpass = $this->generate_pass(8);
 

@@ -1,3 +1,12 @@
+Changes for 1.1.2:
+
+* SECURITY: Users were capable of creating new domains without the permission setting.
+* Users are unable to reset their passwords due to bad variable names in the login code.
+* Domain owners should not be allowed to change the domain type without administrative access.
+* Domain type and owner dialogue should not appear in the interface if the user is not allowed to use them.
+* Skin templating system can now allow for nested <IF><ELSE> blocks.
+* Added an upgrade script to handle template and query changes in the future when updating.
+
 Changes for 1.1.1:
 
 * SECURITY: Error reporting library will reveal database info if a connection error is displayed.
