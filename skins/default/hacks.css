@@ -1,0 +1,14 @@
+/* This CSS file should only be used
+   When in debug mode to handle the fact
+   IE will drop into quirks mode because
+   of the comment before the doctype */
+
+.container td {
+	font-size: 0.7em;
+	font-size: inherit;
+}
+
+body#admincp td {
+	font-size: 0.7em;
+	font-size: inherit;
+}

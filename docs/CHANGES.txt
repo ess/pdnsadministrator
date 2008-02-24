@@ -1,0 +1,4 @@
+Changes for 1.0:
+
+* Initial Release. Nothing's changed yet!
+* Stripped out all of the unneeded junk from the QSF core code that wasn't useful for domain management.

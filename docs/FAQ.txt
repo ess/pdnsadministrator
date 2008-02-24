@@ -1,0 +1,17 @@
+--------------------------------
+== FAQ for PDNS-Admin ==
+--------------------------------
+
+=== GENERAL ===
+
+* Q. What is PDNS-Admin?
+* A. A domain management script used to create, delete, and maintain domains and domain records.
+
+* Q. What is Mercuryboard?
+* A. MercuryBoard is a PHP/MySQL based forum script. http://www.mercuryboard.com
+
+* Q. What is Quicksilver Forums?
+* A. Quicksilve Forums is also a PHP/MySQL based forum script. http://www.quicksilverforums.com
+
+* Q. Why base a domain management system on forum code?
+* A. To take advantage of the existing user, database, and skinning code. QSF's systems for these are already well defined, very secure, actively maintained, and stable. Plus I was already familiar with the code and didn't particularly feel like writing all new DB support.

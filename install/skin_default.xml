@@ -1,0 +1,1670 @@
+<?xml version='1.0' encoding='utf-8'?>
+<qsfmod>
+  <title>Skin: Ashlander</title>
+  <type folder="default">skin</type>
+  <version>v1.0</version>
+  <description></description>
+  <authorname>Skin Exporter</authorname>
+  <files>
+    <file>packages/skin_default-v1.0.xml</file>
+    <file>skins/default/hacks.css</file>
+    <file>skins/default/images/corner-top.png</file>
+    <file>skins/default/images/background3.gif</file>
+    <file>skins/default/images/Logo.gif</file>
+    <file>skins/default/images/valid-xhtml11.png</file>
+    <file>skins/default/images/small_grey_gradient.gif</file>
+    <file>skins/default/images/icons/delete_domain.png</file>
+    <file>skins/default/images/icons/topic.png</file>
+    <file>skins/default/images/icons/delete.png</file>
+    <file>skins/default/images/icons/edit.png</file>
+    <file>skins/default/images/icons/search.png</file>
+    <file>skins/default/images/icons/goto_last_post.png</file>
+    <file>skins/default/images/icons/arrow_up.png</file>
+    <file>skins/default/images/icons/new_record.png</file>
+    <file>skins/default/images/icons/user.png</file>
+    <file>skins/default/images/icons/help.png</file>
+    <file>skins/default/images/icons/globe.png</file>
+    <file>skins/default/images/icons/arrow_down.png</file>
+    <file>skins/default/images/icons/users.png</file>
+    <file>skins/default/images/icons/email.png</file>
+    <file>skins/default/images/icons/forum_read.png</file>
+    <file>skins/default/images/header_gradient.png</file>
+    <file>skins/default/images/valid-css.png</file>
+    <file>skins/default/images/corner-bottom-right.png</file>
+    <file>skins/default/images/large_grey_gradient.gif</file>
+    <file>skins/default/images/corner-top-right.png</file>
+    <file>skins/default/images/1.png</file>
+    <file>skins/default/images/nav_gradient.gif</file>
+    <file>skins/default/images/footer_gradient.png</file>
+    <file>skins/default/images/index.php</file>
+    <file>skins/default/images/corner-bottom.png</file>
+    <file>skins/default/handheld.css</file>
+    <file>skins/default/styles.css</file>
+    <file>skins/default/admincp_menu.css</file>
+    <file>skins/default/index.php</file>
+    <file>skins/default/print.css</file>
+    <file>skins/default/mbicons/question.gif</file>
+    <file>skins/default/mbicons/exclaim.gif</file>
+    <file>skins/default/mbicons/arrow.gif</file>
+    <file>skins/default/mbicons/idea.gif</file>
+    <file>skins/default/mbicons/arrowu.gif</file>
+    <file>skins/default/mbicons/arrowd.gif</file>
+    <file>skins/default/mbicons/index.php</file>
+    <file>skins/default/mbicons/arrowl.gif</file>
+  </files>
+  <templates>
+    <template><set>Admin</set><name>ADMIN_TABLE</name>
+      <displayname>Admin Table Start</displayname>
+      <description>The beginning of the admin table</description>
+      <html><![CDATA[
+<div class="stand">
+ <table class="stand" cellpadding="5" cellspacing="0">
+      ]]></html>
+    </template>
+    <template><set>Admin</set><name>ADMIN_ETABLE</name>
+      <displayname>Admin Table End</displayname>
+      <description>The end of all admin tables</description>
+      <html><![CDATA[
+</table>
+</div>
+      ]]></html>
+    </template>
+    <template><set>Main</set><name>MAIN_QUICKLOGIN</name>
+      <displayname>MODLET: Quick Login</displayname>
+      <description>Format of the Quick Login box</description>
+      <html><![CDATA[
+<form action="{$this->qsf->self}?a=login&amp;s=on" method="post">
+ {$this->qsf->table}
+  <tr>
+   <td class="header" colspan="2" style="text-align:center; border-bottom:0px #000000 solid;">{$this->qsf->lang->main_welcome_guest}</td>
+  </tr>
+  <tr>
+   <td class="tablelight" style="text-align:center">{$this->qsf->lang->login_user}:
+    <input type="hidden" name="request_uri" value="{$this->qsf->self}" />
+    <input class="input" type="text" name="user" size="30" />
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{$this->qsf->lang->login_pass}:
+    <input class="input" type="password" name="pass" size="30" />
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class="mainbutton" type="submit" name="submit" value="{$this->qsf->lang->submit}" />
+   </td>
+  </tr>
+  <tr>
+   <td class="tablelight" style="text-align:center">
+    <a href="{$this->qsf->self}?a=register">{$this->qsf->lang->register_reg}</a>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="{$this->qsf->self}?a=login&amp;s=pass">{$this->qsf->lang->login_forgot_pass}</a>
+   </td>
+  </tr>
+  <tr>
+   <td class="footer" colspan="2">&nbsp;</td>
+  </tr>
+ {$this->qsf->etable}
+</form>
+      ]]></html>
+    </template>
+    <template><set>templates</set><name>ADMIN_ADD_TEMPLATE</name>
+      <displayname>Add New Template</displayname>
+      <description>Form for adding a new template to a skin</description>
+      <html><![CDATA[
+{$this->table}
+ <tr>
+  <td class="header" colspan="2">{$this->lang->add}</td>
+ </tr>
+ <tr>
+  <td class="tablelight">{$this->lang->skin_set}</td>
+  <td class="tablelight">
+   <form action="{$this->self}" method="get" name="skin_select">
+    <input type="hidden" name="a" value="templates" />
+    <input type="hidden" name="s" value="add_html" />
+    <select name="skin" onchange="document.skin_select.submit()">
+     {$skin_box}
+    </select>
+   </form>
+  </td>
+ </tr>
+ <tr>
+  <form action="{$this->self}?a=templates&amp;s=add_html" name="add_html" method="post">
+   <td class="tabledark">{$this->lang->template_set}</td>
+   <td class="tabledark">
+    {$this->lang->add_in} <select name="template_set">{$template_box}</select> {$this->lang->or_new} <input type="text" name="ntemplate_set" size="20" />
+   </td>
+ </tr>
+ <tr>
+  <td class="tablelight">{$this->lang->template_title}</td>
+  <td class="tablelight">
+   <input type="text" name="title" size="40" />
+  </td>
+ </tr>
+ <tr>
+  <td class="tablelight">{$this->lang->template_name}</td>
+  <td class="tablelight">
+   <input type="text" name="name" size="30" /> (Ex. ADMIN_INDEX - MAIN_MESSAGE - etc..)
+  </td>
+ </tr>
+ <tr>
+  <td class="tabledark">{$this->lang->template_description}</td>
+  <td class="tabledark">
+   <input type="text" name="desc" size="40" />
+  </td>
+ </tr>
+ <tr>
+  <td class="tabledark">{$this->lang->template_html}</td>
+  <td class="tabledark">
+   <textarea name="html" rows="30" cols="70"></textarea>
+  </td>
+ </tr>
+ <tr>
+  <td class="tabledark" style="text-align:center" colspan="2">
+   <input type="hidden" name="template" value="{$template}" />
+   <input type="hidden" name="form" value="true" />
+   <input class="mainbutton" type="submit" value="{$this->lang->template_add}" />
+   <input class="mainbutton" type="reset" value="{$this->lang->template_clear}" />
+  </td>
+ </tr>
+{$this->etable}
+</form>
+      ]]></html>
+    </template>
+    <template><set>Admin</set><name>ADMIN_COPYRIGHT</name>
+      <displayname>Copyright</displayname>
+      <description>Copyright footer for AdminCP</description>
+      <html><![CDATA[
+<div class="footer" style="width:50%; text-align:center;">
+ <a href=".." style="font-weight:bold;">{$admin->lang->admin_your_board}</a>
+</div>
+<div class="footer" style="float:right; width:50%; text-align:center; margin-top:-22px;">
+ <a href="http://www.quicksilverforums.com" style="font-weight:bold;">{$admin->name}</a>
+</div>
+
+<p class="copyright">
+{$admin->lang->powered} <b>{$admin->name}</b> [{$admin->version}] &copy; 2006-2007 Roger Libiez<br />
+{$admin->lang->based_on} <a href="http://www.quicksilverforums.com" class="small"><b>Quicksilver Forums</b></a> &copy; 2005-2007 The Quicksilver Forums Development Team<br />
+<b>Ashlander</b></a> skin by Roger Libiez<br />
+<b>{$time_exec}</b> seconds - <b>{$admin->db->querycount}</b> queries - <b>{$server_load}</b> load
+</p>
+      ]]></html>
+    </template>
+    <template><set>settings</set><name>ADMIN_EDIT_BOARD_SETTINGS</name>
+      <displayname>Edit Board Settings</displayname>
+      <description>Form for editing the board settings</description>
+      <html><![CDATA[
+<form action="{$this->self}?a=settings&amp;s=update" method="post">
+{$this->table}
+ <tr>
+  <td class="header" colspan="2">{$this->lang->settings_general}</td>
+ </tr>
+ <tr>
+  <td class="labellight" style="width:50%">{$this->lang->settings_site_name}</td>
+  <td class="tablelight">
+   <input class="input" type="text" name="site_name" value="{$this->sets['site_name']}" size="40" />
+  </td>
+ </tr>
+ <tr>
+  <td class="labeldark">{$this->lang->settings_site_location}</td>
+  <td class="tabledark">
+   <input class="input" type="text" name="site_url" value="{$this->sets['site_url']}" size="40" />
+  </td>
+ </tr>
+ <tr>
+  <td class="labellight">{$this->lang->settings_debug_mode}</td>
+  <td class="tablelight">
+   <input type="radio" name="debug_mode" value="0" <IF !$this->sets['debug_mode']>checked="checked"</IF> id="debug2" /><label for="debug2">{$this->lang->settings_disabled}</label><br />
+   <input type="radio" name="debug_mode" value="1" <IF $this->sets['debug_mode']>checked="checked"</IF> id="debug1" /><label for="debug1">{$this->lang->settings_enabled}</label>
+  </td>
+ </tr>
+ <tr>
+  <td class="footer" colspan="2">&nbsp;</td>
+ </tr>
+{$this->etable}
+
+<p></p>
+
+{$this->table}
+ <tr>
+  <td class="header" colspan="2">{$this->lang->settings_domain}</td>
+ </tr>
+ <tr>
+  <td class="labellight" style="width:50%">{$this->lang->settings_domain_ns1}</td>
+  <td class="tablelight">
+   <input class="input" type="text" name="primary_nameserver" value="{$this->sets['primary_nameserver']}" size="40" />
+  </td>
+ </tr>
+ <tr>
+  <td class="labellight" style="width:50%">{$this->lang->settings_domain_ns2}</td>
+  <td class="tablelight">
+   <input class="input" type="text" name="secondary_nameserver" value="{$this->sets['secondary_nameserver']}" size="40" />
+  </td>
+ </tr>
+ <tr>
+  <td class="labellight" style="width:50%">{$this->lang->settings_domain_master}</td>
+  <td class="tablelight">
+   <input class="input" type="text" name="domain_master_ip" value="{$this->sets['domain_master_ip']}" size="40" />
+  </td>
+ </tr>
+ <tr>
+  <td class="labeldark">{$this->lang->settings_domain_ttl}</td>
+  <td class="tabledark">
+   <input class="input" type="text" name="default_ttl" value="{$this->sets['default_ttl']}" size="40" />
+  </td>
+ </tr>
+ <tr>
+  <td class="footer" colspan="2">&nbsp;</td>
+ </tr>
+{$this->etable}
+
+<p></p>
+
+{$this->table}
+ <tr>
+  <td class="header" colspan="2">{$this->lang->settings_users}</td>
+ </tr>
+ <tr>
+  <td class="labellight" style="width:50%">{$this->lang->settings_default_skin}</td>
+  <td class="tablelight"><select name="default_skin">{$selectSkins}</select></td>
+ </tr>
+ <tr>
+  <td class="labeldark">{$this->lang->settings_default_lang}</td>
+  <td class="tabledark"><select name="default_lang">{$defaultlang}</select></td>
+ </tr>
+ <tr>
+  <td class="footer" colspan="2">&nbsp;</td>
+ </tr>
+{$this->etable}
+
+<p></p>
+
+{$this->table}
+ <tr>
+  <td class="header" colspan="2">{$this->lang->settings_cookie}</td>
+ </tr>
+ <tr>
+  <td class="labellight" style="width:50%">{$this->lang->settings_cookie_time}<br /><span class="tiny">{$this->lang->seconds}</span></td>
+  <td class="tablelight"><input class="input" type="text" name="logintime" value="{$this->sets['logintime']}" size="40" /></td>
+ </tr>
+ <tr>
+  <td class="labellight">{$this->lang->settings_cookie_prefix}</td>
+  <td class="tablelight"><input class="input" type="text" name="cookie_prefix" value="{$this->sets['cookie_prefix']}" size="40" /></td>
+ </tr>
+ <tr>
+  <td class="labeldark">{$this->lang->settings_cookie_path}</td>
+  <td class="tabledark"><input class="input" type="text" name="cookie_path" value="{$this->sets['cookie_path']}" size="40" /></td>
+ </tr>
+ <tr>
+  <td class="labellight">{$this->lang->settings_cookie_domain}</td>
+  <td class="tablelight"><input class="input" type="text" name="cookie_domain" value="{$this->sets['cookie_domain']}" size="40" /></td>
+ </tr>
+ <tr>
+  <td class="labeldark">{$this->lang->settings_cookie_secure}<br /><span class="tiny">{$this->lang->settings_cookie_secured}</span></td>
+  <td class="tabledark">
+   <input type="radio" name="cookie_secure" value="1" <IF $this->sets['cookie_secure']>checked="checked"</IF> id="cookie_secure1" /><label for="cookie_secure1">{$this->lang->yes}</label><br />
+   <input type="radio" name="cookie_secure" value="0" <IF !$this->sets['cookie_secure']>checked="checked"</IF> id="cookie_secure2" /><label for="cookie_secure2">{$this->lang->no}</label>
+  </td>
+ </tr>
+ <tr>
+  <td class="labellight">{$this->lang->settings_timezone}</td>
+  <td class="tablelight">
+   <select name="servertime">
+    {$timezones}
+   </select>
+  </td>
+ </tr>
+ <tr>
+  <td class="footer" colspan="2">&nbsp;</td>
+ </tr>
+{$this->etable}
+
+<p></p>
+
+{$this->table}
+ <tr>
+  <td class="header" colspan="2">{$this->lang->settings_server}</td>
+ </tr>
+  <td class="labellight" style="width:50%">{$this->lang->settings_email_reply}<br /><span class="tiny">{$this->lang->settings_email_real}</span></td>
+  <td class="tablelight"><input class="input" type="text" name="admin_incoming" value="{$this->sets['admin_incoming']}" size="40" /></td>
+ </tr>
+ <tr>
+  <td class="labeldark">{$this->lang->settings_email_smtp}</td>
+  <td class="tabledark"><input class="input" type="text" name="mailserver" value="{$this->sets['mailserver']}" size="40" /></td>
+ </tr>
+ <tr>
+  <td class="labellight">{$this->lang->settings_email_from}<br /><span class="tiny">{$this->lang->settings_email_fake}</span></td>
+  <td class="tablelight"><input class="input" type="text" name="admin_outgoing" value="{$this->sets['admin_outgoing']}" size="40" /></td>
+ </tr>
+ <tr>
+  <td class="labellight" style="width:50%">{$this->lang->settings_server_gzip}<br /><span class="tiny">{$this->lang->settings_server_gzip_msg}</span></td>
+  <td class="tablelight">
+   <input type="radio" name="output_buffer" value="1" <IF $this->sets['output_buffer']>checked="checked"</IF> id="output_buffer1" /><label for="output_buffer1">{$this->lang->settings_enabled}</label><br />
+   <input type="radio" name="output_buffer" value="0" <IF !$this->sets['output_buffer']>checked="checked"</IF> id="output_buffer2" /><label for="output_buffer2">{$this->lang->settings_disabled}</label>
+  </td>
+ </tr>
+ <tr>
+  <td class="footer" colspan="2">&nbsp;</td>
+ </tr>
+ <tr>
+  <td style="text-align:center" colspan="2">
+   <input class="mainbutton" type="submit" value="{$this->lang->submit}" />
+  </td>
+ </tr>
+{$this->etable}
+</form>
+      ]]></html>
+    </template>
+    <template><set>settings</set><name>ADMIN_EDIT_DB_SETTINGS</name>
+      <displayname>Edit Connection Settings</displayname>
+      <description>Form for editing the database conenction settings</description>
+      <html><![CDATA[
+<form action="{$this->self}?a=settings&amp;s=update&amp;db=1" method="post">
+{$this->table}
+ <tr>
+  <td class="header" colspan="2">{$this->lang->settings_db}</td>
+ </tr>
+ <tr>
+  <td class="labellight" style="width:50%"><b>{$this->lang->settings_db_host}</b></td>
+  <td class="tablelight">
+   <input class="input" type="text" name="db_host" value="{$this->sets['db_host']}" size="40" />
+  </td>
+ </tr>
+ <tr>
+  <td class="labeldark"><b>{$this->lang->settings_db_name}</b></td>
+  <td class="tabledark">
+   <input class="input" type="text" name="db_name" value="{$this->sets['db_name']}" size="40" />
+  </td>
+ </tr>
+ <tr>
+  <td class="labellight"><b>{$this->lang->settings_db_username}</b></td>
+  <td class="tablelight">
+   <input class="input" type="text" name="db_user" value="{$this->sets['db_user']}" size="40" />
+  </td>
+ </tr>
+ <tr>
+  <td class="labeldark"><b>{$this->lang->settings_db_password}</b></td>
+  <td class="tabledark">
+   <input class="input" type="password" name="db_pass" value="{$this->sets['db_pass']}" size="40" />
+  </td>
+ </tr>
+ <tr>
+  <td class="labellight"><b>{$this->lang->settings_db_port}</b><br /><span class="tiny">{$this->lang->settings_db_leave_blank}</span></td>
+  <td class="tablelight">
+   <input class="input" type="text" name="db_port" value="{$this->sets['db_port']}" size="40" />
+  </td>
+ </tr>
+ <tr>
+  <td class="labeldark"><b>{$this->lang->settings_db_socket}</b><br /><span class="tiny">{$this->lang->settings_db_leave_blank}</span></td>
+  <td class="tabledark">
+   <input class="input" type="text" name="db_socket" value="{$this->sets['db_socket']}" size="40" />
+  </td>
+ </tr>
+ <tr>
+  <td class="tabledark" style="text-align:center" colspan="2">
+   <input class="mainbutton" type="submit" value="{$this->lang->submit}" />
+  </td>
+ </tr>
+{$this->etable}
+</form>
+      ]]></html>
+    </template>
+    <template><set>templates</set><name>ADMIN_EDIT_SKIN</name>
+      <displayname>Edit Skin</displayname>
+      <description>Form for editing and deleting skins</description>
+      <html><![CDATA[
+<form action="{$this->self}?a=templates&amp;s=editskin" method="post">
+<input type="hidden" name="skin" value="{$this->post['skin']}" />
+{$this->table}
+ <tr>
+  <td class="header" colspan="2">{$this->lang->edit_skin}</td>
+ </tr>
+ <tr>
+  <td class="tablelight" style="width:30%">{$this->lang->display_name}</td>
+  <td class="tabledark">
+   <input class="input" type="text" name="skin_name" value="{$skin['skin_name']}" size="50" />
+  </td>
+ </tr>
+ <tr>
+  <td class="tablelight">{$this->lang->directory}</td>
+  <td class="tabledark">
+   <input class="input" type="text" name="skin_dir" value="{$skin['skin_dir']}" size="50" />
+  </td>
+ </tr>
+ <tr>
+  <td class="tablelight">{$this->lang->delete}</td>
+  <td class="tabledark"><input type="checkbox" name="deleteskin" /></td>
+ </tr>
+ <tr>
+  <td class="tabledark" style="text-align:center" colspan="2">
+   <input class="mainbutton" type="submit" name="submit" value="{$this->lang->edit_skin}" />
+  </td>
+ </tr>
+{$this->etable}
+</form>
+      ]]></html>
+    </template>
+    <template><set>templates</set><name>ADMIN_EDIT_TEMPLATE</name>
+      <displayname>Edit Template</displayname>
+      <description>Form for editing a skin's templates</description>
+      <html><![CDATA[
+<form action="{$this->self}?a=templates&amp;s=edit&amp;section={$this->get['section']}&amp;skin={$template}" method="post">
+{$this->table}
+ <tr>
+  <td class="header">{$this->lang->edit_templates}</td>
+ </tr>
+ <tr>
+  <td class="tabledark">
+   <b>{$this->lang->template_about}</b><br />
+   {$this->lang->template_about2}<br /><br />
+   <b>{$this->lang->template_universal}</b><br />
+   {$this->lang->template_universal2}<br /><br /><br />
+  </td>
+ </tr>
+ {$out}
+{$this->etable}
+</form>
+      ]]></html>
+    </template>
+    <template><set>groups</set><name>ADMIN_GROUP_EDIT</name>
+      <displayname>Group Editing</displayname>
+      <description>Form for editing groups</description>
+      <html><![CDATA[
+<form action="{$this->self}?a=groups&amp;s=edit" method="post">
+{$this->table}
+ <tr>
+  <td class="header" colspan="2">{$this->lang->groups_edit}</td>
+ </tr>
+ <tr>
+  <td class="tablelight">{$this->lang->groups_type}:</td>
+  <td class="tabledark">{$old['group_type']}</td>
+ </tr>
+ <tr>
+  <td class="tablelight">{$this->lang->name}:</td>
+  <td class="tabledark">
+   <input class="input" name="group_name" value="{$oldGroupName}" />
+  </td>
+ </tr>
+ <tr>
+  <td class="tabledark" style="text-align:center" colspan="2">
+   <input type="hidden" name="group" value="{$this->post['group']}" />
+   <input class="mainbutton" type="submit" name="submit" value="{$this->lang->submit}" />
+  </td>
+ </tr>
+{$this->etable}
+</form>
+      ]]></html>
+    </template>
+    <template><set>user_control</set><name>ADMIN_USER_ADD</name>
+      <displayname>Add User</displayname>
+      <description>Form for adding a user.</description>
+      <html><![CDATA[
+<form action="{$this->self}?a=user_control&amp;s=new" method="post">
+{$this->table}
+ <tr>
+  <td class="header" colspan="2" style="text-align:center">{$this->lang->mc_add}</td>
+ </tr>
+ <tr>
+  <td class="tablelight" style="width:30%; text-align:right">
+   <strong>{$this->lang->mc_user_name}</strong>
+  </td>
+  <td class="tablelight">
+   <input class="input" name="name" type="text" />
+  </td>
+ </tr>
+ <tr>
+  <td class="tabledark" style="width:30%; text-align:right">
+   <strong>{$this->lang->mc_user_email}</strong>
+  </td>
+  <td class="tabledark">
+   <input class="input" name="email" type="text" />
+  </td>
+ </tr>
+ <tr>
+  <td class="tablelight" style="width:30%; text-align:right">
+   <strong>{$this->lang->mc_user_group}</strong>
+  </td>
+  <td class="tablelight">
+   <select name="group" class="select">
+    {$selectGroups}
+   </select>
+  </td>
+ </tr>
+ <tr>
+  <td class="tabledark" style="width:30%; text-align:right">
+   <strong>{$this->lang->mc_user_language}</strong>
+  </td>
+  <td class="tabledark">
+   <select name="lang" class="select">
+    {$selectLangs}
+   </select>
+  </td>
+ </tr>
+ <tr>
+  <td class="tabledark" colspan="2" style="text-align:center">
+   <input class="mainbutton" name="submit" type="submit" value="{$this->lang->submit}" />
+  </td>
+ </tr>
+{$this->etable}
+</form>
+      ]]></html>
+    </template>
+    <template><set>Admin</set><name>ADMIN_HOME</name>
+      <displayname>Admin CP Home Page</displayname>
+      <description>Edit the layout of the main AdminCP page</description>
+      <html><![CDATA[
+{$this->table}
+ <tr>
+  <td class="header">{$this->lang->home_menu_title}</td>
+ </tr>
+ <tr>
+  <td class="tabledark">
+   <table width="100%" cellpadding="5" cellspacing="0" border="0">
+    <tr>
+     <td style="font-size:17px; font-weight:bold; padding-bottom:15px; text-align:center" colspan="2">{$this->lang->home_choose}</td>
+    </tr>
+    <tr>
+     <td style="width:50%;" valign="top">
+      <div class="fieldset">
+       <div class="legend">{$this->lang->admin_users}</div><br />
+       <a href="{$this->self}?a=user_control&amp;s=new">{$this->lang->admin_add_user}</a><br />
+       <a href="{$this->self}?a=user_control&amp;s=profile">{$this->lang->admin_edit_user}</a><br />
+       <a href="{$this->self}?a=user_control&amp;s=delete">{$this->lang->admin_delete_user}</a><br />
+       <a href="{$this->self}?a=user_control&amp;s=perms">{$this->lang->admin_edit_user_perms}</a><br />
+      </div><br />
+
+      <div class="fieldset">
+       <div class="legend">{$this->lang->admin_settings}</div><br />
+       <a href="{$this->self}?a=settings&amp;s=basic">{$this->lang->admin_edit_settings}</a><br />
+       <a href="{$this->self}?a=settings&amp;s=add">{$this->lang->admin_settings_add}</a><br />
+       <a href="{$this->self}?a=php_info">{$this->lang->admin_phpinfo}</a><br />
+       <a href="{$this->self}?a=logs">{$this->lang->admin_logs}</a><br />
+      </div>
+     </td>
+
+     <td valign="top">
+      <div class="fieldset">
+       <div class="legend">{$this->lang->admin_groups}</div><br />
+       <a href="{$this->self}?a=groups&amp;s=add">{$this->lang->admin_create_group}</a><br />
+       <a href="{$this->self}?a=groups&amp;s=edit">{$this->lang->admin_edit_group_name}</a><br />
+       <a href="{$this->self}?a=perms">{$this->lang->admin_edit_group_perms}</a><br />
+       <a href="{$this->self}?a=groups&amp;s=delete">{$this->lang->admin_delete_group}</a>
+      </div><br />
+
+      <div class="fieldset">
+       <div class="legend">{$this->lang->admin_db}</div><br />
+       <a href="{$this->self}?a=backup&amp;s=create">{$this->lang->admin_db_backup}</a><br />
+       <a href="{$this->self}?a=backup&amp;s=restore">{$this->lang->admin_db_restore}</a><br />
+       <a href="{$this->self}?a=settings&amp;s=db">{$this->lang->admin_db_conn}</a><br />
+       <a href="{$this->self}?a=optimize">{$this->lang->admin_db_optimize}</a><br />
+       <a href="{$this->self}?a=query">{$this->lang->admin_db_query}</a>
+      </div><br />
+
+      <div class="fieldset">
+       <div class="legend">{$this->lang->admin_skins}</div><br />
+       <a href="{$this->self}?a=templates&amp;s=add_html">{$this->lang->admin_add_templates}</a><br />
+       <a href="{$this->self}?a=templates&amp;s=html">{$this->lang->admin_edit_templates}</a><br />
+       <a href="{$this->self}?a=templates&amp;s=del_html">{$this->lang->admin_delete_template}</a><br />
+       <a href="{$this->self}?a=templates&amp;s=skin">{$this->lang->admin_create_skin}</a><br />
+       <a href="{$this->self}?a=templates&amp;s=editskin">{$this->lang->admin_edit_skin}</a><br />
+       <a href="{$this->self}?a=templates&amp;s=load">{$this->lang->admin_install_skin}</a><br />
+       <a href="{$this->self}?a=templates&amp;s=upgradeskin">{$this->lang->admin_upgrade_skin}</a><br />
+       <a href="{$this->self}?a=templates&amp;s=export">{$this->lang->admin_export_skin}</a>
+      </div>
+     </td>
+    </tr>
+   </table>
+  </td>
+ </tr>
+{$this->etable}
+      ]]></html>
+    </template>
+    <template><set>Admin</set><name>ADMIN_INDEX</name>
+      <displayname>AdminCP Index</displayname>
+      <description>The index page for the AdminCP</description>
+      <html><![CDATA[
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+ <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="{$admin->user['user_language']}" dir="{$admin->lang->direction}">
+  <head>
+   <title>{$title}</title>
+   <meta http-equiv="Content-Type" content="application/xhtml+xml; charset={$admin->lang->charset}" />
+   <link rel="stylesheet" type="text/css" href="../skins/{$admin->skin}/styles.css" />
+   <link rel="stylesheet" type="text/css" href="../skins/{$admin->skin}/admincp_menu.css" />
+   <IF $admin->debug_mode><link rel="stylesheet" type="text/css" href="../skins/{$admin->skin}/hacks.css" /></IF>
+   <script type="text/javascript" src="../javascript/admincp_menu.js"></script>
+  </head>
+
+<body>
+
+<h1>{$admin->lang->admin_heading}</h1>
+
+<div class="round-top">
+ <div><a id="top"></a></div>
+</div>
+<div class="container">
+ <div class="hsmod">
+  <ul id="hsmod">
+   <li><a href="#">{$admin->lang->admin_users}</a>
+    <ul>
+     <li><a href="{$admin->self}?a=user_control&amp;s=new">{$admin->lang->admin_add_user}</a></li>
+     <li><a href="{$admin->self}?a=user_control&amp;s=profile">{$admin->lang->admin_edit_user}</a></li>
+     <li><a href="{$admin->self}?a=user_control&amp;s=delete">{$admin->lang->admin_delete_user}</a></li>
+     <li><a href="{$admin->self}?a=user_control&amp;s=perms">{$admin->lang->admin_edit_user_perms}</a></li>
+    </ul>
+   </li>
+   <li><a href="#">{$admin->lang->admin_groups}</a>
+    <ul>
+     <li><a href="{$admin->self}?a=groups&amp;s=add">{$admin->lang->admin_create_group}</a></li>
+     <li><a href="{$admin->self}?a=groups&amp;s=edit">{$admin->lang->admin_edit_group_name}</a></li>
+     <li><a href="{$admin->self}?a=perms">{$admin->lang->admin_edit_group_perms}</a></li>
+     <li><a href="{$admin->self}?a=groups&amp;s=delete">{$admin->lang->admin_delete_group}</a></li>
+    </ul>
+   </li>
+   <li><a href="#">{$admin->lang->admin_settings}</a>
+    <ul>
+     <li><a href="{$admin->self}?a=settings&amp;s=basic">{$admin->lang->admin_edit_settings}</a></li>
+     <li><a href="{$admin->self}?a=settings&amp;s=add">{$admin->lang->admin_settings_add}</a></li>
+     <li><a href="{$admin->self}?a=php_info">{$admin->lang->admin_phpinfo}</a></li>
+     <li><a href="{$admin->self}?a=logs">{$admin->lang->admin_logs}</a></li>
+    </ul>
+   </li>
+   <li><a href="#">{$admin->lang->admin_db}</a>
+    <ul>
+     <li><a href="{$admin->self}?a=backup&amp;s=create">{$admin->lang->admin_db_backup}</a></li>
+     <li><a href="{$admin->self}?a=backup&amp;s=restore">{$admin->lang->admin_db_restore}</a></li>
+     <li><a href="{$admin->self}?a=settings&amp;s=db">{$admin->lang->admin_db_conn}</a></li>
+     <li><a href="{$admin->self}?a=optimize">{$admin->lang->admin_db_optimize}</a></li>
+     <li><a href="{$admin->self}?a=query">{$admin->lang->admin_db_query}</a></li>
+    </ul>
+   </li>
+   <li><a href="#">{$admin->lang->admin_skins}</a>
+    <ul>
+     <li><a href="{$admin->self}?a=templates&amp;s=add_html">{$admin->lang->admin_add_templates}</a></li>
+     <li><a href="{$admin->self}?a=templates&amp;s=html">{$admin->lang->admin_edit_templates}</a></li>
+     <li><a href="{$admin->self}?a=templates&amp;s=del_html">{$admin->lang->admin_delete_template}</a></li>
+     <li><a href="{$admin->self}?a=templates&amp;s=skin">{$admin->lang->admin_create_skin}</a></li>
+     <li><a href="{$admin->self}?a=templates&amp;s=editskin">{$admin->lang->admin_edit_skin}</a></li>
+     <li><a href="{$admin->self}?a=templates&amp;s=load">{$admin->lang->admin_install_skin}</a></li>
+     <li><a href="{$admin->self}?a=templates&amp;s=upgradeskin">{$admin->lang->admin_upgrade_skin}</a></li>
+     <li><a href="{$admin->self}?a=templates&amp;s=export">{$admin->lang->admin_export_skin}</a></li>
+    </ul>
+   </li>
+  </ul>
+ </div>
+ <br style="clear:left;" />
+ <div style="padding:5px;"><b><a href="{$admin->self}">Admin CP</a>{$admin->htmlwidgets->tree}</b></div>
+ {$admin_main}
+</div>
+
+<div class="round-bottom">
+ <div><a id="bottom"></a></div>
+</div>
+
+</body>
+</html>
+      ]]></html>
+    </template>
+    <template><set>templates</set><name>ADMIN_LIST_TEMPLATES</name>
+      <displayname>List Templates</displayname>
+      <description>Page that displays a skin's templates</description>
+      <html><![CDATA[
+<form action="{$this->self}" method="get">
+{$this->table}
+ <tr>
+  <td class="header" colspan="2">{$this->lang->menu_title}</td>
+ </tr>
+ <tr>
+  <td class="tabledark" colspan="2">
+   <span class="med">1. {$this->lang->choose_skin}:</span><br /><br />
+    <select name="skin">
+     {$skin_box}
+    </select>
+    <input type="hidden" name="a" value="templates" />
+    <input type="hidden" name="s" value="html" />
+    <input class="mainbutton" type="submit" value="{$this->lang->edit_skin}" />
+  </td>
+ </tr>
+ <tr>
+  <td class="tablelight">
+   <span class="med">2. {$this->lang->choose_set}:</span><br />
+   <ul style="line-height:150%">
+    {$out}
+   </ul>
+  </td>
+  <td class="tablelight" valign="top">
+   <span class="med">2. {$this->lang->choose_css}:</span></br />
+   <ul style="line-height:150%">
+    {$css}
+   </ul>
+  </td>
+ </tr>
+{$this->etable}
+</form>
+      ]]></html>
+    </template>
+    <template><set>templates</set><name>ADMIN_LIST_TEMPLATES_DELETE</name>
+      <displayname>List Templates - Delete</displayname>
+      <description>Edit the form for selecting a template to delete</description>
+      <html><![CDATA[
+<form action="{$this->self}" method="get">
+{$this->table}
+ <tr>
+  <td class="header">{$this->lang->menu_title}</td>
+ </tr>
+ <tr>
+  <td class="tabledark">
+   <span class="med">1. {$this->lang->choose_skin}:</span><br /><br />
+    <select name="skin">
+     {$skin_box}
+    </select>
+    <input type="hidden" name="a" value="templates" />
+    <input type="hidden" name="s" value="del_html" />
+    <input type="submit" value="{$this->lang->edit_skin}" />
+  </td>
+ </tr>
+ <tr>
+  <td class="tablelight">
+   <span class="med">2. {$this->lang->choose_set}:</span><br />
+   <ul>
+    {$out}
+   </ul>
+  </td>
+ </tr>
+{$this->etable}
+</form>
+      ]]></html>
+    </template>
+    <template><set>user_control</set><name>ADMIN_USER_PROFILE</name>
+      <displayname>Admin User Control</displayname>
+      <description>Form for editing user profiles.</description>
+      <html><![CDATA[
+<form action="{$this->self}?a=user_control&amp;s=profile&amp;id={$this->get['id']}" method="post">
+{$this->table}
+ <tr>
+  <td class="header" colspan="2">{$this->lang->mc}</td>
+ </tr>
+ {$out}
+ <tr>
+  <td class="tabledark" style="text-align:center" colspan="2">
+   <input class="mainbutton" type="submit" name="submit" value="{$this->lang->submit}" />
+  </td>
+ </tr>
+{$this->etable}
+</form>
+      ]]></html>
+    </template>
+    <template><set>Admin</set><name>ADMIN_MESSAGE</name>
+      <displayname>AdminCP Generic Message</displayname>
+      <description>The generic messages that appear throughout the AdminCP</description>
+      <html><![CDATA[
+<div class="mainmessage">
+ {$this->table}
+  <tr>
+   <td class="header">{$title}</td>
+  </tr>
+  <tr>
+   <td class="tablelight" style="padding:20px;">{$message}</td>
+  </tr>
+  <tr>
+   <td class="footer">&nbsp;</td>
+  </tr>
+ {$this->etable}
+</div>
+      ]]></html>
+    </template>
+    <template><set>logs</set><name>ADMIN_MOD_LOGS</name>
+      <displayname>View Moderator Logs</displayname>
+      <description>Format of the moderator log view</description>
+      <html><![CDATA[
+{$this->table}
+ <tr>
+  <td class="header" colspan="4">{$this->lang->logs_view}</td>
+ </tr>
+ <tr>
+  <td class="subheader" style="width:25%; text-align:center">{$this->lang->logs_time}</td>
+  <td class="subheader" style="width:25%; text-align:center">{$this->lang->logs_user}</td>
+  <td class="subheader" style="width:25%; text-align:center">{$this->lang->logs_action}</td>
+  <td class="subheader" style="width:25%; text-align:center">{$this->lang->logs_id}</td>
+ </tr>
+ {$out}
+{$this->etable}
+      ]]></html>
+    </template>
+    <template><set>cp</set><name>CP_HOME</name>
+      <displayname>Control Panel Home</displayname>
+      <description>The page shown when the control panel is opened</description>
+      <html><![CDATA[
+<div class="header" style="text-align:center">{$this->lang->cp_header}</div>
+<div class="tablelight" style="text-align:center; padding:30px;">{$this->lang->cp_welcome}</div>
+<div class="footer">&nbsp;</div>
+      ]]></html>
+    </template>
+    <template><set>cp</set><name>CP_MAIN</name>
+      <displayname>Control Panel Menu</displayname>
+      <description>The control panel navigation menu</description>
+      <html><![CDATA[
+{$this->table}
+ <tr>
+  <td class="header" style="text-align:center" colspan="6">{$this->lang->cp_header}</td>
+ </tr>
+ <tr>
+  <td class="{$class['cpass']}" style="width:33%; text-align:center;"><a href="{$this->self}?a=cp&amp;s=cpass">{$this->lang->cp_label_edit_pass}</a></td>
+  <td class="{$class['prefs']}" style="width:33%; text-align:center;"><a href="{$this->self}?a=cp&amp;s=prefs">{$this->lang->cp_label_edit_prefs}</a></td>
+  <td class="{$class['profile']}" style="width:33%; text-align:center;"><a href="{$this->self}?a=cp&amp;s=profile">{$this->lang->cp_label_edit_profile}</a></td>
+ </tr>
+ <tr>
+  <td class="footer" colspan="6">&nbsp;</td>
+ </tr>
+{$this->etable}
+
+<p></p>
+
+{$control_page}
+      ]]></html>
+    </template>
+    <template><set>cp</set><name>CP_PASS</name>
+      <displayname>Change Password Form</displayname>
+      <description>The form that lets a user change their password</description>
+      <html><![CDATA[
+<form action="{$this->self}?a=cp&amp;s=cpass" method="post">
+{$this->table}
+ <tr>
+  <td class="header" colspan="2">{$this->lang->cp_label_edit_pass}</td>
+ </tr>
+ <tr>
+  <td class="tablelight" style="width:30%">{$this->lang->cp_old_pass}</td>
+  <td class="tablelight"><input class="input" type="password" name="old_pass" size="40" /></td>
+ </tr>
+ <tr>
+  <td class="tabledark">{$this->lang->cp_new_pass}</td>
+  <td class="tabledark"><input class="input" type="password" name="passA" size="40" /></td>
+ </tr>
+ <tr>
+  <td class="tablelight">{$this->lang->cp_repeat_pass}</td>
+  <td class="tablelight"><input class="input" type="password" name="passB" size="40" /></td>
+ </tr>
+ <tr>
+  <td class="tabledark" colspan="2" align="center">
+   <input class="mainbutton" type="submit" name="submit" value="{$this->lang->submit}" />
+  </td>
+ </tr>
+ <tr>
+  <td colspan="2" class="footer">&nbsp;</td>
+ </tr>
+{$this->etable}
+</form>
+      ]]></html>
+    </template>
+    <template><set>cp</set><name>CP_PREFS</name>
+      <displayname>Board Preferences Form</displayname>
+      <description>Allows users to edit their board preferences</description>
+      <html><![CDATA[
+<form action="{$this->self}?a=cp&amp;s=prefs" method="post">
+{$this->table}
+ <tr>
+  <td class="header" colspan="2">{$this->lang->cp_label_edit_prefs}</td>
+ </tr>
+ <tr>
+  <td class="tabledark">{$this->lang->cp_skin}</td>
+  <td class="tabledark">
+   <select class="select" name="user_skin">
+    {$skin_list}
+   </select>
+  </td>
+ </tr>
+ <tr>
+  <td class="tablelight">{$this->lang->cp_language}</td>
+  <td class="tablelight">
+   <select class="select" name="user_language">
+    {$lang_list}
+   </select>
+  </td>
+ </tr>
+ <tr>
+  <td class="tabledark" colspan="2" align="center">
+   <input class="mainbutton" type="submit" name="submit" value="{$this->lang->submit}" />
+  </td>
+ </tr>
+ <tr>
+  <td colspan="2" class="footer">&nbsp;</td>
+ </tr>
+{$this->etable}
+</form>
+      ]]></html>
+    </template>
+    <template><set>cp</set><name>CP_PROFILE</name>
+      <displayname>Edit Profile Form</displayname>
+      <description>The form that edits profiles</description>
+      <html><![CDATA[
+<form action="{$this->self}?a=cp&amp;s=profile" method="post" id="profile">
+{$this->table}
+ <tr>
+  <td class="header" colspan="2">{$this->lang->cp_label_edit_profile}</td>
+ </tr>
+ <tr>
+  <td class="tablelight">{$this->lang->cp_email}</td>
+  <td class="tablelight">
+   <input class="input" type="text" name="user_email" value="{$this->user['user_email']}" size="40" />
+  </td>
+ </tr>
+ <tr>
+  <td class="tabledark" colspan="2" align="center">
+   <input class="mainbutton" type="submit" name="submit" value="{$this->lang->submit}" />
+  </td>
+ </tr>
+ <tr>
+  <td colspan="2" class="footer">&nbsp;</td>
+ </tr>
+{$this->etable}
+</form>
+      ]]></html>
+    </template>
+    <template><set>Domains</set><name>DOMAINS_ADD</name>
+      <displayname>Add a Domain</displayname>
+      <description>Form to add a new domain name.</description>
+      <html><![CDATA[
+<form action="{$this->self}?a=domains&amp;s=new" method="post">
+{$this->table}
+ <tr>
+  <td class="header" colspan="2" style="text-align:center">{$this->lang->domains_new}</td>
+ </tr>
+ <tr>
+  <td class="tablelight" style="text-align:right">{$this->lang->domains_new_name}</td>
+  <td class="tablelight"><input class="input" name="name" type="text" /></td>
+ </tr>
+ <tr>
+  <td class="tabledark" style="text-align:right">{$this->lang->domains_new_ip}</td>
+  <td class="tabledark"><input class="input" name="ip" type="text" /></td>
+ </tr>
+ <tr>
+  <td class="tablelight" style="text-align:right">{$this->lang->domains_type}</td>
+  <td class="tablelight">
+   <select class="select" name="type">
+    {$types}
+   </select>
+  </td>
+ </tr>
+ <tr>
+  <td class="tabledark" style="text-align:right">{$this->lang->domains_owner}</td>
+  <td class="tabledark">
+   <select class="select" name="owner">
+    {$users}
+   </select>
+  </td>
+ </tr>
+ <tr>
+  <td class="tabledark" colspan="2" style="text-align:center">
+   <input class="mainbutton" name="submit" type="submit" value="{$this->lang->submit}" />
+  </td>
+ </tr>
+ <tr>
+  <td class="footer" colspan="2">&nbsp;</td>
+ </tr>
+{$this->etable}
+</form>
+      ]]></html>
+    </template>
+    <template><set>login</set><name>LOGIN_MAIN</name>
+      <displayname>Login Form</displayname>
+      <description>Format the look of the login form.</description>
+      <html><![CDATA[
+<form action="{$this->self}?a=login&amp;s=on" method="post">
+{$this->table}
+ <tr>
+  <td class="header" colspan="2">{$this->lang->login_header}</td>
+ </tr>
+ <tr>
+  <td class="tablelight" style="width:30%">{$this->lang->login_user}</td>
+  <td class="tablelight">
+   <input class="input" type="text" name="user" size="30" tabindex="1" />
+  </td>
+ </tr>
+ <tr>
+  <td class="tabledark">
+   {$this->lang->login_pass}<br />
+   <a href="{$this->self}?a=login&amp;s=pass">{$this->lang->login_forgot_pass}</a>
+  </td>
+  <td class="tabledark">
+   <input class="input" type="password" name="pass" size="30" tabindex="2" />
+  </td>
+ </tr>
+ <tr>
+  <td class="tabledark" style="text-align:center" colspan="2">
+   <input type="hidden" name="request_uri" value="{$request_uri}" />
+   <input class="mainbutton" type="submit" name="submit" value="{$this->lang->submit}" tabindex="3" />
+  </td>
+ </tr>
+ <tr>
+  <td class="footer" colspan="2">&nbsp;</td>
+ </tr>
+{$this->etable}
+</form>
+      ]]></html>
+    </template>
+    <template><set>login</set><name>LOGIN_PASS</name>
+      <displayname>Reset Password</displayname>
+      <description>The forgotten password form</description>
+      <html><![CDATA[
+<form action="{$this->self}?a=login&amp;s=pass" method="post">
+<div class="header" style="text-align:center;">{$this->lang->login_pass_reset}</div>
+<div class="tablelight" style="text-align:center;">{$this->lang->login_user}:
+ &nbsp;&nbsp;&nbsp;&nbsp;<input class="input" type="text" name="user" size="30" />
+</div>
+<div class="tabledark" style="text-align:center;">
+ <input class="mainbutton" type="submit" name="submit" value="{$this->lang->submit}" />
+</div>
+<div class="footer">&nbsp;</div>
+</form>
+      ]]></html>
+    </template>
+    <template><set>Main</set><name>MAIN</name>
+      <displayname>Universal Template</displayname>
+      <description>Change the header and footer that will appear on every page</description>
+      <html><![CDATA[
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="{$qsf->user['user_language']}" dir="{$qsf->lang->direction}">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset={$qsf->lang->charset}" />
+
+<title>{$title}</title>
+<link rel="stylesheet" type="text/css" href="./skins/{$qsf->skin}/styles.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="./skins/{$qsf->skin}/print.css" media="print" />
+<link rel="stylesheet" type="text/css" href="./skins/{$qsf->skin}/handheld.css" media="handheld" />
+<IF $qsf->debug_mode><link rel="stylesheet" type="text/css" href="./skins/{$qsf->skin}/hacks.css" /></IF>
+
+<script src="./javascript/utils.js" type="text/javascript"></script>
+
+<!--[if lt IE 7]>
+<script type="text/javascript" src="./javascript/pngfix.js"></script>
+<![endif]-->
+
+</head>
+<body>
+
+<div class="round-top">
+ <div><a id="top"></a></div>
+</div>
+<div class="container">
+ <div>
+  <div>
+   <img src="./skins/{$qsf->skin}/images/Logo.gif" alt="{$qsf->name}" />
+  </div>
+  <div style="float:right; text-align:center; padding-right:10%; margin-top:-35px;">
+   <strong>PDNS-Admin Console for {$qsf->sets['site_name']}</strong>
+  </div>
+ </div>
+ {$userheader}
+ {$reminder}
+ {$quicksilverforums}
+ {$copyright}<br />
+ <div class="validchecks">
+  <a href="http://validator.w3.org/check?uri=referer" onclick="window.open(this.href,'_blank');return false;">
+   <img src="./skins/{$qsf->skin}/images/valid-xhtml11.png" alt="Valid XHTML 1.1!" title="Valid XHTML 1.1!" />
+  </a>
+  <a href="http://jigsaw.w3.org/css-validator/check/referer" onclick="window.open(this.href,'_blank');return false;">
+   <img src="./skins/{$qsf->skin}/images/valid-css.png" alt="Valid CSS!" title="Valid CSS!" />
+  </a>
+ </div>
+ <a id="bottom"></a>
+
+ <p class="copyright">
+  {$servertime}<br />
+  <b>{$time_exec}</b> {$qsf->lang->seconds} - 
+  <b>{$qsf->db->querycount}</b> {$qsf->lang->main_queries} - 
+  <b>{$server_load}</b> {$qsf->lang->main_load}
+  <IF ($qsf->debug_mode && $qsf->perms->auth('is_admin'))>
+  [<a href="{$qsf->self}?{$qsf->query}&amp;debug=1" class="small">{$qsf->lang->main_full}</a>]
+  </IF>
+ </p>
+</div>
+<div class="round-bottom">
+ <div>&nbsp;</div>
+</div>
+</body>
+</html>
+      ]]></html>
+    </template>
+    <template><set>Main</set><name>MAIN_COPYRIGHT</name>
+      <displayname>Copyright</displayname>
+      <description>Format the look of the copyright on the board.&lt;br&gt;&lt;br&gt;&lt;b&gt;Warning: Modification to anything other than the style of this copyright will result in a violation of your terms of service&lt;/b&gt;</description>
+      <html><![CDATA[
+<p class="copyright">
+ {$qsf->lang->powered} <b>{$qsf->name}</b> &copy; 2006-2007 Roger Libiez<br />
+ {$qsf->lang->based_on} <a href="http://www.quicksilverforums.com" class="small"><b>Quicksilver Forums</b></a> &copy; 2005-2007 The Quicksilver Forums Development Team<br />
+ <b>Ashlander</b> skin {$qsf->lang->board_by} Roger Libiez
+</p>
+      ]]></html>
+    </template>
+    <template><set>Main</set><name>MAIN_ETABLE</name>
+      <displayname>Table End</displayname>
+      <description>Edit the end of all html that uses $this-&gt;etable</description>
+      <html><![CDATA[
+</table>
+</div>
+      ]]></html>
+    </template>
+    <template><set>Main</set><name>MAIN_HEADER_GUEST</name>
+      <displayname>Welcome Message - Not logged in</displayname>
+      <description>Edit the menu bar for unregistered and logged out users</description>
+      <html><![CDATA[
+<ul class="nav">
+  <li><a href="{$qsf->self}?a=login&amp;s=on">{$qsf->lang->main_login}</a></li>
+ </ul>
+
+ {$qsf->table}
+  <tr>
+   <td style="width:30%; white-space:nowrap">
+    {$qsf->lang->main_welcome_guest}
+   </td>
+   <td>{$qsf->htmlwidgets->tree}</td>
+  </tr>
+ {$qsf->etable}
+ <p></p>
+      ]]></html>
+    </template>
+    <template><set>Main</set><name>MAIN_HEADER_MEMBER</name>
+      <displayname>Welcome Message - Logged In</displayname>
+      <description>Edit the menu bar for logged in members</description>
+      <html><![CDATA[
+<ul class="nav">
+  <IF $qsf->perms->auth('create_domains')>
+   <li><a href="{$qsf->self}?a=domains&amp;s=new">{$qsf->lang->main_create_forward}</a></li>
+   <li><a href="{$qsf->self}?a=domains&amp;s=new_reverse">{$qsf->lang->main_create_reverse}</a></li>
+  </IF>
+  <li><a href="{$qsf->self}?a=cp">{$qsf->lang->main_cp}</a></li>
+  <IF $qsf->perms->auth('is_admin')>
+   <li><a href="./admincp/index.php">{$qsf->lang->main_admincp}</a></li>
+  </IF>
+  <li><a href="{$qsf->self}?a=login&amp;s=off">{$qsf->lang->main_logout}</a></li>
+ </ul>
+
+ {$qsf->table}
+  <tr>
+   <td style="width:30%; white-space:nowrap">
+    {$qsf->lang->main_welcome} <b>{$qsf->user['user_name']}</b></a>!
+   </td>
+  </tr>
+  <tr>
+   <td>{$qsf->htmlwidgets->tree}</td>
+  </tr>
+ {$qsf->etable}
+
+ <p></p>
+      ]]></html>
+    </template>
+    <template><set>Main</set><name>MAIN_MESSAGE</name>
+      <displayname>Generic Message</displayname>
+      <description>Edit the html that displays generic messages throughout the board</description>
+      <html><![CDATA[
+<div class="mainmessage">
+ {$this->table}
+  <tr>
+   <td class="header">{$title}</td>
+  </tr>
+  <tr>
+   <td class="tablelight" style="padding:20px;">{$message}</td>
+  </tr>
+  <tr>
+   <td class="footer">&nbsp;</td>
+  </tr>
+ {$this->etable}
+</div>
+      ]]></html>
+    </template>
+    <template><set>Main</set><name>MAIN_REMINDER</name>
+      <displayname>Reminder</displayname>
+      <description>Used for important reminders for certain users, such as explaining to members awaiting activation how to enable their accounts.</description>
+      <html><![CDATA[
+<p class="reminder">
+  {$qsf->lang->main_reminder}<br />
+  {$reminder_text}
+ </p>
+      ]]></html>
+    </template>
+    <template><set>Main</set><name>MAIN_TABLE</name>
+      <displayname>Table Start</displayname>
+      <description>Edit the beginning of all html that uses $this-&gt;table</description>
+      <html><![CDATA[
+<div class="stand">
+ <table class="stand" cellpadding="5" cellspacing="0">
+      ]]></html>
+    </template>
+    <template><set>templates</set><name>ADMIN_DELETE_TEMPLATE</name>
+      <displayname>Delete Template</displayname>
+      <description>Form for deleting an HTML template</description>
+      <html><![CDATA[
+<form action="{$this->self}?a=templates&amp;s=delete&amp;i=confirm&amp;section={$section}&amp;skin={$skin}" method="post">
+{$this->table}
+ <tr>
+  <td class="subheader" style="text-align:center">{$this->lang->confirm1} <span class="red">{$name}</span> {$this->lang->confirm2} <span class="red">{$template}</span>.</td>
+ </tr>
+ {$list}
+ <tr>
+  <td class="tabledark" style="text-align:center">
+   <input class="mainbutton" type="submit" name="submit" value="{$this->lang->delete_template}" />
+   <input type="hidden" name="submitTemp" value="{$template_name}" />
+  </td>
+ </tr>
+{$this->etable}
+</form>
+      ]]></html>
+    </template>
+    <template><set>templates</set><name>ADMIN_EDIT_TEMPLATE_ENTRY</name>
+      <displayname>Edit Template - Single Entry</displayname>
+      <description>Format of an individual section in the template editor form</description>
+      <html><![CDATA[
+<tr>
+ <td class="{$class}">
+  <span style="font-weight:bold; font-size:14px">{$data['template_displayname']}</span><br /><br />
+  {$data['template_name']}
+  <input class="mainbutton" type="submit" name="submitTemps" value="{$this->lang->edit_templates}" style="float:right" /><br />
+  {$data['template_description']}<br /><br />
+  <textarea onchange="this.style.backgroundColor='#FFFFEE'; changed=true" name="code[{$data['template_name']}]" style="background-color:white; font-family:'courier new', courier, monospaced, serif; font-size:12px; width:100%" rows="18" cols="80" wrap="off">{$data['template_html']}</textarea>
+ </td>
+</tr>
+      ]]></html>
+    </template>
+    <template><set>templates</set><name>ADMIN_TEMPLATE_ENTRY</name>
+      <displayname>Templates List Entry</displayname>
+      <description>A single entry on the edit or delete templates list</description>
+      <html><![CDATA[
+<li>
+ <a href="{$this->self}?a=templates&amp;s={$action}&amp;section={$data['temp_set']}&amp;skin={$template}">{$sections[$data['temp_set']]}</a>
+</li>
+      ]]></html>
+    </template>
+    <template><set>templates</set><name>ADMIN_TEMPLATE_DELETE_CONTENTS</name>
+      <displayname>Delete Template - Contents</displayname>
+      <description>The format for the box that shows the contents of a template being deleted</description>
+      <html><![CDATA[
+<tr>
+ <td class="{$class}">
+  <span style="font-weight:bold; font-size:14px">{$data['template_displayname']}</span><br /><br />
+  {$data['template_name']}<br /><br />
+  {$data['template_description']}<br /><br />
+  <textarea style="background-color:white; font-family:'courier new', courier, monospaced, serif; font-size:12px; width:100%" rows="18" wrap="off">{$data['template_html']}</textarea>
+ </td>
+</tr>
+      ]]></html>
+    </template>
+    <template><set>logs</set><name>ADMIN_MOD_LOGS_ENTRY</name>
+      <displayname>Moderator Log Entry</displayname>
+      <description>The format for one log entry</description>
+      <html><![CDATA[
+<tr>
+ <td class="{$class}">{$date}</td>
+ <td class="{$class}">{$user}</td>
+ <td class="{$class}">{$action}</td>
+ <td class="{$class}">{$id}</td>
+</tr>
+      ]]></html>
+    </template>
+    <template><set>user_control</set><name>ADMIN_USER_EDIT</name>
+      <displayname>Profile Edit - One Line</displayname>
+      <description>Format for one row on the profile editor.</description>
+      <html><![CDATA[
+<tr>
+ <td class="{$class}" style="width:30%; text-align:right">
+  <b>{$cols[$var][0]}</b>
+ </td>
+ <td class="{$class}">
+  {$line}
+ </td>
+</tr>
+      ]]></html>
+    </template>
+    <template><set>templates</set><name>ADMIN_CSS_EDIT</name>
+      <displayname>CSS Editor</displayname>
+      <description>Textbox to edit CSS file in.</description>
+      <html><![CDATA[
+<form action="{$this->self}?a=templates&amp;s=edit_css&amp;skin={$skin}&amp;file={$fname}" method="post">
+{$this->table}
+ <tr>
+  <td class="header" style="text-align:center">{$this->lang->edit_css}: {$skin} - {$fname}</td>
+ </tr>
+ <tr>
+  <td class="tabledark"><textarea class="input" name="css_text" rows="25" cols="80">{$text}</textarea>
+ </tr>
+ <tr>
+  <td class="tabledark" colspan="2" style="text-align:center">
+   <input class="mainbutton" type="submit" name="submit" value="{$this->lang->submit}" />
+  </td>
+ </tr>
+ <tr>
+  <td class="footer">&nbsp;</td>
+ </tr>
+{$this->etable}
+</form>
+      ]]></html>
+    </template>
+    <template><set>templates</set><name>ADMIN_INSTALL_SKIN</name>
+      <displayname>Install Skin</displayname>
+      <description>Form for selecting a skin to install</description>
+      <html><![CDATA[
+<IF !empty($skin_box)>
+<form action="{$this->self}?a=templates&amp;s=load" method="post">
+<div>
+ {$this->lang->skins_found}:<br /><br />
+ <select name="install">
+  {$skin_box}
+ </select>
+ <input class="mainbutton" type="submit" name="submit" value="{$this->lang->install_skin}" />
+</div>
+</form>
+<br />
+</IF>
+
+<IF !empty($new_skin_box)>
+<ul>
+ {$new_skin_box}
+</ul>
+</IF>
+      ]]></html>
+    </template>
+    <template><set>backup</set><name>ADMIN_BACKUP</name>
+      <displayname>Database Backup</displayname>
+      <description>Form for making a database backup.</description>
+      <html><![CDATA[
+<form action="{$this->self}?a=backup&amp;s=create" method="post">
+<div class="mainmessage">
+{$this->table}
+ <tr>
+  <td class="header" colspan="100%" style="text-align:center">{$this->lang->backup_options}</td>
+ </tr>
+ <tr>
+  <td class="tablelight">{$this->lang->backup_add_complete} INSERT {$this->lang->backup_statements}?</td>
+  <td class="tablelight">
+   <input type="checkbox" checked="checked" name="insert" value="1" />
+  </td>
+ </tr>
+ <tr>
+  <td class="tabledark">{$this->lang->backup_add} DROP TABLE {$this->lang->backup_statements}<a href="#" title="{$this->lang->backup_uncheck}">?</a></td>
+  <td class="tabledark">
+   <input type="checkbox" checked="checked" name="droptable" value="1" />
+  </td>
+ </tr>
+ <tr>
+  <td class="tabledark" style="text-align:center" colspan="100%">
+   <input type="submit" name="submit" value="{$this->lang->backup}" />
+  </td>
+ </tr>
+{$this->etable}
+</div>
+</form>
+      ]]></html>
+    </template>
+    <template><set>Main</set><name>MAIN_SITE_GUEST</name>
+      <displayname>Main Site - Guests</displayname>
+      <description>Main site display for users not logged on.</description>
+      <html><![CDATA[
+<div class="header" style="text-align:center">{$this->lang->main_title}</div>
+<div class="tabledark" style="text-align:center">
+ {$this->lang->main_welcome2}
+</div>
+<div class="footer">&nbsp;</div>
+      ]]></html>
+    </template>
+    <template><set>Main</set><name>MAIN_SITE_USER</name>
+      <displayname>Main site - User is logged on</displayname>
+      <description>Displayed when a user is logged on.</description>
+      <html><![CDATA[
+<div class="header" style="text-align:center">{$this->lang->main_title}</div>
+{$content}
+<div class="footer">&nbsp;</div>
+      ]]></html>
+    </template>
+    <template><set>Domains</set><name>DOMAIN_LIST</name>
+      <displayname>Domain Listing</displayname>
+      <description>List of domains administered by the site.</description>
+      <html><![CDATA[
+{$this->table}
+ <tr>
+  <td class="subheader" style="width:5%">&nbsp;</td>
+  <td class="subheader" style="width:70%; text-align:center">{$this->lang->main_domain_name}</td>
+  <td class="subheader" style="width:15%; text-align:center">{$this->lang->main_domain_owner}</td>
+  <td class="subheader" style="width:10%; text-align:center">{$this->lang->main_records}</td>
+ </tr>
+ {$content}
+{$this->etable}
+      ]]></html>
+    </template>
+    <template><set>Domains</set><name>DOMAIN_ITEM</name>
+      <displayname>Domain Item</displayname>
+      <description>A single line on the domains display.</description>
+      <html><![CDATA[
+<tr>
+  <td class="{$class}" align="center" valign="middle">
+   <a href="{$this->self}?a=domains&amp;s=delete&amp;id={$domain['id']}">
+    <img src="./skins/{$this->skin}/images/icons/delete.png" title="{$this->lang->main_delete_domain}" alt="{$this->lang->delete}" />
+   </a>
+  </td>
+  <td class="{$class}" valign="middle">
+   <a href="{$this->self}?a=domains&amp;s=edit&amp;id={$domain['id']}" title="{$this->lang->main_edit_domain}">{$domain['name']}</a>
+  </td>
+  <td class="{$class}" align="center" valign="middle">{$domain['user_name']}</td>
+  <td class="{$class}" align="center" valign="middle">{$domain['recs']}</td>
+ </tr>
+      ]]></html>
+    </template>
+    <template><set>Domains</set><name>DOMAIN_RECORD_ADD</name>
+      <displayname>Add Domain Record</displayname>
+      <description>Form to add a new record to a domain.</description>
+      <html><![CDATA[
+<form action="{$this->self}?a=domains&amp;s=newrecord&amp;id={$this->get['id']}" method="post">
+{$this->table}
+ <tr>
+  <td class="header" colspan="2" style="text-align:center">{$this->lang->domains_record_add}: {$domain['name']}</td>
+ </tr>
+ <tr>
+  <td class="tabledark" style="text-align:right">{$this->lang->name}</td>
+  <td class="tabledark"><input class="input" name="name" type="text" />.{$domain['name']}</td>
+ </tr>
+ <tr>
+  <td class="tablelight" style="text-align:right">{$this->lang->domains_record_type}</td>
+  <td class="tablelight">
+   <select class="select" name="record">
+    {$rec_options}
+   </select>
+  </td>
+ </tr>
+ <tr>
+  <td class="tabledark" style="text-align:right">{$this->lang->domains_record_content}</td>
+  <td class="tabledark"><input class="input" name="content" type="text" /></td>
+ </tr>
+ <tr>
+  <td class="tablelight" style="text-align:right">TTL</td>
+  <td class="tablelight"><input class="input" name="ttl" type="text" value="{$this->sets['default_ttl']}" /></td>
+ </tr>
+ <tr>
+  <td class="tabledark" style="text-align:right">Priority</td>
+  <td class="tabledark"><input class="input" name="priority" type="text" value="0" /></td>
+ </tr>
+ <tr>
+  <td class="tabledark" colspan="2" style="text-align:center">
+   <input class="mainbutton" name="submit" type="submit" value="{$this->lang->submit}" />
+  </td>
+ </tr>
+ <tr>
+  <td class="footer" colspan="2">&nbsp;</td>
+ </tr>
+{$this->etable}
+</form>
+      ]]></html>
+    </template>
+    <template><set>Domains</set><name>DOMAINS_RECORD</name>
+      <displayname>Domain Record</displayname>
+      <description>List an individual domain record.</description>
+      <html><![CDATA[
+<tr>
+  <td class="{$class}">
+   <a href="{$this->self}?a=domains&amp;s=editrecord&amp;id={$dom_id}&amp;r={$rec_id}"><img src="./skins/{$this->skin}/images/icons/edit.png" alt="" title="{$this->lang->domains_record_edit2}" /></a>
+   <a href="{$this->self}?a=domains&amp;s=deleterecord&amp;id={$dom_id}&amp;r={$rec_id}"><img src="./skins/{$this->skin}/images/icons/delete.png" alt="" title="{$this->lang->domains_record_delete2}" /></a>
+  </td>
+  <td class="{$class}">{$record['name']}</td>
+  <td class="{$class}">{$record['type']}</td>
+  <td class="{$class}">{$record['content']}</td>
+  <td class="{$class}">{$record['prio']}</td>
+  <td class="{$class}">{$record['ttl']}</td>
+ </tr>
+      ]]></html>
+    </template>
+    <template><set>Domains</set><name>DOMAINS_EDIT</name>
+      <displayname>Edit a Domain</displayname>
+      <description>Domain editing display.</description>
+      <html><![CDATA[
+<table width="50%" cellpadding="5" cellspacing="0" style="border:0; border-collapse:collapse; margin:auto;">
+ <tr>
+  <td class="header" colspan="2" style="text-align:center">{$this->lang->domains_info}: {$domain['name']}</td>
+ </tr>
+ <tr>
+  <form action="{$this->self}?a=domains&amp;s=changetype&amp;id={$domain['id']}" method="post">
+  <td class="tabledark">
+   {$this->lang->domains_type}: {$domain['type']}<br /><br />
+   {$this->lang->domains_type_change}:
+   <select class="select" name="type">
+    {$types}
+   </select>
+   <input class="mainbutton" name="submit" type="submit" value="{$this->lang->submit}" />
+  </td>
+  </form>
+  <form action="{$this->self}?a=domains&amp;s=changeowner&amp;id={$domain['id']}" method="post">
+  <td class="tabledark">
+   {$this->lang->domains_owner}: {$domain['user_name']}<br /><br />
+   {$this->lang->domains_owner_change}:
+   <select class="select" name="owner">
+    {$users}
+   </select>
+   <input class="mainbutton" name="submit" type="submit" value="{$this->lang->submit}" />
+  </td>
+  </form>
+ </tr>
+ <tr>
+  <td class="footer" colspan="2">&nbsp;</td>
+ </tr>
+</table>
+
+{$this->table}
+ <tr>
+  <td class="header" style="text-align:center" colspan="6">{$this->lang->domains_records}: {$domain['name']}</td>
+ </tr>
+ <tr>
+  <td class="subheader" style="width:5%; text-align:center">&nbsp;</td>
+  <td class="subheader" style="width:20%; text-align:center">{$this->lang->name}</td>
+  <td class="subheader" style="width:5%; text-align:center">{$this->lang->type}</td>
+  <td class="subheader" style="width:50%; text-align:center">{$this->lang->content}</td>
+  <td class="subheader" style="width:10%; text-align:center">{$this->lang->priority}</td>
+  <td class="subheader" style="width:10%; text-align:center">TTL</td>
+ </tr>
+ {$records}
+ <tr>
+  <td class="footer" colspan="6">&nbsp;</td>
+ </tr>
+{$this->etable}
+
+{$this->table}
+ <tr>
+  <td>
+   <div class="bigbutton"><a class="delete" href="{$this->self}?a=domains&amp;s=delete&amp;id={$domain['id']}" title="{$this->lang->domains_delte_this}">{$this->lang->domains_delete}</a></div>
+   <div class="bigbutton"><a class="newrecord" href="{$this->self}?a=domains&amp;s=newrecord&amp;id={$domain['id']}" title="{$this->lang->domains_record_new}">{$this->lang->domains_record_new}</a></div>
+  </td>
+ </tr>
+{$this->etable}
+      ]]></html>
+    </template>
+    <template><set>Domains</set><name>DOMAIN_RECORD_EDIT</name>
+      <displayname>Edit Domain Record</displayname>
+      <description>Form for editing a domain record.</description>
+      <html><![CDATA[
+<form action="{$this->self}?a=domains&amp;s=editrecord&amp;id={$id}&amp;r={$rec_id}" method="post">
+{$this->table}
+ <tr>
+  <td class="header" colspan="2" style="text-align:center">{$this->lang->domains_record_edit}: {$dom['name']}</td>
+ </tr>
+ <tr>
+  <td class="tabledark" style="text-align:right">{$this->lang->name}</td>
+  <td class="tabledark"><input class="input" name="name" type="text" value="{$rname}" />.{$dom['name']}</td>
+ </tr>
+ <tr>
+  <td class="tablelight" style="text-align:right">{$this->lang->domains_record_type}</td>
+  <td class="tablelight">
+   <select class="select" name="record">
+    {$rec_options}
+   </select>
+  </td>
+ </tr>
+ <tr>
+  <td class="tabledark" style="text-align:right">{$this->lang->domains_record_content}</td>
+  <td class="tabledark"><input class="input" name="content" type="text" value="{$rec['content']}" /></td>
+ </tr>
+ <tr>
+  <td class="tablelight" style="text-align:right">TTL</td>
+  <td class="tablelight"><input class="input" name="ttl" type="text" value="{$rec['ttl']}" /></td>
+ </tr>
+ <tr>
+  <td class="tabledark" style="text-align:right">Priority</td>
+  <td class="tabledark"><input class="input" name="priority" type="text" value="{$rec['prio']}" /></td>
+ </tr>
+ <tr>
+  <td class="tabledark" colspan="2" style="text-align:center">
+   <input class="mainbutton" name="submit" type="submit" value="{$this->lang->submit}" />
+  </td>
+ </tr>
+ <tr>
+  <td class="footer" colspan="2">&nbsp;</td>
+ </tr>
+{$this->etable}
+</form>
+      ]]></html>
+    </template>
+    <template><set>Domains</set><name>DOMAINS_ADD_REVERSE</name>
+      <displayname>Add New Reverse Domain</displayname>
+      <description>Form to add a new reverse domain.</description>
+      <html><![CDATA[
+<form action="{$this->self}?a=domains&amp;s=new_reverse" method="post">
+{$this->table}
+ <tr>
+  <td class="header" colspan="2" style="text-align:center">{$this->lang->domains_new_reverse}</td>
+ </tr>
+ <tr>
+  <td class="tablelight" style="text-align:right">{$this->lang->domains_new_name}</td>
+  <td class="tablelight"><input class="input" name="name" type="text" /></td>
+ </tr>
+ <tr>
+  <td class="tablelight" style="text-align:right">{$this->lang->domains_type}</td>
+  <td class="tablelight">
+   <select class="select" name="type">
+    {$types}
+   </select>
+  </td>
+ </tr>
+ <tr>
+  <td class="tabledark" style="text-align:right">{$this->lang->domains_owner}</td>
+  <td class="tabledark">
+   <select class="select" name="owner">
+    {$users}
+   </select>
+  </td>
+ </tr>
+ <tr>
+  <td class="tabledark" colspan="2" style="text-align:center">
+   <input class="mainbutton" name="submit" type="submit" value="{$this->lang->submit}" />
+  </td>
+ </tr>
+ <tr>
+  <td class="footer" colspan="2">&nbsp;</td>
+ </tr>
+{$this->etable}
+</form>
+      ]]></html>
+    </template>
+  </templates>
+  <install>
+    <query>
+      <sql>INSERT INTO skins (skin_name, skin_dir) VALUES ('%s', '%s')</sql>
+      <data>Ashlander</data>
+      <data>default</data>
+    </query>
+  </install>
+  <uninstall>
+    <query>
+      <sql>DELETE FROM skins WHERE skin_dir='%s'</sql>
+      <data>default</data>
+    </query>
+    <query>
+      <sql>DELETE FROM templates WHERE template_skin='%s'</sql>
+      <data>default</data>
+    </query>
+  </uninstall>
+</qsfmod>

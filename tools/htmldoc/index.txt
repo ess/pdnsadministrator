@@ -1,0 +1,19 @@
+
+
+Thank you for using [http://www.quicksilverforums.com Quicksilver Forums]
+
+The help pages listed here are to help administrators in installing and
+operating their website. It is highly recommended you read the
+[readme readme.html] before you proceed.
+
+If you feel you need assistance in installing Quicksilver Forums then
+check the [install guide install.html].
+
+If you're having trouble and need some help. Be sure to visit the official
+[http://forums.quicksilverforums.com/index.php?a=forum&f=7 support forum].
+In fact it's a good idea to regularly drop by the Quicksilver Forums website
+to keep up with updates, news and developments.
+
+Finally there is already lots of great skins and mods out there that are easy
+to setup and use. Go to [http://planet.quicksilverforums.com/ Planet QSF] for
+the latest in mods and skins for your site as well as support in using them.

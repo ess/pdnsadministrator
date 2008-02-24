@@ -1,0 +1,56 @@
+/* CSS to handle the suckerfish menu in admin cp */
+
+div.hsmod {
+	margin-left:2.5%;
+	margin-right:2.5%;
+	font-size: 0.9em;
+	/* text-align: auto; */
+}
+
+#hsmod, #hsmod ul { /* all lists */
+	padding: 0;
+	margin: 0;
+	list-style: none;
+	line-height: 1;
+}
+
+#hsmod a {
+	display: block;
+	/*width: 10em;*/
+	padding: 0.5em;
+	text-decoration: none;
+}
+
+#hsmod li { /* all list items */
+	float: left;
+	width: 10em; /* width needed or else Opera goes nuts */
+	background: #292929;
+	font-weight: bold;
+	border: #484848 1px solid;
+}
+
+#hsmod li.wider { /* Forums and categories */
+	width: 16em;
+}
+
+#hsmod li ul { /* second-level lists */
+	position: absolute;
+	background: #292929;
+	width: 16em;
+	left: -999em; /* using left instead of display to hide menus because display: none isn't read by screen readers */
+}
+
+#hsmod li ul li {
+	border-right: #484848 1px solid; /* clear out border so we don't leave artifacts behind */
+	width: 16em;
+	font-weight: normal;
+}
+
+#hsmod li:hover ul, #hsmod li.sfhover ul { /* lists nested under hovered list items */
+	left: auto;
+	z-index: 100;
+}
+
+#hsmod li:hover, #hsmod li.sfhover {
+	background: #292929;
+}
