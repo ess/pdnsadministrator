@@ -1,215 +1,281 @@
-/* Printing CSS */
+/*
+	Please Note:
+	Print CSS is intended for a compromise between priting optimisation, and
+	good looks on normal mode. This means print CSS isn't quite as good as I
+	would have liked.
+*/
 
 body {
-	background-color: white;
-	color: black;
-}
-
-h1 {
-	margin: 0;
-	padding: 0;
+	background: #FFFFFF;
+	font: 12px Arial, Sans-serif;
 	text-align: center;
+	margin: 0px;
+	padding: 0px;
+}
+a {
+	color: #161616;
+	text-decoration: none;
+}
+a:hover {
+	text-decoration: underline;
+}
+a:active, a:focus {
+	outline: none;
+}
+img {
+	border: none;
+}
+hr {
+	height: 1px;
+	border: none;
+	border-top: 1px solid #EBEBD8;
+}
+form {
+	padding: 0px;
+	margin: 0px;
+}
+input,
+select {
+	background:	#FFFFFF;
+	font: 13px Arial, Sans-serif;
+	color: #739EB9;
+	margin: 1px;
+	padding: 1px 2px;
+	border: 1px solid #EBEBD8;
+	cursor: pointer;
+}
+input.check {
+	border: none;
+	margin: 2px;
+}
+label {
+	margin: 1px 4px;
+	cursor: pointer;
+}
+input:focus {
+	background:	#FCFCF8;
+}
+input:active {
+	padding: 1px 2px;
+}
+textarea {
+	width: 99%;
+	font: 13px Arial, Sans-serif;
+	color: #161616;
+	padding: 1px 2px 0px 0px;
+	border: 1px solid #EBEBD8;
 }
 
-/* Header and footers */
-
-td.header     {
-	border:1px solid black; 
-	font-weight:bold; 
-}
-a.header       {color:black; text-decoration:none;}
-
-td.subheader      {color:black; font-weight:bold; border:1px solid black;}
-a.subheader       {color:black; font-weight:bold; text-decoration:none}
-a.subheader:hover {text-decoration:underline}
-
-
-/* $qsf->table and $qsf->etable */
-.stand table.stand  {border-collapse:collapse; width:95%; text-align: left; margin-left: auto; margin-right: auto;}
-.stand        {text-align: center; }
-
-/* Post Formatting */
-td.posterinfo {
-	width: 20%;
-	vertical-align: top;
+/* Container */
+#container {
+	color: #313131;
+	margin: 0px 5px;
 	text-align: left;
 }
 
-.post         {vertical-align: top; color: black;}
-.postbottom   {vertical-align: bottom; height: 2.5em;}
-div.signature    {font-size: 0.9em; color:#C0C0C0;}
-
-/* Quote formatting */
-table.quotebox {
-	width:95%;
-	padding-left: 20px;
-	background-repeat: no-repeat;
-	background-position: top left;
-	background-image: url(./images/icons/quoted.png);
+/* Company */
+#header {
+	margin: 0px;
 }
-.quote        {color:#CCCCCC; border:1px black solid;}
-
-/* Code formatting */
-div.code      {
-	padding-left:20px;
-	margin-top:5px;
-	background-repeat: no-repeat;
-	background-position: top left;
-	background-image: url(./images/icons/code.png);
+#header #company {
+	padding: 0px 6px 10px;
 }
-div.phpcode {
-	background-image: url(./images/icons/php.png);
+#header #company .title {
+	font-size: 32px;
+	color: #000000;
 }
-div.codetitle {font-size: 1.1em; color:#CCCCCC; font-family:Verdana, Arial, Helvetica, sans-serif; font-weight:bold; margin-bottom:2px;}
-.codelines    {width: 1em; color:#CCCCCC; border:1px black solid; border-right:0; font-family:"Courier New", Courier, serif; text-align:right; float:left; padding:3px;}
-pre.codedata  {width: 61em; color:#CCCCCC; border:1px black solid; font-family:"Courier New", Courier, monospace; text-align:left; overflow:auto; padding:3px;}
 
-/* Other styling */
-
-hr            {height:1px; border-top:1px solid black;}
-form          {margin:0px;}
-img           {border:0px;}
-
-.input        {font-size: 0.9em; font-family:Verdana, Arial, Helvetica, sans-serif; border:1px solid black; padding:1px;}
-.select       {font-size: 0.9em; font-family:Verdana, Arial, Helvetica, sans-serif;}
-
-.tablelight   {border:1px solid black; }
-.tabledark    {border:1px solid black; }
-
-a.small       {color:black; }
-
-a             {color:black;}
-a.postlink    {color:black;}
-
-.iconslegend  {text-align: center;}
-.iconslegend table {border-collapse: collapse; margin-left: auto; margin-right: auto;}
-
-.mainmessage  {text-align: center;}
-.mainmessage .stand table.stand {text-align: center; width: 60%;}
-
-.copyright { margin-bottom: 0; text-align: center; }
-div.spoilerbox   {
-	padding-left:20px;
-	margin-top:5px;
-	background-repeat: no-repeat;
-	background-position: top left;
-	background-image: url(./images/icons/spoiler.png);
-}
-.spoiler    {border:1px black solid; background-color:#484848; color:#484848;}
-.pages        {font-size: 0.9em; color:black;}
-.stats        {font-weight:bold;}
-.adminstat    {text-align:center; font-size: 0.7em;}
-td textarea   {width:100%} /* help give larger text areas */
-div.modopts { font-weight:normal; }
-p.reminder { padding: 2em; text-align: center; color: red; }
-.validchecks {text-align: center; }
-
-/* Topic state icons */
-td.topicicons {
+/* Title */
+#title {
+	margin: 0px 0px 4px;
+	height: 1%; /* IE Hack */
+	padding: 5px;
+	border-top: 3px double #FFFFFF;
+	border-bottom: 3px double #FFFFFF;
 	text-align: center;
-	margin: 0;
-	padding: 0;
-	border:1px solid black;
 }
 
-td.topicicons div {
-	background-repeat: no-repeat;
-	background-position: center center;
-	height: 26px;
-}
-
-div.open { background: url(./images/topicicons/open.png) }
-div.hot { background: url(./images/topicicons/hot.png) }
-div.newopen { background: url(./images/topicicons/newopen.png) }
-div.newhot { background: url(./images/topicicons/newhot.png) }
-div.dotopen { background: url(./images/topicicons/dotopen.png) }
-div.dothot { background: url(./images/topicicons/dothot.png) }
-div.newdotopen { background: url(./images/topicicons/newdotopen.png) }
-div.newdothot { background: url(./images/topicicons/newdothot.png) }
-
-div.openpoll { background: url(./images/topicicons/openpoll.png) }
-div.hotpoll { background: url(./images/topicicons/hotpoll.png) }
-div.newopenpoll { background: url(./images/topicicons/newopenpoll.png) }
-div.newhotpoll { background: url(./images/topicicons/newhotpoll.png) }
-div.dotopenpoll { background: url(./images/topicicons/dotopenpoll.png) }
-div.dothotpoll { background: url(./images/topicicons/dothotpoll.png) }
-div.newdotopenpoll { background: url(./images/topicicons/newdotopenpoll.png) }
-div.newdothotpoll { background: url(./images/topicicons/newdothotpoll.png) }
-
-div.moved { background: url(./images/topicicons/moved.png) }
-div.locked { background: url(./images/topicicons/lockedopen.png) }
-div.newlocked { background: url(./images/topicicons/lockedopennew.png) }
-div.lockedpoll { background: url(./images/topicicons/lockedopenpoll.png) }
-div.newlockedpoll { background: url(./images/topicicons/lockedopennewpoll.png) }
-
-/* Pin overlaps other topic icons */
-div.pinned { background: url(./images/icons/pin_faded.png) }
-
-/* Rounded rectangle effect */
-div.container {
-	text-align: left;
-	font-family: Verdana, Arial, Helvetica, sans-serif;
-	font-size: 0.7em;
-	/* Forcing background white in opera */
-	background: white;
-	color: black;
-}
-
-/* Format the RSS Reader annoucements section to look like a normal menu field except with bullet points */
-.rssreader {
-	border:1px solid black;
-	padding:10px;
-	margin:3px 0px 3px 0px
-}
-
-.rssreader .rsstitle {
-	border:1px solid black;
-	padding:3px 5px 0px 5px;
-	font-weight:bold;
-	font-size: 1.2em;
-	position:relative;
-	top:-15px;
-	white-space:nowrap;
-	border-bottom:0px;
-	display:inline;
-	height:18px;
-	margin-left: 0;
-}
-.rssreader li {
-	margin-left: 2em;
-}
-
-/* Admin CP stuff */
-
-body#admincp {
-	font-size: 0.75em;
-	font-family: Verdana, Arial, Helvetica, sans-serif;
-}
-
-/* Stuff for the AdminCP mods */
-ul            {line-height:150%}
-.tiny         {font-size: 0.85em; font-weight:normal}
-.small        {font-size: 0.9em}
-.med          {font-size: 1.2em; font-weight:bold}
-.highlighted  {font-size: 0.9em; }
-div.fieldset  {border:1px solid black; padding:10px; margin:3px 0px 3px 0px}
-div.legend    {border:1px solid black; padding:3px 5px 0px 5px; font-size: 1.2em; font-weight:bold; position:relative; top:-15px; white-space:nowrap; border-bottom:0px; display:inline; height:18px;}
-.labellight   {border:1px solid black; font-weight:bold}
-.labeldark    {border:1px solid black; font-weight:bold}
-input.free, select.free {display:block; float:left; width:150px; margin-bottom:10px}
-input.freec   {display:block; float:left; margin-bottom:10px; padding:0px}
-label.free    {display:block; float:left; width:100px; text-align:right; padding-right:20px}
-br.free       {clear:left}
-span.red      {color:red}
-
-
-/* Hidden Elements */
-ul.nav, td.footer, .adminstat, .useroptions, .validchecks, .posttop, .button, .bigbutton, .round-top, .round-bottom {
+/* Blocks */
+#blocks {
 	display: none;
 }
-td.subheader div img {display:none;}
-td.posterinfo span.userimages {display:none;}
-.newerolder       {display:none;}
-#clickablesmilies {display:none;}
-messageicons {display: none;}
-div#qsf_bbcode_buttons {display: none;}
+
+/* Main */
+#main {
+	width: 100%;
+	float: right;
+}
+#main .article {
+	background: #FFFFFF;
+	margin: 0px 0px 5px;
+	padding: 4px 6px;
+	border-top: 1px solid #EBEBD8;
+	border-bottom: 3px double #EBEBD8;
+}
+#main .title {
+	font: 18px Arial, Sans-serif;
+	color: #161616;
+	margin: 0px -2px 4px -7px;
+	padding: 0px 4px 2px 7px;
+	border-bottom: 1px solid #EBEBD8;
+	position: relative; /* IE Hack */
+}
+#main .title img {
+	display: none;
+}
+
+/* Button effects */
+.button a {
+	background-repeat: no-repeat;
+	font: 10px Arial, Sans-serif;
+	text-align: center;
+	text-decoration: none;
+	width: 40px;
+	margin: 1px 2px;
+	padding: 2px;
+	border: 1px solid #FFFFFF;
+	border-bottom: 1px solid #EBEBD8;
+	float: left;
+	position: relative; /* IE Hack */
+}
+.button a:hover {
+	background-color: #FCFCF8;
+	text-decoration: none;
+	border: 1px solid #EBEBD8;
+}
+
+.bigbutton a {
+	background-repeat: no-repeat;
+	font: 15px Arial, Sans-serif;
+	text-align: center;
+	text-decoration: none;
+	margin: 0px 1px;
+	padding: 4px 6px;
+	border: 1px solid #FFFFFF;
+	border-bottom: 1px solid #EBEBD8;
+	float: left;
+	display: none;
+}
+.bigbutton a:hover {
+	background-color: #FCFCF8;
+	text-decoration: none;
+	border: 1px solid #EBEBD8;
+}
+
+/* Topic Icons */
+#main .article div.topic_icon div {
+	display: none;
+}
+
+/* Forum-specific Rules */
+#main .article .head span,
+#main .article .head strong {
+	font: bold italic 13px Arial, Sans-serif;
+	border-bottom: 1px solid #EBEBD8;
+	margin: 0px 0px 3px;
+	display: block;
+	position: relative;
+	width: 100%;
+}
+#main .article span {
+	padding: 2px 0px;
+}
+#main .article span.right {
+	padding: 0px;
+	float: right;
+}
+#main .article .left {
+	padding: 0px;
+	float: left;
+}
+#main .article span.icon,
+#main .article div.topic_icon {
+	display: none;;
+}
+#main .article p {
+	height: 0px;
+	margin: 0px;
+	overflow: hidden;
+	clear: both;
+}
+#main .article p.line {
+	margin: 3px 0px;
+	border-bottom: 1px solid #EBEBD8;
+}
+#main .article p.list_line {
+	margin: 0px 0px 3px;
+	border-bottom: 1px solid #EBEBD8;
+}
+#main .article .tiny {
+	font: 10px Arial, Sans-serif;
+}
+
+/* Forms */
+#main .article span.field {
+	font-weight: bold;
+	width: 30%;
+	margin: 5px 0px;
+	float: left;
+}
+#main .article span.field span {
+	font-weight: normal;
+}
+#main .article span.form,
+#main .article div.form {
+	width: 70%;
+	float: left;
+}
+#main .article span.half {
+	width: 48%;
+	padding: 0px 2% 0px 0px;
+	overflow: hidden;
+	float: left;
+}
+#main .article span.quarter {
+	width: 25%;
+	float: left;
+	padding: 0px 0px 4px;
+}
+#main .article span.quarter a {
+	margin: 2px 0px 1px;
+	float: left;
+}
+
+/* Listings */
+#main .article span.number {
+	text-align: center;
+	width: 15%;
+	padding: 2px 0px;
+	float: left;
+}
+#main .article span.name {
+	width: 37%;
+	margin: 0px 0px 2px;
+	overflow-x: auto;
+	float: left;
+}
+#main .article span.owner {
+	width: 13%;
+	margin: 0px 0px 2px;
+	float: left;
+	text-align: center;
+}
+
+/* Bottom */
+#bottom {
+	height: 1px;
+	clear: both;
+}
+
+/* Footer */
+#footer, #copyright {
+	font: 10px Arial, Sans-serif;
+	color: #161616;
+	text-align: center;
+	height: 12px;
+	overflow: hidden;
+	margin: 0px 0px 4px;
+}
+#footer a, #copyright a {
+	color: #000000;
+}

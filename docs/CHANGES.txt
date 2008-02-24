@@ -1,3 +1,17 @@
+Changes for 1.1:
+
+* Fixed the installer so that it actually works now. Rather amazed this wasn't mentioned!
+* Fixed all instances of hardcoded English in the code.
+* Added paging tags to the administration logs.
+* Javascript for the permissions checkboxes was moved to an external file.
+* Removed the table class color switchers.
+* New interface skin.
+* Added a safety check to prevent locking out the site from all users, including the admin.
+* Editing CSS didn't provide a continue link when submitted.
+* Removed unnecessary checks on password validity.
+* mail.domain.com A record is not added when a new forward domain is created, even though the MX record is.
+* Error messages shown to users will be emailed to the site administrator.
+
 Changes for 1.0:
 
 * Initial Release. Nothing's changed yet!

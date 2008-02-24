@@ -71,7 +71,6 @@ class cp extends qsfglobal
 
 		default:
 			$this->set_title($this->lang->cp_cp);
-			$this->tree($this->lang->cp_cp);
 
 			$this->get['s'] = null;
 			$control_page = eval($this->template('CP_HOME'));
@@ -86,12 +85,12 @@ class cp extends qsfglobal
 			return PASS_NOT_VERIFIED;
 		}
 
-		if (!preg_match('/[a-z0-9_\- ]+/i', $passA)) {
-			return PASS_INVALID;
-		}
-
 		if ($passA != $passB) {
 			return PASS_NO_MATCH;
+		}
+
+		if (!$this->validator->validate($passA, TYPE_PASSWORD)) {
+			return PASS_INVALID;
 		}
 
 		return PASS_SUCCESS;
@@ -100,8 +99,6 @@ class cp extends qsfglobal
 	function edit_pass()
 	{
 		$this->set_title($this->lang->cp_changing_pass);
-		$this->tree($this->lang->cp_cp, $this->self . '?a=cp');
-		$this->tree($this->lang->cp_changing_pass);
 
 		if (!isset($this->post['submit'])) {
 			return eval($this->template('CP_PASS'));
@@ -143,8 +140,6 @@ class cp extends qsfglobal
 	function edit_prefs()
 	{
 		$this->set_title($this->lang->cp_preferences);
-		$this->tree($this->lang->cp_cp, $this->self . '?a=cp');
-		$this->tree($this->lang->cp_preferences);
 
 		if (!isset($this->post['submit'])) {
 			$skin_list  = $this->htmlwidgets->select_skins($this->skin);
@@ -167,8 +162,6 @@ class cp extends qsfglobal
 	function edit_profile()
 	{
 		$this->set_title($this->lang->cp_editing_profile);
-		$this->tree($this->lang->cp_cp, $this->self . '?a=cp');
-		$this->tree($this->lang->cp_editing_profile);
 
 		if (!isset($this->post['submit'])) {
 			return eval($this->template('CP_PROFILE'));

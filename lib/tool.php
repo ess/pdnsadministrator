@@ -111,7 +111,7 @@ class tool
 			break;
 		case TYPE_PASSWORD:
 			// $range is unused
-			if (!preg_match("/^[a-z0-9_\- ]{5,}$/i", $pass)) {
+			if (strlen($var) < 5 || strlen($var) > 256) {
 				$unchanged = false;
 				if ($default != null) $var = $default;
 			}

@@ -39,7 +39,7 @@ require_once $set['include_path'] . '/lib/packageutil.php';
  */
 class new_install extends qsfglobal
 {
-	function install_board( $step )
+	function install_console( $step )
 	{
 		switch($step) {
 		default:
@@ -50,10 +50,76 @@ class new_install extends qsfglobal
 
 			check_writeable_files();
 
-			include 'templates/newdatabase.php';
-			include 'templates/newsettings.php';
-			include 'templates/newadmin.php';
-			echo "<tr>
+			echo "    <tr>
+        <td class='subheader' colspan='2'>New Database Configuration</td>
+    </tr>
+    <tr>
+        <td><b>Host Server</b></td>
+        <td><input class='input' type='text' name='db_host' value='{$this->sets['db_host']}' /></td>
+    </tr>
+    <tr>
+        <td><b>Database Name</b></td>
+        <td><input class='input' type='text' name='db_name' value='{$this->sets['db_name']}' /></td>
+    </tr>
+    <tr>
+        <td><b>Database Username</b><br /><span class='tiny'>Username used by PowerDNS to access the database.</span></td>
+        <td><input class='input' type='text' name='db_user' value='{$this->sets['db_user']}' /></td>
+    </tr>
+    <tr>
+        <td><b>Database Password</b><br /><span class='tiny'>Password used by PowerDNS to access the database.</span></td>
+        <td><input class='input' type='password' name='db_pass' value='' /></td>
+    </tr>
+    <tr>
+        <td><b>Database Port</b><br /><span class='tiny'>Blank for none</span></td>
+        <td><input class='input' type='text' name='db_port' value='{$this->sets['db_port']}' /></td>
+    </tr>
+    <tr>
+        <td><b>Database Socket</b><br /><span class='tiny'>Blank for none</span></td>
+        <td><input class='input' type='text' name='db_socket' value='{$this->sets['db_socket']}' /></td>
+    </tr>
+    <tr>
+        <td class='subheader' colspan='2'>New Site Settings</td>
+    </tr>
+    <tr>
+        <td><input class='input' type='text' name='site_name' value='PDNS-Admin' size='50' /></td>
+        <td><b>Site Name</b></td>
+    </tr>
+    <tr>
+        <td><input class='input' type='text' name='site_url' value='{$url}' size='50' /></td>
+        <td><b>Site URL</b></td>
+    </tr>
+    <tr>
+        <td><input class='input' type='text' name='master_ip' value='' size='50' /></td>
+        <td><b>Master IP</b><br /><span class='tiny'>Used for SLAVE domains</span></td>
+    </tr>
+    <tr>
+        <td><input class='input' type='text' name='primary_ns' value='' size='50' /></td>
+        <td><b>Primary Nameserver</b></td>
+    </tr>
+    <tr>
+        <td><input class='input' type='text' name='secondary_ns' value='' size='50' /></td>
+        <td><b>Secondary Nameserver</b></td>
+    </tr>
+    <tr>
+        <td class='subheader' colspan='2'>Administrator Account Settings</td>
+    </tr>
+    <tr>
+        <td><input class='input' type='text' name='admin_name' /></td>
+        <td><b>User Name</b></td>
+    </tr>
+    <tr>
+        <td><input class='input' type='password' name='admin_pass' /></td>
+        <td><b>Password</b></td>
+    </tr>
+    <tr>
+        <td><input class='input' type='password' name='admin_pass2' /></td>
+        <td><b>Password (confirmation)</b></td>
+    </tr>
+    <tr>
+        <td><input class='input' type='text' name='admin_email' /></td>
+        <td><b>Email</b></td>
+    </tr>
+	<tr>
                          <td class='subheader' colspan='2' align='center'><input type='submit' value='Continue' /></td>
                          </tr>
                          </table>
@@ -124,6 +190,22 @@ class new_install extends qsfglobal
 				echo 'Your administrator passwords do not match. Please go back and correct this error.';
 				break;
 			}
+
+			// Build settings step by step
+			$this->sets['cookie_path'] = '/';
+			$this->sets['cookie_prefix'] = 'pdns_';
+			$this->sets['cookie_domain'] = '';
+			$this->sets['cookie_secure'] = 0;
+			$this->sets['logintime'] = 31536000;
+			$this->sets['output_buffer'] = (extension_loaded('zlib') ? 1 : 0);
+			$this->sets['default_skin'] = 'default';
+			$this->sets['default_lang'] = 'en';
+			$this->sets['default_group'] = 3;
+			$this->sets['users'] = 0;
+			$this->sets['debug_mode'] = 0;
+			$this->sets['mailserver'] = 'localhost';
+
+			$settings = serialize($this->sets);
 
 			$queries = array();
 

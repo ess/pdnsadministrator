@@ -49,7 +49,6 @@ class main extends qsfglobal
 	function get_domain_list()
 	{
 		$this->templater->add_templates('domains');
-		$this->iterator_init('tablelight', 'tabledark');
 		$content = '';
 		$id = $this->user['user_id'];
 
@@ -69,7 +68,6 @@ class main extends qsfglobal
 		$result = $this->db->query($sql);
 		while( $domain = $this->db->nqfetch($result) )
 		{
-			$class = $this->iterate();
 			$content .= eval($this->template('DOMAIN_ITEM'));
 		}
 

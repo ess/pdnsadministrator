@@ -64,7 +64,7 @@ class db_mysql extends database
 			$this->connection = false;
 		}
 	}
-	
+
 	/**
 	 * Runs an EXPLAIN or similar on a query
 	 *

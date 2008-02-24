@@ -51,11 +51,8 @@ class htmlwidgets extends tool
 		$this->db  = &$qsf->db;
 		$this->sets = &$qsf->sets;
 		$this->perms = &$qsf->perms;
-
-		// Need the time for timezone stuff
-		$this->time = &$qsf->time;
 	}
-	
+
 	/**
 	 * Creates HTML-formatted page numbers
 	 *

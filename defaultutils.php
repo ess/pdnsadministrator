@@ -65,9 +65,7 @@ $modules['admin_modules'] = array(
 	'templates');
 
 // These are generic enough that you shouldn't need to customise them
-require_once $set['include_path'] . '/lib/modlet.php';
 require_once $set['include_path'] . '/lib/xmlparser.php';
 require_once $set['include_path'] . '/func/constants.php';
 require_once $set['include_path'] . '/lib/globalfunctions.php';
-
 ?>

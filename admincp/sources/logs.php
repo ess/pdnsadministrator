@@ -39,12 +39,18 @@ class logs extends admin
 
 		$data = $this->db->query("SELECT l.*, u.user_name FROM logs l, users u WHERE u.user_id=l.log_user ORDER BY l.log_time DESC");
 
-		$this->iterator_init('tablelight', 'tabledark');
+		$this->lang->main();
+
+		$this->get['min'] = isset($this->get['min']) ? intval($this->get['min']) : 0;
+		$this->get['num'] = isset($this->get['num']) ? intval($this->get['num']) : 60;
+		$pages = $this->htmlwidgets->get_pages( $data, 'a=logs', $this->get['min'], $this->get['num'] );
+
+		$data = $this->db->query("SELECT l.*, u.user_name FROM logs l, users u WHERE u.user_id=l.log_user ORDER BY l.log_time DESC LIMIT %d, %d",
+                       $this->get['min'], $this->get['num']);
 
 		$out = null;
 		while ($log = $this->db->nqfetch($data))
 		{
-			$class = $this->iterate();
 			$date = $this->mbdate(DATE_LONG, $log['log_time']);
 			$user = $log['user_name'];
 			$action = '';
@@ -64,7 +70,7 @@ class logs extends admin
 				$id = $dom_name['name'];
 				break;
 
-			case 'delete_domain':
+			case 'delete_domain_name':
 				$action = $this->lang->logs_delete_domain;
 				$id = $log['log_data1'];
 				break;

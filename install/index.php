@@ -67,23 +67,14 @@ error_reporting(E_ALL);
 
 require_once '../settings.php';
 $set['include_path'] = '..';
-require_once $set['include_path'] . '/defaultutils.php';
-require_once $set['include_path'] . '/global.php';
+require_once '../defaultutils.php';
+require_once '../global.php';
 
 define('INSTALLER', 1); // Used in query files
 define('SKIN_FILE', 'skin_default.xml');
 
-// Check for any addons available
-include_addons($set['include_path'] . '/addons/');
-
 $self   = isset($_SERVER['PHP_SELF']) ? $_SERVER['PHP_SELF'] : 'index.php';
 $failed = false;
-
-if (!isset($_GET['mode'])) {
-	$mode = null;
-} else {
-	$mode = $_GET['mode'];
-}
 
 if (!isset($_GET['step'])) {
 	$step = 1;
@@ -91,14 +82,10 @@ if (!isset($_GET['step'])) {
 	$step = $_GET['step'];
 }
 
-if ($mode) {
-	require $set['include_path'] . '/install/' . $mode . '.php';
-	$qsf = new $mode;
-} else {
-	$qsf = new qsfglobal;
-}
+require 'new_install.php';
+$qsf = new new_install;
 
-include 'templates/header.php';
+include 'header.php';
 
 if (substr(PHP_VERSION, 0, 1) == '3') {
 	echo 'Your PHP version is ' . PHP_VERSION . '.<br />Currently only PHP4 and PHP5 are supported.';
@@ -118,29 +105,13 @@ if (!extension_loaded('mysql')) {
 }
 
 if ($failed) {
-	echo "<br /><br /><b>To run Quicksilver Forums and other advanced PHP software, the above error(s) must be fixed by your web host.</b>";
+	echo "<br /><br /><b>To run PDNS-Admin, the above error(s) must be fixed by your web host.</b>";
 } else {
 	$qsf->sets = $set;
 	$qsf->modules = $modules;
 
-	switch($mode) {
-	case '':
-		include 'templates/installtype.php';
-		break;
-
-	case 'new_install':
-		$qsf->install_board($step);
-		break;
-
-	case 'upgrade':
-		$qsf->upgrade_board($step);
-		break;
-
-	case 'convert':
-		$qsf->convert_board($step);
-		break;
-	}
+	$qsf->install_console($step);
 }
 
-include 'templates/footer.php';
+include 'footer.php';
 ?>
