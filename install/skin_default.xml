@@ -8,40 +8,26 @@
   <files>
     <file>packages/skin_default-v1.1.5.xml</file>
     <file>skins/default/images/Logo.gif</file>
-    <file>skins/default/images/valid-css.png</file>
     <file>skins/default/images/background3.gif</file>
     <file>skins/default/images/icons/new_record.png</file>
-    <file>skins/default/images/icons/arrow_down.png</file>
-    <file>skins/default/images/icons/computer_edit.png</file>
-    <file>skins/default/images/icons/users.png</file>
     <file>skins/default/images/icons/vcard_edit.png</file>
     <file>skins/default/images/icons/members.png</file>
-    <file>skins/default/images/icons/help.png</file>
-    <file>skins/default/images/icons/forum_read.png</file>
     <file>skins/default/images/icons/table_add.png</file>
-    <file>skins/default/images/icons/email.png</file>
     <file>skins/default/images/icons/user_online.png</file>
     <file>skins/default/images/icons/key.png</file>
     <file>skins/default/images/icons/login.png</file>
-    <file>skins/default/images/icons/arrow_up.png</file>
     <file>skins/default/images/icons/table_multiple.png</file>
     <file>skins/default/images/icons/layout_content.png</file>
     <file>skins/default/images/icons/database_gear.png</file>
     <file>skins/default/images/icons/delete_domain.png</file>
     <file>skins/default/images/icons/edit.png</file>
     <file>skins/default/images/icons/delete.png</file>
-    <file>skins/default/images/icons/globe.png</file>
     <file>skins/default/images/icons/computer.png</file>
-    <file>skins/default/images/icons/topic.png</file>
-    <file>skins/default/images/icons/goto_last_post.png</file>
     <file>skins/default/images/icons/wrench.png</file>
     <file>skins/default/images/icons/world_link.png</file>
     <file>skins/default/images/icons/computer_add.png</file>
-    <file>skins/default/images/icons/user.png</file>
     <file>skins/default/images/icons/table_edit.png</file>
     <file>skins/default/images/icons/control_panel.png</file>
-    <file>skins/default/images/icons/search.png</file>
-    <file>skins/default/images/valid-xhtml11.png</file>
     <file>skins/default/images/index.php</file>
     <file>skins/default/styles.css</file>
     <file>skins/default/print.css</file>
