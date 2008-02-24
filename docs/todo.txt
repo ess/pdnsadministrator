@@ -1,2 +1,0 @@
-﻿* Fix any reported bugs. Don't know exactly what else a domain management script needs.
-* Go through and fix the rest of the language usage. There's still hardcoded English floating around.
