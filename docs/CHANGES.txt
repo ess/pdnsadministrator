@@ -1,3 +1,14 @@
+Changes for 1.1.5:
+
+* Removed the unused chmod function. Files should be manually altered if needed.
+* User's last logon IP was not updated from the index page login check.
+* Changed vairable names throughout the program to reflect pdnsadmin instead of QSF.
+* Settable number of domains to display per page.
+* Settable number of records to display per page.
+* Added support for LOC, SRV, NAPTR, and SPF records. No validation in place yet!
+* Settable default SOA record values in AdminCP.
+* Optional to insert MX, NS, and CNAME records when a domain is created.
+
 Changes for 1.1.4:
 
 NOTE: IPv6 support raises minimum system requirements to PHP >= 5.1.0

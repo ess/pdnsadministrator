@@ -23,14 +23,14 @@
  *
  **/
 
-if (!defined('QUICKSILVERFORUMS')) {
+if (!defined('PDNSADMIN')) {
 	header('HTTP/1.0 403 Forbidden');
 	die;
 }
 
 require_once $set['include_path'] . '/global.php';
 
-class users extends qsfglobal
+class users extends pdnsadmin
 {
 	function execute()
 	{

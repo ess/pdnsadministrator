@@ -19,7 +19,7 @@
  *
  **/
 
-if (!defined('QUICKSILVERFORUMS')) {
+if (!defined('PDNSADMIN')) {
 	header('HTTP/1.0 403 Forbidden');
 	die;
 }
@@ -125,7 +125,7 @@ class tool
 			break;
 		default:
 			// Invalid type! Only developers should ever see this error
-			error(QUICKSILVER_ERROR, "Invalid type sent to validate()", __FILE__, __LINE__);
+			error(PDNSADMIN_ERROR, "Invalid type sent to validate()", __FILE__, __LINE__);
 		}
 		return $unchanged;
 	}

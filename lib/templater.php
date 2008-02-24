@@ -19,7 +19,7 @@
  *
  **/
 
-if (!defined('QUICKSILVERFORUMS')) {
+if (!defined('PDNSADMIN')) {
 	header('HTTP/1.0 403 Forbidden');
 	die;
 }
@@ -42,16 +42,16 @@ class templater extends tool
 	/**
 	 * Constructor
 	 *
-	 * @param $qsf - Quicksilver Forums module
+	 * @param $pdns - PDNS-Admin module
 	 **/
-	function templater(&$qsf)
+	function templater(&$pdns)
 	{
-		$this->db  = &$qsf->db;
-		$this->sets = &$qsf->sets;
+		$this->db  = &$pdns->db;
+		$this->sets = &$pdns->sets;
 
 		// Need the template selection
-		$this->skin = $qsf->skin;
-		$this->debug_mode = $qsf->debug_mode;
+		$this->skin = $pdns->skin;
+		$this->debug_mode = $pdns->debug_mode;
 	}
 
 	/**
@@ -122,9 +122,9 @@ class templater extends tool
 			return $templates;
 		} else {
 			if ($dir) {
-				error(QUICKSILVER_ERROR, "Template set not found in database: $a", __FILE__, __LINE__);
+				error(PDNSADMIN_ERROR, "Template set not found in database: $a", __FILE__, __LINE__);
 			} else {
-				error(QUICKSILVER_ERROR, "Template set not found in database: $a<br />Skin not found in the skins directory: $this->skin", __FILE__, __LINE__);
+				error(PDNSADMIN_ERROR, "Template set not found in database: $a<br />Skin not found in the skins directory: $this->skin", __FILE__, __LINE__);
 			}
 		}
 	}

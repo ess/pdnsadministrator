@@ -15,7 +15,7 @@
  *
  **/
 
-if (!defined('QUICKSILVERFORUMS')) {
+if (!defined('PDNSADMIN')) {
 	header('HTTP/1.0 403 Forbidden');
 	die;
 }
@@ -25,10 +25,10 @@ require_once $set['include_path'] . '/global.php';
 /**
  * Domain Control Panel
  *
- * @author Roger Libiez
+ * @author Roger Libiez [Samson] http://www.iguanadons.net
  * @since 1.0
  **/
-class domains extends qsfglobal
+class domains extends pdnsadmin
 {
 	function execute()
 	{
@@ -135,17 +135,18 @@ class domains extends qsfglobal
 
 		$rec_id = $this->get['r'];
 		$rec = $this->db->fetch( 'SELECT * FROM records WHERE id=%d', $rec_id );
+		$rec['content'] = $this->format( $rec['content'], FORMAT_HTMLCHARS );
 		if( $rec['domain_id'] != $id ) {
 			return $this->message($this->lang->domains_record_edit, $this->lang->domains_record_wrong);
 		}
 
-		$dom = $this->db->fetch( 'SELECT name FROM domains WHERE id=%d', $id );
-		$record_types = array( 'A', 'AAAA', 'MX', 'NS', 'CNAME', 'SOA', 'TXT', 'PTR', 'URL' );
+		$domain = $this->db->fetch( 'SELECT name FROM domains WHERE id=%d', $id );
+		$record_types = array( 'A', 'AAAA', 'LOC', 'MX', 'NAPTR', 'NS', 'CNAME', 'SOA', 'SPF', 'SRV', 'TXT', 'PTR', 'URL' );
 
 		if( !isset($this->post['submit']) ) {
 			$rec_options = null;
 
-			$rname = str_replace( $dom['name'], '', $rec['name'] );
+			$rname = str_replace( $domain['name'], '', $rec['name'] );
 			$rname = trim( $rname, '.' );
 
 			foreach( $record_types as $rt )
@@ -172,12 +173,12 @@ class domains extends qsfglobal
 		$ttl = isset($this->post['ttl']) ? intval($this->post['ttl']) : $this->sets['default_ttl'];
 		$priority = isset($this->post['priority']) ? intval($this->post['priority']) : 0;
 
-		// "A" record is stored in the form of name.domain.tld
+		// "A" and "AAAA" records are stored in the form of name.domain.tld
 		if( $record == 'A' || $record == 'AAAA' ) {
 			if( $name != '' )
-				$name = $name . '.' . $dom['name'];
+				$name = $name . '.' . $domain['name'];
 			else
-				$name = $dom['name'];
+				$name = $domain['name'];
 
 			if( !$this->is_valid_ip( $content, $record ) ) {
 				return $this->message($this->lang->domains_record_edit, $this->lang->domains_ip_invalid);
@@ -186,15 +187,47 @@ class domains extends qsfglobal
 
 		// Doesn't matter what name someone puts in. 
 		if( $record == 'TXT' || $record == 'URL' ) {
-			$name = $dom['name'];
+			$name = $domain['name'];
+		}
+
+		// LOC
+		if( $record == 'LOC' ) {
+			if( $name != '' )
+				$name = $name . '.' . $domain['name'];
+			else
+				$name = $domain['name'];
+		}
+
+		// NAPTR
+		if( $record == 'NAPTR' ) {
+			if( $name != '' )
+				$name = $name . '.' . $domain['name'];
+			else
+				$name = $domain['name'];
+		}
+
+		// SPF
+		if( $record == 'SPF' ) {
+			if( $name != '' )
+				$name = $name . '.' . $domain['name'];
+			else
+				$name = $domain['name'];
+		}
+
+		// SRV
+		if( $record == 'SRV' ) {
+			if( $name != '' )
+				$name = $name . '.' . $domain['name'];
+			else
+				$name = $domain['name'];
 		}
 
 		// Don't let it point to the same thing as CNAME
 		if( $record == 'MX' ) {
 			if( $name != '' )
-				$name = $name . '.' . $dom['name'];
+				$name = $name . '.' . $domain['name'];
 			else
-				$name = $dom['name'];
+				$name = $domain['name'];
 
 			if( $content == $name ) {
 				return $this->message($this->lang->domains_record_edit, $this->lang->domains_invalid_mx2);
@@ -208,7 +241,7 @@ class domains extends qsfglobal
 
 		// Don't let it point to the same thing as CNAME
 		if( $record == 'NS' ) {
-			$name = $dom['name'];
+			$name = $domain['name'];
 
 			if( $content == $name ) {
 				return $this->message($this->lang->domains_record_edit, $this->lang->domains_invalid_ns2);
@@ -223,7 +256,7 @@ class domains extends qsfglobal
 		// CNAME record should balk at an empty name field. And apparently can't use the same content as an NS or MX record.
 		if( $record == 'CNAME' ) {
 			if( $name != '' )
-				$name = $name . '.' . $dom['name'];
+				$name = $name . '.' . $domain['name'];
 			else
 				return $this->message($this->lang->domains_record_edit, $this->lang->domains_record_required3);
 
@@ -237,11 +270,11 @@ class domains extends qsfglobal
 		if( $record == 'PTR' ) {
 			if( !stristr( $name, '.' ) === FALSE )
 				return $this->message($this->lang->domains_record_edit, $this->lang->domains_invalid_ptr);
-			$name = $name . '.' . $dom['name'];
+			$name = $name . '.' . $domain['name'];
 		}
 
 		if( $record == 'SOA' ) {
-			$name = $dom['name'];
+			$name = $domain['name'];
 		}
 
 		$this->db->query( "UPDATE records SET name='%s', type='%s', content='%s', ttl=%d, prio=%d, change_date=%d
@@ -268,7 +301,7 @@ class domains extends qsfglobal
 		}
 
 		$domain = $this->db->fetch( 'SELECT name FROM domains WHERE id=%d', $id );
-		$record_types = array( 'A', 'AAAA', 'MX', 'NS', 'CNAME', 'TXT', 'PTR', 'URL' );
+		$record_types = array( 'A', 'AAAA', 'LOC', 'MX', 'NAPTR', 'NS', 'CNAME', 'SOA', 'SPF', 'SRV', 'TXT', 'PTR', 'URL' );
 
 		if (!isset($this->post['submit'])) {
 			$rec_options = null;
@@ -294,7 +327,7 @@ class domains extends qsfglobal
 		$ttl = isset($this->post['ttl']) ? intval($this->post['ttl']) : $this->sets['default_ttl'];
 		$priority = isset($this->post['priority']) ? intval($this->post['priority']) : 0;
 
-		// "A" record is stored in the form of name.domain.tld
+		// "A" and "AAAA" records are stored in the form of name.domain.tld
 		if( $record == 'A' || $record == 'AAAA' ) {
 			if( $name != '' )
 				$name = $name . '.' . $domain['name'];
@@ -309,6 +342,38 @@ class domains extends qsfglobal
 		// Doesn't matter what name someone puts in. 
 		if( $record == 'TXT' || $record == 'URL' ) {
 			$name = $domain['name'];
+		}
+
+		// LOC
+		if( $record == 'LOC' ) {
+			if( $name != '' )
+				$name = $name . '.' . $domain['name'];
+			else
+				$name = $domain['name'];
+		}
+
+		// NAPTR
+		if( $record == 'NAPTR' ) {
+			if( $name != '' )
+				$name = $name . '.' . $domain['name'];
+			else
+				$name = $domain['name'];
+		}
+
+		// SPF
+		if( $record == 'SPF' ) {
+			if( $name != '' )
+				$name = $name . '.' . $domain['name'];
+			else
+				$name = $domain['name'];
+		}
+
+		// SRV
+		if( $record == 'SRV' ) {
+			if( $name != '' )
+				$name = $name . '.' . $domain['name'];
+			else
+				$name = $domain['name'];
 		}
 
 		// Don't let it point to the same thing as CNAME
@@ -429,20 +494,65 @@ class domains extends qsfglobal
 
 		// Insert the SOA record for the new domain.
 		$new_serial = date('Ymd') . '00';
-		$soa = $this->sets['primary_nameserver'] . ' ' . $this->sets['admin_incoming'] . ' ' . $new_serial . ' 10800 3600 432000 ' . $this->sets['default_ttl'];
+		$soa = $this->sets['primary_nameserver'] . ' ' . $this->sets['admin_incoming'] . ' ' . $new_serial . ' ' . $this->sets['soa_refresh'] . ' ' . $this->sets['soa_retry'] . ' ' . $this->sets['soa_expire'] . ' ' . $this->sets['default_ttl'];
 		$this->db->query("INSERT INTO records (domain_id, name, type, content, ttl, prio, change_date)
 			VALUES( %d, '%s', 'SOA', '%s', %d, 0, %d )",
 			$dom_id, $dom_name, $soa, $this->sets['default_ttl'], $this->time);
 
-		// Insert the primary NS record for the new domain.
-		$this->db->query("INSERT INTO records (domain_id, name, type, content, ttl, prio, change_date)
-			VALUES( %d, '%s', 'NS', '%s', %d, 0, %d )",
-			$dom_id, $dom_name, $this->sets['primary_nameserver'], $this->sets['default_ttl'], $this->time);
+		// Add default NS records if desired
+		if(isset($this->post['new_ns_records'])) {
+			// Insert the primary NS record for the new domain.
+			$this->db->query("INSERT INTO records (domain_id, name, type, content, ttl, prio, change_date)
+				VALUES( %d, '%s', 'NS', '%s', %d, 0, %d )",
+				$dom_id, $dom_name, $this->sets['primary_nameserver'], $this->sets['default_ttl'], $this->time);
 
-		// Insert the secondary NS record for the new domain.
-		$this->db->query("INSERT INTO records (domain_id, name, type, content, ttl, prio, change_date)
-			VALUES( %d, '%s', 'NS', '%s', %d, 0, %d )",
-			$dom_id, $dom_name, $this->sets['secondary_nameserver'], $this->sets['default_ttl'], $this->time);
+			// Insert the secondary NS record for the new domain.
+			$this->db->query("INSERT INTO records (domain_id, name, type, content, ttl, prio, change_date)
+				VALUES( %d, '%s', 'NS', '%s', %d, 0, %d )",
+				$dom_id, $dom_name, $this->sets['secondary_nameserver'], $this->sets['default_ttl'], $this->time);
+
+			// Insert the tertiary NS record for the new domain, if it exists.
+			if( isset( $this->sets['tertiary_nameserver'] ) && $this->sets['tertiary_nameserver'] != '' ) {
+				$this->db->query("INSERT INTO records (domain_id, name, type, content, ttl, prio, change_date)
+					VALUES( %d, '%s', 'NS', '%s', %d, 0, %d )",
+					$dom_id, $dom_name, $this->sets['tertiary_nameserver'], $this->sets['default_ttl'], $this->time);
+			}
+
+			// Insert the quaternary NS record for the new domain, if it exists.
+			if( isset( $this->sets['quaternary_nameserver'] ) && $this->sets['quaternary_nameserver'] != '' ) {
+				$this->db->query("INSERT INTO records (domain_id, name, type, content, ttl, prio, change_date)
+					VALUES( %d, '%s', 'NS', '%s', %d, 0, %d )",
+					$dom_id, $dom_name, $this->sets['quaternary_nameserver'], $this->sets['default_ttl'], $this->time);
+			}
+
+			// Insert the quinary NS record for the new domain, if it exists.
+			if( isset( $this->sets['quinary_nameserver'] ) && $this->sets['quinary_nameserver'] != '' ) {
+				$this->db->query("INSERT INTO records (domain_id, name, type, content, ttl, prio, change_date)
+					VALUES( %d, '%s', 'NS', '%s', %d, 0, %d )",
+					$dom_id, $dom_name, $this->sets['quinary_nameserver'], $this->sets['default_ttl'], $this->time);
+			}
+
+			// Insert the senary NS record for the new domain, if it exists.
+			if( isset( $this->sets['senary_nameserver'] ) && $this->sets['senary_nameserver'] != '' ) {
+				$this->db->query("INSERT INTO records (domain_id, name, type, content, ttl, prio, change_date)
+					VALUES( %d, '%s', 'NS', '%s', %d, 0, %d )",
+					$dom_id, $dom_name, $this->sets['senary_nameserver'], $this->sets['default_ttl'], $this->time);
+			}
+
+			// Insert the septenary NS record for the new domain, if it exists.
+			if( isset( $this->sets['septenary_nameserver'] ) && $this->sets['septenary_nameserver'] != '' ) {
+				$this->db->query("INSERT INTO records (domain_id, name, type, content, ttl, prio, change_date)
+					VALUES( %d, '%s', 'NS', '%s', %d, 0, %d )",
+					$dom_id, $dom_name, $this->sets['septenary_nameserver'], $this->sets['default_ttl'], $this->time);
+			}
+
+			// Insert the octonary NS record for the new domain, if it exists.
+			if( isset( $this->sets['octonary_nameserver'] ) && $this->sets['octonary_nameserver'] != '' ) {
+				$this->db->query("INSERT INTO records (domain_id, name, type, content, ttl, prio, change_date)
+					VALUES( %d, '%s', 'NS', '%s', %d, 0, %d )",
+					$dom_id, $dom_name, $this->sets['octonary_nameserver'], $this->sets['default_ttl'], $this->time);
+			}
+		}
 
 		$this->log_action( 'new_reverse_domain', $dom_id );
 		return $this->message($this->lang->domains_new_reverse, $this->lang->domains_new_created, $this->lang->continue, "{$this->self}?a=domains&s=edit&id={$dom_id}");
@@ -520,8 +630,7 @@ class domains extends qsfglobal
 
 		// Insert the SOA record for the new domain.
 		$new_serial = date('Ymd') . '00';
-		$soa_email = str_replace( '@', '.', $this->sets['admin_incoming'] );
-		$soa = $this->sets['primary_nameserver'] . ' ' . $soa_email . ' ' . $new_serial . ' 10800 3600 432000 ' . $this->sets['default_ttl'];
+		$soa = $this->sets['primary_nameserver'] . ' ' . $this->sets['admin_incoming'] . ' ' . $new_serial . ' ' . $this->sets['soa_refresh'] . ' ' . $this->sets['soa_retry'] . ' ' . $this->sets['soa_expire'] . ' ' . $this->sets['default_ttl'];
 		$this->db->query("INSERT INTO records (domain_id, name, type, content, ttl, prio, change_date)
 			VALUES( %d, '%s', 'SOA', '%s', %d, 0, %d )",
 			$dom_id, $dom_name, $soa, $this->sets['default_ttl'], $this->time);
@@ -531,72 +640,79 @@ class domains extends qsfglobal
 			VALUES( %d, '%s', 'A', '%s', %d, 0, %d )",
 			$dom_id, $dom_name, $dom_ip, $this->sets['default_ttl'], $this->time);
 
-		// Insert the primary NS record for the new domain.
-		$this->db->query("INSERT INTO records (domain_id, name, type, content, ttl, prio, change_date)
-			VALUES( %d, '%s', 'NS', '%s', %d, 0, %d )",
-			$dom_id, $dom_name, $this->sets['primary_nameserver'], $this->sets['default_ttl'], $this->time);
-
-		// Insert the secondary NS record for the new domain.
-		$this->db->query("INSERT INTO records (domain_id, name, type, content, ttl, prio, change_date)
-			VALUES( %d, '%s', 'NS', '%s', %d, 0, %d )",
-			$dom_id, $dom_name, $this->sets['secondary_nameserver'], $this->sets['default_ttl'], $this->time);
-
-		// Insert the tertiary NS record for the new domain, if it exists.
-		if( isset( $this->sets['tertiary_nameserver'] ) && $this->sets['tertiary_nameserver'] != '' ) {
+		// Add default NS records if desired
+		if(isset($this->post['new_ns_records'])) {
+			// Insert the primary NS record for the new domain.
 			$this->db->query("INSERT INTO records (domain_id, name, type, content, ttl, prio, change_date)
 				VALUES( %d, '%s', 'NS', '%s', %d, 0, %d )",
-				$dom_id, $dom_name, $this->sets['tertiary_nameserver'], $this->sets['default_ttl'], $this->time);
-		}
+				$dom_id, $dom_name, $this->sets['primary_nameserver'], $this->sets['default_ttl'], $this->time);
 
-		// Insert the quaternary NS record for the new domain, if it exists.
-		if( isset( $this->sets['quaternary_nameserver'] ) && $this->sets['quaternary_nameserver'] != '' ) {
+			// Insert the secondary NS record for the new domain.
 			$this->db->query("INSERT INTO records (domain_id, name, type, content, ttl, prio, change_date)
 				VALUES( %d, '%s', 'NS', '%s', %d, 0, %d )",
-				$dom_id, $dom_name, $this->sets['quaternary_nameserver'], $this->sets['default_ttl'], $this->time);
-		}
+				$dom_id, $dom_name, $this->sets['secondary_nameserver'], $this->sets['default_ttl'], $this->time);
 
-		// Insert the quinary NS record for the new domain, if it exists.
-		if( isset( $this->sets['quinary_nameserver'] ) && $this->sets['quinary_nameserver'] != '' ) {
-			$this->db->query("INSERT INTO records (domain_id, name, type, content, ttl, prio, change_date)
-				VALUES( %d, '%s', 'NS', '%s', %d, 0, %d )",
-				$dom_id, $dom_name, $this->sets['quinary_nameserver'], $this->sets['default_ttl'], $this->time);
-		}
+			// Insert the tertiary NS record for the new domain, if it exists.
+			if( isset( $this->sets['tertiary_nameserver'] ) && $this->sets['tertiary_nameserver'] != '' ) {
+				$this->db->query("INSERT INTO records (domain_id, name, type, content, ttl, prio, change_date)
+					VALUES( %d, '%s', 'NS', '%s', %d, 0, %d )",
+					$dom_id, $dom_name, $this->sets['tertiary_nameserver'], $this->sets['default_ttl'], $this->time);
+			}
 
-		// Insert the senary NS record for the new domain, if it exists.
-		if( isset( $this->sets['senary_nameserver'] ) && $this->sets['senary_nameserver'] != '' ) {
-			$this->db->query("INSERT INTO records (domain_id, name, type, content, ttl, prio, change_date)
-				VALUES( %d, '%s', 'NS', '%s', %d, 0, %d )",
-				$dom_id, $dom_name, $this->sets['senary_nameserver'], $this->sets['default_ttl'], $this->time);
-		}
+			// Insert the quaternary NS record for the new domain, if it exists.
+			if( isset( $this->sets['quaternary_nameserver'] ) && $this->sets['quaternary_nameserver'] != '' ) {
+				$this->db->query("INSERT INTO records (domain_id, name, type, content, ttl, prio, change_date)
+					VALUES( %d, '%s', 'NS', '%s', %d, 0, %d )",
+					$dom_id, $dom_name, $this->sets['quaternary_nameserver'], $this->sets['default_ttl'], $this->time);
+			}
 
-		// Insert the septenary NS record for the new domain, if it exists.
-		if( isset( $this->sets['septenary_nameserver'] ) && $this->sets['septenary_nameserver'] != '' ) {
-			$this->db->query("INSERT INTO records (domain_id, name, type, content, ttl, prio, change_date)
-				VALUES( %d, '%s', 'NS', '%s', %d, 0, %d )",
-				$dom_id, $dom_name, $this->sets['septenary_nameserver'], $this->sets['default_ttl'], $this->time);
-		}
+			// Insert the quinary NS record for the new domain, if it exists.
+			if( isset( $this->sets['quinary_nameserver'] ) && $this->sets['quinary_nameserver'] != '' ) {
+				$this->db->query("INSERT INTO records (domain_id, name, type, content, ttl, prio, change_date)
+					VALUES( %d, '%s', 'NS', '%s', %d, 0, %d )",
+					$dom_id, $dom_name, $this->sets['quinary_nameserver'], $this->sets['default_ttl'], $this->time);
+			}
 
-		// Insert the octonary NS record for the new domain, if it exists.
-		if( isset( $this->sets['octonary_nameserver'] ) && $this->sets['octonary_nameserver'] != '' ) {
-			$this->db->query("INSERT INTO records (domain_id, name, type, content, ttl, prio, change_date)
-				VALUES( %d, '%s', 'NS', '%s', %d, 0, %d )",
-				$dom_id, $dom_name, $this->sets['octonary_nameserver'], $this->sets['default_ttl'], $this->time);
+			// Insert the senary NS record for the new domain, if it exists.
+			if( isset( $this->sets['senary_nameserver'] ) && $this->sets['senary_nameserver'] != '' ) {
+				$this->db->query("INSERT INTO records (domain_id, name, type, content, ttl, prio, change_date)
+					VALUES( %d, '%s', 'NS', '%s', %d, 0, %d )",
+					$dom_id, $dom_name, $this->sets['senary_nameserver'], $this->sets['default_ttl'], $this->time);
+			}
+
+			// Insert the septenary NS record for the new domain, if it exists.
+			if( isset( $this->sets['septenary_nameserver'] ) && $this->sets['septenary_nameserver'] != '' ) {
+				$this->db->query("INSERT INTO records (domain_id, name, type, content, ttl, prio, change_date)
+					VALUES( %d, '%s', 'NS', '%s', %d, 0, %d )",
+					$dom_id, $dom_name, $this->sets['septenary_nameserver'], $this->sets['default_ttl'], $this->time);
+			}
+
+			// Insert the octonary NS record for the new domain, if it exists.
+			if( isset( $this->sets['octonary_nameserver'] ) && $this->sets['octonary_nameserver'] != '' ) {
+				$this->db->query("INSERT INTO records (domain_id, name, type, content, ttl, prio, change_date)
+					VALUES( %d, '%s', 'NS', '%s', %d, 0, %d )",
+					$dom_id, $dom_name, $this->sets['octonary_nameserver'], $this->sets['default_ttl'], $this->time);
+			}
 		}
 
 		// Insert the MX record for the new domain. Priority defaults to 10.
-		$this->db->query("INSERT INTO records (domain_id, name, type, content, ttl, prio, change_date)
-			VALUES( %d, '%s', 'MX', '%s', %d, 10, %d )",
-			$dom_id, $dom_name, $dom_mail, $this->sets['default_ttl'], $this->time);
+		if(isset($this->post['new_mx_record'])) {
+			$this->db->query("INSERT INTO records (domain_id, name, type, content, ttl, prio, change_date)
+				VALUES( %d, '%s', 'MX', '%s', %d, 10, %d )",
+				$dom_id, $dom_name, $dom_mail, $this->sets['default_ttl'], $this->time);
 
-		// Insert the mail.domain.com A record for the new domain.
-		$this->db->query("INSERT INTO records (domain_id, name, type, content, ttl, prio, change_date)
-			VALUES( %d, '%s', 'A', '%s', %d, 0, %d )",
-			$dom_id, $dom_mail, $dom_ip, $this->sets['default_ttl'], $this->time);
+			// Insert the mail.domain.com A record for the new domain.
+			$this->db->query("INSERT INTO records (domain_id, name, type, content, ttl, prio, change_date)
+				VALUES( %d, '%s', 'A', '%s', %d, 0, %d )",
+				$dom_id, $dom_mail, $dom_ip, $this->sets['default_ttl'], $this->time);
+		}
 
 		// Insert the CNAME record for the new domain.
-		$this->db->query("INSERT INTO records (domain_id, name, type, content, ttl, prio, change_date)
-			VALUES( %d, '%s', 'CNAME', '%s', %d, 0, %d )",
-			$dom_id, $dom_cname, $dom_name, $this->sets['default_ttl'], $this->time);
+		if(isset($this->post['new_cname_record'])) {
+			$this->db->query("INSERT INTO records (domain_id, name, type, content, ttl, prio, change_date)
+				VALUES( %d, '%s', 'CNAME', '%s', %d, 0, %d )",
+				$dom_id, $dom_cname, $dom_name, $this->sets['default_ttl'], $this->time);
+		}
 
 		$this->log_action( 'new_domain', $dom_id );
 		return $this->message($this->lang->domains_new, $this->lang->domains_new_created, $this->lang->continue, "{$this->self}?a=domains&s=edit&id={$dom_id}");
@@ -681,6 +797,16 @@ class domains extends qsfglobal
 		$types = $this->htmlwidgets->select_domain_types($domain['type']);
 
 		$dom_records = $this->db->query('SELECT * FROM records WHERE domain_id=%d ORDER BY name ASC', $dom_id);
+
+		// Need to pick a default in case the setting doesn't exist for some reason.
+		$records_per_page = isset($this->sets['records_per_page']) ? $this->sets['records_per_page'] : 5;
+
+		$this->get['min'] = isset($this->get['min']) ? intval($this->get['min']) : 0;
+		$this->get['num'] = isset($this->get['num']) ? intval($this->get['num']) : $records_per_page;
+		$pages = $this->htmlwidgets->get_pages( $dom_records, 'a=domains&amp;s=edit&amp;id=' . $dom_id, $this->get['min'], $this->get['num'] );
+
+		$dom_records = $this->db->query('SELECT * FROM records WHERE domain_id=%d ORDER BY name ASC LIMIT %d, %d', $dom_id, $this->get['min'], $this->get['num']);
+
 		while( $record = $this->db->nqfetch($dom_records) )
 		{
 			$rec_id = $record['id'];
@@ -722,50 +848,6 @@ class domains extends qsfglobal
 
 		$this->log_action( 'delete_domain_name', $dom_id );
 		return $this->message($this->lang->domains_delete, $this->lang->domains_deleted, $this->lang->continue, $this->self);
-	}
-
-	/**
-	 * Checks if a domain name looks valid
-	 *
-	 * @param string $domain name to check
-	 * @return true if the domain checks out
-	 * @since 1.0
-	 */
-	function is_valid_domain($domain)
-	{
-		if( ( eregi( "^[0-9a-z]([-.]?[0-9a-z])*\\.[a-z]{2,4}$", $domain ) ) && ( strlen($domain) <= 64 ) ) {
-			return true;
-		}
-		return false;
-	}
-
-	/**
-	 * Checks if an IP address looks valid
-	 *
-	 * @param string $ip address to check
-	 * @return true if the address checks out
-	 * @since 1.0
-	 */
-	function is_valid_ip($ip, $type = 'A')
-	{
-		if( $type == 'A' ) {
-			if( strpos( $ip, '.' ) === false )
-				return false;
-
-			return( $ip == @inet_ntop(@inet_pton($ip))) ? true : false;
-		} else if( $type == 'AAAA' ) {
-			if( strpos( $ip, ':' ) === false )
-				return false;
-			if( strpos( $ip, '.' ) !== false )
-				return false;
-
-			$newip = eregi_replace( "^0*([A-Fa-f0-9])", "\\1", $ip );
-			$newip = eregi_replace( ":0*([A-Fa-f1-9])", ":\\1", $newip );
-			$newip = eregi_replace( ":+0+(:0+)*:0+:+", "::", $newip );
-
-			return( $newip == @inet_ntop(@inet_pton($newip))) ? true : false;
-		}
-		return false;
 	}
 
 	function is_owner($dom_id, $edit)

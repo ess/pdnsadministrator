@@ -23,7 +23,7 @@
  *
  **/
 
-if (!defined('QUICKSILVERFORUMS')) {
+if (!defined('PDNSADMIN')) {
 	header('HTTP/1.0 403 Forbidden');
 	die;
 }
@@ -66,13 +66,13 @@ class permissions
 	 * @author Geoffrey Dunn <geoff@warmage.com>
 	 * @since 1.2
 	 **/
-	function permissions(&$qsf)
+	function permissions(&$pdns)
 	{
-		$this->db  = &$qsf->db;
-		$this->pre = &$qsf->pre;
-		if (!empty($qsf->user)) {
-			$this->get_perms($qsf->user['user_group'], $qsf->user['user_id'],
-				($qsf->user['user_perms'] ? $qsf->user['user_perms'] : $qsf->user['group_perms']));
+		$this->db  = &$pdns->db;
+		$this->pre = &$pdns->pre;
+		if (!empty($pdns->user)) {
+			$this->get_perms($pdns->user['user_group'], $pdns->user['user_id'],
+				($pdns->user['user_perms'] ? $pdns->user['user_perms'] : $pdns->user['group_perms']));
 		}
 	}
 

@@ -23,7 +23,7 @@
  *
  **/
 
-if (!defined('QUICKSILVERFORUMS') || !defined('QSF_ADMIN')) {
+if (!defined('PDNSADMIN') || !defined('PDNS_ADMIN')) {
 	header('HTTP/1.0 403 Forbidden');
 	die;
 }
@@ -121,6 +121,9 @@ class settings extends admin
 				'output_buffer' => 'bool',
 				'domain_master_ip' => 'string',
 				'default_ttl' => 'int',
+				'soa_refresh' => 'int',
+				'soa_retry' => 'int',
+				'soa_expire' => 'int',
 				'primary_nameserver' => 'string',
 				'secondary_nameserver' => 'string',
 				'tertiary_nameserver' => 'string',
@@ -131,7 +134,9 @@ class settings extends admin
 				'octonary_nameserver' => 'string',
 				'site_name' => 'string',
 				'site_url' => 'string',
-				'servertime' => 'float'
+				'servertime' => 'float',
+				'domains_per_page' => 'int',
+				'records_per_page' => 'int'
 			);
 
 			foreach ($this->post as $var => $val)
@@ -170,7 +175,9 @@ class settings extends admin
 			}
 
 			if (isset($this->get['db'])) {
-				$this->write_db_sets('../settings.php');
+				if( !$this->write_db_sets('../settings.php') ) {
+					return $this->message($this->lang->settings, $this->lang->settings_db_file_write);
+				}
 			} else {
 				$this->db->query("UPDATE users SET user_language='%s', user_skin='%s' WHERE user_id=%d",
 					$this->post['default_lang'], $this->post['default_skin'], USER_GUEST_UID);
@@ -178,7 +185,6 @@ class settings extends admin
 			}
 
 			return $this->message($this->lang->settings, $this->lang->settings_updated);
-			break;
 		}
 	}
 }

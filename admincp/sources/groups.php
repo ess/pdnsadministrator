@@ -23,7 +23,7 @@
  *
  **/
 
-if (!defined('QUICKSILVERFORUMS') || !defined('QSF_ADMIN')) {
+if (!defined('PDNSADMIN') || !defined('PDNS_ADMIN')) {
 	header('HTTP/1.0 403 Forbidden');
 	die;
 }

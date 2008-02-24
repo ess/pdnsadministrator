@@ -19,7 +19,7 @@
  *
  **/
 
-if (!defined('QUICKSILVERFORUMS')) {
+if (!defined('PDNSADMIN')) {
 	header('HTTP/1.0 403 Forbidden');
 	die;
 }
@@ -40,17 +40,17 @@ class htmlwidgets extends tool
 	/**
 	 * Constructor
 	 *
-	 * @param $qsf - Quicksilver Forums module
+	 * @param $pdns - PDNS-Admin module
 	 **/
-	function htmlwidgets(&$qsf)
+	function htmlwidgets(&$pdns)
 	{
-		$this->modules = &$qsf->modules;
-		$this->lang = &$qsf->lang;
-		$this->self = $qsf->self;
-		$this->skin = $qsf->skin;
-		$this->db  = &$qsf->db;
-		$this->sets = &$qsf->sets;
-		$this->perms = &$qsf->perms;
+		$this->modules = &$pdns->modules;
+		$this->lang = &$pdns->lang;
+		$this->self = $pdns->self;
+		$this->skin = $pdns->skin;
+		$this->db  = &$pdns->db;
+		$this->sets = &$pdns->sets;
+		$this->perms = &$pdns->perms;
 	}
 
 	/**

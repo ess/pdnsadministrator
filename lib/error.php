@@ -23,7 +23,7 @@
  *
  **/
 
-if (!defined('QUICKSILVERFORUMS')) {
+if (!defined('PDNSADMIN')) {
 	header('HTTP/1.0 403 Forbidden');
 	die;
 }
@@ -108,7 +108,7 @@ function error_fatal($type, $message, $file, $line = 0)
 		$type_str = 'Notice';
 		break;
 
-	case QUICKSILVER_QUERY_ERROR:
+	case PDNSADMIN_QUERY_ERROR:
 		$type_str = 'Query Error';
 		break;
 
@@ -130,7 +130,7 @@ function error_fatal($type, $message, $file, $line = 0)
 		$backtrace = get_backtrace();
 	}
 
-	if ($type != QUICKSILVER_QUERY_ERROR) {
+	if ($type != PDNSADMIN_QUERY_ERROR) {
 		if (strpos($message, 'mysql_fetch_array(): supplied argument') === false) {
 			$lines = null;
 			$details2 = null;
@@ -284,17 +284,17 @@ function error_report($type, $message, $file, $line)
 		$message .= '; ' . mysql_error();
 	}
 
-	if (!isset($GLOBALS['qsfglobal']) && class_exists('qsfglobal')) {
-		$qsf = new qsfglobal;
-	} elseif (isset($GLOBALS['qsfglobal'])) {
-		$qsf = $GLOBALS['qsfglobal'];
+	if (!isset($GLOBALS['pdnsadmin']) && class_exists('pdnsadmin')) {
+		$pdns = new pdnsadmin;
+	} elseif (isset($GLOBALS['pdnsadmin'])) {
+		$pdns = $GLOBALS['pdnsadmin'];
 	}
 
 	$mysql_version   = mysql_result(mysql_query('SELECT VERSION() as version'), 0, 0);
 	$server_software = isset($_SERVER['SERVER_SOFTWARE']) ? $_SERVER['SERVER_SOFTWARE'] : 0;
 	$safe_mode       = get_cfg_var('safe_mode') ? 1 : 0;
 
-	// $str = serialize(array($error_version, $qsf->version, PHP_VERSION, $mysql_version,$message, $server_software, PHP_OS, $safe_mode, $line));
+	// $str = serialize(array($error_version, $pdns->version, PHP_VERSION, $mysql_version,$message, $server_software, PHP_OS, $safe_mode, $line));
 	$str = '';
 	return urlencode(base64_encode(md5($str) . $str));
 }

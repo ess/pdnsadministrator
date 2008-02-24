@@ -23,7 +23,7 @@
  *
  **/
 
-if (!defined('QUICKSILVERFORUMS') || !defined('QSF_ADMIN')) {
+if (!defined('PDNSADMIN') || !defined('PDNS_ADMIN')) {
 	header('HTTP/1.0 403 Forbidden');
 	die;
 }
@@ -49,6 +49,7 @@ class templates extends admin
 			'users'          => $this->lang->temps_users,
 			'user_control'   => $this->lang->temps_user_control,
 			'settings'       => $this->lang->temps_settings,
+			'supermaster'    => $this->lang->temps_supermasters,
 			'templates'      => $this->lang->temps_templates
 		);
 
@@ -747,7 +748,7 @@ class templates extends admin
 					}
 				}
 				if ($var == 'MAIN_COPYRIGHT' ) {
-					if (stristr($val, '$qsf->name') === false ||
+					if (stristr($val, 'Quicksilver Forums') === false ||
 						stristr($val, 'http://www.quicksilverforums.com') === false)
 					{
 						$evil = 1;
@@ -755,7 +756,7 @@ class templates extends admin
 					}
 				}
 				if ($var == 'ADMIN_COPYRIGHT' ) {
-					if (stristr($val, '$admin->name') === false ||
+					if (stristr($val, 'Quicksilver Forums') === false ||
 						stristr($val, 'http://www.quicksilverforums.com') === false)
 					{
 						$evil = 1;

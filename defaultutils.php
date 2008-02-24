@@ -19,7 +19,7 @@
  *
  **/
  
-if (!defined('QUICKSILVERFORUMS')) {
+if (!defined('PDNSADMIN')) {
 	header('HTTP/1.0 403 Forbidden');
 	die;
 }
@@ -63,6 +63,7 @@ $modules['admin_modules'] = array(
 	'php_info',
 	'query',
 	'settings',
+	'supermaster',
 	'templates');
 
 // These are generic enough that you shouldn't need to customise them

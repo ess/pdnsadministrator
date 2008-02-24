@@ -69,6 +69,27 @@ li {
 	margin: -1px 0px 2px;
 }
 
+/* Button effects */
+.bigbutton a {
+	background-position: 6px center;
+	background-repeat: no-repeat;
+        background-color:#292929;
+	font: 12px Arial, Sans-serif;
+        font-weight:bold;
+	text-align: center;
+	text-decoration: none;
+	margin: 0px 1px;
+	padding: 4px 6px 4px 26px;
+	border: 1px solid #3e3e3e;
+	float: left;
+}
+.bigbutton a:hover {
+	background-color: #3e3e3e;
+	text-decoration: none;
+	border: 1px solid #484848;
+}
+.bigbutton .new_super { background-image: url('./images/icons/computer_add.png') }
+
 /* BS */
 #main .article label.free {
 	text-align: left;

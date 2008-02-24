@@ -19,7 +19,7 @@
  *
  **/
 
-if (!defined('QUICKSILVERFORUMS')) {
+if (!defined('PDNSADMIN')) {
 	header('HTTP/1.0 403 Forbidden');
 	die;
 }
@@ -47,18 +47,18 @@ function error($type, $message, $file = null, $line = 0)
 
 	switch($type)
 	{
-	// Triggered Quicksilver Forums errors
-	case QUICKSILVER_ERROR:
+	// Triggered PDNS-Admin errors
+	case PDNSADMIN_ERROR:
 		exit(error_warning($message, $file, $line));
 		break;
 
-	// Triggered Quicksilver Forums notices and alerts
-	case QUICKSILVER_NOTICE:
+	// Triggered PDNS-Admin notices and alerts
+	case PDNSADMIN_NOTICE:
 		exit(error_notice($message));
 		break;
 
 	// Database errors
-	case QUICKSILVER_QUERY_ERROR:
+	case PDNSADMIN_QUERY_ERROR:
 		exit(error_fatal($type, $message, $file, $line));
 		break;
 

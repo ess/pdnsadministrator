@@ -23,7 +23,7 @@
  *
  **/
 
-if (!defined('QUICKSILVERFORUMS') || !defined('QSF_ADMIN')) {
+if (!defined('PDNSADMIN') || !defined('PDNS_ADMIN')) {
 	header('HTTP/1.0 403 Forbidden');
 	die;
 }
@@ -36,7 +36,7 @@ require_once $set['include_path'] . '/global.php';
  * @author Jason Warner <jason@mercuryboard.com>
  * @since Beta 2.1
  */
-class admin extends qsfglobal
+class admin extends pdnsadmin
 {
 	/**
 	 * Post constructor initaliser. Take care of admin specific stuff
@@ -47,7 +47,7 @@ class admin extends qsfglobal
 	 **/
 	function init($admin = true)
 	{
-		if (@file_exists('../install/index.php') && !@file_exists('../tools')) {
+		if (@file_exists('../install/index.php') ) {
 			exit('<h1>' . $this->lang->admin_cp_warning . '</h1>');
 		}
 

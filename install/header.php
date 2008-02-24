@@ -17,7 +17,7 @@ echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.1//EN\" \"http://www.w3.org/TR
 <html xmlns='http://www.w3.org/1999/xhtml' xml:lang='en' dir='ltr'>
 <head>
 
-<title>$qsf->name</title>
+<title>$pdns->name</title>
 <meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1' />
 
 <style type='text/css'>
@@ -58,10 +58,10 @@ echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.1//EN\" \"http://www.w3.org/TR
          <table width='100%' cellpadding='0' cellspacing='0' border='0'>
           <tr>
            <td style='margin:0px; background-color:#5CA0E6; padding-left:10px;'>
-            <h1>$qsf->name Installer</h1>
+            <h1>$pdns->name Installer</h1>
            </td>
            <td class='main' align='right' style='background-color:#5CA0E6; padding-right:10px;'>
-            $qsf->version
+            $pdns->version
            </td>
           </tr>
          </table>

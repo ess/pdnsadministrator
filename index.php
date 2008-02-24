@@ -23,8 +23,8 @@
  *
  **/
  
-define('QUICKSILVERFORUMS', true);
-define('QSF_PUBLIC', true);
+define('PDNSADMIN', true);
+define('PDNS_PUBLIC', true);
 
 $time_now   = explode(' ', microtime());
 $time_start = $time_now[1] + $time_now[0];
@@ -47,7 +47,7 @@ set_magic_quotes_runtime(0);
 // Open connection to database
 $db = new $modules['database']($set['db_host'], $set['db_user'], $set['db_pass'], $set['db_name'], $set['db_port'], $set['db_socket']);
 if (!$db->connection) {
-    error(QUICKSILVER_ERROR, 'A connection to the database could not be established and/or the specified database could not be found.', __FILE__, __LINE__);
+    error(PDNSADMIN_ERROR, 'A connection to the database could not be established and/or the specified database could not be found.', __FILE__, __LINE__);
 }
 $settings = $db->fetch('SELECT settings_data FROM settings LIMIT 1');
 $set = array_merge($set, unserialize($settings['settings_data']));
@@ -60,15 +60,15 @@ if (!isset($_GET['a']) || !in_array($_GET['a'], $modules['public_modules'])) {
 
 require './func/' . $module . '.php';
 
-$qsf = new $module($db);
+$pdns = new $module($db);
 
-$qsf->get['a'] = $module;
-$qsf->sets     = $set;
-$qsf->modules  = $modules;
+$pdns->get['a'] = $module;
+$pdns->sets     = $set;
+$pdns->modules  = $modules;
 
 // If zlib isn't available, then trying to use it doesn't make much sense.
 if (extension_loaded('zlib')) {
-	if ($qsf->sets['output_buffer'] && isset($qsf->server['HTTP_ACCEPT_ENCODING']) && stristr($qsf->server['HTTP_ACCEPT_ENCODING'], 'gzip')) {
+	if ($pdns->sets['output_buffer'] && isset($pdns->server['HTTP_ACCEPT_ENCODING']) && stristr($pdns->server['HTTP_ACCEPT_ENCODING'], 'gzip')) {
 		if( !@ob_start('ob_gzhandler') ) {
 			ob_start();
 		}
@@ -82,49 +82,49 @@ if (extension_loaded('zlib')) {
 header( 'P3P: CP="CAO PSA OUR"' );
 session_start();
 
-$qsf->user_cl = new $modules['user']($qsf);
-$qsf->user    = $qsf->user_cl->login();
-$qsf->lang    = $qsf->get_lang($qsf->user['user_language'], $qsf->get['a']);
-$qsf->session = &$_SESSION;
-$qsf->session['id'] = session_id();
+$pdns->user_cl = new $modules['user']($pdns);
+$pdns->user    = $pdns->user_cl->login();
+$pdns->lang    = $pdns->get_lang($pdns->user['user_language'], $pdns->get['a']);
+$pdns->session = &$_SESSION;
+$pdns->session['id'] = session_id();
 
-if( !isset($qsf->session['login']) && $qsf->user['user_id'] != USER_GUEST_UID ) {
-	$qsf->session['login'] = true;
-	$qsf->db->query( 'UPDATE users SET user_lastlogon=%d WHERE user_id=%d', $qsf->time, $qsf->user['user_id'] );
+if( !isset($pdns->session['login']) && $pdns->user['user_id'] != USER_GUEST_UID ) {
+	$pdns->session['login'] = true;
+	$pdns->db->query( "UPDATE users SET user_lastlogon=%d, user_lastlogonip='%s' WHERE user_id=%d", $pdns->time, $pdns->ip, $pdns->user['user_id'] );
 }
 
-if (!isset($qsf->get['skin'])) {
-	$qsf->skin = $qsf->user['skin_dir'];
+if (!isset($pdns->get['skin'])) {
+	$pdns->skin = $pdns->user['skin_dir'];
 } else {
-	$qsf->skin = $qsf->get['skin'];
+	$pdns->skin = $pdns->get['skin'];
 }
 
-$qsf->init();
+$pdns->init();
 
-$server_load = $qsf->get_load();
+$server_load = $pdns->get_load();
 
-$output = $qsf->execute();
-$users = $qsf->db->fetch( 'SELECT COUNT(user_id) count FROM users' );
-$domains = $qsf->db->fetch( 'SELECT COUNT(id) count FROM domains' );
+$output = $pdns->execute();
+$users = $pdns->db->fetch( 'SELECT COUNT(user_id) count FROM users' );
+$domains = $pdns->db->fetch( 'SELECT COUNT(id) count FROM domains' );
 
 $users['count'] -= 1;
 
-$userheader = eval($qsf->template('MAIN_HEADER_' . ($qsf->perms->is_guest ? 'GUEST' : 'MEMBER')));
+$userheader = eval($pdns->template('MAIN_HEADER_' . ($pdns->perms->is_guest ? 'GUEST' : 'MEMBER')));
 
-$title = isset($qsf->title) ? $qsf->title : $qsf->sets['site_name'];
+$title = isset($pdns->title) ? $pdns->title : $pdns->sets['site_name'];
 
 $time_now  = explode(' ', microtime());
 $time_exec = round($time_now[1] + $time_now[0] - $time_start, 4);
 
-if (isset($qsf->get['debug'])) {
-	$output = $qsf->show_debug($server_load, $time_exec);
+if (isset($pdns->get['debug'])) {
+	$output = $pdns->show_debug($server_load, $time_exec);
 }
 
-if (!$qsf->nohtml) {
-	$servertime = $qsf->mbdate( DATE_LONG, $qsf->time, false );
-	$copyright = eval($qsf->template('MAIN_COPYRIGHT'));
-	$quicksilverforums = $output;
-	echo eval($qsf->template('MAIN'));
+if (!$pdns->nohtml) {
+	$servertime = $pdns->mbdate( DATE_LONG, $pdns->time, false );
+	$copyright = eval($pdns->template('MAIN_COPYRIGHT'));
+	$pdnspage = $output;
+	echo eval($pdns->template('MAIN'));
 } else {
 	echo $output;
 }
@@ -133,8 +133,8 @@ if (!$qsf->nohtml) {
 @flush();
 
 // Do post output stuff
-$qsf->cleanup();
+$pdns->cleanup();
 
 // Close the DB connection.
-$qsf->db->close();
+$pdns->db->close();
 ?>

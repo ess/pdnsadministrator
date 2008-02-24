@@ -23,7 +23,7 @@
  *
  **/
 
-if (!defined('QUICKSILVERFORUMS')) {
+if (!defined('PDNSADMIN')) {
 	header('HTTP/1.0 403 Forbidden');
 	die;
 }
@@ -84,7 +84,7 @@ class db_mysql extends database
 	{
 		$data = array();
 		if (substr(trim(strtoupper($query)), 0, 6) == 'SELECT') {
-			$result = mysql_query("EXPLAIN $query", $this->connection) or error(QUICKSILVER_QUERY_ERROR, mysql_error($this->connection), $query, mysql_errno($this->connection));
+			$result = mysql_query("EXPLAIN $query", $this->connection) or error(PDNSADMIN_QUERY_ERROR, mysql_error($this->connection), $query, mysql_errno($this->connection));
 			$data = mysql_fetch_array($result, MYSQL_ASSOC);
 		}
 		return $data;
@@ -128,7 +128,7 @@ class db_mysql extends database
 		if (isset($this->get['debug'])) {
 			$this->debug($query);
 		}
-		$result = mysql_query($query, $this->connection) or error(QUICKSILVER_QUERY_ERROR, mysql_error($this->connection), $query, mysql_errno($this->connection));
+		$result = mysql_query($query, $this->connection) or error(PDNSADMIN_QUERY_ERROR, mysql_error($this->connection), $query, mysql_errno($this->connection));
 		return $result;
 	}
 

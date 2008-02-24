@@ -23,7 +23,7 @@
  *
  **/
 
-if (!defined('QUICKSILVERFORUMS')) {
+if (!defined('PDNSADMIN')) {
 	header('HTTP/1.0 403 Forbidden');
 	die;
 }
@@ -39,18 +39,18 @@ class user
 	/**
 	 * Constructor
 	 *
-	 * @param $qsf - Quicksilver Forums module
+	 * @param $pdns - PDNS-Admin module
 	 **/
-	function user(&$qsf)
+	function user(&$pdns)
 	{
-		$this->db  = &$qsf->db;
-		$this->pre = &$qsf->pre;
-		$this->session = &$qsf->session;
-		$this->server  = &$qsf->server;
-		$this->cookie  = &$qsf->cookie;
-		$this->sets    = &$qsf->sets;
-		$this->time    = &$qsf->time;
-		$this->ip      = &$qsf->ip;
+		$this->db  = &$pdns->db;
+		$this->pre = &$pdns->pre;
+		$this->session = &$pdns->session;
+		$this->server  = &$pdns->server;
+		$this->cookie  = &$pdns->cookie;
+		$this->sets    = &$pdns->sets;
+		$this->time    = &$pdns->time;
+		$this->ip      = &$pdns->ip;
 	}
 
 	/**

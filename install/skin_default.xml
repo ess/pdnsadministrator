@@ -2,11 +2,11 @@
 <qsfmod>
   <title>Skin: Ashlander</title>
   <type folder="default">skin</type>
-  <version>v1.1.4</version>
+  <version>v1.1.5</version>
   <description></description>
   <authorname>Skin Exporter</authorname>
   <files>
-    <file>packages/skin_default-v1.1.4.xml</file>
+    <file>packages/skin_default-v1.1.5.xml</file>
     <file>skins/default/images/Logo.gif</file>
     <file>skins/default/images/valid-css.png</file>
     <file>skins/default/images/background3.gif</file>
@@ -259,6 +259,31 @@
 
  <span class="field">{$this->lang->settings_domain_ttl}</span>
  <span class="form"><input type="text" name="default_ttl" value="{$this->sets['default_ttl']}" size="40" /></span>
+
+ <p class="line"></p>
+
+ <span class="field">{$this->lang->settings_domain_soa_refresh}</span>
+ <span class="form"><input type="text" name="soa_refresh" value="{$this->sets['soa_refresh']}" size="40" /></span>
+
+ <p class="line"></p>
+
+ <span class="field">{$this->lang->settings_domain_soa_retry}</span>
+ <span class="form"><input type="text" name="soa_retry" value="{$this->sets['soa_retry']}" size="40" /></span>
+
+ <p class="line"></p>
+
+ <span class="field">{$this->lang->settings_domain_soa_expire}</span>
+ <span class="form"><input type="text" name="soa_expire" value="{$this->sets['soa_expire']}" size="40" /></span>
+
+ <p class="line"></p>
+
+ <span class="field">{$this->lang->settings_domains_per_page}</span>
+ <span class="form"><input type="text" name="domains_per_page" value="{$this->sets['domains_per_page']}" size="40" /></span>
+
+ <p class="line"></p>
+
+ <span class="field">{$this->lang->settings_records_per_page}</span>
+ <span class="form"><input type="text" name="records_per_page" value="{$this->sets['records_per_page']}" size="40" /></span>
 
  <p class="line"></p>
  <input type="submit" value="{$this->lang->submit}" />
@@ -980,6 +1005,21 @@
  </span>
 
  <p class="line"></p>
+
+ <span class="field">{$this->lang->domains_new_ns_records}</span>
+ <span class="form"><input type="checkbox" checked="checked" name="new_ns_records" value="1" class="check" /></span>
+
+ <p class="line"></p>
+
+ <span class="field">{$this->lang->domains_new_mx_record}</span>
+ <span class="form"><input type="checkbox" checked="checked" name="new_mx_record" value="1" class="check" /></span>
+
+ <p class="line"></p>
+
+ <span class="field">{$this->lang->domains_new_cname_record}</span>
+ <span class="form"><input type="checkbox" checked="checked" name="new_cname_record" value="1" class="check" /></span>
+
+ <p class="line"></p>
  <input name="submit" type="submit" value="{$this->lang->submit}" />
 {$this->etable}
 </form>
@@ -1016,6 +1056,11 @@
    {$users}
   </select>
  </span>
+
+ <p class="line"></p>
+
+ <span class="field">{$this->lang->domains_new_ns_records}</span>
+ <span class="form"><input type="checkbox" checked="checked" name="new_ns_records" value="1" class="check" /></span>
 
  <p class="line"></p>
  <input name="submit" type="submit" value="{$this->lang->submit}" />
@@ -1078,6 +1123,10 @@
 {$this->etable}
 
 {$this->table}
+ {$pages}
+{$this->etable}
+
+{$this->table}
  <div class="title">
   <img src="./skins/{$this->skin}/images/icons/table_multiple.png" />
   {$this->lang->domains_records}: {$domain['name']}
@@ -1099,6 +1148,10 @@
  <div class="bigbutton"><a class="delete_domain" href="{$this->self}?a=domains&amp;s=delete&amp;id={$domain['id']}" title="{$this->lang->domains_delte_this}">{$this->lang->domains_delete}</a></div>
  <div class="bigbutton"><a class="new_record" href="{$this->self}?a=domains&amp;s=newrecord&amp;id={$domain['id']}" title="{$this->lang->domains_record_new}">{$this->lang->domains_record_new}</a></div>
  <p></p>
+{$this->etable}
+
+{$this->table}
+ {$pages}
 {$this->etable}
       ]]></html>
     </template>
@@ -1207,11 +1260,11 @@
 {$this->table}
  <div class="title">
   <img src="./skins/{$this->skin}/images/icons/table_edit.png" alt="" />
-  {$this->lang->domains_record_edit}: {$dom['name']}
+  {$this->lang->domains_record_edit}: {$domain['name']}
  </div>
 
  <span class="field">{$this->lang->name}</span>
- <span class="form"><input name="name" type="text" value="{$rname}" />.{$dom['name']}</span>
+ <span class="form"><input name="name" type="text" value="{$rname}" />.{$domain['name']}</span>
 
  <p class="line"></p>
 
@@ -1292,13 +1345,13 @@
       <description>Change the header and footer that will appear on every page</description>
       <html><![CDATA[
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="{$qsf->user['user_language']}" dir="{$qsf->lang->direction}">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="{$pdns->user['user_language']}" dir="{$pdns->lang->direction}">
 <head>
-<meta http-equiv="Content-Type" content="application/xhtml+xml; charset={$qsf->lang->charset}" />
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset={$pdns->lang->charset}" />
 
 <title>{$title}</title>
-<link rel="stylesheet" type="text/css" href="./skins/{$qsf->skin}/styles.css" media="screen" />
-<link rel="stylesheet" type="text/css" href="./skins/{$qsf->skin}/print.css" media="print" />
+<link rel="stylesheet" type="text/css" href="./skins/{$pdns->skin}/styles.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="./skins/{$pdns->skin}/print.css" media="print" />
 
 <script src="./javascript/utils.js" type="text/javascript"></script>
 
@@ -1306,7 +1359,7 @@
 <script type="text/javascript" src="./javascript/pngfix.js"></script>
 <![endif]-->
 
-  <IF (strpos($qsf->agent, 'MSIE') !== false)>
+  <IF (strpos($pdns->agent, 'MSIE') !== false)>
    <style type="text/css">
     input.button { padding: 0px; }
     input.check { border: none; margin: -2px 0px 0px; }
@@ -1321,21 +1374,21 @@
    <div id="header">
     <div id="company">
      <div class="logo"></div>
-     <div class="title"><h1>PDNS-Admin Console for {$qsf->sets['site_name']}</h1></div>
+     <div class="title"><h1>PDNS-Admin Console for {$pdns->sets['site_name']}</h1></div>
     </div>
    </div>
    <div id="blocks">
     {$userheader}
    </div>
    <div id="main">
-    {$quicksilverforums}
-    <IF $qsf->perms->auth('is_admin')>
-     {$qsf->table}
-      <strong>{$time_exec}</strong> {$qsf->lang->seconds} - 
-      <strong>{$qsf->db->querycount}</strong> {$qsf->lang->main_queries} - 
-      <strong>{$server_load}</strong> {$qsf->lang->main_load}
-      [<a href="{$qsf->self}?{$qsf->query}&amp;debug=1" class="small">{$qsf->lang->main_full}</a>]
-     {$qsf->etable}
+    {$pdnspage}
+    <IF $pdns->perms->auth('is_admin')>
+     {$pdns->table}
+      <strong>{$time_exec}</strong> {$pdns->lang->seconds} - 
+      <strong>{$pdns->db->querycount}</strong> {$pdns->lang->main_queries} - 
+      <strong>{$server_load}</strong> {$pdns->lang->main_load}
+      [<a href="{$pdns->self}?{$pdns->query}&amp;debug=1" class="small">{$pdns->lang->main_full}</a>]
+     {$pdns->etable}
     </IF>
    </div>
    <div id="bottom">&nbsp;</div>
@@ -1354,9 +1407,9 @@
       <displayname>Copyright</displayname>
       <description>Format the look of the copyright on the board.&lt;br&gt;&lt;br&gt;&lt;b&gt;Warning: Modification to anything other than the style of this copyright will result in a violation of your terms of service&lt;/b&gt;</description>
       <html><![CDATA[
-{$qsf->lang->powered} <a href="http://www.iguanadons.net/pdns-admin"><b>{$qsf->name}</b></a> &copy; 2006-2008 Roger Libiez<br />
- {$qsf->lang->based_on} <a href="http://www.quicksilverforums.com">Quicksilver Forums</a> &copy; 2005-2006 The Quicksilver Forums Development Team<br />
- Ashlander 3 by Roger Libiez [<a href="http://www.iguanadons.net">Samson</a>]. {$qsf->lang->based_on} HForumv3.1 skin &copy; 2006-2007 <a href="http://www.syridium.com/">Syridium SC</a>
+ {$pdns->lang->powered} <a href="http://www.iguanadons.net/pdns-admin"><b>{$pdns->name}</b></a> &copy; 2006-2008 Roger Libiez<br />
+ {$pdns->lang->based_on} <a href="http://www.quicksilverforums.com">Quicksilver Forums</a> &copy; 2005-2008 The Quicksilver Forums Development Team<br />
+ Ashlander 3 by Roger Libiez [<a href="http://www.iguanadons.net">Samson</a>]. {$pdns->lang->based_on} HForumv3.1 skin &copy; 2006-2008 <a href="http://www.syridium.com/">Syridium SC</a>
       ]]></html>
     </template>
     <template><set>Main</set><name>MAIN_ETABLE</name>
@@ -1371,8 +1424,8 @@
       <description>Edit the menu bar for unregistered and logged out users</description>
       <html><![CDATA[
 <div class="block">
- <div class="title"><a href="{$qsf->sets['site_url']}">{$qsf->sets['site_name']}</a></div>
- <span><a href="{$qsf->self}?a=login&amp;s=on">{$qsf->lang->main_login}</a></span>
+ <div class="title"><a href="{$pdns->sets['site_url']}">{$pdns->sets['site_name']}</a></div>
+ <span><a href="{$pdns->self}?a=login&amp;s=on">{$pdns->lang->main_login}</a></span>
 </div>
       ]]></html>
     </template>
@@ -1381,34 +1434,43 @@
       <description>Edit the menu bar for logged in members</description>
       <html><![CDATA[
 <div class="block">
- <div class="title"><a href="{$qsf->sets['site_url']}">{$qsf->sets['site_name']}</a></div>
+ <div class="title"><a href="{$pdns->sets['site_url']}">{$pdns->sets['site_name']}</a></div>
  <div class="article">
-  {$qsf->lang->main_welcome} {$qsf->user['user_name']}!
+  {$pdns->lang->main_welcome} {$pdns->user['user_name']}!
  </div>
- <IF $qsf->perms->auth('create_domains')>
-  <span><a href="{$qsf->self}?a=domains&amp;s=new">{$qsf->lang->main_create_forward}</a></span>
-  <span><a href="{$qsf->self}?a=domains&amp;s=new_reverse">{$qsf->lang->main_create_reverse}</a></span>
+ <IF $pdns->perms->auth('create_domains')>
+  <span><a href="{$pdns->self}?a=domains&amp;s=new">{$pdns->lang->main_create_forward}</a></span>
+  <span><a href="{$pdns->self}?a=domains&amp;s=new_reverse">{$pdns->lang->main_create_reverse}</a></span>
  </IF>
- <span><a href="{$qsf->self}?a=cp">{$qsf->lang->main_cp}</a></span>
- <IF $qsf->perms->auth('is_admin')>
-  <span><a href="{$qsf->self}?a=users">{$qsf->lang->main_users}</a></span>
-  <span><a href="./admincp/index.php">{$qsf->lang->main_admincp}</a></span>
+ <span><a href="{$pdns->self}?a=cp">{$pdns->lang->main_cp}</a></span>
+ <IF $pdns->perms->auth('is_admin')>
+  <span><a href="{$pdns->self}?a=users">{$pdns->lang->main_users}</a></span>
+  <span><a href="./admincp/index.php">{$pdns->lang->main_admincp}</a></span>
  </IF>
- <span><a href="{$qsf->self}?a=login&amp;s=off">{$qsf->lang->main_logout}</a></span>
+ <span><a href="{$pdns->self}?a=login&amp;s=off">{$pdns->lang->main_logout}</a></span>
 </div>
 
-<div class="block">
- <div class="title">{$qsf->lang->main_statistics}</div>
- <span class="half">
-  {$qsf->lang->main_users}<br />
-  {$qsf->lang->main_domains}
- </span>
- <span class="half">
-  {$users['count']}<br />
-  {$domains['count']}
- </span>
- <div style="clear:both"></div>
-</div>
+<IF $pdns->perms->auth('is_admin')>
+ <div class="block">
+  <form action="{$pdns->self}?s=search" method="post">
+   <div class="title">{$pdns->lang->main_search}</div>
+   <input type="text" name="search" />
+   <input type="submit" name="submit" value="{$pdns->lang->submit}" />
+  </form>
+ </div>
+ <div class="block">
+  <div class="title">{$pdns->lang->main_statistics}</div>
+  <span class="half">
+   {$pdns->lang->main_users}<br />
+   {$pdns->lang->main_domains}
+  </span>
+  <span class="half">
+   {$users['count']}<br />
+   {$domains['count']}
+  </span>
+  <div style="clear:both"></div>
+ </div>
+</IF>
       ]]></html>
     </template>
     <template><set>Main</set><name>MAIN_MESSAGE</name>
@@ -1550,6 +1612,66 @@
 <span class="number">{$user['user_domains']}</span>
 <span class="number">{$user['user_created']}</span>
 <span class="number">{$user['group_name']}</span>
+<p class="list_line"></p>
+      ]]></html>
+    </template>
+    <template><set>supermaster</set><name>ADMIN_SUPERMASTERS</name>
+      <displayname>Supermasters List</displayname>
+      <description>The listing of configured supermasters.</description>
+      <html><![CDATA[
+{$this->table}
+ <div class="title">{$this->lang->supermasters}</div>
+ <span class="head">
+  <span class="icon">&nbsp;</span>
+  <span class="name">{$this->lang->supermaster_ip}</span>
+  <span class="owner">{$this->lang->supermaster_ns}</span>
+  <span class="number">{$this->lang->supermaster_account}</span>
+ </span>
+ <p></p>
+ $content
+{$this->etable}
+
+{$this->table}
+ <div class="bigbutton"><a class="new_super" href="{$this->self}?a=supermaster&amp;s=add">{$this->lang->supermaster_add}</a></div>
+ <p></p>
+{$this->etable}
+      ]]></html>
+    </template>
+    <template><set>supermaster</set><name>ADMIN_SUPERMASTER_ADD</name>
+      <displayname>Add Supermaster</displayname>
+      <description>Add a supermaster to the list.</description>
+      <html><![CDATA[
+<form action="{$this->self}?a=supermaster&amp;s=add" method="post">
+{$this->table}
+ <div class="title">
+  <img src="../skins/{$this->skin}/images/icons/computer_add.png" alt="" />
+  {$this->lang->supermaster_add}
+ </div>
+
+ <span class="field">{$this->lang->supermaster_ip}</span>
+ <span class="form">$ip</span>
+
+ <p class="line"></p>
+
+ <span class="field">{$this->lang->supermaster_new_ns}</span>
+ <span class="form"><input name="ns" type="text" /></span>
+
+ <p class="line"></p>
+ <input name="submit" type="submit" value="{$this->lang->submit}" />
+{$this->etable}
+</form>
+      ]]></html>
+    </template>
+    <template><set>supermaster</set><name>ADMIN_SUPERMASTER_ENTRY</name>
+      <displayname>Supermaster Entry</displayname>
+      <description>A single entry from the supermasters list.</description>
+      <html><![CDATA[
+<div class="topic_icon">
+ <a href="{$this->self}?a=supermaster&amp;s=delete&amp;ns=$ns"><img src="../skins/{$this->skin}/images/icons/delete.png" title="{$this->lang->supermaster_delete}" alt="{$this->lang->delete}" /></a>
+</div>
+<span class="name">$ip</span>
+<span class="owner">$ns</span>
+<span class="number">$account</span>
 <p class="list_line"></p>
       ]]></html>
     </template>

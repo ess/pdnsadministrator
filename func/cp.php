@@ -23,7 +23,7 @@
  *
  **/
 
-if (!defined('QUICKSILVERFORUMS')) {
+if (!defined('PDNSADMIN')) {
 	header('HTTP/1.0 403 Forbidden');
 	die;
 }
@@ -36,7 +36,7 @@ require_once $set['include_path'] . '/global.php';
  * @author Jason Warner <jason@mercuryboard.com>
  * @since Beta 2.0
  **/
-class cp extends qsfglobal
+class cp extends pdnsadmin
 {
 	function execute()
 	{

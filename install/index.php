@@ -23,7 +23,7 @@
  *
  **/
 
-define('QUICKSILVERFORUMS', true);
+define('PDNSADMIN', true);
 
 /**
  * Executes an array of queries
@@ -91,9 +91,9 @@ if (!isset($_GET['mode'])) {
 
 if ($mode) {
 	require $set['include_path'] . '/install/' . $mode . '.php';
-	$qsf = new $mode;
+	$pdns = new $mode;
 } else {
-	$qsf = new qsfglobal;
+	$pdns = new pdnsadmin;
 }
 
 include 'header.php';
@@ -118,8 +118,8 @@ if (!extension_loaded('mysql')) {
 if ($failed) {
 	echo '<br /><br /><b>To run PDNS-Admin, the above error(s) must be fixed by your web host.</b>';
 } else {
-	$qsf->sets = $set;
-	$qsf->modules = $modules;
+	$pdns->sets = $set;
+	$pdns->modules = $modules;
 
 	switch( $mode )
 	{
@@ -127,10 +127,10 @@ if ($failed) {
 			include 'choose_install.php';
 			break;
 		case 'new_install':
-			$qsf->install_console($step);
+			$pdns->install_console($step);
 			break;
 		case 'upgrade':
-			$qsf->upgrade_console($step);
+			$pdns->upgrade_console($step);
 			break;
 	}
 }

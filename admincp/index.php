@@ -23,8 +23,8 @@
  *
  **/
 
-define('QUICKSILVERFORUMS', true);
-define('QSF_ADMIN', true);
+define('PDNSADMIN', true);
+define('PDNS_ADMIN', true);
 
 $time_now   = explode(' ', microtime());
 $time_start = $time_now[1] + $time_now[0];
@@ -79,7 +79,7 @@ $admin->init();
 
 $output = $admin->execute();
 
-$title = isset($qsf->title) ? $qsf->title : $admin->name .' Admin CP';
+$title = isset($pdns->title) ? $pdns->title : $admin->name .' Admin CP';
 
 $time_now  = explode(' ', microtime());
 $time_exec = round(($time_now[1] + $time_now[0]) - $time_start, 4);

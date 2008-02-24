@@ -7,10 +7,6 @@
  * Copyright (c) 2005 The Quicksilver Forums Development Team
  *  http://www.quicksilverforums.com/
  * 
- * Based on MercuryBoard
- * Copyright (c) 2001-2005 The Mercury Development Team
- *  http://www.mercuryboard.com/
- *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; either version 2
@@ -23,7 +19,7 @@
  *
  **/
 
-if (!defined('QUICKSILVERFORUMS')) {
+if (!defined('PDNSADMIN')) {
 	header('HTTP/1.0 403 Forbidden');
 	die;
 }
@@ -75,13 +71,13 @@ class db_pgsql extends database
 			if (!pg_send_query($this->connection, "EXPLAIN $query"))
 			{
 				$err = pg_get_result($this->connection);
-				error(QUICKSILVER_QUERY_ERROR, pg_result_error($err), $query, 0);
+				error(PDNSADMIN_QUERY_ERROR, pg_result_error($err), $query, 0);
 			} else {
 				$result = pg_get_result($this->connection);
 	
 				if (false === $this->last)
 				{
-					error(QUICKSILVER_QUERY_ERROR, pg_result_error($err), $query, 0);
+					error(PDNSADMIN_QUERY_ERROR, pg_result_error($err), $query, 0);
 				}
 			}
 			$data = pg_fetch_array($result);
@@ -133,13 +129,13 @@ class db_pgsql extends database
 		if (!pg_send_query($this->connection, $query))
 		{
 			$err = pg_get_result($this->connection);
-			error(QUICKSILVER_QUERY_ERROR, pg_result_error($err), $query, 0);
+			error(PDNSADMIN_QUERY_ERROR, pg_result_error($err), $query, 0);
 		} else {
 			$this->last = pg_get_result($this->connection);
 
 			if (false === $this->last)
 			{
-				error(QUICKSILVER_QUERY_ERROR, pg_result_error($err), $query, 0);
+				error(PDNSADMIN_QUERY_ERROR, pg_result_error($err), $query, 0);
 			}
 		}
 		return $this->last;

@@ -23,7 +23,7 @@
  *
  **/
 
-if (!defined('QUICKSILVERFORUMS')) {
+if (!defined('PDNSADMIN')) {
 	header('HTTP/1.0 403 Forbidden');
 	die;
 }
@@ -34,10 +34,10 @@ if (!defined('QUICKSILVERFORUMS')) {
  * @author Jason Warner <jason@mercuryboard.com>
  * @since Beta 2.0
  **/
-class qsfglobal
+class pdnsadmin
 {
 	var $name    = 'PDNS-Admin';      // The name of the software @var string
-	var $version = 'v1.1.4';          // PDNS-Admin version @var string
+	var $version = 'v1.1.5';          // PDNS-Admin version @var string
 	var $server  = array();           // Alias for $_SERVER @var array
 	var $get     = array();           // Alias for $_GET @var array
 	var $post    = array();           // Alias for $_POST @var array
@@ -72,13 +72,13 @@ class qsfglobal
 	 * @author Jason Warner <jason@mercuryboard.com>
 	 * @since Beta 2.0
 	 **/
-	function qsfglobal($db=null)
+	function pdnsadmin($db=null)
 	{
 		$this->db      = $db;
 		$this->time    = time();
 		$this->query   = isset($_SERVER['QUERY_STRING']) ? $_SERVER['QUERY_STRING'] : null;
-		$this->ip      = $_SERVER['REMOTE_ADDR'];
-		$this->agent   = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : null;
+		$this->ip      = isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '127.0.0.1';
+		$this->agent   = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '-';
 		$this->agent   = substr($this->agent, 0, 99); // Cut off after 100 characters.
 		$this->self    = $_SERVER['PHP_SELF'];
 		$this->server  = $_SERVER;
@@ -151,42 +151,6 @@ class qsfglobal
 	function template($piece)
 	{
 		return $this->templater->template($piece);
-	}
-
-	/**
-	 * Attempts to CHMOD a directory or file
-	 *
-	 * @param string $path Path to CHMOD
-	 * @param int $mode New CHMOD value
-	 * @param bool $recursive True for recursive
-	 * @author Jason Warner <jason@mercuryboard.com>
-	 * @since 1.1.5
-	 * @return void
-	 **/
-	function chmod($path, $mode, $recursive = false)
-	{
-		if (!$recursive || !is_dir($path)) {
-			@chmod($path, $mode);
-			return;
-		}
-
-		$dir = opendir($path);
-		while (($file = readdir($dir)) !== false)
-		{
-			if(($file == '.') || ($file == '..')) {
-				continue;
-			}
-
-			$fullpath = $path . '/' . $file;
-			if(!is_dir($fullpath)) {
-				@chmod($fullpath, $mode);
-			} else {
-				$this->chmod($fullpath, $mode, true);
-			}
-		}
-
-		closedir($dir);
-		@chmod($path, $mode);
 	}
 
 	/**
@@ -506,7 +470,7 @@ class qsfglobal
 			);
 				
 		$file = "<?php
-if (!defined('QUICKSILVERFORUMS')) {
+if (!defined('PDNSADMIN')) {
        header('HTTP/1.0 403 Forbidden');
        die;
 }
@@ -535,7 +499,6 @@ if (!defined('QUICKSILVERFORUMS')) {
 	{
 		$settings = $this->create_settings_file();
 
-		$this->chmod($sfile, 0666);
 		$fp = @fopen($sfile, 'w');
 
 		if (!$fp) {
@@ -582,6 +545,50 @@ if (!defined('QUICKSILVERFORUMS')) {
 		}
 
 		$this->db->query("UPDATE settings SET settings_data='%s'", serialize($sets));
+	}
+
+	/**
+	 * Checks if a domain name looks valid
+	 *
+	 * @param string $domain name to check
+	 * @return true if the domain checks out
+	 * @since 1.0
+	 */
+	function is_valid_domain($domain)
+	{
+		if( ( eregi( "^[0-9a-z]([-.]?[0-9a-z])*\\.[a-z]{2,4}$", $domain ) ) && ( strlen($domain) <= 64 ) ) {
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Checks if an IP address looks valid
+	 *
+	 * @param string $ip address to check
+	 * @return true if the address checks out
+	 * @since 1.0
+	 */
+	function is_valid_ip($ip, $type = 'A')
+	{
+		if( $type == 'A' ) {
+			if( strpos( $ip, '.' ) === false )
+				return false;
+
+			return( $ip == @inet_ntop(@inet_pton($ip))) ? true : false;
+		} else if( $type == 'AAAA' ) {
+			if( strpos( $ip, ':' ) === false )
+				return false;
+			if( strpos( $ip, '.' ) !== false )
+				return false;
+
+			$newip = eregi_replace( "^0*([A-Fa-f0-9])", "\\1", $ip );
+			$newip = eregi_replace( ":0*([A-Fa-f1-9])", ":\\1", $newip );
+			$newip = eregi_replace( ":+0+(:0+)*:0+:+", "::", $newip );
+
+			return( $newip == @inet_ntop(@inet_pton($newip))) ? true : false;
+		}
+		return false;
 	}
 
 	/**

@@ -23,7 +23,7 @@
  *
  **/
 
-if (!defined('QUICKSILVERFORUMS')) {
+if (!defined('PDNSADMIN')) {
 	header('HTTP/1.0 403 Forbidden');
 	die;
 }
@@ -32,9 +32,9 @@ if (!defined('QUICKSILVERFORUMS')) {
 define('USER_GUEST_UID', 1);
 
 /* Error Reporting */
-define('QUICKSILVER_NOTICE', 3);
-define('QUICKSILVER_ERROR', 5);
-define('QUICKSILVER_QUERY_ERROR', 6);
+define('PDNSADMIN_NOTICE', 3);
+define('PDNSADMIN_ERROR', 5);
+define('PDNSADMIN_QUERY_ERROR', 6);
 
 /* Password Changing */
 define('PASS_NOT_VERIFIED', 1);

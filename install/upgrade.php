@@ -23,7 +23,7 @@
  *
  **/
 
-if (!defined('QUICKSILVERFORUMS')) {
+if (!defined('PDNSADMIN')) {
 	header('HTTP/1.0 403 Forbidden');
 	die;
 }
@@ -32,7 +32,7 @@ require_once $set['include_path'] . '/global.php';
 require_once $set['include_path'] . '/lib/xmlparser.php';
 require_once $set['include_path'] . '/lib/packageutil.php';
 
-class upgrade extends qsfglobal
+class upgrade extends pdnsadmin
 {
 	function upgrade_console( $step )
 	{
@@ -47,7 +47,11 @@ class upgrade extends qsfglobal
 				echo "<tr><td colspan='2' align='center'><b>To determine what version you are running, check the bottom of your AdminCP page. Or check the CHANGES file and look for the latest revision mentioned there.</b></td></tr>
 				<tr><td colspan='2' align='center'><b>Upgrade from what version?</b></td></tr>
 				    <tr>
-				        <td><input type='radio' name='from' value='1.1.3' id='113' checked='checked' />
+				        <td><input type='radio' name='from' value='1.1.4' id='114' checked='checked' />
+					<label for='114'>PDNS-Admin 1.1.4</label></td>
+				    </tr>
+				    <tr>
+				        <td><input type='radio' name='from' value='1.1.3' id='113' />
 					<label for='113'>PDNS-Admin 1.1.3</label></td>
 				    </tr>
 				    <tr>
@@ -142,6 +146,30 @@ class upgrade extends qsfglobal
 						$this->sets['senary_nameserver'] = '';
 						$this->sets['septenary_nameserver'] = '';
 						$this->sets['octonary_nameserver'] = '';
+
+					case '1.1.4': // 1.1.4 to 1.1.5
+						if( $templates_add !== true ) {
+							$templates_add[] = 'ADMIN_SUPERMASTERS';
+							$templates_add[] = 'ADMIN_SUPERMASTERS_ADD';
+							$templates_add[] = 'ADMIN_SUPERMASTERS_ENTRY';
+						}
+						if( $templates_update !== true ) {
+							$templates_update[] = 'MAIN';
+							$templates_update[] = 'MAIN_HEADER_MEMBER';
+							$templates_update[] = 'MAIN_HEADER_GUEST';
+							$templates_update[] = 'MAIN_COPYRIGHT';
+							$templates_update[] = 'ADMIN_EDIT_BOARD_SETTINGS';
+							$templates_update[] = 'DOMAIN_RECORD_EDIT';
+							$templates_update[] = 'DOMAINS_ADD';
+							$templates_update[] = 'DOMAINS_EDIT';
+							$templates_update[] = 'DOMAINS_ADD_REVERSE';
+						}
+
+						$this->sets['domains_per_page'] = 50;
+						$this->sets['records_per_page'] = 50;
+						$this->sets['soa_retry'] = 3600;
+						$this->sets['soa_refresh'] = 10800;
+						$this->sets['soa_expire'] = 604800;
 						break;
 				}
 

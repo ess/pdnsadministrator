@@ -23,7 +23,7 @@
  *
  **/
 
-if (!defined('QUICKSILVERFORUMS')) {
+if (!defined('PDNSADMIN')) {
 	header('HTTP/1.0 403 Forbidden');
 	die;
 }
@@ -31,8 +31,8 @@ if (!defined('QUICKSILVERFORUMS')) {
 /**
  * English language module
  *
- * @author Jason Warner <jason@mercuryboard.com>
- * @since 1.0.0 Beta 3.0
+ * @author Roger Libiez [Samson] http://www.iguanadons.net
+ * @since 1.0
  **/
 class en
 {
@@ -51,15 +51,15 @@ class en
 		$this->admin_db_query = 'Execute an SQL query';
 		$this->admin_db_restore = 'Restore a backup';
 		$this->admin_delete_group = 'Delete a group';
-		$this->admin_delete_user = 'Delete a user';
 		$this->admin_delete_template = 'Delete HTML template';
+		$this->admin_delete_user = 'Delete a user';
 		$this->admin_edit_group_name = 'Edit a group\'s name';
 		$this->admin_edit_group_perms = 'Edit a group\'s permissions';
-		$this->admin_edit_user = 'Edit a user';
-		$this->admin_edit_user_perms = 'Edit a user\'s permissions';
 		$this->admin_edit_settings = 'Edit settings';
 		$this->admin_edit_skin = 'Edit or delete a skin';
 		$this->admin_edit_templates = 'Edit HTML templates';
+		$this->admin_edit_user = 'Edit a user';
+		$this->admin_edit_user_perms = 'Edit a user\'s permissions';
 		$this->admin_export_skin = 'Export a skin';
 		$this->admin_groups = 'Groups';
 		$this->admin_heading = 'PDNS-Admin Administrative Control Panel';
@@ -68,6 +68,7 @@ class en
 		$this->admin_phpinfo = 'View PHP information';
 		$this->admin_settings = 'Settings';
 		$this->admin_settings_add = 'Add new setting';
+		$this->admin_supermasters = 'Set domain supermasters';
 		$this->admin_skins = 'Skins';
 		$this->admin_upgrade_skin = 'Upgrade a Skin';
 		$this->admin_users = 'Users';
@@ -134,14 +135,16 @@ class en
 	function domains()
 	{
 		$this->domains = 'Domains';
+		$this->domains_add_default_ns = 'Add default NS records';
 		$this->domains_delete = 'Delete Domain';
-		$this->domains_delte_this = 'Delete this domain';
 		$this->domains_delete_confirm = 'Are you sure you want to PERMANENTLY DELETE the domain';
-		$this->domains_deleted = 'The domain has been successfully deleted.';
 		$this->domains_delete_not_permitted = 'You are not permitted to delete domains you do not own.';
+		$this->domains_deleted = 'The domain has been successfully deleted.';
+		$this->domains_delte_this = 'Delete this domain';
 		$this->domains_edit = 'Edit Domain';
 		$this->domains_edit_not_permitted = 'You are not permitted to edit domains you do not own.';
 		$this->domains_exists = 'That domain name already exists.';
+		$this->domains_id_invalid = 'A valid domain ID is required to edit.';
 		$this->domains_info = 'Domain Info';
 		$this->domains_invalid = 'The domain name entered was invalid!';
 		$this->domains_invalid_cname = 'A CNAME record may not duplicate the contents of an MX or NS record.';
@@ -150,18 +153,21 @@ class en
 		$this->domains_invalid_ns = 'An NS record cannot point to a CNAME record.';
 		$this->domains_invalid_ns2 = 'An NS record cannot point to the parent domain name.';
 		$this->domains_invalid_ptr = 'You have entered an invalid PTR record.';
-		$this->domains_id_invalid = 'A valid domain ID is required to edit.';
 		$this->domains_ip_invalid = 'The IP address entered was invalid!';
-		$this->domains_user_invalid = 'A valid user is required!';
+		$this->domains_ip_required = 'An IP address is required.';
+		$this->domains_login_first = 'You must be logged in to access the domain control panel.';
 		$this->domains_new = 'Create New Domain';
 		$this->domains_new_cant_create = 'You cannot create new domains.';
 		$this->domains_new_created = 'New domain created.';
 		$this->domains_new_ip = 'IP Address';
+		$this->domains_new_cname_record = 'Add default CNAME record';
+		$this->domains_new_mx_record = 'Add default MX record';
+		$this->domains_new_ns_records = 'Add default NS records';
 		$this->domains_new_name = 'Domain Name';
 		$this->domains_new_reverse = 'Create New Reverse Domain';
 		$this->domains_owner = 'Owner';
-		$this->domains_owner_change = 'Change Owner';
 		$this->domains_owner_cant_change = 'You cannot change ownership of domains.';
+		$this->domains_owner_change = 'Change Owner';
 		$this->domains_owner_changed = 'Ownership has been changed.';
 		$this->domains_record_add = 'Add Domain Record';
 		$this->domains_record_added = 'Record Added.';
@@ -183,15 +189,14 @@ class en
 		$this->domains_record_wrong = 'Record does not match domain ID.';
 		$this->domains_records = 'Domain Records';
 		$this->domains_required = 'A domain name is required.';
-		$this->domains_ip_required = 'An IP address is required.';
 		$this->domains_type = 'Domain Type';
 		$this->domains_type_cant_change = 'You cannot change the domain type.';
 		$this->domains_type_change = 'Change Domain Type';
 		$this->domains_type_changed = 'Type has been changed.';
 		$this->domains_type_required = 'A domain type of MASTER, SLAVE, or NATIVE is required.';
-		$this->domains_login_first = 'You must be logged in to access the domain control panel.';
-		$this->domains_user_not_exist = 'The selected user does not exist.';
 		$this->domains_unknown = 'You cannot do that to a domain?!';
+		$this->domains_user_invalid = 'A valid user is required!';
+		$this->domains_user_not_exist = 'The selected user does not exist.';
 	}
 
 	function groups()
@@ -249,6 +254,7 @@ class en
 		$this->logs_change_type = 'Change domain type';
 		$this->logs_delete_a_record = 'Delete A record';
 		$this->logs_delete_cname_record = 'Delete CNAME record';
+		$this->logs_delete_domain = 'Delete domain';
 		$this->logs_delete_mx_record = 'Delete MX record';
 		$this->logs_delete_ns_record = 'Delete NS record';
 		$this->logs_delete_ptr_record = 'Delete PTR record';
@@ -262,17 +268,16 @@ class en
 		$this->logs_edit_soa_record = 'Edit SOA record';
 		$this->logs_edit_txt_record = 'Edit TXT record';
 		$this->logs_edit_url_record = 'Edit URL record';
+		$this->logs_id = 'IDs';
 		$this->logs_new_a_record = 'New A record';
 		$this->logs_new_cname_record = 'New CNAME record';
+		$this->logs_new_domain = 'New domain';
 		$this->logs_new_mx_record = 'New MX record';
 		$this->logs_new_ns_record = 'New NS record';
 		$this->logs_new_ptr_record = 'New PTR record';
+		$this->logs_new_reverse_domain = 'New reverse domain';
 		$this->logs_new_txt_record = 'New TXT record';
 		$this->logs_new_url_record = 'New URL record';
-		$this->logs_id = 'IDs';
-		$this->logs_delete_domain = 'Delete domain';
-		$this->logs_new_domain = 'New domain';
-		$this->logs_new_reverse_domain = 'New reverse domain';
 		$this->logs_time = 'Time';
 		$this->logs_user = 'User';
 		$this->logs_view = 'View Logs';
@@ -287,9 +292,9 @@ class en
 		$this->main_create_forward = 'Create New Domain';
 		$this->main_create_reverse = 'Create New Reverse Domain';
 		$this->main_delete_domain = 'Delete this domain';
-		$this->main_domains = 'Domains';
 		$this->main_domain_name = 'Domain Name';
 		$this->main_domain_owner = 'Domain Owner';
+		$this->main_domains = 'Domains';
 		$this->main_edit_domain = 'Edit this domain';
 		$this->main_full = 'Full';
 		$this->main_load = 'load';
@@ -301,6 +306,7 @@ class en
 		$this->main_prev = 'prev';
 		$this->main_queries = 'queries';
 		$this->main_records = 'Records';
+		$this->main_search = 'Search Domains';
 		$this->main_statistics = 'Statistics';
 		$this->main_title = 'PowerDNS Administration Console';
 		$this->main_users = 'Users';
@@ -319,11 +325,10 @@ class en
 	{
 		$this->perm = 'Permission';
 		$this->perms = 'Permissions';
-		$this->perms_site_view = 'Can view the index page.';
 		$this->perms_create_domains = 'Can create new domains.';
 		$this->perms_delete_domains = 'Can delete existing domains they do not own.';
-		$this->perms_edit_domains = 'Can edit existing domains they do not own.';
 		$this->perms_do_anything = 'Can access PDNS-Admin. Should never be unchecked!';
+		$this->perms_edit_domains = 'Can edit existing domains they do not own.';
 		$this->perms_edit_for = 'Edit permissions for';
 		$this->perms_for = 'Permissions For';
 		$this->perms_group = 'Group';
@@ -332,6 +337,7 @@ class en
 		$this->perms_is_admin = 'Can access the admin control panel. This is an all or nothing setting.';
 		$this->perms_only_user = 'Use only group permissions for this user';
 		$this->perms_override_user = 'This will override the group permissions for this user.';
+		$this->perms_site_view = 'Can view the index page.';
 		$this->perms_title = 'User Group Control';
 		$this->perms_updated = 'Permissions have been updated.';
 		$this->perms_user = 'User';
@@ -365,6 +371,7 @@ class en
 		$this->settings_cookie_secured = 'Is your site SSL secured?';
 		$this->settings_cookie_time = 'Time to Remain Logged In';
 		$this->settings_db = 'Edit Connection Settings';
+		$this->settings_db_file_write = 'Unable to write new database settings. Please CHMOD the settings.php file to 0666 and try again.';
 		$this->settings_db_host = 'Database Host';
 		$this->settings_db_leave_blank = 'Leave blank for none.';
 		$this->settings_db_name = 'Database Name';
@@ -380,7 +387,6 @@ class en
 		$this->settings_disabled = 'Disabled';
 		$this->settings_domain = 'Domain Settings';
 		$this->settings_domain_master = 'Master IP for SLAVE domains';
-		$this->settings_domain_ttl = 'Default TTL value for new domains';
 		$this->settings_domain_ns1 = 'Primary Nameserver';
 		$this->settings_domain_ns2 = 'Secondary Nameserver';
 		$this->settings_domain_ns3 = 'Tertiary Nameserver';
@@ -389,6 +395,11 @@ class en
 		$this->settings_domain_ns6 = 'Senary Nameserver';
 		$this->settings_domain_ns7 = 'Septenary Nameserver';
 		$this->settings_domain_ns8 = 'Octonary Nameserver';
+		$this->settings_domain_soa_refresh = 'Default SOA refresh value for new domains';
+		$this->settings_domain_soa_retry = 'Default SOA retry value for new domains';
+		$this->settings_domain_soa_expire = 'Default SOA expiry value for new domains';
+		$this->settings_domain_ttl = 'Default TTL value for new domains and records';
+		$this->settings_domains_per_page = 'Number of domains to display per page';
 		$this->settings_email_fake = 'For display only. Should not be a real e-mail address.';
 		$this->settings_email_from = 'E-mail From Address';
 		$this->settings_email_real = 'Should be a real e-mail address.';
@@ -406,6 +417,7 @@ class en
 		$this->settings_no_allow = 'Do Not Allow';
 		$this->settings_nodata = 'No data was sent from POST';
 		$this->settings_one_per = 'One per line';
+		$this->settings_records_per_page = 'Number of records to display per page';
 		$this->settings_server = 'Server Settings';
 		$this->settings_server_gzip = 'GZIP Compression';
 		$this->settings_server_gzip_msg = 'Improves speed. Disable if the board appears jumbled or blank.';
@@ -416,6 +428,24 @@ class en
 		$this->settings_timezone = 'Server Timezone';
 		$this->settings_updated = 'Settings have been updated.';
 		$this->settings_users = 'User Settings';
+	}
+
+	function supermaster()
+	{
+		$this->supermaster_account = 'Account';
+		$this->supermaster_add = 'Add Supermaster';
+		$this->supermaster_added = 'Supermaster record has been added.';
+		$this->supermaster_confirm_delete = 'Are you sure you wish to <b>PERMANENTLY DELETE</b> the supermaster record for this name server: ';
+		$this->supermaster_delete = 'Delete Supermaster';
+		$this->supermaster_deleted = 'Supermaster record deleted.';
+		$this->supermaster_exists = 'A supermaster record with that name server already exists!';
+		$this->supermaster_ip = 'IP Address';
+		$this->supermaster_new_ns = 'Name server to look for from master notifications';
+		$this->supermaster_ns = 'Name Server';
+		$this->supermaster_ns_invalid = 'The name server supplied is not valid!';
+		$this->supermaster_ns_unknown = 'There is no supermaster record matching that name server.';
+		$this->supermasters = 'Domain Supermasters';
+		$this->supermasters_none = 'There are no domain supermasters configured for this PDNS server.';
 	}
 
 	function templates()
@@ -488,10 +518,11 @@ class en
 		$this->temps_login = 'Logging In/Out';
 		$this->temps_logs = 'AdminCP Moderator Logs';
 		$this->temps_main = '<b>Site Universal</b>';
-		$this->temps_users = 'Users List';
-		$this->temps_user_control = 'AdminCP User Control';
 		$this->temps_settings = 'AdminCP Settings';
+		$this->temps_supermasters = 'Supermasters';
 		$this->temps_templates = 'AdminCP Template Editor';
+		$this->temps_user_control = 'AdminCP User Control';
+		$this->temps_users = 'Users List';
 		$this->upgrade_skin = 'Upgrade Skin';
 		$this->upgrade_skin_already = 'was already upgraded. Nothing to do.';
 		$this->upgrade_skin_detail = 'Skins upgraded using this method will still require template editing afterwards.<br />Select a skin to upgrade';
@@ -512,21 +543,6 @@ class en
 		$this->direction = 'ltr';
 		$this->edit = 'Edit';
 		$this->email = 'Email';
-		$this->name = 'Name';
-		$this->no = 'No';
-		$this->powered = 'Powered by';
-		$this->priority = 'Priority';
-		$this->seconds = 'Seconds';
-		$this->select_all = 'Select All';
-		$this->sep_decimals = '.';
-		$this->sep_thousands = ',';
-		$this->submit = 'Submit';
-		$this->time_long = ', g:i a';
-		$this->time_only = 'g:i a';
-		$this->today = 'Today';
-		$this->type = 'Type';
-		$this->yes = 'Yes';
-		$this->yesterday = 'Yesterday';
 		$this->gmt = '[GMT] Greenwich Mean Time';
 		$this->gmt_nev1 = '[GMT-1:00] Azores, Cape Verde';
 		$this->gmt_nev10 = '[GMT-10:00] Hawaii, Aleutian Islands';
@@ -557,6 +573,21 @@ class en
 		$this->gmt_pos8 = '[GMT+8:00] Beijing, Hong Kong, Singapore';
 		$this->gmt_pos9 = '[GMT+9:00] Tokyo, Seoul';
 		$this->gmt_pos95 = '[GMT+9:30] Adelaide, Darwin';
+		$this->name = 'Name';
+		$this->no = 'No';
+		$this->powered = 'Powered by';
+		$this->priority = 'Priority';
+		$this->seconds = 'Seconds';
+		$this->select_all = 'Select All';
+		$this->sep_decimals = '.';
+		$this->sep_thousands = ',';
+		$this->submit = 'Submit';
+		$this->time_long = ', g:i a';
+		$this->time_only = 'g:i a';
+		$this->today = 'Today';
+		$this->type = 'Type';
+		$this->yes = 'Yes';
+		$this->yesterday = 'Yesterday';
 	}
 
 	function user_control()
@@ -573,16 +604,16 @@ class en
 		$this->mc_find = 'Find users with names containing';
 		$this->mc_found = 'The following users were found. Please select one.';
 		$this->mc_not_found = 'No users were found matching';
+		$this->mc_user_created = 'Account Created';
 		$this->mc_user_email = 'Email Address';
+		$this->mc_user_email_required = 'An email address is required!';
 		$this->mc_user_group = 'Group';
 		$this->mc_user_id = 'User ID';
-		$this->mc_user_created = 'Account Created';
 		$this->mc_user_language = 'Language';
 		$this->mc_user_lastlogon = 'Last Logon';
 		$this->mc_user_name = 'Name';
-		$this->mc_user_email_required = 'An email address is required!';
-		$this->mc_user_name_required = 'A user name is required!';
 		$this->mc_user_name_exists = 'A user named %s already exists.';
+		$this->mc_user_name_required = 'A user name is required!';
 		$this->mc_user_new = 'User added. New password has been sent via email.';
 		$this->mc_user_skin = 'Skin';
 	}

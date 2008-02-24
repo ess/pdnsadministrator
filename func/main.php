@@ -15,7 +15,7 @@
  *
  **/
 
-if (!defined('QUICKSILVERFORUMS')) {
+if (!defined('PDNSADMIN')) {
 	header('HTTP/1.0 403 Forbidden');
 	die;
 }
@@ -28,7 +28,7 @@ require_once $set['include_path'] . '/global.php';
  * @author Roger Libiez [Samson]
  * @since 1.0
  **/
-class main extends qsfglobal
+class main extends pdnsadmin
 {
 	/**
 	 * Construct the main page
@@ -51,6 +51,12 @@ class main extends qsfglobal
 		$this->templater->add_templates('domains');
 		$content = '';
 		$id = $this->user['user_id'];
+		$check = false;
+
+		if( isset($this->post['search']) ) {
+			$check = true;
+			$search = $this->post['search'];
+		}
 
 		$sql = 'SELECT d.id, d.name, u.user_name, u.user_id, z.owner, COUNT(DISTINCT r.id) AS recs
 		    FROM domains d
@@ -58,8 +64,14 @@ class main extends qsfglobal
 		    LEFT JOIN users u ON u.user_id=z.owner
 		    LEFT JOIN records r ON r.domain_id=d.id';
 
+		if ($check)
+			$sql .= " WHERE d.name LIKE '%%$search%%'";
+
 		if ($this->user['user_group'] == USER_MEMBER) {
-			$sql .= " WHERE z.owner=$id";
+			if ($check)
+				$sql .= " AND z.owner=$id";
+			else
+				$sql .= " WHERE z.owner=$id";
 		}
 
 		$sql .= ' GROUP BY d.name, d.id
@@ -67,8 +79,11 @@ class main extends qsfglobal
 
 		$result = $this->db->query($sql);
 
+		// Need to pick a default in case the setting doesn't exist for some reason.
+		$domains_per_page = isset($this->sets['domains_per_page']) ? $this->sets['domains_per_page'] : 50;
+
 		$this->get['min'] = isset($this->get['min']) ? intval($this->get['min']) : 0;
-		$this->get['num'] = isset($this->get['num']) ? intval($this->get['num']) : 50;
+		$this->get['num'] = isset($this->get['num']) ? intval($this->get['num']) : $domains_per_page;
 		$pages = $this->htmlwidgets->get_pages( $result, '', $this->get['min'], $this->get['num'] );
 
 		$sql .= sprintf( ' LIMIT %d, %d', $this->get['min'], $this->get['num'] );

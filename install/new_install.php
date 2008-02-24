@@ -23,7 +23,7 @@
  *
  **/
 
-if (!defined('QUICKSILVERFORUMS')) {
+if (!defined('PDNSADMIN')) {
 	header('HTTP/1.0 403 Forbidden');
 	die;
 }
@@ -37,7 +37,7 @@ require_once $set['include_path'] . '/lib/packageutil.php';
  *
  * @author Jason Warner <jason@mercuryboard.com>
  */
-class new_install extends qsfglobal
+class new_install extends pdnsadmin
 {
 	function install_console( $step )
 	{
@@ -258,6 +258,11 @@ class new_install extends qsfglobal
 			$this->sets['septenary_nameserver'] = '';
 			$this->sets['octonary_nameserver'] = '';
 			$this->sets['default_ttl'] = 21600;
+			$this->sets['soa_retry'] = 3600;
+			$this->sets['soa_refresh'] = 10800;
+			$this->sets['soa_expire'] = 604800;
+			$this->sets['domains_per_page'] = 50;
+			$this->sets['records_per_page'] = 50;
 			$this->sets['admin_incoming'] = $this->post['admin_email'];
 			$this->sets['admin_outgoing'] = $this->post['admin_email'];
 			$this->sets['servertime'] = 0;
