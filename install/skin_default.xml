@@ -137,7 +137,7 @@
       <html><![CDATA[
 {$admin->table}
    <a href="../" style="font-weight:bold">{$admin->lang->admin_your_board}</a>
-   -- {$admin->lang->powered} <a href="http://www.iguanadons.net/pdns-admin" style="font-weight:bold">{$admin->name}</a>
+   -- {$admin->lang->powered} <a href="http://pdnsadmin.iguanadons.net/" style="font-weight:bold">{$admin->name}</a>
   {$admin->etable}
  </div>
 
@@ -145,7 +145,7 @@
 </div>
 
 <div id="footer">
- {$admin->lang->powered} <a href="http://www.iguanadons.net/pdns-admin"><b>{$admin->name}</b></a> [{$admin->version}] &copy; 2006-2008 Roger Libiez<br />
+ {$admin->lang->powered} <a href="http://pdnsadmin.iguanadons.net/"><b>{$admin->name}</b></a> [{$admin->version}] &copy; 2006-2008 Roger Libiez<br />
  {$admin->lang->based_on} <a href="http://www.quicksilverforums.com" class="small"><b>Quicksilver Forums</b></a> v1.3.1 &copy; 2005-2006 The Quicksilver Forums Development Team<br />
  Ashlander 3 by Roger Libiez [<a href="http://www.iguanadons.net">Samson</a>]. {$admin->lang->based_on} Syridium HForum v3 skin &copy; 2006-2007 <a href="http://www.syridium.com/">Syridium SC</a><br />
  {$time_exec} seconds - {$admin->db->querycount} queries - {$server_load} load
@@ -1408,7 +1408,7 @@
       <displayname>Copyright</displayname>
       <description>Format the look of the copyright on the board.&lt;br&gt;&lt;br&gt;&lt;b&gt;Warning: Modification to anything other than the style of this copyright will result in a violation of your terms of service&lt;/b&gt;</description>
       <html><![CDATA[
- {$pdns->lang->powered} <a href="http://www.iguanadons.net/pdns-admin"><b>{$pdns->name}</b></a> &copy; 2006-2008 Roger Libiez<br />
+ {$pdns->lang->powered} <a href="http://pdnsadmin.iguanadons.net/"><b>{$pdns->name}</b></a> &copy; 2006-2008 Roger Libiez<br />
  {$pdns->lang->based_on} <a href="http://www.quicksilverforums.com">Quicksilver Forums</a> &copy; 2005-2008 The Quicksilver Forums Development Team<br />
  Ashlander 3 by Roger Libiez [<a href="http://www.iguanadons.net">Samson</a>]. {$pdns->lang->based_on} HForumv3.1 skin &copy; 2006-2008 <a href="http://www.syridium.com/">Syridium SC</a>
       ]]></html>

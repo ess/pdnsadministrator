@@ -158,6 +158,7 @@ class upgrade extends pdnsadmin
 							$templates_update[] = 'MAIN_HEADER_MEMBER';
 							$templates_update[] = 'MAIN_HEADER_GUEST';
 							$templates_update[] = 'MAIN_COPYRIGHT';
+							$templates_update[] = 'ADMIN_COPYRIGHT';
 							$templates_update[] = 'ADMIN_EDIT_BOARD_SETTINGS';
 							$templates_update[] = 'DOMAIN_RECORD_EDIT';
 							$templates_update[] = 'DOMAINS_ADD';
