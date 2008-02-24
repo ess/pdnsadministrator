@@ -8,6 +8,7 @@ Changes for 1.1.5:
 * Added support for LOC, SRV, NAPTR, and SPF records. No validation in place yet!
 * Settable default SOA record values in AdminCP.
 * Optional to insert MX, NS, and CNAME records when a domain is created.
+* Added support for configuring supermasters.
 
 Changes for 1.1.4:
 
