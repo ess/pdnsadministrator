@@ -137,4 +137,7 @@ if (!$qsf->nohtml) {
 
 // Do post output stuff
 $qsf->cleanup();
+
+// Close the DB connection.
+$qsf->db->close();
 ?>

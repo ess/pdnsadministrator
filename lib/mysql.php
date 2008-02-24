@@ -65,6 +65,12 @@ class db_mysql extends database
 		}
 	}
 
+	function close()
+	{
+		if( $this->connection )
+			@mysql_close( $this->connection );
+	}
+
 	/**
 	 * Runs an EXPLAIN or similar on a query
 	 *

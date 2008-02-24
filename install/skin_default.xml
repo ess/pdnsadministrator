@@ -2,17 +2,13 @@
 <qsfmod>
   <title>Skin: Ashlander</title>
   <type folder="default">skin</type>
-  <version>v1.1</version>
+  <version>v1.1.1</version>
   <description></description>
   <authorname>Skin Exporter</authorname>
   <files>
-    <file>packages/skin_default-v1.1.xml</file>
-    <file>skins/default/images/header_gradient.png</file>
-    <file>skins/default/images/corner-bottom-right.png</file>
+    <file>packages/skin_default-v1.1.1.xml</file>
     <file>skins/default/images/Logo.gif</file>
-    <file>skins/default/images/nav_gradient.gif</file>
     <file>skins/default/images/valid-css.png</file>
-    <file>skins/default/images/corner-top.png</file>
     <file>skins/default/images/background3.gif</file>
     <file>skins/default/images/icons/new_record.png</file>
     <file>skins/default/images/icons/arrow_down.png</file>
@@ -44,24 +40,10 @@
     <file>skins/default/images/icons/table_edit.png</file>
     <file>skins/default/images/icons/control_panel.png</file>
     <file>skins/default/images/icons/search.png</file>
-    <file>skins/default/images/corner-bottom.png</file>
     <file>skins/default/images/valid-xhtml11.png</file>
-    <file>skins/default/images/corner-top-right.png</file>
-    <file>skins/default/images/large_grey_gradient.gif</file>
-    <file>skins/default/images/footer_gradient.png</file>
-    <file>skins/default/images/small_grey_gradient.gif</file>
     <file>skins/default/images/index.php</file>
-    <file>skins/default/images/1.png</file>
     <file>skins/default/styles.css</file>
     <file>skins/default/print.css</file>
-    <file>skins/default/mbicons/arrowl.gif</file>
-    <file>skins/default/mbicons/idea.gif</file>
-    <file>skins/default/mbicons/question.gif</file>
-    <file>skins/default/mbicons/arrow.gif</file>
-    <file>skins/default/mbicons/exclaim.gif</file>
-    <file>skins/default/mbicons/index.php</file>
-    <file>skins/default/mbicons/arrowd.gif</file>
-    <file>skins/default/mbicons/arrowu.gif</file>
     <file>skins/default/index.php</file>
     <file>skins/default/acp.css</file>
   </files>
