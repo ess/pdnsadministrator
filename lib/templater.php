@@ -1,7 +1,7 @@
 <?php
 /**
  * PDNS-Admin
- * Copyright (c) 2006-2007 Roger Libiez http://www.iguanadons.net
+ * Copyright (c) 2006-2008 Roger Libiez http://www.iguanadons.net
  *
  * Based on Quicksilver Forums
  * Copyright (c) 2005 The Quicksilver Forums Development Team
@@ -36,9 +36,7 @@ class templater extends tool
 {
 	var $temps   = array();		// Loaded templates @var array
 	var $skin = 'default';		// Skin to select from
-
 	var $macro;                     // Array of code to execute for each template
-
 	var $debug_mode = false;	// Set to true if we want to use start/end comments
 
 	/**
@@ -164,7 +162,7 @@ class templater extends tool
 		$stack = array();
 		$last = 0;
 		$pos = 0;
-		$output = "";
+		$output = '';
 
 		while( ($pos = strpos($string, '<', $pos) ) !== false )
 		{
@@ -183,14 +181,14 @@ class templater extends tool
 				if( (substr($string, $pos, 3) == 'IF ' ) ) {
 					$condition = substr($string, $pos+3, $close-$pos-3);
 					if($pos != 1)
-						$stack[] = array("text", substr($string, $last, $pos-$last-1) );
-					$stack[] = array("if", str_replace('"', '\\"', $condition) );
+						$stack[] = array('text', substr($string, $last, $pos-$last-1) );
+					$stack[] = array('if', str_replace('"', '\\"', $condition) );
 				} else if( (substr($string, $pos, 4) == 'ELSE' ) ) {
-					$stack[] = array("text", substr($string, $last, $pos-$last-1) );
-					$stack[] = array("else", 0);
+					$stack[] = array('text', substr($string, $last, $pos-$last-1) );
+					$stack[] = array('else', 0);
 				} else if( (substr($string, $pos, 3) == '/IF') ) {
-					$stack[] = array("text", substr($string, $last, $pos-$last-1) );
-					$stack[] = array("endif", 0);
+					$stack[] = array('text', substr($string, $last, $pos-$last-1) );
+					$stack[] = array('endif', 0);
 				} else {
 					continue;
 				}
@@ -199,7 +197,7 @@ class templater extends tool
 		}
 
 		if($last < strlen($string) )
-			$stack[] = array("text", substr($string, $last, strlen($string)-$last ) );
+			$stack[] = array('text', substr($string, $last, strlen($string)-$last ) );
 
 		$nest = 0;
 		$max = count($stack);

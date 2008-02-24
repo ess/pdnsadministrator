@@ -1,7 +1,7 @@
 <?php
 /**
  * PDNS-Admin
- * Copyright (c) 2006-2007 Roger Libiez http://www.iguanadons.net
+ * Copyright (c) 2006-2008 Roger Libiez http://www.iguanadons.net
  *
  * Based on Quicksilver Forums
  * Copyright (c) 2005 The Quicksilver Forums Development Team
@@ -88,7 +88,7 @@ class user
 			FROM users m, skins s, groups g
 			WHERE m.user_id=%d AND s.skin_dir=m.user_skin AND g.group_id=m.user_group LIMIT 1",
 			USER_GUEST_UID);
-			if( version_compare( PHP_VERSION, "5.2.0", "<" ) ) {
+			if( version_compare( PHP_VERSION, '5.2.0', '<' ) ) {
 				setcookie($this->sets['cookie_prefix'] . 'user', '', $this->time - 9000, $this->sets['cookie_path'], $this->sets['cookie_domain'].'; HttpOnly', $this->sets['cookie_secure']);
 				setcookie($this->sets['cookie_prefix'] . 'pass', '', $this->time - 9000, $this->sets['cookie_path'], $this->sets['cookie_domain'].'; HttpOnly', $this->sets['cookie_secure']);
 			} else {

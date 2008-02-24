@@ -1,7 +1,7 @@
 <?php
 /**
  * PDNS-Admin
- * Copyright (c) 2006-2007 Roger Libiez http://www.iguanadons.net
+ * Copyright (c) 2006-2008 Roger Libiez http://www.iguanadons.net
  *
  * Based on Quicksilver Forums
  * Copyright (c) 2005 The Quicksilver Forums Development Team
@@ -65,22 +65,22 @@ function get_backtrace()
 			}
 		}
 
-		$frame['class'] = (isset($frame['class'])) ? $frame['class'] : "";
-		$frame['type'] = (isset($frame['type'])) ? $frame['type'] : "";
-		$frame['file'] = (isset($frame['file'])) ? $frame['file'] : "";
-		$frame['line'] = (isset($frame['line'])) ? $frame['line'] : "";
+		$frame['class'] = (isset($frame['class'])) ? $frame['class'] : '';
+		$frame['type'] = (isset($frame['type'])) ? $frame['type'] : '';
+		$frame['file'] = (isset($frame['file'])) ? $frame['file'] : '';
+		$frame['line'] = (isset($frame['line'])) ? $frame['line'] : '';
 
 		$func = "";
 		$arg_list = implode(", ", $args);
 		if( $trace == 2 ) {
 			$func = "See above for details.";
 		} else {
-			$func = htmlspecialchars($frame['class'] . $frame['type'] . $frame['function']) . "(" . $arg_list . ")";
+			$func = htmlspecialchars($frame['class'] . $frame['type'] . $frame['function']) . '(' . $arg_list . ')';
 		}
 
-		$out .= "<b>File:</b> " . $frame['file'] . "<br />\n";
-		$out .= "<b>Line:</b> " . $frame['line'] . "<br />\n";
-		$out .= "<b>Call:</b> " . $func . "<br /><br />\n\n";
+		$out .= '<b>File:</b> ' . $frame['file'] . "<br />\n";
+		$out .= '<b>Line:</b> ' . $frame['line'] . "<br />\n";
+		$out .= '<b>Call:</b> ' . $func . "<br /><br />\n\n";
 	}
 	return $out;
 }
@@ -133,7 +133,7 @@ function error_fatal($type, $message, $file, $line = 0)
 			$details2 = null;
 
 			if (strpos($message, 'Template not found') !== false) {
-				$backtrace = "";
+				$backtrace = '';
 				$trace = debug_backtrace();
 				$file = $trace[2]['file'];
 				$line = $trace[2]['line'];
@@ -169,7 +169,7 @@ function error_fatal($type, $message, $file, $line = 0)
 	if (isset($_SERVER['QUERY_STRING'])) {
 		$temp_querystring = str_replace("&","&amp;", $_SERVER['QUERY_STRING']);
 	} else {
-		$temp_querystring = "";
+		$temp_querystring = '';
 	}
 
 	// DO NOT allow this information into the error reports!!!

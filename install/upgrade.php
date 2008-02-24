@@ -47,7 +47,11 @@ class upgrade extends qsfglobal
 				echo "<tr><td colspan='2' align='center'><b>To determine what version you are running, check the bottom of your AdminCP page. Or check the CHANGES file and look for the latest revision mentioned there.</b></td></tr>
 				<tr><td colspan='2' align='center'><b>Upgrade from what version?</b></td></tr>
 				    <tr>
-				        <td><input type='radio' name='from' value='1.1.1' id='111' checked='checked' />
+				        <td><input type='radio' name='from' value='1.1.2' id='112' checked='checked' />
+					<label for='111'>PDNS-Admin 1.1.2</label></td>
+				    </tr>
+				    <tr>
+				        <td><input type='radio' name='from' value='1.1.1' id='111' />
 					<label for='111'>PDNS-Admin 1.1.1</label></td>
 				    </tr>
 				    <tr>
@@ -71,7 +75,7 @@ class upgrade extends qsfglobal
 
 				if ( !$db->connection )
 				{
-					echo 'Couldn\'t select database: ' . mysql_error();
+					echo 'Couldn\'t select database: <br />' . mysql_error();
 					break;
 				}
 				$this->db = $db;
@@ -94,6 +98,10 @@ class upgrade extends qsfglobal
 						$templates_update[] = 'DOMAINS_EDIT';
 						$templates_update[] = 'MAIN_COPYRIGHT';
 
+					case '1.1.2': // 1.1.2 to 1.1.3
+						$templates_update[] = 'ADMIN_INDEX';
+						$templates_update[] = 'DOMAIN_LIST';
+						$templates_update[] = 'MAIN';
 						break;
 				}
 

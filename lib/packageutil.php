@@ -1,7 +1,7 @@
 <?php
 /**
  * PDNS-Admin
- * Copyright (c) 2006-2007 Roger Libiez http://www.iguanadons.net
+ * Copyright (c) 2006-2008 Roger Libiez http://www.iguanadons.net
  *
  * Based on Quicksilver Forums
  * Copyright (c) 2005 The Quicksilver Forums Development Team
@@ -49,7 +49,7 @@ class packageutil
 		foreach ($nodes['child'] as $node) {
 			if ($node['name'] == 'QUERY') {
 				// Build up query and data
-				$query = "";
+				$query = '';
 				$data = array();
 				foreach ($node['child'] as $element) {
 					switch($element['name'])
@@ -91,7 +91,7 @@ class packageutil
 
 		foreach ($nodes['child'] as $node) {
 			if ($node['name'] == 'TEMPLATE') {
-				$temp_name = "";
+				$temp_name = '';
 
 				foreach ($node['child'] as $element) {
 					if (isset($element['content'])) {

@@ -1,3 +1,11 @@
+Changes for 1.1.3:
+
+* Fixed some hardcoded English in the PHP source.
+* Editing users in the AdminCP wont't change an email address.
+* Added pagination links to the front page domain listing.
+* Updated all copyright headers for 2008.
+* Fixed another installer bug that prevented new installs.
+
 Changes for 1.1.2:
 
 * SECURITY: Users were capable of creating new domains without the permission setting.

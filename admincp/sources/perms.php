@@ -1,7 +1,7 @@
 <?php
 /**
  * PDNS-Admin
- * Copyright (c) 2006-2007 Roger Libiez http://www.iguanadons.net
+ * Copyright (c) 2006-2008 Roger Libiez http://www.iguanadons.net
  *
  * Based on Quicksilver Forums
  * Copyright (c) 2005 The Quicksilver Forums Development Team
@@ -83,10 +83,10 @@ class perms extends admin
 
 		if (!isset($this->post['submit'])) {
 			if ($mode == 'user') {
-				$query = $this->db->fetch("SELECT user_name, user_perms FROM users WHERE user_id=%d", $this->post['group']);
+				$query = $this->db->fetch('SELECT user_name, user_perms FROM users WHERE user_id=%d', $this->post['group']);
 				$label = "{$this->lang->perms_user} '{$query['user_name']}'";
 			} else {
-				$query = $this->db->fetch("SELECT group_name FROM groups WHERE group_id=%d", $this->post['group']);
+				$query = $this->db->fetch('SELECT group_name FROM groups WHERE group_id=%d', $this->post['group']);
 				$label = "{$this->lang->perms_group} '{$query['group_name']}'";
 			}
 

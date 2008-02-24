@@ -1,7 +1,7 @@
 <?php
 /**
  * PDNS-Admin
- * Copyright (c) 2006-2007 Roger Libiez http://www.iguanadons.net
+ * Copyright (c) 2006-2008 Roger Libiez http://www.iguanadons.net
  *
  * Based on Quicksilver Forums
  * Copyright (c) 2005 The Quicksilver Forums Development Team
@@ -34,15 +34,11 @@ if (!defined('QUICKSILVERFORUMS')) {
  **/
 class archive_tar
 {
-	var $full_filename;	/** Full filename we a writing to including the extentsion **/
-	
-	var $file_handle=false;	/** File handle for writing or reading **/
-	
-	var $seek_length=0;	/** Bytes to skip before reading the next file header **/
-	
-	var $file_writing=false;
-	
-	var $gz_mode=false;
+	var $full_filename;		/** Full filename we a writing to including the extentsion **/
+	var $file_handle = false;	/** File handle for writing or reading **/
+	var $seek_length = 0;		/** Bytes to skip before reading the next file header **/
+	var $file_writing = false;
+	var $gz_mode = false;
 
 	/**
 	 * Open an archive for writing
@@ -129,7 +125,7 @@ class archive_tar
 	{
 		if ($this->file_handle !== false)
 		{
-			if ($this->file_writing) $this->_write(pack("a1024", ""));
+			if ($this->file_writing) $this->_write(pack('a1024', ''));
 			if ($this->gz_mode) {
 				gzclose($this->file_handle);
 			} else {
@@ -267,13 +263,13 @@ class archive_tar
 
 		$rawHeader = $this->_read(512);
 		
-		if (strlen($rawHeader)<512 || $rawHeader == pack("a512", ""))
+		if (strlen($rawHeader)<512 || $rawHeader == pack('a512', ''))
 			return false; // probably EOF
 		
 		$header = unpack(
-			"a100filename/a8mode/a8uid/a8gid/a12size/a12mtime/".
-			"a8checksum/a1type/a100linkname/a6magic/a2version/".
-			"a32uname/a32gname/a8devmajor/a8devminor/a155prefix",
+			'a100filename/a8mode/a8uid/a8gid/a12size/a12mtime/'.
+			'a8checksum/a1type/a100linkname/a6magic/a2version/'.
+			'a32uname/a32gname/a8devmajor/a8devminor/a155prefix',
 			$rawHeader);
 		$this->currentStat = array(
 			2 => octdec($header['mode']),
@@ -516,7 +512,7 @@ class archive_tar
 		    $filename = substr($filename, -100);
 		}
 		
-		$blockbeg = pack("a100a8a8a8a12a12",
+		$blockbeg = pack('a100a8a8a8a12a12',
 		    $filename,
 		    decoct($mode),
 		    sprintf("%6s ",decoct($uid)),
@@ -525,19 +521,19 @@ class archive_tar
 		    sprintf("%11s ",decoct($time))
 		    );
 		
-		$blockend = pack("a1a100a6a2a32a32a8a8a155a12",
+		$blockend = pack('a1a100a6a2a32a32a8a8a155a12',
 		    $type,
 		    $link,
-		    "ustar",
-		    "00",
-		    "Unknown",
-		    "Unknown",
-		    "",
-		    "",
+		    'ustar',
+		    '00',
+		    'Unknown',
+		    'Unknown',
+		    '',
+		    '',
 		    $filePrefix,
-		    "");
+		    '');
 		
-		$checksum = 8*ord(" ");
+		$checksum = 8*ord(' ');
 		for ($i = 0; $i < 148; $i++) {
 		    $checksum += ord($blockbeg{$i});
 		}
@@ -545,7 +541,7 @@ class archive_tar
 		    $checksum += ord($blockend{$i});
 		}
 		
-		$checksum = pack("a8",sprintf("%6s ",decoct($checksum)));
+		$checksum = pack('a8',sprintf('%6s ',decoct($checksum)));
 		
 		return $blockbeg . $checksum . $blockend;
 	}
@@ -561,7 +557,7 @@ class archive_tar
 	function _tar_footer($size)
 	{
 		if ($size % 512 > 0) {
-			return pack("a".(512 - $size%512), "");
+			return pack('a'.(512 - $size%512), '');
 		} else {
 			return "";
 		}

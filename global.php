@@ -1,7 +1,7 @@
 <?php
 /**
  * PDNS-Admin
- * Copyright (c) 2006-2007 Roger Libiez http://www.iguanadons.net
+ * Copyright (c) 2006-2008 Roger Libiez http://www.iguanadons.net
  *
  * Based on Quicksilver Forums
  * Copyright (c) 2005 The Quicksilver Forums Development Team
@@ -37,7 +37,7 @@ if (!defined('QUICKSILVERFORUMS')) {
 class qsfglobal
 {
 	var $name    = 'PDNS-Admin';      // The name of the software @var string
-	var $version = 'v1.1.2';          // PDNS-Admin version @var string
+	var $version = 'v1.1.3';          // PDNS-Admin version @var string
 	var $server  = array();           // Alias for $_SERVER @var array
 	var $get     = array();           // Alias for $_GET @var array
 	var $post    = array();           // Alias for $_POST @var array
@@ -327,7 +327,7 @@ class qsfglobal
 	 **/
 	function get_settings($sets)
 	{
-		$settings = $this->db->fetch("SELECT settings_data FROM settings LIMIT 1");
+		$settings = $this->db->fetch('SELECT settings_data FROM settings LIMIT 1');
 
 		return array_merge($sets, unserialize($settings['settings_data']));
 	}
@@ -352,7 +352,7 @@ class qsfglobal
 		$time += $tz_adjust;
 
 		// DST adjustment if needed. Yes, it needs to know the current time so it can trick old posts into looking right.
-		if( date( "I", $this->time ) == 1 ) {
+		if( date( 'I', $this->time ) == 1 ) {
 			$time += 3600;
 		}
 

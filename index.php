@@ -1,7 +1,7 @@
 <?php
 /**
  * PDNS-Admin
- * Copyright (c) 2006-2007 Roger Libiez http://www.iguanadons.net
+ * Copyright (c) 2006-2008 Roger Libiez http://www.iguanadons.net
  *
  * Based on Quicksilver Forums
  * Copyright (c) 2005 The Quicksilver Forums Development Team
@@ -49,7 +49,7 @@ $db = new $modules['database']($set['db_host'], $set['db_user'], $set['db_pass']
 if (!$db->connection) {
     error(QUICKSILVER_ERROR, 'A connection to the database could not be established and/or the specified database could not be found.', __FILE__, __LINE__);
 }
-$settings = $db->fetch("SELECT settings_data FROM settings LIMIT 1");
+$settings = $db->fetch('SELECT settings_data FROM settings LIMIT 1');
 $set = array_merge($set, unserialize($settings['settings_data']));
 
 if (!isset($_GET['a']) || !in_array($_GET['a'], $modules['public_modules'])) {
@@ -90,7 +90,7 @@ $qsf->session['id'] = session_id();
 
 if( !isset($qsf->session['login']) && $qsf->user['user_id'] != USER_GUEST_UID ) {
 	$qsf->session['login'] = true;
-	$qsf->db->query( "UPDATE users SET user_lastlogon=%d WHERE user_id=%d", $qsf->time, $qsf->user['user_id'] );
+	$qsf->db->query( 'UPDATE users SET user_lastlogon=%d WHERE user_id=%d', $qsf->time, $qsf->user['user_id'] );
 }
 
 if (!isset($qsf->get['skin'])) {
@@ -102,13 +102,6 @@ if (!isset($qsf->get['skin'])) {
 $qsf->init();
 
 $server_load = $qsf->get_load();
-
-$reminder = null;
-$reminder_text = null;
-
-if ($reminder_text) {
-	$reminder = eval($qsf->template('MAIN_REMINDER'));
-}
 
 $output = $qsf->execute();
 

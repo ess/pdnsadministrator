@@ -1,7 +1,7 @@
 <?php
 /**
  * PDNS-Admin
- * Copyright (c) 2006-2007 Roger Libiez http://www.iguanadons.net
+ * Copyright (c) 2006-2008 Roger Libiez http://www.iguanadons.net
  *
  * Based on Quicksilver Forums
  * Copyright (c) 2005 The Quicksilver Forums Development Team
@@ -300,7 +300,6 @@ class en
 		$this->main_prev = 'prev';
 		$this->main_queries = 'queries';
 		$this->main_records = 'Records';
-		$this->main_reminder = 'Reminder';
 		$this->main_title = 'PowerDNS Administration Console';
 		$this->main_welcome = 'Welcome';
 		$this->main_welcome2 = 'Welcome to the PowerDNS Administration Console. Please log on. If you have not been provided with an account, you may not belong here.';
@@ -571,6 +570,10 @@ class en
 		$this->mc_user_language = 'Language';
 		$this->mc_user_lastlogon = 'Last Logon';
 		$this->mc_user_name = 'Name';
+		$this->mc_user_email_required = 'An email address is required!';
+		$this->mc_user_name_required = 'A user name is required!';
+		$this->mc_user_name_exists = 'A user named %s already exists.';
+		$this->mc_user_new = 'User added. New password has been sent via email.';
 		$this->mc_user_skin = 'Skin';
 	}
 }

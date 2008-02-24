@@ -130,7 +130,7 @@ class new_install extends qsfglobal
 			$db = new $this->modules['database']($this->post['db_host'], $this->post['db_user'], $this->post['db_pass'], $this->post['db_name'], $this->post['db_port'], $this->post['db_socket']);
 
 			if (!$db->connection) {
-				echo "Couldn't connect to a database using the specified information.";
+				echo 'Could not connect to a database using the specified information: <br />' . mysql_error();
 				break;
 			}
 			$this->db = &$db;
@@ -259,7 +259,7 @@ class new_install extends qsfglobal
 			$writeSetsWorked = $this->write_db_sets('../settings.php');
 			$this->write_sets();
 
-			if( version_compare( PHP_VERSION, "5.2.0", "<" ) ) {
+			if( version_compare( PHP_VERSION, '5.2.0', '<' ) ) {
 				setcookie($this->sets['cookie_prefix'] . 'user', $admin_uid, $this->time + $this->sets['logintime'], $this->sets['cookie_path'], $this->sets['cookie_domain'].'; HttpOnly', $this->sets['cookie_secure']);
 				setcookie($this->sets['cookie_prefix'] . 'pass', $this->post['admin_pass'], $this->time + $this->sets['logintime'], $this->sets['cookie_path'], $this->sets['cookie_domain'].'; HttpOnly', $this->sets['cookie_secure']);
 			} else {

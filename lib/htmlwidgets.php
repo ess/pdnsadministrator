@@ -1,7 +1,7 @@
 <?php
 /**
  * PDNS-Admin
- * Copyright (c) 2006-2007 Roger Libiez http://www.iguanadons.net
+ * Copyright (c) 2006-2008 Roger Libiez http://www.iguanadons.net
  *
  * Based on Quicksilver Forums
  * Copyright (c) 2005 The Quicksilver Forums Development Team
@@ -66,9 +66,15 @@ class htmlwidgets extends tool
 	 **/
 	function get_pages($rows, $link, $min = 0, $num = 10)
 	{
-		if (!$num) {
+		// No stupid values!
+		if ($num < 1) {
 			$num = 10;
 		}
+
+		if( $link && $link != '' )
+			$link = "$this->self?$link&amp;";
+		else
+			$link = "$this->self?";
 
 		// preliminary row handling
 		if (!is_resource($rows)) {
@@ -90,16 +96,16 @@ class htmlwidgets extends tool
 			$startlink = '&lt;&lt;';
 			$previouslink = $this->lang->main_prev;
 		} else {
-			$startlink = "<a href=\"{$this->self}?$link&amp;min=0&amp;num=$num\" class=\"pagelinks\">&lt;&lt;</a>";
+			$startlink = "<a href=\"{$link}min=0&amp;num=$num\" class=\"pagelinks\">&lt;&lt;</a>";
 			$prev = $min - $num;
-			$previouslink = "<a href=\"{$this->self}?$link&amp;min=$prev&amp;num=$num\" class=\"pagelinks\">{$this->lang->main_prev}</a> ";
+			$previouslink = "<a href=\"{$link}min=$prev&amp;num=$num\" class=\"pagelinks\">{$this->lang->main_prev}</a> ";
 		}
 
 		// check for next/end
 		if (($min + $num) < $rows) {
 			$next = $min + $num;
-  			$nextlink = "<a href=\"{$this->self}?$link&amp;min=$next&amp;num=$num\" class=\"pagelinks\">{$this->lang->main_next}</a>";
-  			$endlink = "<a href=\"{$this->self}?$link&amp;min=$end&amp;num=$num\" class=\"pagelinks\">&gt;&gt;</a>";
+  			$nextlink = "<a href=\"{$link}min=$next&amp;num=$num\" class=\"pagelinks\">{$this->lang->main_next}</a>";
+  			$endlink = "<a href=\"{$link}min=$end&amp;num=$num\" class=\"pagelinks\">&gt;&gt;</a>";
 		} else {
   			$nextlink = $this->lang->main_next;
   			$endlink = '&gt;&gt;';
@@ -142,7 +148,7 @@ class htmlwidgets extends tool
 		for ($i = $b; $i < $current; $i++)
 		{
 			$where = $num * $i;
-			$string .= ", <a href=\"{$this->self}?$link&amp;min=$where&amp;num=$num\" class=\"bodylinktype\">" . ($i + 1) . '</a>';
+			$string .= ", <a href=\"{$link}min=$where&amp;num=$num\" class=\"bodylinktype\">" . ($i + 1) . '</a>';
 		}
 
 		// add in page
@@ -152,7 +158,7 @@ class htmlwidgets extends tool
 		for ($i = $current + 1; $i <= $e; $i++)
 		{
 			$where = $num * $i;
-			$string .= ", <a href=\"{$this->self}?$link&amp;min=$where&amp;num=$num\" class=\"bodylinktype\">" . ($i + 1) . '</a>';
+			$string .= ", <a href=\"{$link}min=$where&amp;num=$num\" class=\"bodylinktype\">" . ($i + 1) . '</a>';
 		}
 
 		// get rid of preliminary comma. (optimized by jason: mark uses preg_replace() like candy)
@@ -165,7 +171,7 @@ class htmlwidgets extends tool
 
 	function select_domain_types($type)
 	{
-		$dom_types = array( "MASTER", "SLAVE", "NATIVE" );
+		$dom_types = array( 'MASTER', 'SLAVE', 'NATIVE' );
 
 		$out = null;
 		foreach( $dom_types as $x )
@@ -187,7 +193,7 @@ class htmlwidgets extends tool
 	 **/
 	function select_users($val)
 	{
-		$users = $this->db->query("SELECT user_name, user_id FROM users ORDER BY user_name");
+		$users = $this->db->query('SELECT user_name, user_id FROM users ORDER BY user_name');
 
 		$out = null;
 
@@ -239,7 +245,7 @@ class htmlwidgets extends tool
 	{
 		$out = null;
 
-		$query = $this->db->query("SELECT * FROM skins");
+		$query = $this->db->query('SELECT * FROM skins');
 		while ($s = $this->db->nqfetch($query))
 		{
 			if ($s['skin_dir'] == 'default') {

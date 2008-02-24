@@ -1,7 +1,7 @@
 <?php
 /**
  * PDNS-Admin
- * Copyright (c) 2006-2007 Roger Libiez http://www.iguanadons.net
+ * Copyright (c) 2006-2008 Roger Libiez http://www.iguanadons.net
  *
  * Based on Quicksilver Forums
  * Copyright (c) 2005 The Quicksilver Forums Development Team
@@ -93,7 +93,7 @@ class login extends qsfglobal
 			$this->post['pass'] = md5($this->post['pass']);
 
 			if ($this->post['pass'] == $pass) {
-				if( version_compare( PHP_VERSION, "5.2.0", "<" ) ) {
+				if( version_compare( PHP_VERSION, '5.2.0', '<' ) ) {
 					setcookie($this->sets['cookie_prefix'] . 'user', $user, $this->time + $this->sets['logintime'], $this->sets['cookie_path'], $this->sets['cookie_domain'].'; HttpOnly', $this->sets['cookie_secure']);
 					setcookie($this->sets['cookie_prefix'] . 'pass', $pass, $this->time + $this->sets['logintime'], $this->sets['cookie_path'], $this->sets['cookie_domain'].'; HttpOnly', $this->sets['cookie_secure']);
 				} else {
@@ -120,7 +120,7 @@ class login extends qsfglobal
 			$this->db->query('UPDATE users SET user_lastlogon=%d WHERE user_id=%d',
 				$this->time, $this->user['user_id']);
 
-			if( version_compare( PHP_VERSION, "5.2.0", "<" ) ) {
+			if( version_compare( PHP_VERSION, '5.2.0', '<' ) ) {
 				setcookie($this->sets['cookie_prefix'] . 'user', '', $this->time - 9000, $this->sets['cookie_path'], $this->sets['cookie_domain'].'; HttpOnly', $this->sets['cookie_secure']);
 				setcookie($this->sets['cookie_prefix'] . 'pass', '', $this->time - 9000, $this->sets['cookie_path'], $this->sets['cookie_domain'].'; HttpOnly', $this->sets['cookie_secure']);
 			} else {

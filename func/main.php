@@ -1,7 +1,7 @@
 <?php
 /**
  * PDNS-Admin
- * Copyright (c) 2006-2007 Roger Libiez http://www.iguanadons.net
+ * Copyright (c) 2006-2008 Roger Libiez http://www.iguanadons.net
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -66,6 +66,14 @@ class main extends qsfglobal
 		    ORDER BY d.name';
 
 		$result = $this->db->query($sql);
+
+		$this->get['min'] = isset($this->get['min']) ? intval($this->get['min']) : 0;
+		$this->get['num'] = isset($this->get['num']) ? intval($this->get['num']) : 50;
+		$pages = $this->htmlwidgets->get_pages( $result, '', $this->get['min'], $this->get['num'] );
+
+		$sql .= sprintf( ' LIMIT %d, %d', $this->get['min'], $this->get['num'] );
+		$result = $this->db->query( $sql );
+
 		while( $domain = $this->db->nqfetch($result) )
 		{
 			$content .= eval($this->template('DOMAIN_ITEM'));

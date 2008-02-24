@@ -1,7 +1,7 @@
 <?php
 /**
  * PDNS-Admin
- * Copyright (c) 2006-2007 Roger Libiez http://www.iguanadons.net
+ * Copyright (c) 2006-2008 Roger Libiez http://www.iguanadons.net
  *
  * Based on Quicksilver Forums
  * Copyright (c) 2005 The Quicksilver Forums Development Team
@@ -73,7 +73,7 @@ class groups extends admin
 					return $this->message($this->lang->groups_create, $this->lang->groups_no_name);
 				}
 
-				$copying = $this->db->fetch("SELECT group_perms FROM groups WHERE group_id=%d", $this->post['user_group']);
+				$copying = $this->db->fetch('SELECT group_perms FROM groups WHERE group_id=%d', $this->post['user_group']);
 
 				$this->db->query("INSERT INTO groups (group_name, group_perms)
 					VALUES ('%s', '%s')",
@@ -100,7 +100,7 @@ class groups extends admin
 
 					$this->post['group'] = intval($this->post['group']);
 
-					$old = $this->db->fetch("SELECT group_name, group_type FROM groups WHERE group_id=%d", $this->post['group']);
+					$old = $this->db->fetch('SELECT group_name, group_type FROM groups WHERE group_id=%d', $this->post['group']);
 
 					if ($old['group_type'] == '') {
 						$old['group_type'] = 'CUSTOM';
@@ -157,7 +157,7 @@ class groups extends admin
 				}
 
 				$this->db->query("DELETE FROM groups WHERE group_id=%d AND group_type=''", $this->post['old_group']);
-				$this->db->query("UPDATE users SET user_group=%d WHERE user_group=%d", $this->post['new_group'], $this->post['old_group']);
+				$this->db->query('UPDATE users SET user_group=%d WHERE user_group=%d', $this->post['new_group'], $this->post['old_group']);
 
 				return $this->message($this->lang->groups_delete, $this->lang->groups_deleted);
 			}

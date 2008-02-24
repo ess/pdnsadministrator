@@ -1,7 +1,7 @@
 <?php
 /**
  * PDNS-Admin
- * Copyright (c) 2006-2007 Roger Libiez http://www.iguanadons.net
+ * Copyright (c) 2006-2008 Roger Libiez http://www.iguanadons.net
  *
  * Based on Quicksilver Forums
  * Copyright (c) 2005 The Quicksilver Forums Development Team
@@ -116,7 +116,7 @@ class cp extends qsfglobal
 				$hashed_pass = md5($this->post['passA']);
 				$this->db->query("UPDATE users SET user_password='%s' WHERE user_id=%d", $hashed_pass, $this->user['user_id']);
 
-				if( version_compare( PHP_VERSION, "5.2.0", "<" ) ) {
+				if( version_compare( PHP_VERSION, '5.2.0', '<' ) ) {
 					setcookie($this->sets['cookie_prefix'] . 'pass', $hashed_pass, $this->time + $this->sets['logintime'], $this->sets['cookie_path'], $this->sets['cookie_domain'].'; HttpOnly', $this->sets['cookie_secure']);
 				} else {
 					setcookie($this->sets['cookie_prefix'] . 'pass', $hashed_pass, $this->time + $this->sets['logintime'], $this->sets['cookie_path'], $this->sets['cookie_domain'], $this->sets['cookie_secure'], true );

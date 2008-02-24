@@ -1,7 +1,7 @@
 <?php
 /**
  * PDNS-Admin
- * Copyright (c) 2006-2007 Roger Libiez http://www.iguanadons.net
+ * Copyright (c) 2006-2008 Roger Libiez http://www.iguanadons.net
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -92,12 +92,12 @@ class domains extends qsfglobal
 		}
 
 		$rec_id = $this->get['r'];
-		$rec = $this->db->fetch( "SELECT * FROM records WHERE id=%d", $rec_id );
+		$rec = $this->db->fetch( 'SELECT * FROM records WHERE id=%d', $rec_id );
 		if( $rec['domain_id'] != $id ) {
 			return $this->message($this->lang->domains_record_delete, $this->lang->domains_record_delete_wrong);
 		}
 
-		$dom = $this->db->fetch( "SELECT name FROM domains WHERE id=%d", $id );
+		$dom = $this->db->fetch( 'SELECT name FROM domains WHERE id=%d', $id );
 		if( $rec['type'] == 'SOA' )
 			return $this->message($this->lang->domains_record_delete, $this->lang->domains_record_delete_soa);
 
@@ -109,7 +109,7 @@ class domains extends qsfglobal
 			<a href=\"{$this->self}?a=domains&amp;s=deleterecord&amp;id={$id}&amp;r={$rec_id}&amp;confirm=1\">{$this->lang->continue}</a>" );
 		}
 
-		$this->db->query( "DELETE FROM records WHERE id=%d", $rec_id );
+		$this->db->query( 'DELETE FROM records WHERE id=%d', $rec_id );
 		$this->update_soa_serial( $id );
 
 		$this->log_action( 'delete_' . $rec['type'] . '_record', $id );
@@ -134,7 +134,7 @@ class domains extends qsfglobal
 		}
 
 		$rec_id = $this->get['r'];
-		$rec = $this->db->fetch( "SELECT * FROM records WHERE id=%d", $rec_id );
+		$rec = $this->db->fetch( 'SELECT * FROM records WHERE id=%d', $rec_id );
 		if( $rec['domain_id'] != $id ) {
 			return $this->message($this->lang->domains_record_edit, $this->lang->domains_record_wrong);
 		}
@@ -175,7 +175,7 @@ class domains extends qsfglobal
 		// "A" record is stored in the form of name.domain.tld
 		if( $record == 'A' ) {
 			if( $name != '' )
-				$name = $name . "." . $dom['name'];
+				$name = $name . '.' . $dom['name'];
 			else
 				$name = $dom['name'];
 
@@ -574,10 +574,10 @@ class domains extends qsfglobal
 
 		if( $zone_exists ) {
 			$this->db->query( "UPDATE zones SET owner=%d, comment='%s' WHERE domain_id=%d",
-				$owner, "Ownership Change", $this->get['id'] );
+				$owner, 'Ownership Change', $this->get['id'] );
 		} else {
 			$this->db->query( "INSERT INTO zones (domain_id, owner, comment) VALUES(%d, %d, '%s')",
-				$this->get['id'], $owner, "New Domain Owner" );
+				$this->get['id'], $owner, 'New Domain Owner' );
 		}
 		$this->log_action( 'change_owner', $this->get['id'] );
 		return $this->message($this->lang->domains_owner_change, $this->lang->domains_owner_changed, $this->lang->continue, "{$this->self}?a=domains&s=edit&id={$this->get['id']}");
@@ -669,7 +669,7 @@ class domains extends qsfglobal
 		$this->db->query('DELETE FROM zones WHERE domain_id=%d', $dom_id);
 
 		$this->log_action( 'delete_domain_name', $dom_id );
-		return $this->message($this->lang->domains_delete, $this->lang->domains_deleted, $this->lang->continue, "{$this->self}");
+		return $this->message($this->lang->domains_delete, $this->lang->domains_deleted, $this->lang->continue, $this->self);
 	}
 
 	/**

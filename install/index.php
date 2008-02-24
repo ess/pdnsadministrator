@@ -47,12 +47,12 @@ function check_writeable_files()
 	$fixme = '';
 
 	if(!is_writeable('../skins')) {
-		$fixme .= "../skins/<br />";
+		$fixme .= '../skins/<br />';
 		$writeable = false;
 	}
 
 	if(!is_writeable('../packages')) {
-		$fixme .= "../packages/<br />";
+		$fixme .= '../packages/<br />';
 		$writeable = false;
 	}
 
@@ -116,7 +116,7 @@ if (!extension_loaded('mysql')) {
 }
 
 if ($failed) {
-	echo "<br /><br /><b>To run PDNS-Admin, the above error(s) must be fixed by your web host.</b>";
+	echo '<br /><br /><b>To run PDNS-Admin, the above error(s) must be fixed by your web host.</b>';
 } else {
 	$qsf->sets = $set;
 	$qsf->modules = $modules;
@@ -126,7 +126,7 @@ if ($failed) {
 		default:
 			include 'choose_install.php';
 			break;
-		case 'new':
+		case 'new_install':
 			$qsf->install_console($step);
 			break;
 		case 'upgrade':
