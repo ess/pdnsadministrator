@@ -104,6 +104,10 @@ $qsf->init();
 $server_load = $qsf->get_load();
 
 $output = $qsf->execute();
+$users = $qsf->db->fetch( 'SELECT COUNT(user_id) count FROM users' );
+$domains = $qsf->db->fetch( 'SELECT COUNT(id) count FROM domains' );
+
+$users['count'] -= 1;
 
 $userheader = eval($qsf->template('MAIN_HEADER_' . ($qsf->perms->is_guest ? 'GUEST' : 'MEMBER')));
 

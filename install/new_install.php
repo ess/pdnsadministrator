@@ -251,6 +251,12 @@ class new_install extends qsfglobal
 			$this->sets['domain_master_ip'] = $this->post['master_ip'];
 			$this->sets['primary_nameserver'] = $this->post['primary_ns'];
 			$this->sets['secondary_nameserver'] = $this->post['secondary_ns'];
+			$this->sets['tertiary_nameserver'] = '';
+			$this->sets['quaternary_nameserver'] = '';
+			$this->sets['quinary_nameserver'] = '';
+			$this->sets['senary_nameserver'] = '';
+			$this->sets['septenary_nameserver'] = '';
+			$this->sets['octonary_nameserver'] = '';
 			$this->sets['default_ttl'] = 21600;
 			$this->sets['admin_incoming'] = $this->post['admin_email'];
 			$this->sets['admin_outgoing'] = $this->post['admin_email'];

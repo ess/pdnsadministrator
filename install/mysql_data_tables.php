@@ -30,9 +30,9 @@ if (!defined('INSTALLER')) {
 $queries[] = "DROP TABLE IF EXISTS groups";
 $queries[] = "CREATE TABLE groups (
   group_id tinyint(3) unsigned NOT NULL auto_increment,
-  group_name varchar(255) NOT NULL default '',
-  group_type varchar(20) NOT NULL default '',
-  group_perms text NOT NULL default '',
+  group_name varchar(255) NOT NULL,
+  group_type varchar(20) NOT NULL,
+  group_perms text NOT NULL,
   PRIMARY KEY  (group_id)
 ) ENGINE=InnoDB";
 
@@ -41,7 +41,7 @@ $queries[] = "CREATE TABLE logs (
   log_id int(10) unsigned NOT NULL auto_increment,
   log_user int(10) unsigned NOT NULL default '0',
   log_time int(10) unsigned NOT NULL default '0',
-  log_action varchar(20) NOT NULL default '',
+  log_action varchar(20) NOT NULL,
   log_data1 int(12) unsigned NOT NULL default '0',
   log_data2 smallint(4) unsigned NOT NULL default '0',
   log_data3 smallint(4) unsigned NOT NULL default '0',
@@ -51,25 +51,25 @@ $queries[] = "CREATE TABLE logs (
 $queries[] = "DROP TABLE IF EXISTS settings";
 $queries[] = "CREATE TABLE settings (
   settings_id tinyint(2) unsigned NOT NULL auto_increment,
-  settings_data text NOT NULL default '',
+  settings_data text NOT NULL,
   PRIMARY KEY  (settings_id)
 ) ENGINE=InnoDB";
 
 $queries[] = "DROP TABLE IF EXISTS skins";
 $queries[] = "CREATE TABLE skins (
-  skin_name varchar(32) NOT NULL default '',
-  skin_dir varchar(32) NOT NULL default '',
+  skin_name varchar(32) NOT NULL,
+  skin_dir varchar(32) NOT NULL,
   PRIMARY KEY  (skin_dir)
 ) ENGINE=InnoDB";
 
 $queries[] = "DROP TABLE IF EXISTS templates";
 $queries[] = "CREATE TABLE templates (
   template_skin varchar(32) NOT NULL default 'default',
-  template_set varchar(20) NOT NULL default '',
-  template_name varchar(36) NOT NULL default '',
-  template_html text NOT NULL default '',
-  template_displayname varchar(255) NOT NULL default '',
-  template_description varchar(255) NOT NULL default '',
+  template_set varchar(20) NOT NULL,
+  template_name varchar(36) NOT NULL,
+  template_html text NOT NULL,
+  template_displayname varchar(255) NOT NULL,
+  template_description varchar(255) NOT NULL,
   UNIQUE KEY Piece (template_name,template_skin),
   KEY Section (template_set,template_skin)
 ) ENGINE=InnoDB";
@@ -77,15 +77,17 @@ $queries[] = "CREATE TABLE templates (
 $queries[] = "DROP TABLE IF EXISTS users";
 $queries[] = "CREATE TABLE users (
   user_id int(10) unsigned NOT NULL auto_increment,
-  user_name varchar(255) NOT NULL default '',
-  user_password varchar(32) NOT NULL default '',
+  user_name varchar(255) NOT NULL,
+  user_password varchar(32) NOT NULL,
   user_group tinyint(3) unsigned NOT NULL default '2',
   user_skin varchar(32) NOT NULL default 'default',
   user_language varchar(6) NOT NULL default 'en',
-  user_email varchar(100) NOT NULL default '',
+  user_email varchar(100) NOT NULL,
+  user_domains int(10) unsigned NOT NULL default '0',
   user_created int(10) unsigned NOT NULL default '0',
   user_lastlogon int(10) unsigned NOT NULL default '0',
-  user_perms text NOT NULL default '',
+  user_lastlogonip varchar(255) NOT NULL,
+  user_perms text NOT NULL,
   PRIMARY KEY  (user_id)
 ) ENGINE=InnoDB";
 
@@ -94,7 +96,7 @@ $queries[] = "CREATE TABLE zones (
   id int(11) NOT NULL auto_increment,
   domain_id int(11) NOT NULL default '0',
   owner int(11) NOT NULL default '0',
-  comment text NOT NULL default '',
+  comment text NOT NULL,
   PRIMARY KEY  (id)
 ) ENGINE=InnoDB";
 

@@ -140,7 +140,7 @@ class domains extends qsfglobal
 		}
 
 		$dom = $this->db->fetch( 'SELECT name FROM domains WHERE id=%d', $id );
-		$record_types = array( 'A', 'MX', 'NS', 'CNAME', 'SOA', 'TXT', 'PTR', 'URL' );
+		$record_types = array( 'A', 'AAAA', 'MX', 'NS', 'CNAME', 'SOA', 'TXT', 'PTR', 'URL' );
 
 		if( !isset($this->post['submit']) ) {
 			$rec_options = null;
@@ -173,13 +173,13 @@ class domains extends qsfglobal
 		$priority = isset($this->post['priority']) ? intval($this->post['priority']) : 0;
 
 		// "A" record is stored in the form of name.domain.tld
-		if( $record == 'A' ) {
+		if( $record == 'A' || $record == 'AAAA' ) {
 			if( $name != '' )
 				$name = $name . '.' . $dom['name'];
 			else
 				$name = $dom['name'];
 
-			if( !$this->is_valid_ip( $content ) ) {
+			if( !$this->is_valid_ip( $content, $record ) ) {
 				return $this->message($this->lang->domains_record_edit, $this->lang->domains_ip_invalid);
 			}
 		}
@@ -237,6 +237,7 @@ class domains extends qsfglobal
 		if( $record == 'PTR' ) {
 			if( !stristr( $name, '.' ) === FALSE )
 				return $this->message($this->lang->domains_record_edit, $this->lang->domains_invalid_ptr);
+			$name = $name . '.' . $dom['name'];
 		}
 
 		if( $record == 'SOA' ) {
@@ -267,7 +268,7 @@ class domains extends qsfglobal
 		}
 
 		$domain = $this->db->fetch( 'SELECT name FROM domains WHERE id=%d', $id );
-		$record_types = array( 'A', 'MX', 'NS', 'CNAME', 'TXT', 'PTR', 'URL' );
+		$record_types = array( 'A', 'AAAA', 'MX', 'NS', 'CNAME', 'TXT', 'PTR', 'URL' );
 
 		if (!isset($this->post['submit'])) {
 			$rec_options = null;
@@ -294,13 +295,13 @@ class domains extends qsfglobal
 		$priority = isset($this->post['priority']) ? intval($this->post['priority']) : 0;
 
 		// "A" record is stored in the form of name.domain.tld
-		if( $record == 'A' ) {
+		if( $record == 'A' || $record == 'AAAA' ) {
 			if( $name != '' )
 				$name = $name . '.' . $domain['name'];
 			else
 				$name = $domain['name'];
 
-			if( !$this->is_valid_ip( $content ) ) {
+			if( !$this->is_valid_ip( $content, $record ) ) {
 				return $this->message($this->lang->domains_record_add, $this->lang->domains_ip_invalid);
 			}
 		}
@@ -358,6 +359,7 @@ class domains extends qsfglobal
 		if( $record == 'PTR' ) {
 			if( !stristr( $name, '.' ) === FALSE )
 				return $this->message($this->lang->domains_record_add, $this->lang->domains_invalid_ptr);
+			$name = $name . '.' . $domain['name'];
 		}
 
 		$this->db->query( "INSERT INTO records (domain_id, name, type, content, ttl, prio, change_date)
@@ -513,6 +515,9 @@ class domains extends qsfglobal
 		// Set the owner in the zones table
 		$this->db->query("INSERT INTO zones (domain_id, owner, comment) VALUES( %d, %d, '%s' )", $dom_id, $dom_owner, 'New Domain');
 
+		// Increment the user's domain count
+		$this->db->query( 'UPDATE users SET user_domains=user_domains+1 WHERE user_id=%d', $dom_owner );
+
 		// Insert the SOA record for the new domain.
 		$new_serial = date('Ymd') . '00';
 		$soa_email = str_replace( '@', '.', $this->sets['admin_incoming'] );
@@ -535,6 +540,48 @@ class domains extends qsfglobal
 		$this->db->query("INSERT INTO records (domain_id, name, type, content, ttl, prio, change_date)
 			VALUES( %d, '%s', 'NS', '%s', %d, 0, %d )",
 			$dom_id, $dom_name, $this->sets['secondary_nameserver'], $this->sets['default_ttl'], $this->time);
+
+		// Insert the tertiary NS record for the new domain, if it exists.
+		if( isset( $this->sets['tertiary_nameserver'] ) && $this->sets['tertiary_nameserver'] != '' ) {
+			$this->db->query("INSERT INTO records (domain_id, name, type, content, ttl, prio, change_date)
+				VALUES( %d, '%s', 'NS', '%s', %d, 0, %d )",
+				$dom_id, $dom_name, $this->sets['tertiary_nameserver'], $this->sets['default_ttl'], $this->time);
+		}
+
+		// Insert the quaternary NS record for the new domain, if it exists.
+		if( isset( $this->sets['quaternary_nameserver'] ) && $this->sets['quaternary_nameserver'] != '' ) {
+			$this->db->query("INSERT INTO records (domain_id, name, type, content, ttl, prio, change_date)
+				VALUES( %d, '%s', 'NS', '%s', %d, 0, %d )",
+				$dom_id, $dom_name, $this->sets['quaternary_nameserver'], $this->sets['default_ttl'], $this->time);
+		}
+
+		// Insert the quinary NS record for the new domain, if it exists.
+		if( isset( $this->sets['quinary_nameserver'] ) && $this->sets['quinary_nameserver'] != '' ) {
+			$this->db->query("INSERT INTO records (domain_id, name, type, content, ttl, prio, change_date)
+				VALUES( %d, '%s', 'NS', '%s', %d, 0, %d )",
+				$dom_id, $dom_name, $this->sets['quinary_nameserver'], $this->sets['default_ttl'], $this->time);
+		}
+
+		// Insert the senary NS record for the new domain, if it exists.
+		if( isset( $this->sets['senary_nameserver'] ) && $this->sets['senary_nameserver'] != '' ) {
+			$this->db->query("INSERT INTO records (domain_id, name, type, content, ttl, prio, change_date)
+				VALUES( %d, '%s', 'NS', '%s', %d, 0, %d )",
+				$dom_id, $dom_name, $this->sets['senary_nameserver'], $this->sets['default_ttl'], $this->time);
+		}
+
+		// Insert the septenary NS record for the new domain, if it exists.
+		if( isset( $this->sets['septenary_nameserver'] ) && $this->sets['septenary_nameserver'] != '' ) {
+			$this->db->query("INSERT INTO records (domain_id, name, type, content, ttl, prio, change_date)
+				VALUES( %d, '%s', 'NS', '%s', %d, 0, %d )",
+				$dom_id, $dom_name, $this->sets['septenary_nameserver'], $this->sets['default_ttl'], $this->time);
+		}
+
+		// Insert the octonary NS record for the new domain, if it exists.
+		if( isset( $this->sets['octonary_nameserver'] ) && $this->sets['octonary_nameserver'] != '' ) {
+			$this->db->query("INSERT INTO records (domain_id, name, type, content, ttl, prio, change_date)
+				VALUES( %d, '%s', 'NS', '%s', %d, 0, %d )",
+				$dom_id, $dom_name, $this->sets['octonary_nameserver'], $this->sets['default_ttl'], $this->time);
+		}
 
 		// Insert the MX record for the new domain. Priority defaults to 10.
 		$this->db->query("INSERT INTO records (domain_id, name, type, content, ttl, prio, change_date)
@@ -569,15 +616,18 @@ class domains extends qsfglobal
 			return $this->message($this->lang->domains_owner_change, $this->lang->domains_user_invalid);
 		}
 
-		$zone_exists = $this->db->fetch( 'SELECT id FROM zones WHERE domain_id=%d', $this->get['id'] );
+		$zone_exists = $this->db->fetch( 'SELECT id, owner FROM zones WHERE domain_id=%d', $this->get['id'] );
 		$owner = intval($this->post['owner']);
 
 		if( $zone_exists ) {
 			$this->db->query( "UPDATE zones SET owner=%d, comment='%s' WHERE domain_id=%d",
 				$owner, 'Ownership Change', $this->get['id'] );
+			$this->db->query( 'UPDATE users SET user_domains=user_domains-1 WHERE user_id=%d', $zone_exists['owner'] );
+			$this->db->query( 'UPDATE users SET user_domains=user_domains+1 WHERE user_id=%d', $owner );
 		} else {
 			$this->db->query( "INSERT INTO zones (domain_id, owner, comment) VALUES(%d, %d, '%s')",
 				$this->get['id'], $owner, 'New Domain Owner' );
+			$this->db->query( 'UPDATE users SET user_domains=user_domains+1 WHERE user_id=%d', $owner );
 		}
 		$this->log_action( 'change_owner', $this->get['id'] );
 		return $this->message($this->lang->domains_owner_change, $this->lang->domains_owner_changed, $this->lang->continue, "{$this->self}?a=domains&s=edit&id={$this->get['id']}");
@@ -657,6 +707,7 @@ class domains extends qsfglobal
 		}
 
 		$domain = $this->db->fetch('SELECT name FROM domains WHERE id=%d', $dom_id);
+		$owner = $this->db->fetch('SELECT owner FROM zones WHERE domain_id=%d', $dom_id);
 
 		if (!isset($this->get['confirm'])) {
 			return $this->message($this->lang->domains_delete,
@@ -667,6 +718,7 @@ class domains extends qsfglobal
 		$this->db->query('DELETE FROM domains WHERE id=%d', $dom_id);
 		$this->db->query('DELETE FROM records WHERE domain_id=%d', $dom_id);
 		$this->db->query('DELETE FROM zones WHERE domain_id=%d', $dom_id);
+		$this->db->query('UPDATE users SET user_domains=user_domains-1 WHERE user_id=%d', $owner['owner'] );
 
 		$this->log_action( 'delete_domain_name', $dom_id );
 		return $this->message($this->lang->domains_delete, $this->lang->domains_deleted, $this->lang->continue, $this->self);
@@ -694,9 +746,26 @@ class domains extends qsfglobal
 	 * @return true if the address checks out
 	 * @since 1.0
 	 */
-	function is_valid_ip($ip)
+	function is_valid_ip($ip, $type = 'A')
 	{
-		return( $ip == long2ip(ip2long($ip))) ? true : false;
+		if( $type == 'A' ) {
+			if( strpos( $ip, '.' ) === false )
+				return false;
+
+			return( $ip == @inet_ntop(@inet_pton($ip))) ? true : false;
+		} else if( $type == 'AAAA' ) {
+			if( strpos( $ip, ':' ) === false )
+				return false;
+			if( strpos( $ip, '.' ) !== false )
+				return false;
+
+			$newip = eregi_replace( "^0*([A-Fa-f0-9])", "\\1", $ip );
+			$newip = eregi_replace( ":0*([A-Fa-f1-9])", ":\\1", $newip );
+			$newip = eregi_replace( ":+0+(:0+)*:0+:+", "::", $newip );
+
+			return( $newip == @inet_ntop(@inet_pton($newip))) ? true : false;
+		}
+		return false;
 	}
 
 	function is_owner($dom_id, $edit)

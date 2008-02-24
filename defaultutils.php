@@ -49,7 +49,8 @@ $modules['public_modules'] = array(
 	'cp',
 	'domains',
 	'email',
-	'login');
+	'login',
+	'users');
 
 $modules['admin_modules'] = array(
 	'backup',

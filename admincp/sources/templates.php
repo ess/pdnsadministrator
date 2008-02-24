@@ -46,6 +46,7 @@ class templates extends admin
 			'login'          => $this->lang->temps_login,
 			'logs'           => $this->lang->temps_logs,
 			'Main'           => $this->lang->temps_main,
+			'users'          => $this->lang->temps_users,
 			'user_control'   => $this->lang->temps_user_control,
 			'settings'       => $this->lang->temps_settings,
 			'templates'      => $this->lang->temps_templates

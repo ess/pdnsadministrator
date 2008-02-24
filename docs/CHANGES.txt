@@ -1,3 +1,15 @@
+Changes for 1.1.4:
+
+NOTE: IPv6 support raises minimum system requirements to PHP >= 5.1.0
+
+* Fixed a bug where PTR records were being added or edited incorrectly. [Josh Speer]
+* Removed a bad template section that dealt with database prefixes, which the package does not use.
+* Corrected an undefined indexes error in the error library file.
+* Added a new user module to list the users in the system along with their domain information.
+* A running total of users and domains will now be shown on the main screen below the navigation menu.
+* Support added for IPv6 AAAA records.
+* Support added for up to 8 nameservers to be specified.
+
 Changes for 1.1.3:
 
 * Fixed some hardcoded English in the PHP source.

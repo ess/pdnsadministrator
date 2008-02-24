@@ -2,11 +2,11 @@
 <qsfmod>
   <title>Skin: Ashlander</title>
   <type folder="default">skin</type>
-  <version>v1.1.3</version>
+  <version>v1.1.4</version>
   <description></description>
   <authorname>Skin Exporter</authorname>
   <files>
-    <file>packages/skin_default-v1.1.3.xml</file>
+    <file>packages/skin_default-v1.1.4.xml</file>
     <file>skins/default/images/Logo.gif</file>
     <file>skins/default/images/valid-css.png</file>
     <file>skins/default/images/background3.gif</file>
@@ -222,6 +222,36 @@
 
  <p class="line"></p>
 
+ <span class="field">{$this->lang->settings_domain_ns3}</span>
+ <span class="form"><input type="text" name="tertiary_nameserver" value="{$this->sets['tertiary_nameserver']}" size="40" /></span>
+
+ <p class="line"></p>
+
+ <span class="field">{$this->lang->settings_domain_ns4}</span>
+ <span class="form"><input type="text" name="quaternary_nameserver" value="{$this->sets['quaternary_nameserver']}" size="40" /></span>
+
+ <p class="line"></p>
+
+ <span class="field">{$this->lang->settings_domain_ns5}</span>
+ <span class="form"><input type="text" name="quinary_nameserver" value="{$this->sets['quinary_nameserver']}" size="40" /></span>
+
+ <p class="line"></p>
+
+ <span class="field">{$this->lang->settings_domain_ns6}</span>
+ <span class="form"><input type="text" name="senary_nameserver" value="{$this->sets['senary_nameserver']}" size="40" /></span>
+
+ <p class="line"></p>
+
+ <span class="field">{$this->lang->settings_domain_ns7}</span>
+ <span class="form"><input type="text" name="septenary_nameserver" value="{$this->sets['septenary_nameserver']}" size="40" /></span>
+
+ <p class="line"></p>
+
+ <span class="field">{$this->lang->settings_domain_ns8}</span>
+ <span class="form"><input type="text" name="octonary_nameserver" value="{$this->sets['octonary_nameserver']}" size="40" /></span>
+
+ <p class="line"></p>
+
  <span class="field">{$this->lang->settings_domain_master}</span>
  <span class="form"><input type="text" name="domain_master_ip" value="{$this->sets['domain_master_ip']}" size="40" /></span>
 
@@ -357,11 +387,6 @@
 
  <span class="field">{$this->lang->settings_db_socket}<br /><span class="tiny">{$this->lang->settings_db_leave_blank}</span></span>
  <span class="form"><input type="text" name="db_socket" value="{$this->sets['db_socket']}" size="40" /></span>
-
- <p class="line"></p>
-
- <span class="field">{$this->lang->settings_db_prefix}<br /><span class="tiny">{$this->lang->settings_db_multiple}</span></span>
- <span class="form"><input type="text" name="prefix" value="{$this->sets['prefix']}" size="40" /></span>
 
  <p class="line"></p>
  <input type="submit" value="{$this->lang->submit}" />
@@ -1103,7 +1128,7 @@
  </a>
 </div>
 <span class="name"><a href="{$this->self}?a=domains&amp;s=edit&amp;id={$domain['id']}" title="{$this->lang->main_edit_domain}">{$domain['name']}</a></span>
-<span class="owner">{$domain['user_name']}</span>
+<span class="owner"><a href="{$this->self}?a=users&amp;w={$domain['user_id']}">{$domain['user_name']}</a></span>
 <span class="number">{$domain['recs']}</span>
 <p class="list_line"></p>
       ]]></html>
@@ -1366,9 +1391,23 @@
  </IF>
  <span><a href="{$qsf->self}?a=cp">{$qsf->lang->main_cp}</a></span>
  <IF $qsf->perms->auth('is_admin')>
+  <span><a href="{$qsf->self}?a=users">{$qsf->lang->main_users}</a></span>
   <span><a href="./admincp/index.php">{$qsf->lang->main_admincp}</a></span>
  </IF>
  <span><a href="{$qsf->self}?a=login&amp;s=off">{$qsf->lang->main_logout}</a></span>
+</div>
+
+<div class="block">
+ <div class="title">{$qsf->lang->main_statistics}</div>
+ <span class="half">
+  {$qsf->lang->main_users}<br />
+  {$qsf->lang->main_domains}
+ </span>
+ <span class="half">
+  {$users['count']}<br />
+  {$domains['count']}
+ </span>
+ <div style="clear:both"></div>
 </div>
       ]]></html>
     </template>
@@ -1413,6 +1452,105 @@
       <description>Edit the beginning of all html that uses $this-&gt;table</description>
       <html><![CDATA[
 <div class="article">
+      ]]></html>
+    </template>
+    <template><set>users</set><name>USERS_MAIN</name>
+      <displayname>Users List</displayname>
+      <description>Change the look of the main area of the user list.</description>
+      <html><![CDATA[
+{$this->table}
+ <div class="title">
+  <img src="./skins/{$this->skin}/images/icons/user_online.png" alt="" />
+  {$this->lang->users_list}
+ </div>
+ <span class="head">
+  <span class="icon">&nbsp;</span>
+  <span class="name"><a href="{$this->self}?a=users&amp;l={$l}&amp;order=member&amp;asc={$asc}">{$this->lang->users_user}</a></span>
+  <span class="name">{$this->lang->email}</span>
+  <span class="number"><a href="{$this->self}?a=users&amp;l={$l}&amp;order=domains&amp;asc={$asc}">{$this->lang->users_domains}</a></span>
+  <span class="number"><a href="{$this->self}?a=users&amp;l={$l}&amp;order=created&amp;asc={$asc}">{$this->lang->users_created}</a></span>
+  <span class="number"><a href="{$this->self}?a=users&amp;l={$l}&amp;order=group&amp;asc={$asc}">{$this->lang->users_group}</a></span>
+ </span>
+ <p></p>
+ {$Users}
+{$this->etable}
+
+{$this->table}
+ <span class="right">
+  <a href="{$this->self}?a=users&amp;order={$order}&amp;asc={$lasc}">[{$this->lang->users_all}]</a>
+  <a href="{$this->self}?a=users&amp;l=a&amp;order={$order}&amp;asc={$lasc}">a</a>
+  <a href="{$this->self}?a=users&amp;l=b&amp;order={$order}&amp;asc={$lasc}">b</a>
+  <a href="{$this->self}?a=users&amp;l=c&amp;order={$order}&amp;asc={$lasc}">c</a>
+  <a href="{$this->self}?a=users&amp;l=d&amp;order={$order}&amp;asc={$lasc}">d</a>
+  <a href="{$this->self}?a=users&amp;l=e&amp;order={$order}&amp;asc={$lasc}">e</a>
+  <a href="{$this->self}?a=users&amp;l=f&amp;order={$order}&amp;asc={$lasc}">f</a>
+  <a href="{$this->self}?a=users&amp;l=g&amp;order={$order}&amp;asc={$lasc}">g</a>
+  <a href="{$this->self}?a=users&amp;l=h&amp;order={$order}&amp;asc={$lasc}">h</a>
+  <a href="{$this->self}?a=users&amp;l=i&amp;order={$order}&amp;asc={$lasc}">i</a>
+  <a href="{$this->self}?a=users&amp;l=j&amp;order={$order}&amp;asc={$lasc}">j</a>
+  <a href="{$this->self}?a=users&amp;l=k&amp;order={$order}&amp;asc={$lasc}">k</a>
+  <a href="{$this->self}?a=users&amp;l=l&amp;order={$order}&amp;asc={$lasc}">l</a>
+  <a href="{$this->self}?a=users&amp;l=m&amp;order={$order}&amp;asc={$lasc}">m</a>
+  <a href="{$this->self}?a=users&amp;l=n&amp;order={$order}&amp;asc={$lasc}">n</a>
+  <a href="{$this->self}?a=users&amp;l=o&amp;order={$order}&amp;asc={$lasc}">o</a>
+  <a href="{$this->self}?a=users&amp;l=p&amp;order={$order}&amp;asc={$lasc}">p</a>
+  <a href="{$this->self}?a=users&amp;l=q&amp;order={$order}&amp;asc={$lasc}">q</a>
+  <a href="{$this->self}?a=users&amp;l=r&amp;order={$order}&amp;asc={$lasc}">r</a>
+  <a href="{$this->self}?a=users&amp;l=s&amp;order={$order}&amp;asc={$lasc}">s</a>
+  <a href="{$this->self}?a=users&amp;l=t&amp;order={$order}&amp;asc={$lasc}">t</a>
+  <a href="{$this->self}?a=users&amp;l=u&amp;order={$order}&amp;asc={$lasc}">u</a>
+  <a href="{$this->self}?a=users&amp;l=v&amp;order={$order}&amp;asc={$lasc}">v</a>
+  <a href="{$this->self}?a=users&amp;l=w&amp;order={$order}&amp;asc={$lasc}">w</a>
+  <a href="{$this->self}?a=users&amp;l=x&amp;order={$order}&amp;asc={$lasc}">x</a>
+  <a href="{$this->self}?a=users&amp;l=y&amp;order={$order}&amp;asc={$lasc}">y</a>
+  <a href="{$this->self}?a=users&amp;l=z&amp;order={$order}&amp;asc={$lasc}">z</a>
+ </span>
+ {$PageNums}
+{$this->etable}
+      ]]></html>
+    </template>
+    <template><set>users</set><name>USERS_PROFILE</name>
+      <displayname>User Profile</displayname>
+      <description>Format of the user profile display for a single user.</description>
+      <html><![CDATA[
+{$this->table}
+ <div class="title">
+  <img src="./skins/{$this->skin}/images/icons/user_online.png" alt="" />
+  {$this->lang->users_profile}: {$user['user_name']}
+ </div>
+{$this->etable}
+
+{$this->table}
+ <div class="title">
+  <img src="./skins/{$this->skin}/images/icons/phone.png" alt="" />
+  {$this->lang->users_contact}
+ </div>
+ <span class="field">{$this->lang->users_email_address}</span>
+ <span class="form"><a href="mailto:{$user['user_email']}">{$user['user_email']}</a></span>
+ <p></p>
+{$this->etable}
+
+{$this->table}
+ <div class="title">
+  <img src="./skins/{$this->skin}/images/icons/world_link.png" alt="" />
+  {$this->lang->users_domains}
+ </div>
+ {$domain_list}
+ <p></p>
+{$this->etable}
+      ]]></html>
+    </template>
+    <template><set>users</set><name>USERS_USER</name>
+      <displayname>User Entry</displayname>
+      <description>Look for an individual user in the user list.</description>
+      <html><![CDATA[
+<span class="icon"><img src="./skins/{$this->skin}/images/icons/members.png" alt="" /></span>
+<span class="name"><a href="{$this->self}?a=users&amp;w={$user['user_id']}">{$user['user_name']}</a></span>
+<span class="name"><a href="mailto:{$user['user_email']}">{$user['user_email']}</a></span>
+<span class="number">{$user['user_domains']}</span>
+<span class="number">{$user['user_created']}</span>
+<span class="number">{$user['group_name']}</span>
+<p class="list_line"></p>
       ]]></html>
     </template>
   </templates>

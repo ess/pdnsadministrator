@@ -52,7 +52,7 @@ class main extends qsfglobal
 		$content = '';
 		$id = $this->user['user_id'];
 
-		$sql = 'SELECT d.id, d.name, u.user_name, z.owner, COUNT(DISTINCT r.id) AS recs
+		$sql = 'SELECT d.id, d.name, u.user_name, u.user_id, z.owner, COUNT(DISTINCT r.id) AS recs
 		    FROM domains d
 		    LEFT JOIN zones z ON d.id=z.domain_id
 		    LEFT JOIN users u ON u.user_id=z.owner

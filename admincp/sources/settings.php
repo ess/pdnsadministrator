@@ -123,6 +123,12 @@ class settings extends admin
 				'default_ttl' => 'int',
 				'primary_nameserver' => 'string',
 				'secondary_nameserver' => 'string',
+				'tertiary_nameserver' => 'string',
+				'quaternary_nameserver' => 'string',
+				'quinary_nameserver' => 'string',
+				'senary_nameserver' => 'string',
+				'septenary_nameserver' => 'string',
+				'octonary_nameserver' => 'string',
 				'site_name' => 'string',
 				'site_url' => 'string',
 				'servertime' => 'float'

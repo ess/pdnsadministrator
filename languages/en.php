@@ -287,6 +287,7 @@ class en
 		$this->main_create_forward = 'Create New Domain';
 		$this->main_create_reverse = 'Create New Reverse Domain';
 		$this->main_delete_domain = 'Delete this domain';
+		$this->main_domains = 'Domains';
 		$this->main_domain_name = 'Domain Name';
 		$this->main_domain_owner = 'Domain Owner';
 		$this->main_edit_domain = 'Edit this domain';
@@ -300,7 +301,9 @@ class en
 		$this->main_prev = 'prev';
 		$this->main_queries = 'queries';
 		$this->main_records = 'Records';
+		$this->main_statistics = 'Statistics';
 		$this->main_title = 'PowerDNS Administration Console';
+		$this->main_users = 'Users';
 		$this->main_welcome = 'Welcome';
 		$this->main_welcome2 = 'Welcome to the PowerDNS Administration Console. Please log on. If you have not been provided with an account, you may not belong here.';
 		$this->main_welcome_guest = 'Welcome!';
@@ -380,6 +383,12 @@ class en
 		$this->settings_domain_ttl = 'Default TTL value for new domains';
 		$this->settings_domain_ns1 = 'Primary Nameserver';
 		$this->settings_domain_ns2 = 'Secondary Nameserver';
+		$this->settings_domain_ns3 = 'Tertiary Nameserver';
+		$this->settings_domain_ns4 = 'Quaternary Nameserver';
+		$this->settings_domain_ns5 = 'Quinary Nameserver';
+		$this->settings_domain_ns6 = 'Senary Nameserver';
+		$this->settings_domain_ns7 = 'Septenary Nameserver';
+		$this->settings_domain_ns8 = 'Octonary Nameserver';
 		$this->settings_email_fake = 'For display only. Should not be a real e-mail address.';
 		$this->settings_email_from = 'E-mail From Address';
 		$this->settings_email_real = 'Should be a real e-mail address.';
@@ -479,6 +488,7 @@ class en
 		$this->temps_login = 'Logging In/Out';
 		$this->temps_logs = 'AdminCP Moderator Logs';
 		$this->temps_main = '<b>Site Universal</b>';
+		$this->temps_users = 'Users List';
 		$this->temps_user_control = 'AdminCP User Control';
 		$this->temps_settings = 'AdminCP Settings';
 		$this->temps_templates = 'AdminCP Template Editor';
@@ -575,6 +585,23 @@ class en
 		$this->mc_user_name_exists = 'A user named %s already exists.';
 		$this->mc_user_new = 'User added. New password has been sent via email.';
 		$this->mc_user_skin = 'Skin';
+	}
+
+	function users()
+	{
+		$this->users_action_forbidden = 'Action Not Allowed';
+		$this->users_all = 'all';
+		$this->users_contact = 'Contact Information';
+		$this->users_created = 'Created';
+		$this->users_domains = 'Domains';
+		$this->users_email_address = 'Email Address';
+		$this->users_group = 'Group';
+		$this->users_list = 'User List';
+		$this->users_no_domains = 'This user has no domains.';
+		$this->users_not_allowed = 'You are not permitted to perform that action.';
+		$this->users_owns_domains = 'This user owns %d domains.';
+		$this->users_profile = 'User profile for';
+		$this->users_user = 'User';
 	}
 }
 ?>

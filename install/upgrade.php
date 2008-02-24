@@ -47,8 +47,12 @@ class upgrade extends qsfglobal
 				echo "<tr><td colspan='2' align='center'><b>To determine what version you are running, check the bottom of your AdminCP page. Or check the CHANGES file and look for the latest revision mentioned there.</b></td></tr>
 				<tr><td colspan='2' align='center'><b>Upgrade from what version?</b></td></tr>
 				    <tr>
-				        <td><input type='radio' name='from' value='1.1.2' id='112' checked='checked' />
-					<label for='111'>PDNS-Admin 1.1.2</label></td>
+				        <td><input type='radio' name='from' value='1.1.3' id='113' checked='checked' />
+					<label for='113'>PDNS-Admin 1.1.3</label></td>
+				    </tr>
+				    <tr>
+				        <td><input type='radio' name='from' value='1.1.2' id='112' />
+					<label for='112'>PDNS-Admin 1.1.2</label></td>
 				    </tr>
 				    <tr>
 				        <td><input type='radio' name='from' value='1.1.1' id='111' />
@@ -89,19 +93,55 @@ class upgrade extends qsfglobal
 				switch($this->post['from'])
 				{
 					case '1.0': // 1.0 to 1.1
-						$templates_update[] = true;
+						$templates_update = true;
 
 					case '1.1': // 1.1 to 1.1.1
 
 					case '1.1.1': // 1.1.1 to 1.1.2
-						$templates_update[] = 'ADMIN_COPYRIGHT';
-						$templates_update[] = 'DOMAINS_EDIT';
-						$templates_update[] = 'MAIN_COPYRIGHT';
+						if( $templates_update !== true ) {
+							$templates_update[] = 'ADMIN_COPYRIGHT';
+							$templates_update[] = 'DOMAINS_EDIT';
+							$templates_update[] = 'MAIN_COPYRIGHT';
+						}
 
 					case '1.1.2': // 1.1.2 to 1.1.3
-						$templates_update[] = 'ADMIN_INDEX';
-						$templates_update[] = 'DOMAIN_LIST';
-						$templates_update[] = 'MAIN';
+						if( $templates_update !== true ) {
+							$templates_update[] = 'ADMIN_INDEX';
+							$templates_update[] = 'DOMAIN_LIST';
+							$templates_update[] = 'MAIN';
+						}
+
+					case '1.1.3': // 1.1.3 to 1.1.4
+						if( $templates_add !== true ) {
+							$templates_add[] = 'USERS_MAIN';
+							$templates_add[] = 'USERS_USER';
+							$templates_add[] = 'USERS_PROFILE';
+						}
+
+						if( $templates_update !== true ) {
+							$templates_update[] = 'ADMIN_EDIT_DB_SETTINGS';
+							$templates_update[] = 'ADMIN_EDIT_BOARD_SETTINGS';
+							$templates_update[] = 'MAIN_HEADER_MEMBER';
+							$templates_update[] = 'DOMAIN_ITEM';
+						}
+
+						$queries[] = "ALTER TABLE users ADD user_domains int(10) unsigned NOT NULL default '0' AFTER user_email";
+						$queries[] = 'ALTER TABLE users ADD user_lastlogonip varchar(255) NOT NULL AFTER user_lastlogon';
+
+						$users = $this->db->query( 'SELECT user_id FROM users' );
+						while( $user = $this->db->nqfetch( $users ) )
+						{
+							$domains = $this->db->fetch( 'SELECT COUNT(id) count FROM zones WHERE owner=%d', $user['user_id'] );
+
+							$queries[] = "UPDATE users SET user_domains={$domains['count']} WHERE user_id={$user['user_id']}";
+						}
+
+						$this->sets['tertiary_nameserver'] = '';
+						$this->sets['quaternary_nameserver'] = '';
+						$this->sets['quinary_nameserver'] = '';
+						$this->sets['senary_nameserver'] = '';
+						$this->sets['septenary_nameserver'] = '';
+						$this->sets['octonary_nameserver'] = '';
 						break;
 				}
 

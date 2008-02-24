@@ -37,7 +37,7 @@ if (!defined('QUICKSILVERFORUMS')) {
 class qsfglobal
 {
 	var $name    = 'PDNS-Admin';      // The name of the software @var string
-	var $version = 'v1.1.3';          // PDNS-Admin version @var string
+	var $version = 'v1.1.4';          // PDNS-Admin version @var string
 	var $server  = array();           // Alias for $_SERVER @var array
 	var $get     = array();           // Alias for $_GET @var array
 	var $post    = array();           // Alias for $_POST @var array
