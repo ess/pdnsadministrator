@@ -1,7 +1,7 @@
 <?php
 /**
  * PDNS-Admin
- * Copyright (c) 2006-2007 Roger Libiez http://www.iguanadons.net
+ * Copyright (c) 2006-2008 Roger Libiez http://www.iguanadons.net
  *
  * Based on Quicksilver Forums
  * Copyright (c) 2005 The Quicksilver Forums Development Team
@@ -84,7 +84,7 @@ class db_pgsql extends database
 					error(QUICKSILVER_QUERY_ERROR, pg_result_error($err), $query, 0);
 				}
 			}
-			$data = pg_fetch_array($result);;
+			$data = pg_fetch_array($result);
 		}
 		return $data;
 	}

@@ -1,7 +1,7 @@
 <?php
 /**
  * PDNS-Admin
- * Copyright (c) 2006-2007 Roger Libiez http://www.iguanadons.net
+ * Copyright (c) 2006-2008 Roger Libiez http://www.iguanadons.net
  *
  * Based on Quicksilver Forums
  * Copyright (c) 2005 The Quicksilver Forums Development Team
@@ -51,15 +51,15 @@ class user_control extends admin
 			}
 
 			if (!isset($this->post['name']) || empty($this->post['name'])) {
-				return $this->message($this->lang->mc_add, "A user name is required!");
+				return $this->message($this->lang->mc_add, $this->lang->mc_user_name_required);
 			}
 
 			if (!isset($this->post['email']) || empty($this->post['email'])) {
-				return $this->message($this->lang->mc_add, "An email address is required!");
+				return $this->message($this->lang->mc_add, $this->lang->mc_user_email_required);
 			}
 
 			if ($this->db->fetch("SELECT user_id FROM users WHERE user_name='%s' LIMIT 1", $this->post['name'])) {
-				return $this->message($this->lang->mc_add, "A user named " . $this->post['name'] . " already exists.");
+				return $this->message($this->lang->mc_add, sprintf($this->lang->mc_user_name_exists, $this->post['name']));
 			}
 
 			$name = $this->post['name'];
@@ -74,19 +74,19 @@ class user_control extends admin
 			$this->sets['users'] += 1;
 			$this->write_sets();
 
-			$mailer = new $this->modules['mailer']($this->sets['admin_incoming'], $this->sets['admin_outgoing'], "PDNS-Admin", false);
+			$mailer = new $this->modules['mailer']($this->sets['admin_incoming'], $this->sets['admin_outgoing'], 'PDNS-Admin', false);
 
 			$message  = "A new PDNS-Admin account has been set up for you.\n\n";
 			$message .= "Your password has been set to:\n$newpass\n\n";
 			$message .= "You may log into your account here:\n\n{$this->sets['site_url']}{$this->mainfile}?a=login";
 
-			$mailer->setSubject("PDNS-Admin - New account setup");
+			$mailer->setSubject('PDNS-Admin - New account setup');
 			$mailer->setMessage($message);
 			$mailer->setRecipient($email);
 			$mailer->setServer($this->sets['mailserver']);
 			$mailer->doSend();
 
-			return $this->message($this->lang->mc_add, "User added. New password has been sent via email.");
+			return $this->message($this->lang->mc_add, $this->lang->mc_user_new);
 		}
 
 		$this->tree($this->lang->mc, "$this->self?a=user_control&amp;s=profile");
@@ -141,14 +141,14 @@ class user_control extends admin
 			}
 
 			if (!isset($this->get['confirm'])) {
-				$user = $this->db->fetch("SELECT user_name FROM users WHERE user_id=%d", $this->get['id']);
+				$user = $this->db->fetch('SELECT user_name FROM users WHERE user_id=%d', $this->get['id']);
 				return $this->message($this->lang->mc_delete, "{$this->lang->mc_confirm} <b>{$user['user_name']}</b>?<br /><br /><a href='$this->self?a=user_control&amp;s=delete&amp;id={$this->get['id']}&amp;confirm=1'>{$this->lang->continue}</a>");
 			} else {
-				$this->db->query("UPDATE logs SET log_user=%d WHERE log_user=%d", USER_GUEST_UID, $this->get['id']);
-				$this->db->query("DELETE FROM users WHERE user_id=%d", $this->get['id']);
+				$this->db->query('UPDATE logs SET log_user=%d WHERE log_user=%d', USER_GUEST_UID, $this->get['id']);
+				$this->db->query('DELETE FROM users WHERE user_id=%d', $this->get['id']);
 
-				$user = $this->db->fetch("SELECT user_id, user_name FROM users ORDER BY user_id DESC LIMIT 1");
-				$counts = $this->db->fetch("SELECT COUNT(user_id) AS count FROM users");
+				$user = $this->db->fetch('SELECT user_id, user_name FROM users ORDER BY user_id DESC LIMIT 1');
+				$counts = $this->db->fetch('SELECT COUNT(user_id) AS count FROM users');
 
 				$this->sets['users'] = $counts['count']-1;
 				$this->write_sets();
@@ -163,10 +163,9 @@ class user_control extends admin
 			$this->get['id'] = intval($this->get['id']);
 
 			if (!isset($this->post['submit'])) {
-				$user = $this->db->fetch("SELECT * FROM users WHERE user_id=%d LIMIT 1", $this->get['id']);
+				$user = $this->db->fetch('SELECT * FROM users WHERE user_id=%d LIMIT 1', $this->get['id']);
 
-				$this->iterator_init('tablelight', 'tabledark');
-				$out = "";
+				$out = '';
 
 				define('U_IGNORE', 0);
 				define('U_TEXT', 1);
@@ -203,8 +202,7 @@ class user_control extends admin
 						$val = null;
 					}
 
-					$line = "";
-					$class = $this->iterate();
+					$line = '';
 
 					switch ($data[1])
 					{
@@ -258,6 +256,7 @@ class user_control extends admin
 				return eval($this->template('ADMIN_USER_PROFILE'));
 			} else {
 				$user = $this->db->fetch('SELECT user_name FROM users WHERE user_id=%d LIMIT 1', $this->get['id']);
+
 				$guest_email = $this->post['user_email'];
 				if ($user['user_name'] != 'Guest' && !$this->validator->validate($guest_email, TYPE_EMAIL)) {
 					return $this->message($this->lang->mc_err_updating, $this->lang->mc_email_invaid);
@@ -268,9 +267,9 @@ class user_control extends admin
 				$user_language = $this->post['user_language'];
 				$user_skin = $this->post['user_skin'];
 
-				$this->db->query( "UPDATE users SET user_name='%s', user_group=%d,
+				$this->db->query( "UPDATE users SET user_name='%s', user_email='%s', user_group=%d,
 				  user_language='%s', user_skin='%s' WHERE user_id=%d",
-				  $user_name, $user_group, $user_language, $user_skin, $this->get['id'] );
+				  $user_name, $guest_email, $user_group, $user_language, $user_skin, $this->get['id'] );
 
 				return $this->message($this->lang->mc_edit, $this->lang->mc_edited);
 			}

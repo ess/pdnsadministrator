@@ -1,7 +1,7 @@
 <?php
 /**
  * PDNS-Admin
- * Copyright (c) 2006-2007 Roger Libiez http://www.iguanadons.net
+ * Copyright (c) 2006-2008 Roger Libiez http://www.iguanadons.net
  *
  * Based on Quicksilver Forums
  * Copyright (c) 2005 The Quicksilver Forums Development Team
@@ -87,10 +87,10 @@ class permissions
 	{
 		if (!$perms) {
 			if ($group != -1) {
-				$data  = $this->db->fetch("SELECT group_perms FROM groups WHERE group_id=%d", $group);
+				$data  = $this->db->fetch('SELECT group_perms FROM groups WHERE group_id=%d', $group);
 				$perms = $data['group_perms'];
 			} else {
-				$data  = $this->db->fetch("SELECT user_perms, user_group FROM users WHERE user_id=%d", $user);
+				$data  = $this->db->fetch('SELECT user_perms, user_group FROM users WHERE user_id=%d', $user);
 				$perms = $data['user_perms'];
 				$group = $data['user_group'];
 			}
@@ -183,7 +183,7 @@ class permissions
 			if ($users) {
 				$query = $this->db->query("SELECT user_id, user_perms FROM users WHERE user_perms != ''");
 			} else {
-				$query = $this->db->query("SELECT group_id, group_perms FROM groups");
+				$query = $this->db->query('SELECT group_id, group_perms FROM groups');
 			}
 
 			while ($group = $this->db->nqfetch($query))

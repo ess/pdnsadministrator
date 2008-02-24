@@ -1,7 +1,7 @@
 <?php
 /**
  * PDNS-Admin
- * Copyright (c) 2006-2007 Roger Libiez http://www.iguanadons.net
+ * Copyright (c) 2006-2008 Roger Libiez http://www.iguanadons.net
  *
  * Based on Quicksilver Forums
  * Copyright (c) 2005 The Quicksilver Forums Development Team
@@ -49,7 +49,7 @@ class packageutil
 		foreach ($nodes['child'] as $node) {
 			if ($node['name'] == 'QUERY') {
 				// Build up query and data
-				$query = "";
+				$query = '';
 				$data = array();
 				foreach ($node['child'] as $element) {
 					switch($element['name'])
@@ -66,7 +66,7 @@ class packageutil
 						break;
 					}
 				}
-				
+
 				if ($query) {
 					array_unshift($data, $query);
 					$db->query($data);
@@ -74,7 +74,7 @@ class packageutil
 			}
 		}
 	}
-	
+
 	/**
 	 * Run through node and get a list of template names
 	 *
@@ -88,10 +88,10 @@ class packageutil
 	function list_templates(&$nodes)
 	{
 		$templates_names = array();
-		
+
 		foreach ($nodes['child'] as $node) {
 			if ($node['name'] == 'TEMPLATE') {
-				$temp_name = "";
+				$temp_name = '';
 
 				foreach ($node['child'] as $element) {
 					if (isset($element['content'])) {
@@ -109,10 +109,9 @@ class packageutil
 				$templates_names[] = $temp_name;
 			}
 		}
-		
 		return $templates_names;
 	}
-	
+
 	/**
 	 * Run through node for templates to insert
 	 *
@@ -129,14 +128,14 @@ class packageutil
 	function insert_templates($skin_dir, &$db, &$nodes, $template_names = null)
 	{
 		$templates_inserted = array();
-		
+
 		foreach ($nodes['child'] as $node) {
 			if ($node['name'] == 'TEMPLATE') {
-				$temp_set = "";
-				$temp_name = "";
-				$temp_display = "";
-				$temp_desc = "";
-				$temp_html = "";
+				$temp_set = '';
+				$temp_name = '';
+				$temp_display = '';
+				$temp_desc = '';
+				$temp_html = '';
 
 				foreach ($node['child'] as $element) {
 					if (isset($element['content'])) {
@@ -163,7 +162,7 @@ class packageutil
 					return "ERROR: No data available for template\n";
 				}
 				if ($template_names === null || in_array($temp_name, $template_names)) {
-					$db->query("INSERT INTO templates
+					$db->query("REPLACE INTO templates
 						(template_skin, template_set, template_name, template_html, template_displayname, template_description)
 						VALUES ('%s', '%s', '%s', '%s', '%s', '%s')",
 						$skin_dir, $temp_set, $temp_name, $temp_html, $temp_display, $temp_desc);
@@ -171,10 +170,9 @@ class packageutil
 				}
 			}
 		}
-		
 		return $templates_inserted;
 	}
-	
+
 	/**
 	 * Pulls out details for a summary of what the package is and does
 	 *
@@ -185,7 +183,7 @@ class packageutil
 	function fetch_package_details($filename)
 	{
 		if (!is_readable($filename)) return false;
-		
+
 		if (strtolower(substr($filename, -4)) == '.tar' ||
 			(strtolower(substr($filename, -7)) == '.tar.gz' &&
 			$tarTool->can_gunzip()))
@@ -200,7 +198,6 @@ class packageutil
 			} else {
 				return false;
 			}
-
 		}
 		else if (strtolower(substr($file, -4)) == '.xml')
 		{
@@ -211,9 +208,9 @@ class packageutil
 		{
 			return false; // give up
 		}
-		
+
 		$results = array('file' => $xmlFilename);
-				
+
 		$node = $xmlInfo->GetNodeByPath('QSFMOD/TYPE');
 		$results['type'] = $node['content'];
 
@@ -232,7 +229,7 @@ class packageutil
 
 		$node = $xmlInfo->GetNodeByPath('QSFMOD/AUTHORNAME');
 		$results['author'] = $node['content'];
-		
+
 		return $results;
 	}
 
@@ -250,11 +247,11 @@ class packageutil
 		}
 
 		$packages = array();
-		
+
 		$tarTool = new archive_tar();
 
 		$xmlInfo = new xmlparser();
-		
+
 		$dp = opendir($folder);
 		while (($file = readdir($dp)) !== false)
 		{
@@ -265,7 +262,7 @@ class packageutil
 				if ($tarTool->open_file_reader($folder . $file)) {
 					// Okay. Look at packages.txt to find our xml file
 					$xmlFilename = $tarTool->extract_file('package.txt');
-					
+
 					if ($xmlFilename === false) continue;
 
 					$xmlInfo->parseTar($tarTool, $xmlFilename);
@@ -282,7 +279,7 @@ class packageutil
 			{
 				continue; // skip file
 			}
-				
+
 			$node = $xmlInfo->GetNodeByPath('QSFMOD/TYPE');
 			$package_type = $node['content'];
 
@@ -312,9 +309,9 @@ class packageutil
 
 			$xmlInfo->reset();
 		}
-			
+
 		closedir($dp);
-		
+
 		return $packages;
 	}
 }

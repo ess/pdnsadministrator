@@ -1,7 +1,7 @@
 <?php
 /**
  * PDNS-Admin
- * Copyright (c) 2006-2007 Roger Libiez http://www.iguanadons.net
+ * Copyright (c) 2006-2008 Roger Libiez http://www.iguanadons.net
  *
  * Based on Quicksilver Forums
  * Copyright (c) 2005 The Quicksilver Forums Development Team
@@ -39,7 +39,7 @@ require_once $set['include_path'] . '/lib/packageutil.php';
  */
 class new_install extends qsfglobal
 {
-	function install_board( $step )
+	function install_console( $step )
 	{
 		switch($step) {
 		default:
@@ -50,10 +50,76 @@ class new_install extends qsfglobal
 
 			check_writeable_files();
 
-			include 'templates/newdatabase.php';
-			include 'templates/newsettings.php';
-			include 'templates/newadmin.php';
-			echo "<tr>
+			echo "    <tr>
+        <td class='subheader' colspan='2'>New Database Configuration</td>
+    </tr>
+    <tr>
+        <td><b>Host Server</b></td>
+        <td><input class='input' type='text' name='db_host' value='{$this->sets['db_host']}' /></td>
+    </tr>
+    <tr>
+        <td><b>Database Name</b></td>
+        <td><input class='input' type='text' name='db_name' value='{$this->sets['db_name']}' /></td>
+    </tr>
+    <tr>
+        <td><b>Database Username</b><br /><span class='tiny'>Username used by PowerDNS to access the database.</span></td>
+        <td><input class='input' type='text' name='db_user' value='{$this->sets['db_user']}' /></td>
+    </tr>
+    <tr>
+        <td><b>Database Password</b><br /><span class='tiny'>Password used by PowerDNS to access the database.</span></td>
+        <td><input class='input' type='password' name='db_pass' value='' /></td>
+    </tr>
+    <tr>
+        <td><b>Database Port</b><br /><span class='tiny'>Blank for none</span></td>
+        <td><input class='input' type='text' name='db_port' value='{$this->sets['db_port']}' /></td>
+    </tr>
+    <tr>
+        <td><b>Database Socket</b><br /><span class='tiny'>Blank for none</span></td>
+        <td><input class='input' type='text' name='db_socket' value='{$this->sets['db_socket']}' /></td>
+    </tr>
+    <tr>
+        <td class='subheader' colspan='2'>New Site Settings</td>
+    </tr>
+    <tr>
+        <td><input class='input' type='text' name='site_name' value='PDNS-Admin' size='50' /></td>
+        <td><b>Site Name</b></td>
+    </tr>
+    <tr>
+        <td><input class='input' type='text' name='site_url' value='{$url}' size='50' /></td>
+        <td><b>Site URL</b></td>
+    </tr>
+    <tr>
+        <td><input class='input' type='text' name='master_ip' value='' size='50' /></td>
+        <td><b>Master IP</b><br /><span class='tiny'>Used for SLAVE domains</span></td>
+    </tr>
+    <tr>
+        <td><input class='input' type='text' name='primary_ns' value='' size='50' /></td>
+        <td><b>Primary Nameserver</b></td>
+    </tr>
+    <tr>
+        <td><input class='input' type='text' name='secondary_ns' value='' size='50' /></td>
+        <td><b>Secondary Nameserver</b></td>
+    </tr>
+    <tr>
+        <td class='subheader' colspan='2'>Administrator Account Settings</td>
+    </tr>
+    <tr>
+        <td><input class='input' type='text' name='admin_name' /></td>
+        <td><b>User Name</b></td>
+    </tr>
+    <tr>
+        <td><input class='input' type='password' name='admin_pass' /></td>
+        <td><b>Password</b></td>
+    </tr>
+    <tr>
+        <td><input class='input' type='password' name='admin_pass2' /></td>
+        <td><b>Password (confirmation)</b></td>
+    </tr>
+    <tr>
+        <td><input class='input' type='text' name='admin_email' /></td>
+        <td><b>Email</b></td>
+    </tr>
+	<tr>
                          <td class='subheader' colspan='2' align='center'><input type='submit' value='Continue' /></td>
                          </tr>
                          </table>
@@ -64,7 +130,7 @@ class new_install extends qsfglobal
 			$db = new $this->modules['database']($this->post['db_host'], $this->post['db_user'], $this->post['db_pass'], $this->post['db_name'], $this->post['db_port'], $this->post['db_socket']);
 
 			if (!$db->connection) {
-				echo "Couldn't connect to a database using the specified information.";
+				echo 'Could not connect to a database using the specified information: <br />' . mysql_error();
 				break;
 			}
 			$this->db = &$db;
@@ -89,8 +155,8 @@ class new_install extends qsfglobal
 					<input type=\"hidden\" name=\"db_pass\" value=\"" . htmlspecialchars($this->post['db_pass']) . "\" />\n
 					<input type=\"hidden\" name=\"db_port\" value=\"" . htmlspecialchars($this->post['db_port']) . "\" />\n
 					<input type=\"hidden\" name=\"db_socket\" value=\"" . htmlspecialchars($this->post['db_socket']) . "\" />\n
-					<input type=\"hidden\" name=\"site_name\" value=\"" . htmlspecialchars($this->post['board_name']) . "\" />\n
-					<input type=\"hidden\" name=\"site_url\" value=\"" . htmlspecialchars($this->post['board_url']) . "\" />\n
+					<input type=\"hidden\" name=\"site_name\" value=\"" . htmlspecialchars($this->post['site_name']) . "\" />\n
+					<input type=\"hidden\" name=\"site_url\" value=\"" . htmlspecialchars($this->post['site_url']) . "\" />\n
 					<input type=\"hidden\" name=\"admin_name\" value=\"" . htmlspecialchars($this->post['admin_name']) . "\" />\n
 					<input type=\"hidden\" name=\"admin_pass\" value=\"" . htmlspecialchars($this->post['admin_pass']) . "\" />\n
 					<input type=\"hidden\" name=\"admin_pass2\" value=\"" . htmlspecialchars($this->post['admin_pass2']) . "\" />\n
@@ -124,6 +190,22 @@ class new_install extends qsfglobal
 				echo 'Your administrator passwords do not match. Please go back and correct this error.';
 				break;
 			}
+
+			// Build settings step by step
+			$this->sets['cookie_path'] = '/';
+			$this->sets['cookie_prefix'] = 'pdns_';
+			$this->sets['cookie_domain'] = '';
+			$this->sets['cookie_secure'] = 0;
+			$this->sets['logintime'] = 31536000;
+			$this->sets['output_buffer'] = (extension_loaded('zlib') ? 1 : 0);
+			$this->sets['default_skin'] = 'default';
+			$this->sets['default_lang'] = 'en';
+			$this->sets['default_group'] = 3;
+			$this->sets['users'] = 0;
+			$this->sets['debug_mode'] = 0;
+			$this->sets['mailserver'] = 'localhost';
+
+			$settings = serialize($this->sets);
 
 			$queries = array();
 
@@ -177,7 +259,7 @@ class new_install extends qsfglobal
 			$writeSetsWorked = $this->write_db_sets('../settings.php');
 			$this->write_sets();
 
-			if( version_compare( PHP_VERSION, "5.2.0", "<" ) ) {
+			if( version_compare( PHP_VERSION, '5.2.0', '<' ) ) {
 				setcookie($this->sets['cookie_prefix'] . 'user', $admin_uid, $this->time + $this->sets['logintime'], $this->sets['cookie_path'], $this->sets['cookie_domain'].'; HttpOnly', $this->sets['cookie_secure']);
 				setcookie($this->sets['cookie_prefix'] . 'pass', $this->post['admin_pass'], $this->time + $this->sets['logintime'], $this->sets['cookie_path'], $this->sets['cookie_domain'].'; HttpOnly', $this->sets['cookie_secure']);
 			} else {

@@ -1,7 +1,7 @@
 <?php
 /**
  * PDNS-Admin
- * Copyright (c) 2006-2007 Roger Libiez http://www.iguanadons.net
+ * Copyright (c) 2006-2008 Roger Libiez http://www.iguanadons.net
  *
  * Based on Quicksilver Forums
  * Copyright (c) 2005 The Quicksilver Forums Development Team
@@ -43,7 +43,7 @@ class xmlparser
        $this->xml_obj = xml_parser_create();
        xml_set_object($this->xml_obj,$this);
        xml_set_character_data_handler($this->xml_obj, 'dataHandler'); 
-       xml_set_element_handler($this->xml_obj, "startHandler", "endHandler");
+       xml_set_element_handler($this->xml_obj, 'startHandler', 'endHandler');
     
     }
     
@@ -56,7 +56,7 @@ class xmlparser
 		    $this->xml_obj = xml_parser_create();
 		    xml_set_object($this->xml_obj,$this);
 		    xml_set_character_data_handler($this->xml_obj, 'dataHandler'); 
-		    xml_set_element_handler($this->xml_obj, "startHandler", "endHandler");
+		    xml_set_element_handler($this->xml_obj, 'startHandler', 'endHandler');
 	    }
     }
     
@@ -68,7 +68,7 @@ class xmlparser
     
        while ($data = fread($fp, 4096)) {
            if (!xml_parse($this->xml_obj, $data, feof($fp))) {
-               return (sprintf("XML error: %s at line %d",
+               return (sprintf('XML error: %s at line %d',
                xml_error_string(xml_get_error_code($this->xml_obj)),
                xml_get_current_line_number($this->xml_obj)));
                xml_parser_free($this->xml_obj);
@@ -100,7 +100,7 @@ class xmlparser
 				$size -= $chunk;
 				while ($data = $tarTool->_read($chunk)) {
 					if (!xml_parse($this->xml_obj, $data, $size==0)) {
-					   return (sprintf("XML error: %s at line %d",
+					   return (sprintf('XML error: %s at line %d',
 					   xml_error_string(xml_get_error_code($this->xml_obj)),
 					   xml_get_current_line_number($this->xml_obj)));
 					   xml_parser_free($this->xml_obj);
@@ -116,7 +116,7 @@ class xmlparser
     {
        foreach ($array as $data) {
            if (!xml_parse($this->xml_obj, $data)) {
-               return (sprintf("XML error: %s at line %d",
+               return (sprintf('XML error: %s at line %d',
                xml_error_string(xml_get_error_code($this->xml_obj)),
                xml_get_current_line_number($this->xml_obj)));
                xml_parser_free($this->xml_obj);
@@ -129,7 +129,7 @@ class xmlparser
     function parseString($string)
     {
 	   if (!xml_parse($this->xml_obj, $string)) {
-		   return (sprintf("XML error: %s at line %d",
+		   return (sprintf('XML error: %s at line %d',
 		   xml_error_string(xml_get_error_code($this->xml_obj)),
 		   xml_get_current_line_number($this->xml_obj)));
 		   xml_parser_free($this->xml_obj);
@@ -181,14 +181,14 @@ class xmlparser
             $tree_to_search = $this->output;
         }
         
-        if ($path == "") {
+        if ($path == '') {
             return null; 
         }
         
         $arrPath = explode('/',$path);
         
         foreach($tree_to_search as $key => $val) {
-            if (gettype($val) == "array") {
+            if (gettype($val) == 'array') {
                 $nodename = $val['name'];
                 
                 if ($nodename == $arrPath[0]) { 
@@ -199,7 +199,7 @@ class xmlparser
                     
                     array_shift($arrPath);
                     
-                    $new_path = implode($arrPath,"/");
+                    $new_path = implode($arrPath,'/');
                     
                     return $this->GetNodeByPath($new_path,$val['child']);
                 }

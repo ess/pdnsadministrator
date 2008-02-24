@@ -1,7 +1,7 @@
 <?php
 /**
  * PDNS-Admin
- * Copyright (c) 2006-2007 Roger Libiez http://www.iguanadons.net
+ * Copyright (c) 2006-2008 Roger Libiez http://www.iguanadons.net
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -49,27 +49,33 @@ class main extends qsfglobal
 	function get_domain_list()
 	{
 		$this->templater->add_templates('domains');
-		$this->iterator_init('tablelight', 'tabledark');
 		$content = '';
 		$id = $this->user['user_id'];
 
-		$sql = "SELECT d.id, d.name, u.user_name, z.owner, COUNT(DISTINCT r.id) AS recs
+		$sql = 'SELECT d.id, d.name, u.user_name, z.owner, COUNT(DISTINCT r.id) AS recs
 		    FROM domains d
 		    LEFT JOIN zones z ON d.id=z.domain_id
 		    LEFT JOIN users u ON u.user_id=z.owner
-		    LEFT JOIN records r ON r.domain_id=d.id";
+		    LEFT JOIN records r ON r.domain_id=d.id';
 
 		if ($this->user['user_group'] == USER_MEMBER) {
 			$sql .= " WHERE z.owner=$id";
 		}
 
-		$sql .= " GROUP BY d.name, d.id
-		    ORDER BY d.name";
+		$sql .= ' GROUP BY d.name, d.id
+		    ORDER BY d.name';
 
 		$result = $this->db->query($sql);
+
+		$this->get['min'] = isset($this->get['min']) ? intval($this->get['min']) : 0;
+		$this->get['num'] = isset($this->get['num']) ? intval($this->get['num']) : 50;
+		$pages = $this->htmlwidgets->get_pages( $result, '', $this->get['min'], $this->get['num'] );
+
+		$sql .= sprintf( ' LIMIT %d, %d', $this->get['min'], $this->get['num'] );
+		$result = $this->db->query( $sql );
+
 		while( $domain = $this->db->nqfetch($result) )
 		{
-			$class = $this->iterate();
 			$content .= eval($this->template('DOMAIN_ITEM'));
 		}
 

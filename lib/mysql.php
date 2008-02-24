@@ -1,7 +1,7 @@
 <?php
 /**
  * PDNS-Admin
- * Copyright (c) 2006-2007 Roger Libiez http://www.iguanadons.net
+ * Copyright (c) 2006-2008 Roger Libiez http://www.iguanadons.net
  *
  * Based on Quicksilver Forums
  * Copyright (c) 2005 The Quicksilver Forums Development Team
@@ -64,7 +64,13 @@ class db_mysql extends database
 			$this->connection = false;
 		}
 	}
-	
+
+	function close()
+	{
+		if( $this->connection )
+			@mysql_close( $this->connection );
+	}
+
 	/**
 	 * Runs an EXPLAIN or similar on a query
 	 *

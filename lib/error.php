@@ -1,7 +1,7 @@
 <?php
 /**
  * PDNS-Admin
- * Copyright (c) 2006-2007 Roger Libiez http://www.iguanadons.net
+ * Copyright (c) 2006-2008 Roger Libiez http://www.iguanadons.net
  *
  * Based on Quicksilver Forums
  * Copyright (c) 2005 The Quicksilver Forums Development Team
@@ -30,10 +30,18 @@ if (!defined('QUICKSILVERFORUMS')) {
 
 $error_version = '2.0';
 
+if( is_readable( './settings.php' ) ) {
+	require './settings.php';
+	require_once './lib/mailer.php';
+} else {
+	require '../settings.php';
+	require_once '../lib/mailer.php';
+}
+
 function get_backtrace()
 {
 	$backtrace = debug_backtrace();
-	$out = "<span class='header'>Backtrace:</span><br /><br />";
+	$out = "<span class='header'>Backtrace:</span><br /><br />\n\n";
 
 	foreach( $backtrace as $trace => $frame )
 	{
@@ -46,32 +54,41 @@ function get_backtrace()
 		if( $trace > 2 ) { // The call in the error handler is irrelevent anyway, so don't bother with the arg list
 			foreach( $frame['args'] as $arg ) {
 				$argument = htmlspecialchars($arg[0]);
+				if ( is_array( $arg ) && array_key_exists( 0, $arg ) ) {
+					$argument = htmlspecialchars( $arg[0] );
+				} elseif( is_string( $arg ) ) {
+					$argument = htmlspecialchars( $arg );
+				} else {
+					$argument = NULL;
+				}
 				$args[] = "'{$argument}'";
 			}
 		}
 
-		$frame['class'] = (isset($frame['class'])) ? $frame['class'] : "";
-		$frame['type'] = (isset($frame['type'])) ? $frame['type'] : "";
-		$frame['file'] = (isset($frame['file'])) ? $frame['file'] : "";
-		$frame['line'] = (isset($frame['line'])) ? $frame['line'] : "";
+		$frame['class'] = (isset($frame['class'])) ? $frame['class'] : '';
+		$frame['type'] = (isset($frame['type'])) ? $frame['type'] : '';
+		$frame['file'] = (isset($frame['file'])) ? $frame['file'] : '';
+		$frame['line'] = (isset($frame['line'])) ? $frame['line'] : '';
 
 		$func = "";
 		$arg_list = implode(", ", $args);
 		if( $trace == 2 ) {
 			$func = "See above for details.";
 		} else {
-			$func = htmlspecialchars($frame['class'] . $frame['type'] . $frame['function']) . "(" . $arg_list . ")";
+			$func = htmlspecialchars($frame['class'] . $frame['type'] . $frame['function']) . '(' . $arg_list . ')';
 		}
 
-		$out .= "<b>File:</b> " . $frame['file'] . "<br />";
-		$out .= "<b>Line:</b> " . $frame['line'] . "<br />";
-		$out .= "<b>Call:</b> " . $func . "<br /><br />";
+		$out .= '<b>File:</b> ' . $frame['file'] . "<br />\n";
+		$out .= '<b>Line:</b> ' . $frame['line'] . "<br />\n";
+		$out .= '<b>Call:</b> ' . $func . "<br /><br />\n\n";
 	}
 	return $out;
 }
 
 function error_fatal($type, $message, $file, $line = 0)
 {
+	global $set;
+
 	switch($type)
 	{
 	case E_USER_ERROR:
@@ -116,7 +133,7 @@ function error_fatal($type, $message, $file, $line = 0)
 			$details2 = null;
 
 			if (strpos($message, 'Template not found') !== false) {
-				$backtrace = "";
+				$backtrace = '';
 				$trace = debug_backtrace();
 				$file = $trace[2]['file'];
 				$line = $trace[2]['line'];
@@ -128,27 +145,63 @@ function error_fatal($type, $message, $file, $line = 0)
 
 			if ($lines) {
 				$details2 = "
-				<span class='header'>Code:</span><br />
+				<span class='header'>Code:</span><br />\n
 				<span class='code'>" . error_getlines($lines, $line) . '</span>';
 			}
 		} else {
 			$details2 = "
-			<span class='header'>MySQL Said:</span><br />" . mysql_error() . '<br />';
+			<span class='header'>MySQL Said:</span><br />" . mysql_error() . '<br />\n';
 		}
 
 		$details .= "
-		<span class='header'>$type_str [$type]:</span><br />
-		The error was reported on line <b>$line</b> of <b>$file</b><br /><br />$details2";
+		<span class='header'>$type_str [$type]:</span><br />\n
+		The error was reported on line <b>$line</b> of <b>$file</b><br /><br />\n\n$details2";
 	} else {
 		$details .= "
-		<span class='header'>$type_str [$line]:</span><br />
+		<span class='header'>$type_str [$line]:</span><br />\n
 		This type of error is reported by MySQL.
-		<br /><br /><span class='header'>Query:</span><br />$file<br />";
+		<br /><br /><span class='header'>Query:</span><br />$file<br />\n";
 	}
 
 	$checkbug = error_report($type, $message, $file, $line);
 
-	$temp_querystring = str_replace("&","&amp;", $_SERVER['QUERY_STRING']);
+	// IIS does not use $_SERVER['QUERY_STRING'] in the same way as Apache and might not set it
+	if (isset($_SERVER['QUERY_STRING'])) {
+		$temp_querystring = str_replace("&","&amp;", $_SERVER['QUERY_STRING']);
+	} else {
+		$temp_querystring = '';
+	}
+
+	// DO NOT allow this information into the error reports!!!
+	$details = str_replace( $set['db_name'], "****", $details );
+	$details = str_replace( $set['db_pass'], "****", $details );
+	$details = str_replace( $set['db_user'], "****", $details );
+	$details = str_replace( $set['db_host'], "****", $details );
+	$backtrace = str_replace( $set['db_name'], "****", $backtrace );
+	$backtrace = str_replace( $set['db_pass'], "****", $backtrace );
+	$backtrace = str_replace( $set['db_user'], "****", $backtrace );
+	$backtrace = str_replace( $set['db_host'], "****", $backtrace );
+
+	// Don't send it if this isn't available. Spamming mail servers is a bad bad thing.
+	// This will also email the user agent string, in case errors are being generated by evil bots.
+	if( isset($set['admin_email']) ) {
+		$mailer = new mailer($set['admin_email'], $set['admin_email'], "PDNS-Admin Error Module", false);
+		$mailer->setSubject("PDNS-Admin Error Report");
+
+		$agent = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : "N/A";
+		$ip    = isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '127.0.0.1';
+
+		$error_report = "PDNS-Admin has exited with an error!\n";
+		$error_report .= "The error details are as follows:\n\nURL: http://" . $_SERVER['SERVER_NAME'] . $_SERVER['PHP_SELF'] . "?" . $_SERVER['QUERY_STRING'] . "\n";
+		$error_report .= "Querying user agent: " . $agent . "\n";
+		$error_report .= "Querying IP: " . $ip . "\n\n";
+		$error_report .= strip_tags($message) . "\n\n" . strip_tags($details) . "\n\n" . strip_tags($backtrace);
+		$error_report = str_replace( "&nbsp;", " ", html_entity_decode($error_report) );
+		$mailer->setMessage($error_report);
+
+		$mailer->setRecipient($set['admin_email']);
+		$mailer->doSend();
+	}
 
 	return "
 	<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">
@@ -169,7 +222,7 @@ function error_fatal($type, $message, $file, $line = 0)
 	</head>
 
 	<body>
-	<span class='large'>PDNS-Admin has exited with an error</span><br /><br />
+	<span class='large'>PDNS-Admin has exited with an error!</span><br /><br />
 
 	<hr>
 	<span class='error'>$message</span>
