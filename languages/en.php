@@ -154,6 +154,7 @@ class en
 		$this->domains_ip_invalid = 'The IP address entered was invalid!';
 		$this->domains_user_invalid = 'A valid user is required!';
 		$this->domains_new = 'Create New Domain';
+		$this->domains_new_cant_create = 'You cannot create new domains.';
 		$this->domains_new_created = 'New domain created.';
 		$this->domains_new_ip = 'IP Address';
 		$this->domains_new_name = 'Domain Name';
@@ -184,6 +185,7 @@ class en
 		$this->domains_required = 'A domain name is required.';
 		$this->domains_ip_required = 'An IP address is required.';
 		$this->domains_type = 'Domain Type';
+		$this->domains_type_cant_change = 'You cannot change the domain type.';
 		$this->domains_type_change = 'Change Domain Type';
 		$this->domains_type_changed = 'Type has been changed.';
 		$this->domains_type_required = 'A domain type of MASTER, SLAVE, or NATIVE is required.';
@@ -321,11 +323,16 @@ class en
 		$this->perms_edit_domains = 'Can edit existing domains they do not own.';
 		$this->perms_do_anything = 'Can access PDNS-Admin. Should never be unchecked!';
 		$this->perms_edit_for = 'Edit permissions for';
+		$this->perms_for = 'Permissions For';
+		$this->perms_group = 'Group';
+		$this->perms_guest1 = 'Removing Guest user access will prevent anyone from logging in!';
+		$this->perms_guest2 = 'Removing Guest group access will prevent anyone from logging in!';
 		$this->perms_is_admin = 'Can access the admin control panel. This is an all or nothing setting.';
 		$this->perms_only_user = 'Use only group permissions for this user';
 		$this->perms_override_user = 'This will override the group permissions for this user.';
 		$this->perms_title = 'User Group Control';
 		$this->perms_updated = 'Permissions have been updated.';
+		$this->perms_user = 'User';
 		$this->perms_user_inherit = 'The user will inherit the group\'s permissions.';
 	}
 

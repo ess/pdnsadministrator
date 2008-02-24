@@ -29,7 +29,7 @@ if (!defined('QUICKSILVERFORUMS')) {
 }
 
 /**
- * The Quicksilver Forums Core
+ * The PDNS-Admin Core
  *
  * @author Jason Warner <jason@mercuryboard.com>
  * @since Beta 2.0
@@ -37,12 +37,11 @@ if (!defined('QUICKSILVERFORUMS')) {
 class qsfglobal
 {
 	var $name    = 'PDNS-Admin';      // The name of the software @var string
-	var $version = 'v1.0';            // PDNS-Admin version @var string
+	var $version = 'v1.1.2';          // PDNS-Admin version @var string
 	var $server  = array();           // Alias for $_SERVER @var array
 	var $get     = array();           // Alias for $_GET @var array
 	var $post    = array();           // Alias for $_POST @var array
 	var $cookie  = array();           // Alias for $_COOKIE @var array
-	var $files   = array();           // Alias for $_FILES @var array
 	var $user    = array();           // Information about the user @var array
 	var $sets    = array();           // Settings @var array
 	var $modules = array();           // Module Settings @var array
@@ -67,10 +66,6 @@ class qsfglobal
 	
 	var $debug_mode = false;	  // Switch to tell if debugging info is allowed
 
-	var $iterator = 0;                // The current number of iterations @var int @access protected
-	var $iterator_values = array();   // Values to be iterated @var array @access protected
-	var $iterator_last;               // Last selected value @var mixed @access protected
-
 	/**
 	 * Constructor; sets up variables
 	 *
@@ -90,7 +85,6 @@ class qsfglobal
 		$this->get     = $_GET;
 		$this->post    = $_POST;
 		$this->cookie  = $_COOKIE;
-		$this->files   = $_FILES;
 		$this->query   = htmlspecialchars($this->query);
 
 		// Undo any magic quote slashes!
@@ -160,23 +154,6 @@ class qsfglobal
 	}
 
 	/**
-	 * Combines two array to make a new array, the first array becomes the keys
-	 * and the second becomes the values
-	 *
-	 * @author Matthew Wells <ragnarok@squarehybrid.com>
-	 * @since Spiders in Active List Mod
-	 * @return Array
-	 **/
-	function array_combine($keys, $vals)
-	{
-		for ($i = 0; $i < count($keys); $i++) {
-			$array[$keys[$i]] = $vals[$i];
-		}
-
-		return $array;
-	}
-
-	/**
 	 * Attempts to CHMOD a directory or file
 	 *
 	 * @param string $path Path to CHMOD
@@ -242,17 +219,7 @@ class qsfglobal
 		return $in;
 	}
 
-	/**
-	 * Adds an entry to the navigation tree (interface to html widgets)
-	 *
-	 * @param string $label Label for the tree entry
-	 * @param string $link URL to link to
-	 **/
-	function tree($label, $link = null)
-	{
-		$this->htmlwidgets->tree($label, $link);
-	}
-	
+
 	/**
 	 * Generates a random pronounceable password
 	 *
@@ -383,6 +350,11 @@ class qsfglobal
 
 		$tz_adjust = $this->sets['servertime'] * 3600;
 		$time += $tz_adjust;
+
+		// DST adjustment if needed. Yes, it needs to know the current time so it can trick old posts into looking right.
+		if( date( "I", $this->time ) == 1 ) {
+			$time += 3600;
+		}
 
 		if (is_int($format)) {
 			switch($format)
@@ -529,10 +501,19 @@ class qsfglobal
 			'db_socket' => $this->sets['db_socket'],
 			'db_user'   => $this->sets['db_user'],
 			'dbtype'    => $this->sets['dbtype'],
-			'installed' => $this->sets['installed']
+			'installed' => $this->sets['installed'],
+			'admin_email' => $this->sets['admin_email']
 			);
 				
-		$file = "<?php\n\$set = array();\n";
+		$file = "<?php
+if (!defined('QUICKSILVERFORUMS')) {
+       header('HTTP/1.0 403 Forbidden');
+       die;
+}
+
+\$set = array();
+
+";
 		foreach ($settings as $set => $val)
 		{
 			$file .= "\$set['$set'] = '" . str_replace(array('\\', '\''), array('\\\\', '\\\''), $val) . "';\n";
@@ -588,7 +569,8 @@ class qsfglobal
 			'db_user',
 			'dbtype',
 			'installed',
-			'include_path'
+			'include_path',
+			'admin_email'
 		);
 
 		$sets = array();
@@ -600,50 +582,6 @@ class qsfglobal
 		}
 
 		$this->db->query("UPDATE settings SET settings_data='%s'", serialize($sets));
-	}
-
-	/**
-	 * Starts the iterator. Parameters (unlimited) specify the values to cycle
-	 *
-	 * @author Jason Warner <jason@mercuryboard.com
-	 * @since Beta 3.0
-	 * @return void
-	 */
-	function iterator_init()
-	{
-		$this->iterator_values = func_get_args();
-	}
-
-	/**
-	 * Returns the last selected value
-	 *
-	 * @author Jason Warner <jason@mercuryboard.com
-	 * @since Beta 3.0
-	 * @return mixed Last selected value
-	 */
-	function lastValue()
-	{
-		return $this->iterator_last;
-	}
-
-	/**
-	 * Advances the position in the array by one
-	 *
-	 * @author Jason Warner <jason@mercuryboard.com
-	 * @since Beta 3.0
-	 * @return mixed Current value in the array
-	 */
-	function iterate()
-	{
-		if ($this->iterator >= count($this->iterator_values)) {
-			$this->iterator = 0;
-		}
-
-		$ret = $this->iterator_values[$this->iterator];
-
-		$this->iterator++;
-		$this->iterator_last = $ret;
-		return $ret;
 	}
 
 	/**

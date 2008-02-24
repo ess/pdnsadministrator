@@ -40,7 +40,7 @@ $out = "
 <!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.1//EN\" \"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd\">
 <html xmlns='http://www.w3.org/1999/xhtml' xml:lang='en' dir='ltr'>
 <head>
-<title>Quicksilver Forums Debug</title>
+<title>PDNS-Admin Debug</title>
 <style type='text/css'>
 <!--
 body, table, tr, td {font-size:11px; font-family:Verdana, Arial, Helvetica, sans-serif}
@@ -52,7 +52,7 @@ hr {height:1px; border:0 none inherit; border-top:1px solid #666666}
 </head>
 <body>
 <div>
-<span style='font-size:18px; color:#660000'><b>Quicksilver Forums Debug</b></span>";
+<span style='font-size:18px; color:#660000'><b>PDNS-Admin Debug</b></span>";
 
 if (!$this->debug_mode) {
 	$out .= "<br /><br /><span style='font-size:12px'>This feature has been disabled.</span>

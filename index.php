@@ -103,8 +103,6 @@ $qsf->init();
 
 $server_load = $qsf->get_load();
 
-$qsf->tree("PDNS-Admin", $qsf->sets['site_url']);
-
 $reminder = null;
 $reminder_text = null;
 
@@ -140,4 +138,6 @@ if (!$qsf->nohtml) {
 // Do post output stuff
 $qsf->cleanup();
 
+// Close the DB connection.
+$qsf->db->close();
 ?>

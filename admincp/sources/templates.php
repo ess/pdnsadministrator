@@ -65,7 +65,7 @@ class templates extends admin
 
 		$skins = array();
 
-		$query = $this->db->query("SELECT * FROM skins");
+		$query = $this->db->query('SELECT * FROM skins');
 		while ($s = $this->db->nqfetch($query))
 		{
 			$skins[$s['skin_dir']] = $s['skin_name'];
@@ -542,7 +542,7 @@ class templates extends admin
 			fwrite( $fp, $text );
 			fclose($fp);
 
-			return $this->message($this->lang->edit_css, $this->lang->css_edited );
+			return $this->message($this->lang->edit_css, $this->lang->css_edited, $this->lang->continue, "$this->self?a=templates&amp;skin=$skin" );
 		}
 	}
 
@@ -692,11 +692,9 @@ class templates extends admin
 				<input type='submit' name='submit' value='{$this->lang->delete_template}' />
 				</div></form>");
 		} elseif( !isset($this->get['i'])) {
-			$this->iterator_init('tablelight', 'tabledark');
-
 			$query = $this->db->query("SELECT template_displayname, template_description, template_name, template_html
 				FROM templates WHERE template_skin='%s' AND template_name='%s'", $template, $this->post['template']);
-			$class = $this->iterate();
+
 			$name = $this->post['template'];
 			$section = $this->get['section'];
 			$skin = $this->get['skin'];
@@ -705,11 +703,11 @@ class templates extends admin
 			while ($data = $this->db->nqfetch($query))
 			{
 				$template_name = $data['template_name'];
-				$class = $this->iterate();
+
 				$data['template_html'] = $this->format($data['template_html'], FORMAT_HTMLCHARS);
 				$list .= eval($this->template('ADMIN_TEMPLATE_DELETE_CONTENTS'));
 			}
-			$class = $this->iterate();
+
 			$out = eval($this->template('ADMIN_DELETE_TEMPLATE'));
 			return $this->message($this->lang->delete_template,$out);
 		} else {
@@ -727,21 +725,11 @@ class templates extends admin
 			$query = $this->db->query("SELECT template_displayname, template_description, template_name, template_html
 				FROM templates WHERE template_skin='%s' AND template_set='%s' ORDER BY template_name", $template, $this->get['section']);
 
-			$this->iterator_init('tablelight', 'tabledark');
-
 			$out = "";
 			while ($data = $this->db->nqfetch($query))
 			{
-				/*
-				$data['template_html'] = preg_replace('/\{\$this->lang->(.+?)\}/', '{lang.\\1}', $data['template_html']);
-				$data['template_html'] = preg_replace('/\{\$this->(.+?)\}/', '{this.\\1}', $data['template_html']);
-				$data['template_html'] = preg_replace('/\{\$(.+?)\[\'(.+?)\'\]\}/', '{\\1.\\2}', $data['template_html']);
-				$data['template_html'] = preg_replace('/\{\$(.+?)\}/', '{local.\\1}', $data['template_html']);
-				*/
-
 				$data['template_html'] = $this->format($data['template_html'], FORMAT_HTMLCHARS);
 
-				$class = $this->iterate();
 				$out .= eval($this->template('ADMIN_EDIT_TEMPLATE_ENTRY'));
 			}
 			return eval($this->template('ADMIN_EDIT_TEMPLATE'));

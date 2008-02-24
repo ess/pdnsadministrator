@@ -165,7 +165,6 @@ class user_control extends admin
 			if (!isset($this->post['submit'])) {
 				$user = $this->db->fetch("SELECT * FROM users WHERE user_id=%d LIMIT 1", $this->get['id']);
 
-				$this->iterator_init('tablelight', 'tabledark');
 				$out = "";
 
 				define('U_IGNORE', 0);
@@ -204,7 +203,6 @@ class user_control extends admin
 					}
 
 					$line = "";
-					$class = $this->iterate();
 
 					switch ($data[1])
 					{
@@ -258,6 +256,7 @@ class user_control extends admin
 				return eval($this->template('ADMIN_USER_PROFILE'));
 			} else {
 				$user = $this->db->fetch('SELECT user_name FROM users WHERE user_id=%d LIMIT 1', $this->get['id']);
+
 				$guest_email = $this->post['user_email'];
 				if ($user['user_name'] != 'Guest' && !$this->validator->validate($guest_email, TYPE_EMAIL)) {
 					return $this->message($this->lang->mc_err_updating, $this->lang->mc_email_invaid);
