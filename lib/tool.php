@@ -1,7 +1,7 @@
 <?php
 /**
  * PDNS-Admin
- * Copyright (c) 2006-2007 Roger Libiez http://www.iguanadons.net
+ * Copyright (c) 2006-2008 Roger Libiez http://www.iguanadons.net
  *
  * Based on Quicksilver Forums
  * Copyright (c) 2005 The Quicksilver Forums Development Team
@@ -111,7 +111,7 @@ class tool
 			break;
 		case TYPE_PASSWORD:
 			// $range is unused
-			if (!preg_match("/^[a-z0-9_\- ]{5,}$/i", $pass)) {
+			if (strlen($var) < 5 || strlen($var) > 256) {
 				$unchanged = false;
 				if ($default != null) $var = $default;
 			}

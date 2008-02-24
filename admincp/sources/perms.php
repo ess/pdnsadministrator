@@ -1,7 +1,7 @@
 <?php
 /**
  * PDNS-Admin
- * Copyright (c) 2006-2007 Roger Libiez http://www.iguanadons.net
+ * Copyright (c) 2006-2008 Roger Libiez http://www.iguanadons.net
  *
  * Based on Quicksilver Forums
  * Copyright (c) 2005 The Quicksilver Forums Development Team
@@ -38,7 +38,7 @@ class perms extends admin
 
 		if (isset($this->get['s']) && ($this->get['s'] == 'user')) {
 			if (!isset($this->get['id'])) {
-				header("Location: $this->self?a=member&amp;s=perms");
+				header('Location: $this->self?a=member&amp;s=perms');
 			}
 
 			$this->post['group'] = intval($this->get['id']);
@@ -83,93 +83,18 @@ class perms extends admin
 
 		if (!isset($this->post['submit'])) {
 			if ($mode == 'user') {
-				$query = $this->db->fetch("SELECT user_name, user_perms FROM users WHERE user_id=%d", $this->post['group']);
-				$label = "User '{$query['user_name']}'";
+				$query = $this->db->fetch('SELECT user_name, user_perms FROM users WHERE user_id=%d', $this->post['group']);
+				$label = "{$this->lang->perms_user} '{$query['user_name']}'";
 			} else {
-				$query = $this->db->fetch("SELECT group_name FROM groups WHERE group_id=%d", $this->post['group']);
-				$label = "Group '{$query['group_name']}'";
+				$query = $this->db->fetch('SELECT group_name FROM groups WHERE group_id=%d', $this->post['group']);
+				$label = "{$this->lang->perms_group} '{$query['group_name']}'";
 			}
 
 			$out = "
-			<script type='text/javascript'>
-			<!--
-			function checkrow(element, check)
-			{
-				var elements = document.forms['form'].elements;
-				var count    = elements.length;
-
-				for (var i=0; i<count; i++) {
-					var current = elements[i];
-					var temp = current.name.split('[');
-
-					if (!temp[1]) continue;
-					temp2 = temp[1].split(']');
-
-					if (temp2[0] == element) {
-						current.checked = check;
-					}
-				}
-			}
-
-			function changeall(element, check)
-			{
-				if (!check) {
-					checkallbox(element, false);
-				} else if (areallchecked(element)) {
-					checkallbox(element, true);
-				}
-			}
-
-			function checkallbox(element, check)
-			{
-				var elements = document.forms['form'].elements;
-				var count    = elements.length;
-
-				var allchecked = true;
-
-				for (var i=0; i<count; i++) {
-					var current = elements[i];
-
-					if (current.name == ('perms[' + element + '][-1]')) {
-						current.checked = check;
-					}
-				}
-			}
-
-			function areallchecked(element)
-			{
-				var elements = document.forms['form'].elements;
-				var count    = elements.length;
-
-				var allchecked = true;
-
-				for (var i=0; i<count; i++) {
-					var current = elements[i];
-
-					if (current.name == ('perms[' + element + '][-1]')) {
-						continue;
-					}
-
-					var temp = current.name.split('[');
-
-					if (!temp[1]) continue;
-					temp2 = temp[1].split(']');
-
-					if (temp2[0] == element) {
-						if (!current.checked) {
-							allchecked = false;
-							break;
-						}
-					}
-				}
-
-				return allchecked;
-			}
-			//-->
-			</script>
+			<script type='text/javascript' src='../javascript/permissions.js'></script>
 
 			<form id='form' action='$this->self?a=perms$link' method='post'>
-			<div align='center'><span style='font-size:14px;'><b>Permissions For $label</b></span>";
+			<div align='center'><span style='font-size:14px;'><b>" . $this->lang->perms_for . " $label</b></span>";
 
 			if ($mode == 'user') {
 				$out .= "<br />{$this->lang->perms_override_user}<br /><br />
@@ -182,15 +107,13 @@ class perms extends admin
 				<td colspan='2' class='header'>$label</td>
 			</tr>";
 
-			$this->iterator_init('tablelight', 'tabledark');
-
 			$i = 0;
 			foreach ($perms as $perm => $label)
 			{
 				$out .= "
 				<tr>
-					<td class='" . $this->iterate() . "'>$label</td>
-					<td class='" . $this->lastValue() . "' align='center'>
+					<td class='tabledark'>$label</td>
+					<td class='tabledark' align='center'>
 						<input type='checkbox' name='perms[$perm][-1]' id='perms_{$perm}' onclick='checkrow(\"$perm\", this.checked)'" . ($perms_obj->auth($perm) ? ' checked=\'checked\'' : '') . " />All
 					</td>";
 
@@ -215,6 +138,16 @@ class perms extends admin
 
 			if (!isset($this->post['perms'])) {
 				$this->post['perms'] = array();
+			}
+
+			if ($mode == 'user') {
+				if ((!isset($this->post['perms']['do_anything'])) && ($this->post['group'] == USER_GUEST_UID)) {
+					return $this->message($this->lang->perms, $this->lang->perms_guest1);
+				}
+			} else {
+				if ((!isset($this->post['perms']['do_anything'])) && ($this->post['group'] == USER_GUEST)) {
+					return $this->message($this->lang->perms, $this->lang->perms_guest2);
+				}
 			}
 
 			foreach ($this->post['perms'] as $name => $data)

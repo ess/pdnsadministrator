@@ -1,7 +1,7 @@
 <?php
 /**
  * PDNS-Admin
- * Copyright (c) 2006-2007 Roger Libiez http://www.iguanadons.net
+ * Copyright (c) 2006-2008 Roger Libiez http://www.iguanadons.net
  *
  * Based on Quicksilver Forums
  * Copyright (c) 2005 The Quicksilver Forums Development Team
@@ -96,7 +96,7 @@ class database
 		$data['query']      = $query;
 		$this->querydebug[] = $data;
 	}
-	
+
 	/**
 	 * Runs an EXPLAIN or similar on a query
 	 * Interface version
@@ -151,7 +151,7 @@ class database
 		} else {
 			$args  = func_get_args();
 		}
-		
+
 		return $this->nqfetch($this->query($args));
 	}
 
@@ -218,7 +218,7 @@ class database
 	{
 		return 0;
 	}
-	
+
 	/**
 	 * Returns a escaped string
 	 *
@@ -230,7 +230,7 @@ class database
 	{
 		return addslashes($string);
 	}
-	
+
 	/**
 	 * Puts the data into the query using the escape function
 	 *
@@ -247,9 +247,9 @@ class database
 		} else {
 			$args  = func_get_args();
 		}
-		
+
 		$query = array_shift($args);
-		
+
 		for($i=0; $i<count($args); $i++) {
 			$args[$i] = $this->escape($args[$i]);
 		}

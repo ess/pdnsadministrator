@@ -1,3 +1,51 @@
+Changes for 1.1.4:
+
+NOTE: IPv6 support raises minimum system requirements to PHP >= 5.1.0
+
+* Fixed a bug where PTR records were being added or edited incorrectly. [Josh Speer]
+* Removed a bad template section that dealt with database prefixes, which the package does not use.
+* Corrected an undefined indexes error in the error library file.
+* Added a new user module to list the users in the system along with their domain information.
+* A running total of users and domains will now be shown on the main screen below the navigation menu.
+* Support added for IPv6 AAAA records.
+* Support added for up to 8 nameservers to be specified.
+
+Changes for 1.1.3:
+
+* Fixed some hardcoded English in the PHP source.
+* Editing users in the AdminCP wont't change an email address.
+* Added pagination links to the front page domain listing.
+* Updated all copyright headers for 2008.
+* Fixed another installer bug that prevented new installs.
+
+Changes for 1.1.2:
+
+* SECURITY: Users were capable of creating new domains without the permission setting.
+* Users are unable to reset their passwords due to bad variable names in the login code.
+* Domain owners should not be allowed to change the domain type without administrative access.
+* Domain type and owner dialogue should not appear in the interface if the user is not allowed to use them.
+* Skin templating system can now allow for nested <IF><ELSE> blocks.
+* Added an upgrade script to handle template and query changes in the future when updating.
+
+Changes for 1.1.1:
+
+* SECURITY: Error reporting library will reveal database info if a connection error is displayed.
+* Close out database connection when the page is completed.
+
+Changes for 1.1:
+
+* Fixed the installer so that it actually works now. Rather amazed this wasn't mentioned!
+* Fixed all instances of hardcoded English in the code.
+* Added paging tags to the administration logs.
+* Javascript for the permissions checkboxes was moved to an external file.
+* Removed the table class color switchers.
+* New interface skin.
+* Added a safety check to prevent locking out the site from all users, including the admin.
+* Editing CSS didn't provide a continue link when submitted.
+* Removed unnecessary checks on password validity.
+* mail.domain.com A record is not added when a new forward domain is created, even though the MX record is.
+* Error messages shown to users will be emailed to the site administrator.
+
 Changes for 1.0:
 
 * Initial Release. Nothing's changed yet!

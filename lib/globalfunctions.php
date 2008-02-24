@@ -1,7 +1,7 @@
 <?php
 /**
  * PDNS-Admin
- * Copyright (c) 2006-2007 Roger Libiez http://www.iguanadons.net
+ * Copyright (c) 2006-2008 Roger Libiez http://www.iguanadons.net
  *
  * Based on Quicksilver Forums
  * Copyright (c) 2005 The Quicksilver Forums Development Team
@@ -66,28 +66,6 @@ function error($type, $message, $file = null, $line = 0)
 	default:
 		exit(error_fatal($type, $message, $file, $line));
 		break;
-	}
-}
-
-/**
- * Runs require_once on all addons
- *
- * @param string $dir Folder to check for php files
- * @author Geoffrey Dunn <geoff@warmage.com>
- * @since 1.2
- **/
-function include_addons($dir)
-{
-	if (is_dir($dir)) {
-		if ($dh = opendir($dir)) {
-			while (($file = readdir($dh)) !== false) {
-				if (filetype($dir . $file) == 'file' && preg_match('/^[^\.]+\.php$/', $file) ) {
-					// Include it!
-					include_once($dir . $file);
-				}
-			}
-			closedir($dh);
-		}
 	}
 }
 ?>

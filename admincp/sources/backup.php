@@ -1,7 +1,7 @@
 <?php
 /**
  * PDNS-Admin
- * Copyright (c) 2006-2007 Roger Libiez http://www.iguanadons.net
+ * Copyright (c) 2006-2008 Roger Libiez http://www.iguanadons.net
  *
  * Based on Quicksilver Forums
  * Copyright (c) 2005 The Quicksilver Forums Development Team
@@ -82,28 +82,28 @@ class backup extends admin
 			return eval($this->template('ADMIN_BACKUP'));
 
 		$filename = "backup_".$this->version."-".date('y-m-d-H-i-s').".sql";
-		$options = "";
+		$options = '';
 
 		foreach($this->post as $key => $value )
 			$$key = $value;
 		if(isset($insert))
-			$options .= " -c";
+			$options .= ' -c';
 		if(isset($droptable))
-			$options .= " --add-drop-table";
+			$options .= ' --add-drop-table';
 
 		$tables = implode( ' ', $this->get_db_tables() );
 
 		$mbdump = "mysqldump ".$options." --password=".$this->db->pass." --host=".$this->db->host." --user=".$this->db->user;
 		$mbdump .= " --result-file='../packages/".$filename."' ".$this->db->db." ".$tables;
 
-		if( ($fp = popen($mbdump, "r") ) === false )
+		if( ($fp = popen($mbdump, 'r') ) === false )
 			return $this->message($this->lang->backup_create, $this->lang->backup_failed);
 
-		$buf = "";
+		$buf = '';
 		while( $c = fgetc($fp) )
 			$buf .= $c;
 		pclose($fp);
-		$this->chmod("../packages/".$filename, 0777);
+		$this->chmod('../packages/'.$filename, 0777);
 		return $this->message($this->lang->backup_create, $this->lang->backup_created ." ../packages/".$filename."<br />". $this->lang->backup_output .": ".$buf, $filename, "../packages/".$filename);
 	}
 
@@ -118,13 +118,13 @@ class backup extends admin
 	{
 		if (!isset($this->get['restore']))
 		{
-			if ( ($dir = opendir("../packages") ) === false )
+			if ( ($dir = opendir('../packages') ) === false )
 				return $this->message($this->lang->backup_restore, $this->lang->backup_no_packages);
 
 			$backups = array();
 			while( ($file = readdir($dir) ) )
 			{
-				if(strtolower(substr($file, -4) ) != ".sql")
+				if(strtolower(substr($file, -4) ) != '.sql')
 					continue;
 				$backups[] = $file;
 			}
@@ -133,8 +133,8 @@ class backup extends admin
 			if(count($backups) <= 0 )
 				return $this->message($this->lang->backup_restore, $this->lang->backup_none);
 
-			$output = $this->lang->backup_warning ."<br /><br />";
-			$output .= $this->lang->backup_found .":<br /><br />";
+			$output = $this->lang->backup_warning . '<br /><br />';
+			$output .= $this->lang->backup_found . ':<br /><br />';
 			$count = 0;
 
 			foreach( $backups as $bkup )
@@ -144,14 +144,14 @@ class backup extends admin
 			return $this->message($this->lang->backup_restore, $output);
 		}
 
-		if(!file_exists("../packages/".$this->get['restore']) )
+		if(!file_exists('../packages/' . $this->get['restore']) )
 			return $this->message($this->lang->backup_restore, $this->lang->backup_noexist);
 
 		$mbimport = "mysql --password=".$this->db->pass." --host=".$this->db->host." --user=".$this->db->user." ".$this->db->db." < ../packages/".$this->get['restore'];
-		if( ($fp = popen($mbimport, "r") ) === false )
+		if( ($fp = popen($mbimport, 'r') ) === false )
 			return $this->message($this->lang->backup_restore, $this->lang->backup_import_fail);
 
-		$output = "";
+		$output = '';
 		while($c = fgetc($fp) )
 			$output .= $c;
 		return $this->message($this->lang->backup_restore, $this->lang->backup_restore_done ."<br />". $this->lang->backup_output .": ".$output);

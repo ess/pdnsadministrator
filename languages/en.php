@@ -1,7 +1,7 @@
 <?php
 /**
  * PDNS-Admin
- * Copyright (c) 2006-2007 Roger Libiez http://www.iguanadons.net
+ * Copyright (c) 2006-2008 Roger Libiez http://www.iguanadons.net
  *
  * Based on Quicksilver Forums
  * Copyright (c) 2005 The Quicksilver Forums Development Team
@@ -154,6 +154,7 @@ class en
 		$this->domains_ip_invalid = 'The IP address entered was invalid!';
 		$this->domains_user_invalid = 'A valid user is required!';
 		$this->domains_new = 'Create New Domain';
+		$this->domains_new_cant_create = 'You cannot create new domains.';
 		$this->domains_new_created = 'New domain created.';
 		$this->domains_new_ip = 'IP Address';
 		$this->domains_new_name = 'Domain Name';
@@ -184,6 +185,7 @@ class en
 		$this->domains_required = 'A domain name is required.';
 		$this->domains_ip_required = 'An IP address is required.';
 		$this->domains_type = 'Domain Type';
+		$this->domains_type_cant_change = 'You cannot change the domain type.';
 		$this->domains_type_change = 'Change Domain Type';
 		$this->domains_type_changed = 'Type has been changed.';
 		$this->domains_type_required = 'A domain type of MASTER, SLAVE, or NATIVE is required.';
@@ -285,6 +287,7 @@ class en
 		$this->main_create_forward = 'Create New Domain';
 		$this->main_create_reverse = 'Create New Reverse Domain';
 		$this->main_delete_domain = 'Delete this domain';
+		$this->main_domains = 'Domains';
 		$this->main_domain_name = 'Domain Name';
 		$this->main_domain_owner = 'Domain Owner';
 		$this->main_edit_domain = 'Edit this domain';
@@ -298,8 +301,9 @@ class en
 		$this->main_prev = 'prev';
 		$this->main_queries = 'queries';
 		$this->main_records = 'Records';
-		$this->main_reminder = 'Reminder';
+		$this->main_statistics = 'Statistics';
 		$this->main_title = 'PowerDNS Administration Console';
+		$this->main_users = 'Users';
 		$this->main_welcome = 'Welcome';
 		$this->main_welcome2 = 'Welcome to the PowerDNS Administration Console. Please log on. If you have not been provided with an account, you may not belong here.';
 		$this->main_welcome_guest = 'Welcome!';
@@ -321,11 +325,16 @@ class en
 		$this->perms_edit_domains = 'Can edit existing domains they do not own.';
 		$this->perms_do_anything = 'Can access PDNS-Admin. Should never be unchecked!';
 		$this->perms_edit_for = 'Edit permissions for';
+		$this->perms_for = 'Permissions For';
+		$this->perms_group = 'Group';
+		$this->perms_guest1 = 'Removing Guest user access will prevent anyone from logging in!';
+		$this->perms_guest2 = 'Removing Guest group access will prevent anyone from logging in!';
 		$this->perms_is_admin = 'Can access the admin control panel. This is an all or nothing setting.';
 		$this->perms_only_user = 'Use only group permissions for this user';
 		$this->perms_override_user = 'This will override the group permissions for this user.';
 		$this->perms_title = 'User Group Control';
 		$this->perms_updated = 'Permissions have been updated.';
+		$this->perms_user = 'User';
 		$this->perms_user_inherit = 'The user will inherit the group\'s permissions.';
 	}
 
@@ -374,6 +383,12 @@ class en
 		$this->settings_domain_ttl = 'Default TTL value for new domains';
 		$this->settings_domain_ns1 = 'Primary Nameserver';
 		$this->settings_domain_ns2 = 'Secondary Nameserver';
+		$this->settings_domain_ns3 = 'Tertiary Nameserver';
+		$this->settings_domain_ns4 = 'Quaternary Nameserver';
+		$this->settings_domain_ns5 = 'Quinary Nameserver';
+		$this->settings_domain_ns6 = 'Senary Nameserver';
+		$this->settings_domain_ns7 = 'Septenary Nameserver';
+		$this->settings_domain_ns8 = 'Octonary Nameserver';
 		$this->settings_email_fake = 'For display only. Should not be a real e-mail address.';
 		$this->settings_email_from = 'E-mail From Address';
 		$this->settings_email_real = 'Should be a real e-mail address.';
@@ -473,6 +488,7 @@ class en
 		$this->temps_login = 'Logging In/Out';
 		$this->temps_logs = 'AdminCP Moderator Logs';
 		$this->temps_main = '<b>Site Universal</b>';
+		$this->temps_users = 'Users List';
 		$this->temps_user_control = 'AdminCP User Control';
 		$this->temps_settings = 'AdminCP Settings';
 		$this->temps_templates = 'AdminCP Template Editor';
@@ -564,7 +580,28 @@ class en
 		$this->mc_user_language = 'Language';
 		$this->mc_user_lastlogon = 'Last Logon';
 		$this->mc_user_name = 'Name';
+		$this->mc_user_email_required = 'An email address is required!';
+		$this->mc_user_name_required = 'A user name is required!';
+		$this->mc_user_name_exists = 'A user named %s already exists.';
+		$this->mc_user_new = 'User added. New password has been sent via email.';
 		$this->mc_user_skin = 'Skin';
+	}
+
+	function users()
+	{
+		$this->users_action_forbidden = 'Action Not Allowed';
+		$this->users_all = 'all';
+		$this->users_contact = 'Contact Information';
+		$this->users_created = 'Created';
+		$this->users_domains = 'Domains';
+		$this->users_email_address = 'Email Address';
+		$this->users_group = 'Group';
+		$this->users_list = 'User List';
+		$this->users_no_domains = 'This user has no domains.';
+		$this->users_not_allowed = 'You are not permitted to perform that action.';
+		$this->users_owns_domains = 'This user owns %d domains.';
+		$this->users_profile = 'User profile for';
+		$this->users_user = 'User';
 	}
 }
 ?>
