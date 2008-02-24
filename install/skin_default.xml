@@ -575,6 +575,7 @@
      <a href="{$admin->self}?a=settings&amp;s=add">{$admin->lang->admin_settings_add}</a>
      <a href="{$admin->self}?a=php_info">{$admin->lang->admin_phpinfo}</a>
      <a href="{$admin->self}?a=logs">{$admin->lang->admin_logs}</a>
+     <a href="{$admin->self}?a=supermaster">{$admin->lang->admin_supermasters}</a>
     </span>
    </div>
 
@@ -1648,8 +1649,8 @@
   {$this->lang->supermaster_add}
  </div>
 
- <span class="field">{$this->lang->supermaster_ip}</span>
- <span class="form">$ip</span>
+ <span class="field">{$this->lang->supermaster_new_ip}</span>
+ <span class="form"><input name="ip" type="text" /></span>
 
  <p class="line"></p>
 
@@ -1667,7 +1668,7 @@
       <description>A single entry from the supermasters list.</description>
       <html><![CDATA[
 <div class="topic_icon">
- <a href="{$this->self}?a=supermaster&amp;s=delete&amp;ns=$ns"><img src="../skins/{$this->skin}/images/icons/delete.png" title="{$this->lang->supermaster_delete}" alt="{$this->lang->delete}" /></a>
+ <a href="{$this->self}?a=supermaster&amp;s=delete&amp;ip=$ip&amp;ns=$ns"><img src="../skins/{$this->skin}/images/icons/delete.png" title="{$this->lang->supermaster_delete}" alt="{$this->lang->delete}" /></a>
 </div>
 <span class="name">$ip</span>
 <span class="owner">$ns</span>

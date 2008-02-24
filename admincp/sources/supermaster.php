@@ -104,18 +104,24 @@ class supermaster extends admin
 	 **/
 	function add_supermaster()
 	{
-		$ip = $_SERVER['SERVER_ADDR'];
-
 		if(!isset($this->post['submit'])) {
 			return eval($this->template('ADMIN_SUPERMASTER_ADD'));
 		}
 
+		$ip = $this->post['ip'];
 		$ns = $this->post['ns'];
 
 		// If the 2 pieces of useful input match, then we can't insert the data.
 		$exists = $this->db->fetch( "SELECT * FROM supermasters WHERE ip='%s' AND nameserver='%s'", $ip, $ns );
 		if( $exists )
 			return $this->message( $this->lang->supermaster_add, $this->lang->supermaster_exists );
+
+		$type = 'A';
+		if( strpos( $ip, '.' ) === false )
+			$type = 'AAAA';
+
+		if( !$this->is_valid_ip($ip, $type) )
+			return $this->message( $this->lang->supermaster_add, $this->lang->supermaster_ip_invalid );
 
 		if( !$this->is_valid_domain($ns) )
 			return $this->message( $this->lang->supermaster_add, $this->lang->supermaster_ns_invalid );
@@ -132,8 +138,7 @@ class supermaster extends admin
 	 **/
 	function delete_supermaster()
 	{
-		$ip = $_SERVER['SERVER_ADDR'];
-
+		$ip = isset($this->get['ip']) ? $this->get['ip'] : '*BOGUS*';
 		$ns = isset($this->get['ns']) ? $this->get['ns'] : '*BOGUS*';
 
 		$exists = $this->db->fetch( "SELECT ip,nameserver FROM supermasters WHERE ip='%s' AND nameserver='%s'", $ip, $ns );

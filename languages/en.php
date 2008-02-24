@@ -440,6 +440,8 @@ class en
 		$this->supermaster_deleted = 'Supermaster record deleted.';
 		$this->supermaster_exists = 'A supermaster record with that name server already exists!';
 		$this->supermaster_ip = 'IP Address';
+		$this->supermaster_ip_invalid = 'The IP address supplied is not valid!';
+		$this->supermaster_new_ip = 'IP of the master server sending the notifications';
 		$this->supermaster_new_ns = 'Name server to look for from master notifications';
 		$this->supermaster_ns = 'Name Server';
 		$this->supermaster_ns_invalid = 'The name server supplied is not valid!';

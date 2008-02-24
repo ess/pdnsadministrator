@@ -150,8 +150,8 @@ class upgrade extends pdnsadmin
 					case '1.1.4': // 1.1.4 to 1.1.5
 						if( $templates_add !== true ) {
 							$templates_add[] = 'ADMIN_SUPERMASTERS';
-							$templates_add[] = 'ADMIN_SUPERMASTERS_ADD';
-							$templates_add[] = 'ADMIN_SUPERMASTERS_ENTRY';
+							$templates_add[] = 'ADMIN_SUPERMASTER_ADD';
+							$templates_add[] = 'ADMIN_SUPERMASTER_ENTRY';
 						}
 						if( $templates_update !== true ) {
 							$templates_update[] = 'MAIN';
@@ -163,13 +163,14 @@ class upgrade extends pdnsadmin
 							$templates_update[] = 'DOMAINS_ADD';
 							$templates_update[] = 'DOMAINS_EDIT';
 							$templates_update[] = 'DOMAINS_ADD_REVERSE';
+							$templates_update[] = 'ADMIN_INDEX';
 						}
 
 						$this->sets['domains_per_page'] = 50;
 						$this->sets['records_per_page'] = 50;
 						$this->sets['soa_retry'] = 3600;
 						$this->sets['soa_refresh'] = 10800;
-						$this->sets['soa_expire'] = 604800;
+						$this->sets['soa_expire'] = 432000;
 						break;
 				}
 
