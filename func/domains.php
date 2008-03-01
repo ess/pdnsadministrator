@@ -280,8 +280,7 @@ class domains extends pdnsadmin
 		$this->db->query( "UPDATE records SET name='%s', type='%s', content='%s', ttl=%d, prio=%d, change_date=%d
 		    WHERE id=%d", $name, $record, $content, $ttl, $priority, $this->time, $rec_id );
 
-		if( $record != 'SOA' )
-			$this->update_soa_serial( $id );
+		$this->update_soa_serial( $id );
 
 		$this->log_action( 'edit_' . $record . '_record', $id );
 		return $this->message($this->lang->domains_record_edit, $this->lang->domains_record_edited, $this->lang->continue, "{$this->self}?a=domains&s=edit&id={$id}");
