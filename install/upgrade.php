@@ -47,6 +47,10 @@ class upgrade extends pdnsadmin
 				echo "<tr><td colspan='2' align='center'><b>To determine what version you are running, check the bottom of your AdminCP page. Or check the CHANGES file and look for the latest revision mentioned there.</b></td></tr>
 				<tr><td colspan='2' align='center'><b>Upgrade from what version?</b></td></tr>
 				    <tr>
+				        <td><input type='radio' name='from' value='1.1.5' id='115' checked='checked' />
+					<label for='115'>PDNS-Admin 1.1.5</label></td>
+				    </tr>
+				    <tr>
 				        <td><input type='radio' name='from' value='1.1.4' id='114' checked='checked' />
 					<label for='114'>PDNS-Admin 1.1.4</label></td>
 				    </tr>
@@ -172,6 +176,8 @@ class upgrade extends pdnsadmin
 						$this->sets['soa_retry'] = 3600;
 						$this->sets['soa_refresh'] = 10800;
 						$this->sets['soa_expire'] = 432000;
+
+					case '1.1.5': // 1.1.5 to 1.1.6
 						break;
 				}
 

@@ -2,11 +2,11 @@
 <qsfmod>
   <title>Skin: Ashlander</title>
   <type folder="default">skin</type>
-  <version>v1.1.5</version>
+  <version>v1.1.6</version>
   <description></description>
   <authorname>Skin Exporter</authorname>
   <files>
-    <file>packages/skin_default-v1.1.5.xml</file>
+    <file>packages/skin_default-v1.1.6.xml</file>
     <file>skins/default/images/Logo.gif</file>
     <file>skins/default/images/background3.gif</file>
     <file>skins/default/images/icons/new_record.png</file>
