@@ -178,43 +178,6 @@ class templates extends admin
 					}
 			}
 
-			/* Iterate over all our templates */
-			$query = $this->db->query("SELECT template_html, template_name FROM templates WHERE template_skin='%s'", $skin);
-
-			while ($row = $this->db->nqfetch($query))
-			{
-				if( strstr( $row['template_html'], '$qsf->lang->main_powered' ) ) {
-					$didsomething = true;
-					$row['template_html'] = str_replace('$qsf->lang->main_powered', '$qsf->lang->powered', $row['template_html']);
-					$updated_temps[] = $row['template_name'];
-		               		$this->db->query("UPDATE templates SET template_html='%s' WHERE template_skin='%s' AND template_name='%s'", $row['template_html'], $skin, $row['template_name']);
-				}
-				if( strstr( $row['template_html'], '$qsf->lang->main_seconds' ) ) {
-					$didsomething = true;
-					$row['template_html'] = str_replace('$qsf->lang->main_seconds', '$qsf->lang->seconds', $row['template_html']);
-					$updated_temps[] = $row['template_name'];
-		               		$this->db->query("UPDATE templates SET template_html='%s' WHERE template_skin='%s' AND template_name='%s'", $row['template_html'], $skin, $row['template_name']);
-				}
-				if( strstr( $row['template_html'], '$qsf->tree' ) ) {
-					$didsomething = true;
-					$row['template_html'] = str_replace('$qsf->tree', '$qsf->htmlwidgets->tree', $row['template_html']);
-					$updated_temps[] = $row['template_name'];
-					$this->db->query("UPDATE templates SET template_html='%s' WHERE template_skin='%s' AND template_name='%s'", $row['template_html'], $skin, $row['template_name']);
-				}
-				if( strstr( $row['template_html'], '$admin->tree' ) ) {
-					$didsomething = true;
-					$row['template_html'] = str_replace('$admin->tree', '$admin->htmlwidgets->tree', $row['template_html']);
-					$updated_temps[] = $row['template_name'];
-		               		$this->db->query("UPDATE templates SET template_html='%s' WHERE template_skin='%s' AND template_name='%s'", $row['template_html'], $skin, $row['template_name']);
-				}
-				if( strstr( $row['template_html'], '$this->tree' ) ) {
-					$didsomething = true;
-					$row['template_html'] = str_replace('$this->tree', '$this->htmlwidgets->tree', $row['template_html']);
-					$updated_temps[] = $row['template_name'];
-		               		$this->db->query("UPDATE templates SET template_html='%s' WHERE template_skin='%s' AND template_name='%s'", $row['template_html'], $skin, $row['template_name']);
-				}
-	       		}
-
 		        if ($didsomething) {
 				$message = $skin . " " . $this->lang->upgrade_skin_upgraded . "<br /><br />{$this->lang->upgraded_templates}:<br /><br />" . implode('<br />', $new_temps) . implode('<br />', $updated_temps);
 				return $this->message($this->lang->upgrade_skin, $message);
