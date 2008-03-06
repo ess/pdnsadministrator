@@ -129,6 +129,30 @@ class logs extends admin
 				$id = $dom_name['name'];
 				break;
 
+			case 'delete_LOC_record':
+				$dom_name = $this->db->fetch( 'SELECT name FROM domains WHERE id=%d', $log['log_data1'] );
+				$action = $this->lang->logs_delete_loc_record;
+				$id = $dom_name['name'];
+				break;
+
+			case 'delete_SRV_record':
+				$dom_name = $this->db->fetch( 'SELECT name FROM domains WHERE id=%d', $log['log_data1'] );
+				$action = $this->lang->logs_delete_srv_record;
+				$id = $dom_name['name'];
+				break;
+
+			case 'delete_NAPTR_record':
+				$dom_name = $this->db->fetch( 'SELECT name FROM domains WHERE id=%d', $log['log_data1'] );
+				$action = $this->lang->logs_delete_naptr_record;
+				$id = $dom_name['name'];
+				break;
+
+			case 'delete_SPF_record':
+				$dom_name = $this->db->fetch( 'SELECT name FROM domains WHERE id=%d', $log['log_data1'] );
+				$action = $this->lang->logs_delete_spf_record;
+				$id = $dom_name['name'];
+				break;
+
 			case 'new_A_record':
 				$dom_name = $this->db->fetch( 'SELECT name FROM domains WHERE id=%d', $log['log_data1'] );
 				$action = $this->lang->logs_new_a_record;
@@ -171,6 +195,30 @@ class logs extends admin
 				$id = $dom_name['name'];
 				break;
 
+			case 'new_LOC_record':
+				$dom_name = $this->db->fetch( 'SELECT name FROM domains WHERE id=%d', $log['log_data1'] );
+				$action = $this->lang->logs_new_loc_record;
+				$id = $dom_name['name'];
+				break;
+
+			case 'new_SRV_record':
+				$dom_name = $this->db->fetch( 'SELECT name FROM domains WHERE id=%d', $log['log_data1'] );
+				$action = $this->lang->logs_new_srv_record;
+				$id = $dom_name['name'];
+				break;
+
+			case 'new_NAPTR_record':
+				$dom_name = $this->db->fetch( 'SELECT name FROM domains WHERE id=%d', $log['log_data1'] );
+				$action = $this->lang->logs_new_naptr_record;
+				$id = $dom_name['name'];
+				break;
+
+			case 'new_SPF_record':
+				$dom_name = $this->db->fetch( 'SELECT name FROM domains WHERE id=%d', $log['log_data1'] );
+				$action = $this->lang->logs_new_spf_record;
+				$id = $dom_name['name'];
+				break;
+
 			case 'edit_A_record':
 				$dom_name = $this->db->fetch( 'SELECT name FROM domains WHERE id=%d', $log['log_data1'] );
 				$action = $this->lang->logs_edit_a_record;
@@ -210,6 +258,30 @@ class logs extends admin
 			case 'edit_URL_record':
 				$dom_name = $this->db->fetch( 'SELECT name FROM domains WHERE id=%d', $log['log_data1'] );
 				$action = $this->lang->logs_edit_url_record;
+				$id = $dom_name['name'];
+				break;
+
+			case 'edit_LOC_record':
+				$dom_name = $this->db->fetch( 'SELECT name FROM domains WHERE id=%d', $log['log_data1'] );
+				$action = $this->lang->logs_edit_loc_record;
+				$id = $dom_name['name'];
+				break;
+
+			case 'edit_SRV_record':
+				$dom_name = $this->db->fetch( 'SELECT name FROM domains WHERE id=%d', $log['log_data1'] );
+				$action = $this->lang->logs_edit_srv_record;
+				$id = $dom_name['name'];
+				break;
+
+			case 'edit_NAPTR_record':
+				$dom_name = $this->db->fetch( 'SELECT name FROM domains WHERE id=%d', $log['log_data1'] );
+				$action = $this->lang->logs_edit_naptr_record;
+				$id = $dom_name['name'];
+				break;
+
+			case 'edit_SPF_record':
+				$dom_name = $this->db->fetch( 'SELECT name FROM domains WHERE id=%d', $log['log_data1'] );
+				$action = $this->lang->logs_edit_spf_record;
 				$id = $dom_name['name'];
 				break;
 

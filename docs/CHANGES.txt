@@ -1,5 +1,9 @@
 Changes for 1.1.6:
 
+* BUG: lang->domains_record_delete_wrong definition missing
+* Added missing log messages to the logging functions.
+* Removed unnecessary skin upgrade code.
+
 Changes for 1.1.5:
 
 * Removed the unused chmod function. Files should be manually altered if needed.

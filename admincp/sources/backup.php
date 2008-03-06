@@ -33,16 +33,16 @@ require_once $set['include_path'] . '/admincp/admin.php';
 /**
  * Database backup
  *
- * @author Jason Warner <jason@mercuryboard.com>
- * @since 1.0.2
+ * @author Aaron Smith-Hayes <davionkalhen@gmail.com>
+ * @since 1.0.0
  **/
 class backup extends admin
 {
 	/**
 	 * Database backup
 	 *
-	 * @author Jason Warner <jason@mercuryboard.com>
-	 * @since 1.0.2
+	 * @author Aaron Smith-Hayes <davionkalhen@gmail.com>
+	 * @since 1.0.0
 	 * @return string HTML
 	 **/
 	function execute()
@@ -73,7 +73,7 @@ class backup extends admin
 	 * Generate a backup
 	 *
 	 * @author Aaron Smith-Hayes <davionkalhen@gmail.com>
-	 * @since 1.3.2
+	 * @since 1.0.0
 	 * @return string HTML
 	 **/
 	function create_backup()
@@ -111,7 +111,7 @@ class backup extends admin
 	 * Restore a backup
 	 *
 	 * @author Aaron Smith-Hayes <davionkalhen@gmail.com>
-	 * @since 1.3.2
+	 * @since 1.0.0
 	 * @return string HTML
 	 **/
 	function restore_backup()
