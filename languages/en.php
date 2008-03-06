@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 /**
  * PDNS-Admin
  * Copyright (c) 2006-2008 Roger Libiez http://www.iguanadons.net
@@ -177,6 +177,7 @@ class en
 		$this->domains_record_delete_confirm = 'Are you sure you wish to delete the <b>%s</b> record <b>%s</b> containing <b>%s</b>?';
 		$this->domains_record_delete_soa = 'You cannot delete the SOA record for a domain!';
 		$this->domains_record_deleted = 'Record Deleted.';
+		$this->domains_record_delete_wrong = 'That record is not part of this domain.';
 		$this->domains_record_edit = 'Edit Domain Record';
 		$this->domains_record_edit2 = 'Edit this record';
 		$this->domains_record_edited = 'Record Edited.';
