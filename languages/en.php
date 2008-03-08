@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /**
  * PDNS-Admin
  * Copyright (c) 2006-2008 Roger Libiez http://www.iguanadons.net
@@ -197,6 +197,7 @@ class en
 		$this->domains_type_required = 'A domain type of MASTER, SLAVE, or NATIVE is required.';
 		$this->domains_unknown = 'You cannot do that to a domain?!';
 		$this->domains_user_invalid = 'A valid user is required!';
+		$this->domains_user_mismatch = 'User ID mismatch in new domain submission.';
 		$this->domains_user_not_exist = 'The selected user does not exist.';
 	}
 

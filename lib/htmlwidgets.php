@@ -51,6 +51,7 @@ class htmlwidgets extends tool
 		$this->db  = &$pdns->db;
 		$this->sets = &$pdns->sets;
 		$this->perms = &$pdns->perms;
+		$this->user = &$pdns->user;
 	}
 
 	/**
@@ -200,6 +201,9 @@ class htmlwidgets extends tool
 		while ($user = $this->db->nqfetch($users))
 		{
 			if ($user['user_id'] == USER_GUEST_UID)
+				continue;
+
+			if ($this->user['user_group'] == USER_MEMBER && $user['user_id'] != $this->user['user_id'])
 				continue;
 
 			$out .= "<option value=\"{$user['user_id']}\"" . (($val == $user['user_id']) ? ' selected="selected"' : '') . ">{$user['user_name']}</option>";

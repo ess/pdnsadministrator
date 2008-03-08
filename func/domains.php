@@ -590,8 +590,12 @@ class domains extends pdnsadmin
 
 		$dom_name = $this->post['name'];
 		$dom_ip = $this->post['ip'];
-		$dom_owner = $this->post['owner'];
+		$dom_owner = intval($this->post['owner']);
 		$dom_type = $this->post['type'];
+
+		if ($this->user['user_group'] == USER_MEMBER && $dom_owner != $this->user['user_id']) {
+			return $this->message($this->lang->domains_new, $this->lang->domains_user_mismatch);
+		}
 
 		if (!$this->is_valid_domain($dom_name)) {
 			return $this->message($this->lang->domains_new, $this->lang->domains_invalid);
