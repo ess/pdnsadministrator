@@ -260,7 +260,7 @@ class new_install extends pdnsadmin
 			$this->sets['default_ttl'] = 21600;
 			$this->sets['soa_retry'] = 3600;
 			$this->sets['soa_refresh'] = 10800;
-			$this->sets['soa_expire'] = 432000;
+			$this->sets['soa_expire'] = 1814400;
 			$this->sets['domains_per_page'] = 50;
 			$this->sets['records_per_page'] = 50;
 			$this->sets['admin_incoming'] = $this->post['admin_email'];

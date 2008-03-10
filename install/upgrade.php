@@ -175,7 +175,7 @@ class upgrade extends pdnsadmin
 						$this->sets['records_per_page'] = 50;
 						$this->sets['soa_retry'] = 3600;
 						$this->sets['soa_refresh'] = 10800;
-						$this->sets['soa_expire'] = 432000;
+						$this->sets['soa_expire'] = 1814400;
 
 					case '1.1.5': // 1.1.5 to 1.1.6
 						break;
