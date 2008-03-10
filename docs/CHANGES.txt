@@ -1,8 +1,11 @@
 Changes for 1.1.6:
 
-* BUG: lang->domains_record_delete_wrong definition missing
+* BUG: lang->domains_record_delete_wrong definition missing.
+* BUG: SOA serial update needed to trim whitespace chars or it would cause the record entry to keep growing.
 * Added missing log messages to the logging functions.
 * Removed unnecessary skin upgrade code.
+* Better handling for user created domains.
+* Default SOA expiry time raised to 3 weeks based on diagnostic recommendations.
 
 Changes for 1.1.5:
 
