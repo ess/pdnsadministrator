@@ -257,7 +257,7 @@ class new_install extends pdnsadmin
 			$this->sets['senary_nameserver'] = '';
 			$this->sets['septenary_nameserver'] = '';
 			$this->sets['octonary_nameserver'] = '';
-			$this->sets['default_ttl'] = 21600;
+			$this->sets['default_ttl'] = 7200;
 			$this->sets['soa_retry'] = 3600;
 			$this->sets['soa_refresh'] = 10800;
 			$this->sets['soa_expire'] = 1814400;

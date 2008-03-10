@@ -51,7 +51,7 @@ class upgrade extends pdnsadmin
 					<label for='115'>PDNS-Admin 1.1.5</label></td>
 				    </tr>
 				    <tr>
-				        <td><input type='radio' name='from' value='1.1.4' id='114' checked='checked' />
+				        <td><input type='radio' name='from' value='1.1.4' id='114' />
 					<label for='114'>PDNS-Admin 1.1.4</label></td>
 				    </tr>
 				    <tr>
