@@ -919,6 +919,10 @@ class domains extends pdnsadmin
 			{
 				$new_soa .= $soa[$i] . ' ';
 			}
+
+			// Trim that final space off
+			$new_soa = trim($new_soa);
+
 			$this->db->query( "UPDATE records SET content='%s'
 			    WHERE domain_id=%d AND type='SOA'", $new_soa, $domain_id );
 		}
