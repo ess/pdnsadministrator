@@ -182,6 +182,7 @@ class upgrade extends pdnsadmin
 							$templates_update[] = 'DOMAINS_ADD';
 							$templates_update[] = 'DOMAIN_ITEM';
 							$templates_update[] = 'DOMAIN_LIST';
+							$templates_update[] = 'MAIN';
 						}
 						break;
 				}

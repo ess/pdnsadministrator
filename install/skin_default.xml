@@ -1376,14 +1376,15 @@
    </div>
    <div id="main">
     {$pdnspage}
-    <IF $pdns->perms->auth('is_admin')>
-     {$pdns->table}
-      <strong>{$time_exec}</strong> {$pdns->lang->seconds} - 
+    {$pdns->table}
+     <a href="../" style="font-weight:bold">{$pdns->lang->main_your_board}</a>
+     <IF $pdns->perms->auth('is_admin')>
+      -- <strong>{$time_exec}</strong> {$pdns->lang->seconds} - 
       <strong>{$pdns->db->querycount}</strong> {$pdns->lang->main_queries} - 
       <strong>{$server_load}</strong> {$pdns->lang->main_load}
       [<a href="{$pdns->self}?{$pdns->query}&amp;debug=1" class="small">{$pdns->lang->main_full}</a>]
-     {$pdns->etable}
     </IF>
+    {$pdns->etable}
    </div>
    <div id="bottom">&nbsp;</div>
   </div>

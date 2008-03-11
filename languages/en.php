@@ -329,6 +329,7 @@ class en
 		$this->main_welcome = 'Welcome';
 		$this->main_welcome2 = 'Welcome to the PowerDNS Administration Console. Please log on. If you have not been provided with an account, you may not belong here.';
 		$this->main_welcome_guest = 'Welcome!';
+		$this->main_your_board = 'Your Console';
 	}
 
 	function optimize()
