@@ -156,11 +156,13 @@ class en
 		$this->domains_ip_invalid = 'The IP address entered was invalid!';
 		$this->domains_ip_required = 'An IP address is required.';
 		$this->domains_login_first = 'You must be logged in to access the domain control panel.';
+		$this->domains_master_ip_required = 'A Master IP is required for Slave domains.';
 		$this->domains_new = 'Create New Domain';
 		$this->domains_new_cant_create = 'You cannot create new domains.';
 		$this->domains_new_created = 'New domain created.';
 		$this->domains_new_ip = 'IP Address';
 		$this->domains_new_cname_record = 'Add default CNAME record';
+		$this->domains_new_master_ip = 'Master IP (Only for Slave domains)';
 		$this->domains_new_mx_record = 'Add default MX record';
 		$this->domains_new_ns_records = 'Add default NS records';
 		$this->domains_new_name = 'Domain Name';
@@ -589,6 +591,7 @@ class en
 		$this->gmt_pos8 = '[GMT+8:00] Beijing, Hong Kong, Singapore';
 		$this->gmt_pos9 = '[GMT+9:00] Tokyo, Seoul';
 		$this->gmt_pos95 = '[GMT+9:30] Adelaide, Darwin';
+		$this->master = 'Master';
 		$this->name = 'Name';
 		$this->no = 'No';
 		$this->powered = 'Powered by';
@@ -597,6 +600,7 @@ class en
 		$this->select_all = 'Select All';
 		$this->sep_decimals = '.';
 		$this->sep_thousands = ',';
+		$this->slave = 'Slave';
 		$this->submit = 'Submit';
 		$this->time_long = ', g:i a';
 		$this->time_only = 'g:i a';

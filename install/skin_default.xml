@@ -993,6 +993,11 @@
 
  <p class="line"></p>
 
+ <span class="field">{$this->lang->domains_new_master_ip}</span>
+ <span class="form"><input type="text" name="master_ip" value="{$this->sets['domain_master_ip']}" /></span>
+
+ <p class="line"></p>
+
  <span class="field">{$this->lang->domains_new_ns_records}</span>
  <span class="form"><input type="checkbox" checked="checked" name="new_ns_records" value="1" class="check" /></span>
 
@@ -1170,6 +1175,7 @@
 <span class="name"><a href="{$this->self}?a=domains&amp;s=edit&amp;id={$domain['id']}" title="{$this->lang->main_edit_domain}">{$domain['name']}</a></span>
 <span class="owner"><a href="{$this->self}?a=users&amp;w={$domain['user_id']}">{$domain['user_name']}</a></span>
 <span class="number">{$domain['recs']}</span>
+<span class="owner">{$domain['type']}</span>
 <p class="list_line"></p>
       ]]></html>
     </template>
@@ -1186,6 +1192,7 @@
   <span class="name">{$this->lang->main_domain_name}</span>
   <span class="owner">{$this->lang->main_domain_owner}</span>
   <span class="number">{$this->lang->main_records}</span>
+  <span class="owner">{$this->lang->type}</span>
  </span>
  <p></p>
  {$content}

@@ -146,7 +146,7 @@ class supermaster extends admin
 			return $this->message( $this->lang->supermaster_delete, $this->lang->supermaster_ns_unknown );
 
 		if( !isset($this->get['confirm']))
-			return $this->message( $this->lang->supermaster_delete, $this->lang->supermaster_confirm_delete . ' ' . $ns . '?', "<a href='$this->self?a=supermaster&amp;s=delete&amp;ns=$ns&amp;confirm=1'>{$this->lang->delete}</a>" );
+			return $this->message( $this->lang->supermaster_delete, $this->lang->supermaster_confirm_delete . ' ' . $ns . '?', "<a href='$this->self?a=supermaster&amp;s=delete&amp;ip=$ip&amp;ns=$ns&amp;confirm=1'>{$this->lang->delete}</a>" );
 
 		$this->db->query( "DELETE FROM supermasters WHERE ip='%s' AND nameserver='%s'", $ip, $ns );
 		return $this->message( $this->lang->supermaster_delete, $this->lang->supermaster_deleted );

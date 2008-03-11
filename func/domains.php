@@ -588,10 +588,15 @@ class domains extends pdnsadmin
 			return $this->message($this->lang->domains_new, $this->lang->domains_user_invalid);
 		}
 
+		if (!isset($this->post['master_ip']) && $this->post['type'] == 'SLAVE') {
+			return $this->message($this->lang->domains_new, $this->lang->domains_master_ip_required);
+		}
+
 		$dom_name = $this->post['name'];
 		$dom_ip = $this->post['ip'];
 		$dom_owner = intval($this->post['owner']);
 		$dom_type = $this->post['type'];
+		$master_ip = $this->post['master_ip'];
 
 		if ($this->user['user_group'] == USER_MEMBER && $dom_owner != $this->user['user_id']) {
 			return $this->message($this->lang->domains_new, $this->lang->domains_user_mismatch);
@@ -601,7 +606,7 @@ class domains extends pdnsadmin
 			return $this->message($this->lang->domains_new, $this->lang->domains_invalid);
 		}
 
-		if (!$this->is_valid_ip($dom_ip)) {
+		if (!$this->is_valid_ip($dom_ip) || !$this->is_valid_ip($master_ip)) {
 			return $this->message($this->lang->domains_new, $this->lang->domains_ip_invalid);
 		}
 

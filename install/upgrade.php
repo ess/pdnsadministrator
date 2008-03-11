@@ -178,6 +178,11 @@ class upgrade extends pdnsadmin
 						$this->sets['soa_expire'] = 1814400;
 
 					case '1.1.5': // 1.1.5 to 1.1.6
+						if( $templates_update !== true ) {
+							$templates_update[] = 'DOMAINS_ADD';
+							$templates_update[] = 'DOMAIN_ITEM';
+							$templates_update[] = 'DOMAIN_LIST';
+						}
 						break;
 				}
 
