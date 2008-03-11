@@ -156,6 +156,7 @@ class en
 		$this->domains_ip_invalid = 'The IP address entered was invalid!';
 		$this->domains_ip_required = 'An IP address is required.';
 		$this->domains_login_first = 'You must be logged in to access the domain control panel.';
+		$this->domains_master_ip_change = 'Change Master IP';
 		$this->domains_master_ip_required = 'A Master IP is required for Slave domains.';
 		$this->domains_new = 'Create New Domain';
 		$this->domains_new_cant_create = 'You cannot create new domains.';

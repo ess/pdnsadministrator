@@ -1076,16 +1076,17 @@
  <span class="half">
   <span>{$this->lang->domains_type}: {$domain['type']}</span>
   <p class="line"></p>
-  <IF $can_edit_domains>
-   <span class="field">{$this->lang->domains_type_change}:</span>
-   <span class="form">
-    <select class="select" name="type">
-     {$types}
-    </select>
-   </span>
-   <p class="line"></p>
-   <input name="submit" type="submit" value="{$this->lang->submit}" />
-  </IF>
+  <span class="field">{$this->lang->domains_type_change}:</span>
+  <span class="form">
+   <select class="select" name="type">
+    {$types}
+   </select>
+  </span>
+  <p class="line"></p>
+  <span class="field">{$this->lang->domains_master_ip_change}:</span>
+  <span class="form"><input type="text" name="master_ip" value="{$domain['master']}" /></span>
+  <p class="line"></p>
+  <input name="submit" type="submit" value="{$this->lang->submit}" />
  </span>
  </form>
 

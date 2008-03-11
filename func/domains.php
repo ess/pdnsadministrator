@@ -759,17 +759,24 @@ class domains extends pdnsadmin
 
 	function change_domain_type()
 	{
-		if (!$this->perms->auth('edit_domains')) {
-			return $this->message($this->lang->domains_type_change, $this->lang->domains_type_cant_change);
-		}
-
 		if (!isset($this->get['id'])) {
 			return $this->message($this->lang->domains_type_change, $this->lang->domains_id_invalid);
 		}
 
+		$dom_id = intval($this->get['id']);
+
+		// TRUE: Tells owner check to look at edit.
+		if (!$this->is_owner($dom_id, true)) {
+			return $this->message($this->lang->domains_type_change, $this->lang->domains_edit_not_permitted);
+		}
+
 		if ($this->post['type'] == 'SLAVE') {
+			if(!$this->is_valid_ip($this->post['master_ip'])) {
+				return $this->message($this->lang->domains_record_add, $this->lang->domains_ip_invalid);
+			}
+
 			$this->db->query("UPDATE domains SET type='%s', master='%s' WHERE id=%d",
-				$this->post['type'], $this->sets['domain_master_ip'], $this->get['id']);
+				$this->post['type'], $this->post['master_ip'], $this->get['id']);
 		} else {
 			$this->db->query("UPDATE domains SET type='%s', master='' WHERE id=%d",
 				$this->post['type'], $this->get['id']);
