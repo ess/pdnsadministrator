@@ -7,7 +7,7 @@ Changes for 1.1.6:
 * Removed unnecessary skin upgrade code.
 * Better handling for user created domains.
 * Default SOA expiry time raised to 3 weeks based on diagnostic recommendations.
-* Added th ability to set the Master IP for a Slave domain.
+* Added the ability to set the Master IP for a Slave domain.
 * Added a "Your Console" link to the universal template for all users.
 
 Changes for 1.1.5:

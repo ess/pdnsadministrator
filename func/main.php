@@ -58,7 +58,7 @@ class main extends pdnsadmin
 			$search = $this->post['search'];
 		}
 
-		$sql = 'SELECT d.id, d.name, d.type, u.user_name, u.user_id, z.owner, COUNT(DISTINCT r.id) AS recs
+		$sql = 'SELECT d.id, d.name, d.type, d.master, u.user_name, u.user_id, z.owner, COUNT(DISTINCT r.id) AS recs
 		    FROM domains d
 		    LEFT JOIN zones z ON d.id=z.domain_id
 		    LEFT JOIN users u ON u.user_id=z.owner

@@ -1177,6 +1177,7 @@
 <span class="owner"><a href="{$this->self}?a=users&amp;w={$domain['user_id']}">{$domain['user_name']}</a></span>
 <span class="number">{$domain['recs']}</span>
 <span class="owner">{$domain['type']}</span>
+<span class="owner">{$domain['master']}</span>
 <p class="list_line"></p>
       ]]></html>
     </template>
@@ -1194,6 +1195,7 @@
   <span class="owner">{$this->lang->main_domain_owner}</span>
   <span class="number">{$this->lang->main_records}</span>
   <span class="owner">{$this->lang->type}</span>
+  <span class="owner">{$this->lang->master}</span>
  </span>
  <p></p>
  {$content}
