@@ -491,12 +491,14 @@ class domains extends pdnsadmin
 		// Set the owner in the zones table
 		$this->db->query("INSERT INTO zones (domain_id, owner, comment) VALUES( %d, %d, '%s' )", $dom_id, $dom_owner, 'New Domain');
 
-		// Insert the SOA record for the new domain.
-		$new_serial = date('Ymd') . '00';
-		$soa = $this->sets['primary_nameserver'] . ' ' . $this->sets['admin_incoming'] . ' ' . $new_serial . ' ' . $this->sets['soa_refresh'] . ' ' . $this->sets['soa_retry'] . ' ' . $this->sets['soa_expire'] . ' ' . $this->sets['default_ttl'];
-		$this->db->query("INSERT INTO records (domain_id, name, type, content, ttl, prio, change_date)
-			VALUES( %d, '%s', 'SOA', '%s', %d, 0, %d )",
-			$dom_id, $dom_name, $soa, $this->sets['default_ttl'], $this->time);
+		// Insert the SOA record for the new domain, but not if it's a SLAVE domain.
+		if ($dom_type != 'SLAVE') {
+			$new_serial = date('Ymd') . '00';
+			$soa = $this->sets['primary_nameserver'] . ' ' . $this->sets['admin_incoming'] . ' ' . $new_serial . ' ' . $this->sets['soa_refresh'] . ' ' . $this->sets['soa_retry'] . ' ' . $this->sets['soa_expire'] . ' ' . $this->sets['default_ttl'];
+			$this->db->query("INSERT INTO records (domain_id, name, type, content, ttl, prio, change_date)
+				VALUES( %d, '%s', 'SOA', '%s', %d, 0, %d )",
+				$dom_id, $dom_name, $soa, $this->sets['default_ttl'], $this->time);
+		}
 
 		// Add default NS records if desired
 		if(isset($this->post['new_ns_records'])) {
@@ -636,17 +638,20 @@ class domains extends pdnsadmin
 		// Increment the user's domain count
 		$this->db->query( 'UPDATE users SET user_domains=user_domains+1 WHERE user_id=%d', $dom_owner );
 
-		// Insert the SOA record for the new domain.
-		$new_serial = date('Ymd') . '00';
-		$soa = $this->sets['primary_nameserver'] . ' ' . $this->sets['admin_incoming'] . ' ' . $new_serial . ' ' . $this->sets['soa_refresh'] . ' ' . $this->sets['soa_retry'] . ' ' . $this->sets['soa_expire'] . ' ' . $this->sets['default_ttl'];
-		$this->db->query("INSERT INTO records (domain_id, name, type, content, ttl, prio, change_date)
-			VALUES( %d, '%s', 'SOA', '%s', %d, 0, %d )",
-			$dom_id, $dom_name, $soa, $this->sets['default_ttl'], $this->time);
+		// Only adds the SOA and A records if the domain is not a SLAVE. SLAVEs should be pulling this from their regular updates.
+		if ($dom_type != 'SLAVE') {
+			// Insert the SOA record for the new domain.
+			$new_serial = date('Ymd') . '00';
+			$soa = $this->sets['primary_nameserver'] . ' ' . $this->sets['admin_incoming'] . ' ' . $new_serial . ' ' . $this->sets['soa_refresh'] . ' ' . $this->sets['soa_retry'] . ' ' . $this->sets['soa_expire'] . ' ' . $this->sets['default_ttl'];
+			$this->db->query("INSERT INTO records (domain_id, name, type, content, ttl, prio, change_date)
+				VALUES( %d, '%s', 'SOA', '%s', %d, 0, %d )",
+				$dom_id, $dom_name, $soa, $this->sets['default_ttl'], $this->time);
 
-		// Insert the A record for the new domain.
-		$this->db->query("INSERT INTO records (domain_id, name, type, content, ttl, prio, change_date)
-			VALUES( %d, '%s', 'A', '%s', %d, 0, %d )",
-			$dom_id, $dom_name, $dom_ip, $this->sets['default_ttl'], $this->time);
+			// Insert the A record for the new domain.
+			$this->db->query("INSERT INTO records (domain_id, name, type, content, ttl, prio, change_date)
+				VALUES( %d, '%s', 'A', '%s', %d, 0, %d )",
+				$dom_id, $dom_name, $dom_ip, $this->sets['default_ttl'], $this->time);
+		}
 
 		// Add default NS records if desired
 		if(isset($this->post['new_ns_records'])) {
