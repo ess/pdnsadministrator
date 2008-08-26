@@ -218,5 +218,41 @@ class admin extends pdnsadmin
 
 		return $tarray;
 	}
+
+	/**
+	 * Attempts to CHMOD a directory or file
+	 *
+	 * @param string $path Path to CHMOD
+	 * @param int $mode New CHMOD value
+	 * @param bool $recursive True for recursive
+	 * @author Jason Warner <jason@mercuryboard.com>
+	 * @since 1.1.5
+	 * @return void
+	 **/
+	function chmod($path, $mode, $recursive = false)
+	{
+		if (!$recursive || !is_dir($path)) {
+			@chmod($path, $mode);
+			return;
+		}
+
+		$dir = opendir($path);
+		while (($file = readdir($dir)) !== false)
+		{
+			if(($file == '.') || ($file == '..')) {
+				continue;
+			}
+
+			$fullpath = $path . '/' . $file;
+			if(!is_dir($fullpath)) {
+				@chmod($fullpath, $mode);
+			} else {
+				$this->chmod($fullpath, $mode, true);
+			}
+		}
+
+		closedir($dir);
+		@chmod($path, $mode);
+	}
 }
 ?>

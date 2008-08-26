@@ -1,3 +1,14 @@
+Changes for 1.1.7:
+
+* BUG: Master IP validation should only be done on SLAVE zones.
+* BUG: Adding a user does not send the username to the recipient.
+* BUG: Attempting to edit a group name through the AdminCP results in a crash.
+* BUG: Entering an NS or MX record incorrectly reports being the same as a CNAME record even for other domains. [RayKeckler]
+* BUG: Restored the missing chmod function still being used by skins and the DB backup code.
+* SOA records need to be deletable as well because importing domains using other utilities can duplicate them.
+* Reduction in code size for 3rd through 8th domain name servers provided by uwe.
+* Users can now submit new domains under their own control.
+
 Changes for 1.1.6:
 
 * BUG: lang->domains_record_delete_wrong definition missing.
@@ -9,6 +20,8 @@ Changes for 1.1.6:
 * Default SOA expiry time raised to 3 weeks based on diagnostic recommendations.
 * Added the ability to set the Master IP for a Slave domain.
 * Added a "Your Console" link to the universal template for all users.
+* Added master IP in main listing for slaves.
+* SLAVE domains shouldn't add an SOA record so they can get updated properly from their MASTER. - ericgearhart
 
 Changes for 1.1.5:
 
