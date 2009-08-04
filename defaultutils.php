@@ -59,6 +59,7 @@ $modules['admin_modules'] = array(
 	'logs',
 	'user_control',
 	'optimize',
+	'db_repair',
 	'perms',
 	'php_info',
 	'query',

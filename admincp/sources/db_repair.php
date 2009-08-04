@@ -30,25 +30,25 @@ if (!defined('PDNSADMIN') || !defined('PDNS_ADMIN')) {
 
 require_once $set['include_path'] . '/admincp/admin.php';
 
-class optimize extends admin
+class db_repair extends admin
 {
 	function execute()
 	{
-		$this->set_title($this->lang->optimize);
-		$this->tree($this->lang->optimize);
+		$this->set_title($this->lang->repair_db);
+		$this->tree($this->lang->repair_db);
 
-		$optimize_result = $this->opt_tables();
+		$repair_result = $this->repair_tables();
 
-		$output = $this->message($this->lang->optimize, $this->lang->optimized);
-		$output .= $optimize_result;
+		$output = $this->message($this->lang->repair_db, $this->lang->repaired_db);
+		$output .= $repair_result;
 		return $output;
 	}
 
-	function opt_tables()
+	function repair_tables()
 	{
 		$tables = implode( ', ', $this->get_db_tables() );
 
-		$result = $this->db->query('OPTIMIZE TABLE ' . $tables);
+		$result = $this->db->query('REPAIR TABLE ' . $tables);
 
 		$show_headers = true;
 
