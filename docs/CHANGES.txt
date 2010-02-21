@@ -1,3 +1,10 @@
+Changes for 1.1.8:
+
+* Database repair option added.
+* Functions added to allow "select all" and "unselect all" on forms.
+* Removed obsolete IE6 pngfix.js file. The skin is no longer using it.
+* BUG-SECURITY: Secunia Advisory SA32823 fixed.
+
 Changes for 1.1.7:
 
 * BUG: Master IP validation should only be done on SLAVE zones.
