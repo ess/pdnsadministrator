@@ -1,0 +1,307 @@
+body {
+	background: black url('./images/background3.gif');
+	font: 12px Arial, Sans-serif;
+	text-align: center;
+	margin: 0px;
+	padding: 0px;
+}
+a {
+	color: #c0c0c0;
+	text-decoration: underline;
+}
+a:hover {
+        color:white;
+	text-decoration: underline;
+}
+a:active, a:focus {
+	outline: none;
+}
+img {
+	border: none;
+}
+hr {
+	border:0;
+	border-top:1px dotted #3e3e3e;
+	height:1px;
+	padding-bottom:.3em;
+}
+form {
+	padding: 0px;
+	margin: 0px;
+}
+input,
+select {
+	background-color:#a8a8a8;
+	font: 13px Arial, Sans-serif;
+	color:black;
+	margin: 1px;
+	padding: 1px 2px;
+	border:1px solid #292929;
+	cursor: pointer;
+}
+input.check {
+	border: none;
+	margin: 2px;
+}
+label {
+	margin: 1px 4px;
+	cursor: pointer;
+}
+input:active {
+	padding: 1px 2px;
+}
+textarea {
+	width: 98%;
+	font: 13px Arial, Sans-serif;
+	padding: 1px 2px 0px 0px;
+	border:1px solid #292929;
+}
+
+/* Container */
+#container {
+	color:#c0c0c0;
+	margin: 0px 1%;
+	text-align: left;
+}
+
+/* Company */
+#header {
+	height: 50px;
+	margin-bottom: 2px;
+}
+#header #company {
+	margin-left:-1%;
+	float: left;
+	position: absolute;
+}
+#header #company .logo {
+	background: white url('./images/Logo.gif');
+	height: 45px;
+	width: 301px;
+	float: left;
+}
+#header #company .title {
+	text-align:center;
+	width: 650px;
+	float: left;
+}
+
+/* Blocks */
+#blocks {
+	width: 17%;
+	float: left;
+}
+#blocks .block {
+	background: #161616;
+	margin: 0px 4px 5px 0px;
+	padding: 4px 6px;
+	border: 1px solid #292929;
+	border-bottom: 3px double #292929;
+}
+#blocks .title {
+	background: #292929;
+	font: 18px Arial, Sans-serif;
+	color: #c0c0c0;
+	margin: 0px -7px 4px -2px;
+	padding: 3px 4px 2px 7px;
+	border: 1px solid #3e3e3e;
+	border-left: 3px double #3e3e3e;
+}
+
+/* Side Navigation */
+#blocks span a {
+	font: 12px Arial, Sans-serif;
+	color: #c0c0c0;
+	margin: 0px -7px 4px 4px;
+	padding: 1px 4px 1px 6px;
+	height: 1%; /* IE Hack */
+	display: block;
+}
+#blocks span a:hover {
+        color:white;
+	text-decoration: underline;
+}
+#blocks span a.active {
+	background: #161616;
+	font: bold 12px Arial, Sans-serif;
+	padding: 3px 4px 2px 6px;
+	border: 1px solid #292929;
+	border-left: 1px double #292929;
+	display: block;
+}
+#blocks span.half {
+	width: 48%;
+	padding: 0px 2% 0px 0px;
+	overflow: hidden;
+	float: left;
+}
+
+/* Main */
+#main {
+	width: 83%;
+	float: right;
+}
+#main .article, #blocks .article {
+	background: #161616;
+	margin: 0px 0px 5px;
+	padding: 4px 6px;
+	border: 1px solid #292929;
+	border-bottom: 3px double #292929;
+}
+#main .title {
+	background: #292929;
+	font: 18px Arial, Sans-serif;
+	color: #c0c0c0;
+	margin: 0px -2px 4px -7px;
+	padding: 3px 4px 2px 7px;
+	border: 1px solid #3e3e3e;
+	border-right: 3px double #3e3e3e;
+	position: relative; /* IE Hack */
+}
+
+/* Button effects */
+.bigbutton a {
+	background-position: 6px center;
+	background-repeat: no-repeat;
+        background-color:#292929;
+	font: 12px Arial, Sans-serif;
+        font-weight:bold;
+	text-align: center;
+	text-decoration: none;
+	margin: 0px 1px;
+	padding: 4px 6px 4px 26px;
+	border: 1px solid #3e3e3e;
+	float: left;
+}
+.bigbutton a:hover {
+	background-color: #3e3e3e;
+	text-decoration: none;
+	border: 1px solid #484848;
+}
+.bigbutton .new_record { background-image: url('./images/icons/new_record.png') }
+.bigbutton .delete_domain { background-image: url('./images/icons/delete_domain.png') }
+
+/* Topic Icons */
+#main .article img.topic_icon {
+	float: right;
+	margin: 0px 2px;
+}
+#main .article div.topic_icon {
+	padding: 0px;
+}
+#main .article div.topic_icon div {
+	background-repeat: no-repeat;
+	height: 22px;
+}
+
+/* Forum-specific Rules */
+#main .article .head span,
+#main .article .head strong {
+	font: bold italic 13px Arial, Sans-serif;
+	border-bottom: 1px dotted #3e3e3e;
+	margin: 0px 0px 3px;
+	display: block;
+	position: relative;
+	width: 100%;
+}
+#main .article span {
+	padding: 2px 0px;
+}
+#main .article span.right {
+	padding: 0px;
+	float: right;
+}
+#main .article .left {
+	padding: 0px;
+	float: left;
+}
+#main .article span.icon,
+#main .article div.topic_icon {
+	width: 4%;
+	float: left;
+}
+#main .article p {
+	height: 0px;
+	margin: 0px;
+	overflow: hidden;
+	clear: both;
+}
+#main .article p.line {
+	margin: 3px 0px;
+	border-bottom: 1px dotted #3e3e3e;
+}
+#main .article p.list_line {
+	margin: 1px 0px 3px;
+	border-bottom: 1px dotted #3e3e3e;
+}
+#main .article .tiny {
+	font: 10px Arial, Sans-serif;
+}
+
+/* Forms */
+#main .article span.field {
+	font-weight: bold;
+	width: 15%;
+	margin: 5px 0px;
+	float: left;
+}
+#main .article span.field span {
+	font-weight: normal;
+}
+#main .article span.form,
+#main .article div.form {
+	width: 85%;
+	float: left;
+}
+#main .article span.half {
+	width: 48%;
+	padding: 0px 2% 0px 0px;
+	overflow: hidden;
+	float: left;
+}
+
+/* Listings */
+#main .article span.number {
+	text-align: center;
+	width: 15%;
+	padding: 2px 0px;
+	float: left;
+}
+#main .article span.name {
+	width: 25%;
+	margin: 0px 0px 2px;
+	overflow-x: auto;
+	float: left;
+}
+#main .article span.owner {
+	width: 13%;
+	margin: 0px 0px 2px;
+	float: left;
+	text-align: center;
+}
+#main .article span.quarter {
+	width: 25%;
+	float: left;
+	padding: 0px 0px 4px;
+}
+#main .article span.quarter a {
+	margin: 2px 0px 1px;
+	float: left;
+}
+
+/* Bottom */
+#bottom {
+	height: 1px;
+	clear: both;
+}
+
+/* Footer */
+#footer, #copyright {
+	font: 10px Arial, Sans-serif;
+	color: #c0c0c0;
+	text-align: center;
+	margin: 4px 4px 8px;
+}
+#footer a, #copyright a {
+	color: white;
+}

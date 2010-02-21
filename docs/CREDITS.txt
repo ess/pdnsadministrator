@@ -1,0 +1,13 @@
+======================
+ PDNS-Admin Credits
+======================
+
+* Thanks to:
+
+   * Everyone on the MercuryBoard development team.
+   * Everyone on the Quicksilver Forums development team.
+
+* Domain management additions by: Roger Libiez http://www.iguanadons.net
+   * With minor borrowing from PowerAdmin for SOA record management stuff.
+
+======================

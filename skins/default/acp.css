@@ -1,0 +1,110 @@
+ul {
+	margin: 0px;
+	padding: 0px 16px;
+}
+li {
+	list-style-type: none;
+}
+
+/* Template Editor */
+#main .article .template_text {
+	font: 12px 'courier new', courier, monospaced, serif;
+	width: 100%;
+	padding: 0px;
+}
+#main .article span.template {
+	width: 33.3%;
+	float: left;
+}
+
+/* Groups */
+#main .article span.min_posts {
+	width: 16%;
+	float: left;
+}
+
+/* Mass Mailing */
+#main .article .full {
+	width: 99.5%;
+}
+
+/* Pruning */
+#main .article span.icon .check {
+	margin: 1px 0px 4px
+}
+#main .article span.prune {
+	width: 96%;
+	float: left;
+}
+
+/* Emotions */
+#main .article span.emotion {
+	width: 30%;
+	float: left;
+}
+#main .article span.emotion img {
+	margin: -2px 4px 0px 0px;
+	float: left;
+}
+#main .article span.emotion input {
+	margin: 0px;
+}
+#main .article span.emotion select {
+	margin: -1px;
+}
+#main .article span.clickable {
+	text-align: center;
+	width: 16%;
+	float: left;
+}
+#main .article span.clickable .check {
+	margin: 4px 0px;
+}
+#main .article span.edit {
+	text-align: center;
+	width: 12%;
+	float: left;
+}
+#main .article span.edit input {
+	margin: -1px 0px 2px;
+}
+
+/* Button effects */
+.bigbutton a {
+	background-position: 6px center;
+	background-repeat: no-repeat;
+        background-color:#292929;
+	font: 12px Arial, Sans-serif;
+        font-weight:bold;
+	text-align: center;
+	text-decoration: none;
+	margin: 0px 1px;
+	padding: 4px 6px 4px 26px;
+	border: 1px solid #3e3e3e;
+	float: left;
+}
+.bigbutton a:hover {
+	background-color: #3e3e3e;
+	text-decoration: none;
+	border: 1px solid #484848;
+}
+.bigbutton .new_super { background-image: url('./images/icons/computer_add.png') }
+
+/* BS */
+#main .article label.free {
+	text-align: left;
+	font-weight: bold;
+	margin: 5px 0px;
+	width: 30%;
+	float: left;
+}
+#main .article input.free,
+#main .article select.free,
+#main .article input.freec {
+	position: relative;
+	width: 68%;
+	float: left;
+}
+br.free {
+	clear:both;
+}

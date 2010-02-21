@@ -1,0 +1,4 @@
+# Robots have no reason to be here.
+
+User-agent: *
+Disallow: /
