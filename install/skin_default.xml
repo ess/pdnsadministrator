@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+﻿<?xml version='1.0' encoding='utf-8'?>
 <qsfmod>
   <title>Skin: Ashlander</title>
   <type folder="default">skin</type>
@@ -614,6 +614,7 @@
      <a href="{$admin->self}?a=backup&amp;s=restore">{$admin->lang->admin_db_restore}</a>
      <a href="{$admin->self}?a=settings&amp;s=db">{$admin->lang->admin_db_conn}</a>
      <a href="{$admin->self}?a=optimize">{$admin->lang->admin_db_optimize}</a>
+     <a href="{$admin->self}?a=db_repair">{$admin->lang->admin_db_repair}</a>
      <a href="{$admin->self}?a=query">{$admin->lang->admin_db_query}</a>
     </span>
    </div>
