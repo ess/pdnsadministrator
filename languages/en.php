@@ -1,7 +1,7 @@
-<?php
+﻿<?php
 /**
  * PDNS-Admin
- * Copyright (c) 2006-2008 Roger Libiez http://www.iguanadons.net
+ * Copyright (c) 2006-2010 Roger Libiez http://www.iguanadons.net
  *
  * Based on Quicksilver Forums
  * Copyright (c) 2005 The Quicksilver Forums Development Team
@@ -49,6 +49,7 @@ class en
 		$this->admin_db_conn = 'Edit connection settings';
 		$this->admin_db_optimize = 'Optimize the database';
 		$this->admin_db_query = 'Execute an SQL query';
+		$this->admin_db_repair = 'Repair the database';
 		$this->admin_db_restore = 'Restore a backup';
 		$this->admin_delete_group = 'Delete a group';
 		$this->admin_delete_template = 'Delete HTML template';
@@ -130,6 +131,12 @@ class en
 		$this->cp_updated_prefs = 'Preferences Updated';
 		$this->cp_valided = 'Your password was validated and changed.';
 		$this->cp_welcome = 'Welcome to the user control panel. From here, you can configure your account. Please choose from the options above.';
+	}
+
+	function db_repair()
+	{
+		$this->repair_db = 'Repair Database';
+		$this->repaired_db = 'The tables in the database have been repaired.';
 	}
 
 	function domains()
@@ -560,6 +567,7 @@ class en
 		$this->date_long = 'M j, Y';
 		$this->date_short = 'n/j/y';
 		$this->delete = 'Delete';
+		$this->delete_selected = 'Delete Selected';
 		$this->direction = 'ltr';
 		$this->edit = 'Edit';
 		$this->email = 'Email';
@@ -608,6 +616,7 @@ class en
 		$this->time_only = 'g:i a';
 		$this->today = 'Today';
 		$this->type = 'Type';
+		$this->unselect_all = 'Unselect All';
 		$this->yes = 'Yes';
 		$this->yesterday = 'Yesterday';
 	}

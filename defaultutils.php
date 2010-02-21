@@ -1,7 +1,7 @@
 <?php
 /**
  * PDNS-Admin
- * Copyright (c) 2006-2008 Roger Libiez http://www.iguanadons.net
+ * Copyright (c) 2006-2010 Roger Libiez http://www.iguanadons.net
  *
  * Based on Quicksilver Forums
  * Copyright (c) 2005 The Quicksilver Forums Development Team
@@ -59,6 +59,7 @@ $modules['admin_modules'] = array(
 	'logs',
 	'user_control',
 	'optimize',
+	'db_repair',
 	'perms',
 	'php_info',
 	'query',

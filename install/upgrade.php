@@ -1,7 +1,7 @@
 <?php
 /**
  * PDNS-Admin
- * Copyright (c) 2006-2008 Roger Libiez http://www.iguanadons.net
+ * Copyright (c) 2006-2010 Roger Libiez http://www.iguanadons.net
  *
  * Based on Quicksilver Forums
  * Copyright (c) 2005 The Quicksilver Forums Development Team
@@ -47,7 +47,11 @@ class upgrade extends pdnsadmin
 				echo "<tr><td colspan='2' align='center'><b>To determine what version you are running, check the bottom of your AdminCP page. Or check the CHANGES file and look for the latest revision mentioned there.</b></td></tr>
 				<tr><td colspan='2' align='center'><b>Upgrade from what version?</b></td></tr>
 				    <tr>
-				        <td><input type='radio' name='from' value='1.1.6' id='116' checked='checked' />
+				        <td><input type='radio' name='from' value='1.1.7' id='117' checked='checked' />
+					<label for='117'>PDNS-Admin 1.1.7</label></td>
+				    </tr>
+				    <tr>
+				        <td><input type='radio' name='from' value='1.1.6' id='116' />
 					<label for='116'>PDNS-Admin 1.1.6</label></td>
 				    </tr>
 				    <tr>
@@ -190,6 +194,20 @@ class upgrade extends pdnsadmin
 							$templates_update[] = 'MAIN';
 						}
 						break;
+
+					case '1.1.6': // 1.1.6 to 1.1.7
+						// No template changes
+						break;
+
+					case '1.1.7': // 1.1.7 to 1.1.8
+						if( $templates_update !== true ) {
+							$templates_update[] = 'ADMIN_INDEX';
+							$templates_update[] = 'DOMAIN_LIST';
+							$templates_update[] = 'ADMIN_COPYRIGHT';
+							$templates_update[] = 'MAIN_COPYRIGHT';
+						}
+						break;
+
 				}
 
 				if ( ( $templates_add || $templates_update ) && !is_readable('skin_default.xml')) {

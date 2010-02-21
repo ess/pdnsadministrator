@@ -1,7 +1,7 @@
 <?php
 /**
  * PDNS-Admin
- * Copyright (c) 2006-2008 Roger Libiez http://www.iguanadons.net
+ * Copyright (c) 2006-2010 Roger Libiez http://www.iguanadons.net
  *
  * Based on Quicksilver Forums
  * Copyright (c) 2005 The Quicksilver Forums Development Team
@@ -37,7 +37,7 @@ if (!defined('PDNSADMIN')) {
 class pdnsadmin
 {
 	var $name    = 'PDNS-Admin';      // The name of the software @var string
-	var $version = 'v1.1.6';          // PDNS-Admin version @var string
+	var $version = 'v1.1.8';          // PDNS-Admin version @var string
 	var $server  = array();           // Alias for $_SERVER @var array
 	var $get     = array();           // Alias for $_GET @var array
 	var $post    = array();           // Alias for $_POST @var array
@@ -227,7 +227,7 @@ class pdnsadmin
 			$lang = $this->get['lang'];
 		}
 
-		if (strstr($lang, '/') || !file_exists($path . 'languages/' . $lang . '.php')) {
+		if (strstr($lang, '/') || strstr($lang, '\\') || !file_exists($path . 'languages/' . $lang . '.php')) {
 			$lang = 'en';
 		}
 
