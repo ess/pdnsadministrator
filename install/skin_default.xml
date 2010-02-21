@@ -1,15 +1,16 @@
-﻿<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='utf-8'?>
 <qsfmod>
   <title>Skin: Ashlander</title>
   <type folder="default">skin</type>
-  <version>v1.1.6</version>
+  <version>v1.1.8</version>
   <description></description>
   <authorname>Skin Exporter</authorname>
   <files>
-    <file>packages/skin_default-v1.1.6.xml</file>
+    <file>packages/skin_default-v1.1.8.xml</file>
     <file>skins/default/images/Logo.gif</file>
     <file>skins/default/images/background3.gif</file>
     <file>skins/default/images/icons/new_record.png</file>
+    <file>skins/default/images/icons/phone.png</file>
     <file>skins/default/images/icons/vcard_edit.png</file>
     <file>skins/default/images/icons/members.png</file>
     <file>skins/default/images/icons/table_add.png</file>
@@ -131,7 +132,7 @@
 </div>
 
 <div id="footer">
- {$admin->lang->powered} <a href="http://pdnsadmin.iguanadons.net/"><b>{$admin->name}</b></a> [{$admin->version}] &copy; 2006-2008 Roger Libiez<br />
+ {$admin->lang->powered} <a href="http://pdnsadmin.iguanadons.net/"><b>{$admin->name}</b></a> [{$admin->version}] &copy; 2006-2007 Roger Libiez<br />
  {$admin->lang->based_on} <a href="http://www.quicksilverforums.com" class="small"><b>Quicksilver Forums</b></a> v1.3.1 &copy; 2005-2006 The Quicksilver Forums Development Team<br />
  Ashlander 3 by Roger Libiez [<a href="http://www.iguanadons.net">Samson</a>]. {$admin->lang->based_on} Syridium HForum v3 skin &copy; 2006-2007 <a href="http://www.syridium.com/">Syridium SC</a><br />
  {$time_exec} seconds - {$admin->db->querycount} queries - {$server_load} load
@@ -499,11 +500,6 @@
 
  <p class="line"></p>
 
- <span class="field">{$this->lang->groups_formatting}</span>
- <span class="form"><input name="group_format" value="{$oldGroupFormat}" /></span>
-
- <p class="line"></p>
-
  <input type="hidden" name="group" value="{$this->post['group']}" />
  <input type="submit" name="submit" value="{$this->lang->submit}" />
 {$this->etable}
@@ -618,7 +614,6 @@
      <a href="{$admin->self}?a=backup&amp;s=restore">{$admin->lang->admin_db_restore}</a>
      <a href="{$admin->self}?a=settings&amp;s=db">{$admin->lang->admin_db_conn}</a>
      <a href="{$admin->self}?a=optimize">{$admin->lang->admin_db_optimize}</a>
-     <a href="{$admin->self}?a=db_repair">{$admin->lang->admin_db_repair}</a>
      <a href="{$admin->self}?a=query">{$admin->lang->admin_db_query}</a>
     </span>
    </div>
@@ -758,6 +753,66 @@
 <span class="quarter">{$action}</span>
 <span class="quarter">{$id}</span>
 <p class="line"></p>
+      ]]></html>
+    </template>
+    <template><set>supermaster</set><name>ADMIN_SUPERMASTERS</name>
+      <displayname>Supermasters List</displayname>
+      <description>The listing of configured supermasters.</description>
+      <html><![CDATA[
+{$this->table}
+ <div class="title">{$this->lang->supermasters}</div>
+ <span class="head">
+  <span class="icon">&nbsp;</span>
+  <span class="name">{$this->lang->supermaster_ip}</span>
+  <span class="owner">{$this->lang->supermaster_ns}</span>
+  <span class="number">{$this->lang->supermaster_account}</span>
+ </span>
+ <p></p>
+ $content
+{$this->etable}
+
+{$this->table}
+ <div class="bigbutton"><a class="new_super" href="{$this->self}?a=supermaster&amp;s=add">{$this->lang->supermaster_add}</a></div>
+ <p></p>
+{$this->etable}
+      ]]></html>
+    </template>
+    <template><set>supermaster</set><name>ADMIN_SUPERMASTER_ADD</name>
+      <displayname>Add Supermaster</displayname>
+      <description>Add a supermaster to the list.</description>
+      <html><![CDATA[
+<form action="{$this->self}?a=supermaster&amp;s=add" method="post">
+{$this->table}
+ <div class="title">
+  <img src="../skins/{$this->skin}/images/icons/computer_add.png" alt="" />
+  {$this->lang->supermaster_add}
+ </div>
+
+ <span class="field">{$this->lang->supermaster_new_ip}</span>
+ <span class="form"><input name="ip" type="text" /></span>
+
+ <p class="line"></p>
+
+ <span class="field">{$this->lang->supermaster_new_ns}</span>
+ <span class="form"><input name="ns" type="text" /></span>
+
+ <p class="line"></p>
+ <input name="submit" type="submit" value="{$this->lang->submit}" />
+{$this->etable}
+</form>
+      ]]></html>
+    </template>
+    <template><set>supermaster</set><name>ADMIN_SUPERMASTER_ENTRY</name>
+      <displayname>Supermaster Entry</displayname>
+      <description>A single entry from the supermasters list.</description>
+      <html><![CDATA[
+<div class="topic_icon">
+ <a href="{$this->self}?a=supermaster&amp;s=delete&amp;ip=$ip&amp;ns=$ns"><img src="../skins/{$this->skin}/images/icons/delete.png" title="{$this->lang->supermaster_delete}" alt="{$this->lang->delete}" /></a>
+</div>
+<span class="name">$ip</span>
+<span class="owner">$ns</span>
+<span class="number">$account</span>
+<p class="list_line"></p>
       ]]></html>
     </template>
     <template><set>Admin</set><name>ADMIN_TABLE</name>
@@ -1170,6 +1225,7 @@
       <description>A single line on the domains display.</description>
       <html><![CDATA[
 <div class="topic_icon">
+ <input class="check" type="checkbox" name="delete[{$domain['id']}]" />
  <a href="{$this->self}?a=domains&amp;s=delete&amp;id={$domain['id']}">
    <img src="./skins/{$this->skin}/images/icons/delete.png" title="{$this->lang->main_delete_domain}" alt="{$this->lang->delete}" />
  </a>
@@ -1186,6 +1242,8 @@
       <displayname>Domain Listing</displayname>
       <description>List of domains administered by the site.</description>
       <html><![CDATA[
+<script type="text/javascript" src="./javascript/selectallboxes.js"></script>
+ <script type="text/javascript" src="./javascript/unselectallboxes.js"></script>
  {$this->table}
   {$pages}
  {$this->etable}
@@ -1200,7 +1258,12 @@
  </span>
  <p></p>
  {$content}
-
+ <span class="left">
+  <input class="button" type="button" value="{$this->lang->select_all}" onclick="return select_all_boxes();" />
+  <input class="button" type="button" value="{$this->lang->unselect_all}" onclick="return unselect_all_boxes();" />
+  <input class="button" type="submit" name="submit" value="{$this->lang->delete_selected}" />
+ </span>
+ <p></p>
  {$this->table}
   {$pages}
  {$this->etable}
@@ -1344,27 +1407,13 @@
       <html><![CDATA[
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="{$pdns->user['user_language']}" dir="{$pdns->lang->direction}">
-<head>
-<meta http-equiv="Content-Type" content="application/xhtml+xml; charset={$pdns->lang->charset}" />
-
-<title>{$title}</title>
-<link rel="stylesheet" type="text/css" href="./skins/{$pdns->skin}/styles.css" media="screen" />
-<link rel="stylesheet" type="text/css" href="./skins/{$pdns->skin}/print.css" media="print" />
-
-<script src="./javascript/utils.js" type="text/javascript"></script>
-
-<!--[if lt IE 7]>
-<script type="text/javascript" src="./javascript/pngfix.js"></script>
-<![endif]-->
-
-  <IF (strpos($pdns->agent, 'MSIE') !== false)>
-   <style type="text/css">
-    input.button { padding: 0px; }
-    input.check { border: none; margin: -2px 0px 0px; }
-   </style>
-  </IF>
-
-</head>
+ <head>
+  <meta http-equiv="Content-Type" content="application/xhtml+xml; charset={$pdns->lang->charset}" />
+  <title>{$title}</title>
+  <link rel="stylesheet" type="text/css" href="./skins/{$pdns->skin}/styles.css" media="screen" />
+  <link rel="stylesheet" type="text/css" href="./skins/{$pdns->skin}/print.css" media="print" />
+  <script src="./javascript/utils.js" type="text/javascript"></script>
+ </head>
 
  <body>
   <div id="container">
@@ -1394,7 +1443,7 @@
   </div>
   <div id="footer">
    {$copyright}
-   <br />100% Valid &lsaquo;&rsaquo; <a href="http://validator.w3.org/check?uri=referer">XHTML1.1</a> <a href="http://jigsaw.w3.org/css-validator/check/referer">CSS</a>
+   <br />100% Valid <a href="http://validator.w3.org/check?uri=referer">XHTML1.1</a> <a href="http://jigsaw.w3.org/css-validator/check/referer">CSS</a>
    Best viewed at 1024x768 or better resolution.
    <br />{$servertime}
   </div>
@@ -1406,7 +1455,7 @@
       <displayname>Copyright</displayname>
       <description>Format the look of the copyright on the board.&lt;br&gt;&lt;br&gt;&lt;b&gt;Warning: Modification to anything other than the style of this copyright will result in a violation of your terms of service&lt;/b&gt;</description>
       <html><![CDATA[
- {$pdns->lang->powered} <a href="http://pdnsadmin.iguanadons.net/"><b>{$pdns->name}</b></a> &copy; 2006-2008 Roger Libiez<br />
+{$pdns->lang->powered} <a href="http://pdnsadmin.iguanadons.net/"><b>{$pdns->name}</b></a> &copy; 2006-2008 Roger Libiez<br />
  {$pdns->lang->based_on} <a href="http://www.quicksilverforums.com">Quicksilver Forums</a> &copy; 2005-2008 The Quicksilver Forums Development Team<br />
  Ashlander 3 by Roger Libiez [<a href="http://www.iguanadons.net">Samson</a>]. {$pdns->lang->based_on} HForumv3.1 skin &copy; 2006-2008 <a href="http://www.syridium.com/">Syridium SC</a>
       ]]></html>
@@ -1611,66 +1660,6 @@
 <span class="number">{$user['user_domains']}</span>
 <span class="number">{$user['user_created']}</span>
 <span class="number">{$user['group_name']}</span>
-<p class="list_line"></p>
-      ]]></html>
-    </template>
-    <template><set>supermaster</set><name>ADMIN_SUPERMASTERS</name>
-      <displayname>Supermasters List</displayname>
-      <description>The listing of configured supermasters.</description>
-      <html><![CDATA[
-{$this->table}
- <div class="title">{$this->lang->supermasters}</div>
- <span class="head">
-  <span class="icon">&nbsp;</span>
-  <span class="name">{$this->lang->supermaster_ip}</span>
-  <span class="owner">{$this->lang->supermaster_ns}</span>
-  <span class="number">{$this->lang->supermaster_account}</span>
- </span>
- <p></p>
- $content
-{$this->etable}
-
-{$this->table}
- <div class="bigbutton"><a class="new_super" href="{$this->self}?a=supermaster&amp;s=add">{$this->lang->supermaster_add}</a></div>
- <p></p>
-{$this->etable}
-      ]]></html>
-    </template>
-    <template><set>supermaster</set><name>ADMIN_SUPERMASTER_ADD</name>
-      <displayname>Add Supermaster</displayname>
-      <description>Add a supermaster to the list.</description>
-      <html><![CDATA[
-<form action="{$this->self}?a=supermaster&amp;s=add" method="post">
-{$this->table}
- <div class="title">
-  <img src="../skins/{$this->skin}/images/icons/computer_add.png" alt="" />
-  {$this->lang->supermaster_add}
- </div>
-
- <span class="field">{$this->lang->supermaster_new_ip}</span>
- <span class="form"><input name="ip" type="text" /></span>
-
- <p class="line"></p>
-
- <span class="field">{$this->lang->supermaster_new_ns}</span>
- <span class="form"><input name="ns" type="text" /></span>
-
- <p class="line"></p>
- <input name="submit" type="submit" value="{$this->lang->submit}" />
-{$this->etable}
-</form>
-      ]]></html>
-    </template>
-    <template><set>supermaster</set><name>ADMIN_SUPERMASTER_ENTRY</name>
-      <displayname>Supermaster Entry</displayname>
-      <description>A single entry from the supermasters list.</description>
-      <html><![CDATA[
-<div class="topic_icon">
- <a href="{$this->self}?a=supermaster&amp;s=delete&amp;ip=$ip&amp;ns=$ns"><img src="../skins/{$this->skin}/images/icons/delete.png" title="{$this->lang->supermaster_delete}" alt="{$this->lang->delete}" /></a>
-</div>
-<span class="name">$ip</span>
-<span class="owner">$ns</span>
-<span class="number">$account</span>
 <p class="list_line"></p>
       ]]></html>
     </template>
