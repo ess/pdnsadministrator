@@ -3,8 +3,6 @@ $php_version = PHP_VERSION;
 $os = defined('PHP_OS') ? PHP_OS : 'unknown';
 $safe_mode = get_cfg_var('safe_mode') ? 'on' : 'off';
 $register_globals = get_cfg_var('register_globals') ? 'on' : 'off';
-$gpc = get_cfg_var('magic_quotes_gpc') ? 'on' : 'off';
-$gpc_runtime = get_cfg_var('magic_quotes_runtime') ? 'on' : 'off';
 $server = isset($_SERVER['SERVER_SOFTWARE']) ? $_SERVER['SERVER_SOFTWARE'] : 'unknown';
 
 if (extension_loaded('mysql')) {
@@ -73,7 +71,6 @@ echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.1//EN\" \"http://www.w3.org/TR
          <b>Operating System:</b> $os<hr />
          <b>Safe mode:</b> $safe_mode<hr />
          <b>Register globals:</b> $register_globals<hr />
-         <b>Magic Quotes:</b> gpc $gpc, runtime $gpc_runtime<hr />
          <b>Server Software:</b> $server<hr />
          <b>MySQL Client:</b> $mysql_client
         </td>

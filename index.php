@@ -42,7 +42,6 @@ if (!$set['installed']) {
 set_error_handler('error');
 
 error_reporting(E_ALL);
-set_magic_quotes_runtime(0);
 
 // Open connection to database
 $db = new $modules['database']($set['db_host'], $set['db_user'], $set['db_pass'], $set['db_name'], $set['db_port'], $set['db_socket']);

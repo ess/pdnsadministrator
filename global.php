@@ -86,13 +86,6 @@ class pdnsadmin
 		$this->post    = $_POST;
 		$this->cookie  = $_COOKIE;
 		$this->query   = htmlspecialchars($this->query);
-
-		// Undo any magic quote slashes!
-		if (get_magic_quotes_gpc()) {
-			$this->unset_magic_quotes_gpc($this->get);
-			$this->unset_magic_quotes_gpc($this->post);
-			$this->unset_magic_quotes_gpc($this->cookie);
-		}
 	}
 	
 	/**
@@ -400,24 +393,6 @@ class pdnsadmin
 		}
 
 		return eval($this->template('MAIN_MESSAGE'));
-	}
-
-	/**
-	 * Sets magic_quotes_gpc to off
-	 *
-	 * @param array $array Array to stripslashes
-	 **/
-	function unset_magic_quotes_gpc(&$array)
-	{
-		$keys = array_keys($array);
-		for($i = 0; $i < count($array); $i++)
-		{
-			if (is_array($array[$keys[$i]])) {
-				$this->unset_magic_quotes_gpc($array[$keys[$i]]);
-			} else {
-				$array[$keys[$i]] = stripslashes($array[$keys[$i]]);
-			}
-		}
 	}
 
 	/**
