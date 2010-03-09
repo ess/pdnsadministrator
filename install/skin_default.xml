@@ -1,4 +1,4 @@
-﻿<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='utf-8'?>
 <qsfmod>
   <title>Skin: Ashlander</title>
   <type folder="default">skin</type>
@@ -527,12 +527,6 @@
   <meta http-equiv="Content-Type" content="application/xhtml+xml; charset={$admin->lang->charset}" />
   <link rel="stylesheet" type="text/css" href="../skins/{$admin->skin}/styles.css" />
   <link rel="stylesheet" type="text/css" href="../skins/{$admin->skin}/acp.css" />
- <IF (strpos($admin->agent, 'MSIE') !== false)>
-  <style type="text/css">
-   input.button { padding: 0px; }
-   input.check { border: none; margin: -2px 0px 0px; }
-  </style>
- </IF>
  </head>
 
 <body>
@@ -1243,8 +1237,6 @@
       <displayname>Domain Listing</displayname>
       <description>List of domains administered by the site.</description>
       <html><![CDATA[
-<script type="text/javascript" src="./javascript/selectallboxes.js"></script>
- <script type="text/javascript" src="./javascript/unselectallboxes.js"></script>
  {$this->table}
   {$pages}
  {$this->etable}

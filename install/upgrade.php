@@ -213,7 +213,10 @@ class upgrade extends pdnsadmin
 						break;
 
 					case '1.1.8': // 1.1.8 to 1.1.9
-						// No template changes
+						if( $templates_update !== true ) {
+							$templates_update[] = 'ADMIN_INDEX';
+							$templates_update[] = 'DOMAIN_LIST';
+						}
 						break;
 
 				}

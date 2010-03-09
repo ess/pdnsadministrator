@@ -1,5 +1,5 @@
 body {
-	background: black url('./images/background3.gif');
+	background: black url('./images/background3.png');
 	font: 12px Arial, Sans-serif;
 	text-align: center;
 	margin: 0px;
@@ -66,7 +66,7 @@ textarea {
 
 /* Company */
 #header {
-	height: 50px;
+	height: 45px;
 	margin-bottom: 2px;
 }
 #header #company {
@@ -75,14 +75,16 @@ textarea {
 	position: absolute;
 }
 #header #company .logo {
-	background: white url('./images/Logo.gif');
+	background: black url('./images/Logo.png');
 	height: 45px;
-	width: 301px;
+	width: 300px;
+	border-right:2px solid #292929;
+	border-bottom:2px solid #292929;
 	float: left;
 }
 #header #company .title {
 	text-align:center;
-	width: 650px;
+	width: 450px;
 	float: left;
 }
 

@@ -120,3 +120,25 @@ function load_js_lang(func) {
 	}
 	return false; // Can't do it
 }
+
+function unselect_all_boxes()
+{
+  formElements = document.getElementsByTagName('input');
+  for(i=0; i<formElements.length; i++)
+  {
+    if (formElements[i].type == 'checkbox') {
+      formElements[i].checked = false;
+    }
+  }
+}
+
+function select_all_boxes()
+{
+  formElements = document.getElementsByTagName('input');
+  for(i=0; i<formElements.length; i++)
+  {
+    if (formElements[i].type == 'checkbox') {
+      formElements[i].checked = true;
+    }
+  }
+}
