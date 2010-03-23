@@ -61,35 +61,30 @@
  <div class="title">{$this->lang->template_set}</div>
  <span class="field">{$this->lang->add_in}</span>
  <span class="form"><select name="template_set">{$template_box}</select></span>
-
  <p class="line"></p>
 
  <span class="field">{$this->lang->or_new}</span>
  <span class="form"><input type="text" name="ntemplate_set" size="40" /></span>
-
  <p class="line"></p>
 
  <span class="field">{$this->lang->template_title}</span>
  <span class="form"><input type="text" name="title" size="40" /></span>
-
  <p class="line"></p>
 
  <span class="field">{$this->lang->template_name}<br /> <span class="tiny">(ie: BOARD_MAIN - FORUM_TOPIC - etc)</span></span>
  <span class="form"><input type="text" name="name" size="40" /></span>
-
  <p class="line"></p>
 
  <span class="field">{$this->lang->template_description}</span>
  <span class="form"><input type="text" name="desc" size="40" /></span>
-
  <p class="line"></p>
 
  <span class="field">{$this->lang->template_html}</span>
  <span class="form"><textarea name="html" rows="30" cols="70"></textarea></span>
-
  <p class="line"></p>
 
  <input type="hidden" name="template" value="{$template}" />
+ <input type="hidden" name="token" value="$token" />
  <input type="hidden" name="form" value="true" />
  <input type="submit" value="{$this->lang->template_add}" />
  <input type="reset" value="{$this->lang->template_clear}" />
@@ -147,9 +142,9 @@
 {$this->table}
  <div class="title">{$this->lang->edit_css}: {$skin} - {$fname}</div>
  <textarea name="css_text" rows="25" cols="80">{$text}</textarea>
-
  <p class="line"></p>
 
+ <input type="hidden" name="token" value="$token" />
  <input type="submit" name="submit" value="{$this->lang->submit}" />
 {$this->etable}
 </form>
@@ -173,6 +168,7 @@
       <description>Form for editing the board settings</description>
       <html><![CDATA[
 <form action="{$this->self}?a=settings&amp;s=update" method="post">
+<input type="hidden" name="token" value="$token" />
 {$this->table}
  <div class="title">{$this->lang->settings_general}</div>
 
@@ -401,6 +397,8 @@
  <span class="form"><input type="text" name="db_socket" value="{$this->sets['db_socket']}" size="40" /></span>
 
  <p class="line"></p>
+
+ <input type="hidden" name="token" value="$token" />
  <input type="submit" value="{$this->lang->submit}" />
 {$this->etable}
 </form>
@@ -411,24 +409,22 @@
       <description>Form for editing and deleting skins</description>
       <html><![CDATA[
 <form action="{$this->self}?a=templates&amp;s=editskin" method="post">
- <input type="hidden" name="skin" value="{$this->post['skin']}" />
  {$this->table}
   <div class="title">{$this->lang->edit_skin}</div>
   <span class="field">{$this->lang->display_name}</span>
   <span class="form"><input type="text" name="skin_name" value="{$skin['skin_name']}" size="50" /></span>
-
   <p class="line"></p>
 
   <span class="field">{$this->lang->directory}</span>
   <span class="form"><input type="text" name="skin_dir" value="{$skin['skin_dir']}" size="50" /></span>
-
   <p class="line"></p>
 
   <span class="field">{$this->lang->delete}</span>
   <span class="form"><input class="check" type="checkbox" name="deleteskin" /></span>
-
   <p class="line"></p>
 
+  <input type="hidden" name="token" value="$token" />
+  <input type="hidden" name="skin" value="{$this->post['skin']}" />
   <input type="submit" name="submit" value="{$this->lang->edit_skin}" />
  {$this->etable}
 </form>
@@ -451,6 +447,7 @@
  {$this->lang->template_universal2}
 {$this->etable}
 {$out}
+<input type="hidden" name="token" value="$token" />
 </form>
       ]]></html>
     </template>
@@ -465,11 +462,9 @@
  </span>
  <input type="submit" name="submitTemps" value="{$this->lang->edit_templates}" style="float:right" />
  {$data['template_description']}
-
  <p class="line"></p>
 
  <textarea onchange="this.style.backgroundColor='#FCFCF8'; changed=true" name="code[{$data['template_name']}]" class="template_text" rows="18" cols="80" wrap="off">{$data['template_html']}</textarea>
-
  <p class="line"></p>
 
  <input type="submit" name="submitTemps" value="{$this->lang->edit_templates}" />
@@ -501,6 +496,7 @@
  <p class="line"></p>
 
  <input type="hidden" name="group" value="{$this->post['group']}" />
+ <input type="hidden" name="token" value="$token" />
  <input type="submit" name="submit" value="{$this->lang->submit}" />
 {$this->etable}
 </form>
@@ -633,21 +629,6 @@
       <displayname>Install Skin</displayname>
       <description>Form for selecting a skin to install</description>
       <html><![CDATA[
-<IF !empty($skin_box)>
-<form action="{$this->self}?a=templates&amp;s=load" method="post">
- <span class="head">
-  <strong>{$this->lang->skins_found}</strong>
- </span>
-
- <select name="install">
-  {$skin_box}
- </select>
- <input type="submit" name="submit" value="{$this->lang->install_skin}" />
-</form>
-<ELSE>
- {$this->lang->skin_none}
-</IF>
-
 <IF !empty($new_skin_box)>
  <br />
  {$new_skin_box}
@@ -792,8 +773,27 @@
  <span class="form"><input name="ns" type="text" /></span>
 
  <p class="line"></p>
+
+ <input type="hidden" name="token" value="$token" />
  <input name="submit" type="submit" value="{$this->lang->submit}" />
 {$this->etable}
+</form>
+      ]]></html>
+    </template>
+    <template><set>supermaster</set><name>ADMIN_SUPERMASTER_DELETE</name>
+      <displayname>Delete Supermaster</displayname>
+      <description>Delete confirmation form for supermasters.</description>
+      <html><![CDATA[
+<form action="{$this->self}?a=supermaster&amp;s=delete&amp;ip=$ip&amp;ns=$ns" method="post">
+ {$this->table}
+  <div class="title">{$this->lang->supermaster_delete}</div>
+  {$this->lang->supermaster_confirm_delete} $ns
+  <p class="line"></p>
+
+  <input type="hidden" name="confirm" value="" />
+  <input type="hidden" name="token" value="$token" />
+  <input type="submit" value="{$this->lang->delete}" />
+ {$this->etable}
 </form>
       ]]></html>
     </template>
@@ -849,12 +849,10 @@
 
  <span class="field">{$this->lang->mc_user_name}</span>
  <span class="form"><input name="name" type="text" /></span>
-
  <p class="line"></p>
 
  <span class="field">{$this->lang->mc_user_email}</span>
  <span class="form"><input name="email" type="text" /></span>
-
  <p class="line"></p>
 
  <span class="field">{$this->lang->mc_user_group}</span>
@@ -863,7 +861,6 @@
    {$selectGroups}
   </select>
  </span>
-
  <p class="line"></p>
 
  <span class="field">{$this->lang->mc_user_language}</span>
@@ -872,10 +869,28 @@
    {$selectLangs}
   </select>
  </span>
-
  <p class="line"></p>
+
+ <input type="hidden" name="token" value="$token" />
  <input type="submit" name="submit" value="{$this->lang->submit}" />
 {$this->etable}
+</form>
+      ]]></html>
+    </template>
+    <template><set>user_control</set><name>ADMIN_USER_DELETE</name>
+      <displayname>Delete User</displayname>
+      <description>Confirmation form for user deletion.</description>
+      <html><![CDATA[
+<form action="{$this->self}?a=user_control&amp;s=delete&amp;id={$this->get['id']}" method="post">
+ {$this->table}
+  <div class="title">{$this->lang->mc_delete}</div>
+  {$this->lang->mc_confirm} <b>{$user['user_name']}</b>?
+  <p class="line"></p>
+
+  <input type="hidden" name="confirm" value="" />
+  <input type="hidden" name="token" value="$token" />
+  <input type="submit" value="{$this->lang->delete}" />
+ {$this->etable}
 </form>
       ]]></html>
     </template>
@@ -896,7 +911,8 @@
 {$this->table}
  <div class="title">{$this->lang->mc}</div>
  {$out}
- <input type="submit" name="submit" value="{$this->lang->submit}" />
+ <input type="hidden" name="token" value="$token" />
+ <input type="submit" name="submit" value="{$this->lang->edit}" />
 {$this->etable}
 </form>
       ]]></html>
@@ -941,12 +957,16 @@
  <span class="field">{$this->lang->cp_old_pass}</span>
  <span class="form"><input type="password" name="old_pass" size="40" /></span>
  <p class="line"></p>
+
  <span class="field">{$this->lang->cp_new_pass}</span>
  <span class="form"><input type="password" name="passA" size="40" /></span>
  <p class="line"></p>
+
  <span class="field">{$this->lang->cp_repeat_pass}</span>
  <span class="form"><input type="password" name="passB" size="40" /></span>
  <p class="line"></p>
+
+ <input type="hidden" name="token" value="$token" />
  <input class="button" type="submit" name="submit" value="{$this->lang->submit}" />
 {$this->etable}
 </form>
@@ -969,7 +989,6 @@
    {$skin_list}
   </select>
  </span>
-
  <p class="line"></p>
 
  <span class="field">{$this->lang->cp_language}</span>
@@ -978,8 +997,9 @@
    {$lang_list}
   </select>
  </span>
-
  <p class="line"></p>
+
+ <input type="hidden" name="token" value="$token" />
  <input type="submit" name="submit" value="{$this->lang->submit}" />
 {$this->etable}
 </form>
@@ -998,8 +1018,9 @@
 
  <span class="field">{$this->lang->cp_email}</span>
  <span class="form"><input type="text" name="user_email" value="{$this->user['user_email']}" size="40" /></span>
-
  <p class="line"></p>
+
+ <input type="hidden" name="token" value="$token" />
  <input type="submit" name="submit" value="{$this->lang->submit}" />
 {$this->etable}
 </form>
@@ -1018,12 +1039,10 @@
 
  <span class="field">{$this->lang->domains_new_name}</span>
  <span class="form"><input name="name" type="text" /></span>
-
  <p class="line"></p>
 
  <span class="field">{$this->lang->domains_new_ip}</span>
  <span class="form"><input name="ip" type="text" /></span>
-
  <p class="line"></p>
 
  <span class="field">{$this->lang->domains_type}</span>
@@ -1032,7 +1051,6 @@
    {$types}
   </select>
  </span>
-
  <p class="line"></p>
 
  <span class="field">{$this->lang->domains_owner}</span>
@@ -1041,28 +1059,25 @@
    {$users}
   </select>
  </span>
-
  <p class="line"></p>
 
  <span class="field">{$this->lang->domains_new_master_ip}</span>
  <span class="form"><input type="text" name="master_ip" value="{$this->sets['domain_master_ip']}" /></span>
-
  <p class="line"></p>
 
  <span class="field">{$this->lang->domains_new_ns_records}</span>
  <span class="form"><input type="checkbox" checked="checked" name="new_ns_records" value="1" class="check" /></span>
-
  <p class="line"></p>
 
  <span class="field">{$this->lang->domains_new_mx_record}</span>
  <span class="form"><input type="checkbox" checked="checked" name="new_mx_record" value="1" class="check" /></span>
-
  <p class="line"></p>
 
  <span class="field">{$this->lang->domains_new_cname_record}</span>
  <span class="form"><input type="checkbox" checked="checked" name="new_cname_record" value="1" class="check" /></span>
-
  <p class="line"></p>
+
+ <input type="hidden" name="token" value="$token" />
  <input name="submit" type="submit" value="{$this->lang->submit}" />
 {$this->etable}
 </form>
@@ -1081,7 +1096,6 @@
 
  <span class="field">{$this->lang->domains_new_name}</span>
  <span class="form"><input name="name" type="text" /></span>
-
  <p class="line"></p>
 
  <span class="field">{$this->lang->domains_type}</span>
@@ -1090,7 +1104,6 @@
    {$types}
   </select>
  </span>
-
  <p class="line"></p>
 
  <span class="field">{$this->lang->domains_owner}</span>
@@ -1099,13 +1112,34 @@
    {$users}
   </select>
  </span>
-
  <p class="line"></p>
 
  <span class="field">{$this->lang->domains_new_ns_records}</span>
  <span class="form"><input type="checkbox" checked="checked" name="new_ns_records" value="1" class="check" /></span>
-
  <p class="line"></p>
+
+ <input type="hidden" name="token" value="$token" />
+ <input name="submit" type="submit" value="{$this->lang->submit}" />
+{$this->etable}
+</form>
+      ]]></html>
+    </template>
+    <template><set>Domains</set><name>DOMAINS_DELETE</name>
+      <displayname>Delete Domain</displayname>
+      <description>Confirmation form for domain deletion.</description>
+      <html><![CDATA[
+<form action="{$this->self}?a=domains&amp;s=delete&amp;id=$dom_id" method="post">
+{$this->table}
+ <div class="title">
+  <img src="./skins/{$this->skin}/images/icons/computer_delete.png" alt="" />
+  {$this->lang->domains_delete}
+ </div>
+
+ {$this->lang->domains_delete_confirm} <b>{$domain['name']}</b> ?
+ <p class="line"></p>
+
+ <input type="hidden" name="confirm" value="" />
+ <input type="hidden" name="token" value="$token" />
  <input name="submit" type="submit" value="{$this->lang->submit}" />
 {$this->etable}
 </form>
@@ -1134,9 +1168,12 @@
    </select>
   </span>
   <p class="line"></p>
+
   <span class="field">{$this->lang->domains_master_ip_change}:</span>
   <span class="form"><input type="text" name="master_ip" value="{$domain['master']}" /></span>
   <p class="line"></p>
+
+  <input type="hidden" name="token" value="$token" />
   <input name="submit" type="submit" value="{$this->lang->submit}" />
  </span>
  </form>
@@ -1153,6 +1190,8 @@
     </select>
    </span>
    <p class="line"></p>
+
+   <input type="hidden" name="token" value="$token" />
    <input name="submit" type="submit" value="{$this->lang->submit}" />
   </IF>
  </span>
@@ -1252,6 +1291,7 @@
  <p></p>
  {$content}
  <span class="left">
+  <input type="hidden" name="token" value="$token" />
   <input class="button" type="button" value="{$this->lang->select_all}" onclick="return select_all_boxes();" />
   <input class="button" type="button" value="{$this->lang->unselect_all}" onclick="return unselect_all_boxes();" />
   <input class="button" type="submit" name="submit" value="{$this->lang->delete_selected}" />
@@ -1275,7 +1315,6 @@
 
  <span class="field"{$this->lang->name}</span>
  <span class="form"><input name="name" type="text" />.{$domain['name']}</span>
-
  <p class="line"></p>
 
  <span class="field">{$this->lang->domains_record_type}</span>
@@ -1284,23 +1323,41 @@
    {$rec_options}
   </select>
  </span>
-
  <p class="line"></p>
 
  <span class="field">{$this->lang->domains_record_content}</span>
  <span class="form"><input name="content" type="text" /></span>
-
  <p class="line"></p>
 
  <span class="field">TTL</span>
  <span class="form"><input name="ttl" type="text" value="{$this->sets['default_ttl']}" /></span>
-
  <p class="line"></p>
 
- <span class="field">Priority</span
+ <span class="field">{$this->lang->priority}</span>
  <span class="form"><input name="priority" type="text" value="0" /></span>
-
  <p class="line"></p>
+
+ <input type="hidden" name="token" value="$token" />
+ <input name="submit" type="submit" value="{$this->lang->submit}" />
+{$this->etable}
+</form>
+      ]]></html>
+    </template>
+    <template><set>Domains</set><name>DOMAIN_RECORD_DELETE</name>
+      <displayname>Delete Domain Record</displayname>
+      <description>Confirmation for domain deletion.</description>
+      <html><![CDATA[
+<form action="{$this->self}?a=domains&amp;s=deleterecord&amp;id={$id}&amp;r={$rec_id}" method="post">
+{$this->table}
+ <div class="title">
+  <img src="./skins/{$this->skin}/images/icons/table_add.png" alt="" />
+  {$this->lang->domains_record_delete}: {$domain['name']}
+ </div>
+ $confirm
+ <p class="line"></p>
+
+ <input type="hidden" name="confirm" value="" />
+ <input type="hidden" name="token" value="$token" />
  <input name="submit" type="submit" value="{$this->lang->submit}" />
 {$this->etable}
 </form>
@@ -1314,12 +1371,11 @@
 {$this->table}
  <div class="title">
   <img src="./skins/{$this->skin}/images/icons/table_edit.png" alt="" />
-  {$this->lang->domains_record_edit}: {$domain['name']}
+  {$this->lang->domains_record_edit}: {$rname}.{$domain['name']}
  </div>
 
  <span class="field">{$this->lang->name}</span>
  <span class="form"><input name="name" type="text" value="{$rname}" />.{$domain['name']}</span>
-
  <p class="line"></p>
 
  <span class="field">{$this->lang->domains_record_type}</span>
@@ -1328,23 +1384,21 @@
    {$rec_options}
   </select>
  </span>
-
  <p class="line"></p>
 
  <span class="field">{$this->lang->domains_record_content}</span>
  <span class="form"><input name="content" type="text" value="{$rec['content']}" /></span>
-
  <p class="line"></p>
 
  <span class="field">TTL</span>
  <span class="form"><input name="ttl" type="text" value="{$rec['ttl']}" /></span>
-
  <p class="line"></p>
 
  <span class="field">Priority</span>
  <span class="form"><input name="priority" type="text" value="{$rec['prio']}" /></span>
-
  <p class="line"></p>
+
+ <input type="hidden" name="token" value="$token" />
  <input name="submit" type="submit" value="{$this->lang->submit}" />
 {$this->etable}
 </form>

@@ -213,8 +213,33 @@ class upgrade extends pdnsadmin
 						break;
 
 					case '1.1.8': // 1.1.8 to 1.1.9
+						if( $templates_add !== true ) {
+							$templates_add[] = 'ADMIN_SUPERMASTER_DELETE';
+							$templates_add[] = 'ADMIN_USER_DELETE';
+							$templates_add[] = 'DOMAIN_RECORD_DELETE';
+							$templates_add[] = 'DOMAINS_DELETE';
+						}
 						if( $templates_update !== true ) {
 							$templates_update[] = 'ADMIN_INDEX';
+							$templates_update[] = 'DOMAIN_LIST';
+							$templates_update[] = 'ADMIN_GROUP_EDIT';
+							$templates_update[] = 'ADMIN_EDIT_BOARD_SETTINGS';
+							$templates_update[] = 'ADMIN_EDIT_DB_SETTINGS';
+							$templates_update[] = 'ADMIN_SUPERMASTER_ADD';
+							$templates_update[] = 'ADMIN_USER_ADD';
+							$templates_update[] = 'ADMIN_USER_PROFILE';
+							$templates_update[] = 'ADMIN_INSTALL_SKIN';
+							$templates_update[] = 'ADMIN_EDIT_SKIN';
+							$templates_update[] = 'ADMIN_CSS_EDIT';
+							$templates_update[] = 'ADMIN_ADD_TEMPLATE';
+							$templates_update[] = 'ADMIN_EDIT_TEMPLATE';
+							$templates_update[] = 'CP_PASS';
+							$templates_update[] = 'CP_PREFS';
+							$templates_update[] = 'CP_PROFILE';
+							$templates_update[] = 'DOMAIN_RECORD_EDIT';
+							$templates_update[] = 'DOMAIN_RECORD_ADD';
+							$templates_update[] = 'DOMAINS_ADD_REVERSE';
+							$templates_update[] = 'DOMAINS_ADD';
 							$templates_update[] = 'DOMAIN_LIST';
 						}
 						break;

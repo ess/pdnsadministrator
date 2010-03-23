@@ -1,9 +1,18 @@
+Changes for 1.1.9:
+
+Bugs:
+
+* SECURITY: All forms in the application have been hardened against Cross-Site Request Forgery attacks.
+  + Resolves Secunia Advisory 38736, part 3.
+* Magic Quotes has been deprecated as of PHP 5.3.0 and is no longer advised to be used for any PHP version.
+* General optimization of the default skin. Removal of unused files.
+
 Changes for 1.1.8:
 
+* BUG-SECURITY: Secunia Advisory SA32823 fixed.
 * Database repair option added.
 * Functions added to allow "select all" and "unselect all" on forms.
 * Removed obsolete IE6 pngfix.js file. The skin is no longer using it.
-* BUG-SECURITY: Secunia Advisory SA32823 fixed.
 
 Changes for 1.1.7:
 

@@ -51,21 +51,33 @@ class query extends admin
 		$this->tree($this->lang->query);
 
 		if (!isset($this->post['submit'])) {
+			$token = $this->generate_token();
+
 			return $this->message($this->lang->query, "
-			<form action='{$this->self}?a=query' method='post'><div>
+			<form action='{$this->self}?a=query' method='post'>
+				<div>
 				<textarea class='input' name='sql' cols='30' rows='15' style='width:100%'>SELECT * FROM groups</textarea><br /><br />
-				<input type='submit' name='submit' value='{$this->lang->submit}' /></div>
+				<input type='hidden' name='token' value='$token' />
+				<input type='submit' name='submit' value='{$this->lang->submit}' />
+				</div>
 			</form>");
 		} else {
+			if( !$this->is_valid_token() ) {
+				return $this->message( $this->lang->query, $this->lang->invalid_token );
+			}
+
 			$result = $this->db->query($this->post['sql']);
 
 			if (is_resource($result)) {
 				$sql = htmlspecialchars($this->post['sql']);
 				$show_headers = true;
+				$token = $this->generate_token();
 
 				$out = $this->message($this->lang->query, "<form action='{$this->self}?a=query' method='post'><div>
 					<textarea class='input' name='sql' cols='30' rows='15' style='width:100%'>$sql</textarea><br /><br />
-					<input type='submit' name='submit' value='{$this->lang->submit}' /></div>
+					<input type='hidden' name='token' value='$token' />
+					<input type='submit' name='submit' value='{$this->lang->submit}' />
+					</div>
 					</form><br />");
 				$out .= $this->table;
 

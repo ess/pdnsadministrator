@@ -94,6 +94,7 @@ class main extends pdnsadmin
 			$content .= eval($this->template('DOMAIN_ITEM'));
 		}
 
+		$token = $this->generate_token();
 		return eval($this->template('DOMAIN_LIST'));
 	}
 }

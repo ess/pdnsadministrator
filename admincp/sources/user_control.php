@@ -47,7 +47,13 @@ class user_control extends admin
 				$selectGroups = $this->htmlwidgets->select_groups(USER_MEMBER);
 				$selectLangs = $this->htmlwidgets->select_langs($this->sets['default_lang'], '..');
 
+				$token = $this->generate_token();
+
 				return eval($this->template('ADMIN_USER_ADD'));
+			}
+
+			if( !$this->is_valid_token() ) {
+				return $this->message( $this->lang->mc_add, $this->lang->invalid_token );
 			}
 
 			if (!isset($this->post['name']) || empty($this->post['name'])) {
@@ -140,10 +146,16 @@ class user_control extends admin
 				return $this->message($this->lang->mc_delete, $this->lang->mc_guest_needed);
 			}
 
-			if (!isset($this->get['confirm'])) {
+			if (!isset($this->post['confirm'])) {
+				$token = $this->generate_token();
 				$user = $this->db->fetch('SELECT user_name FROM users WHERE user_id=%d', $this->get['id']);
-				return $this->message($this->lang->mc_delete, "{$this->lang->mc_confirm} <b>{$user['user_name']}</b>?<br /><br /><a href='$this->self?a=user_control&amp;s=delete&amp;id={$this->get['id']}&amp;confirm=1'>{$this->lang->continue}</a>");
+
+				return eval($this->template('ADMIN_USER_DELETE'));
 			} else {
+				if( !$this->is_valid_token() ) {
+					return $this->message( $this->lang->mc_delete, $this->lang->invalid_token );
+				}
+
 				$this->db->query('UPDATE logs SET log_user=%d WHERE log_user=%d', USER_GUEST_UID, $this->get['id']);
 				$this->db->query('DELETE FROM users WHERE user_id=%d', $this->get['id']);
 
@@ -163,6 +175,8 @@ class user_control extends admin
 			$this->get['id'] = intval($this->get['id']);
 
 			if (!isset($this->post['submit'])) {
+				$token = $this->generate_token();
+
 				$user = $this->db->fetch('SELECT * FROM users WHERE user_id=%d LIMIT 1', $this->get['id']);
 
 				$out = '';
@@ -255,6 +269,10 @@ class user_control extends admin
 
 				return eval($this->template('ADMIN_USER_PROFILE'));
 			} else {
+				if( !$this->is_valid_token() ) {
+					return $this->message( $this->lang->mc_edit, $this->lang->invalid_token );
+				}
+
 				$user = $this->db->fetch('SELECT user_name FROM users WHERE user_id=%d LIMIT 1', $this->get['id']);
 
 				$guest_email = $this->post['user_email'];

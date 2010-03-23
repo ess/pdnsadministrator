@@ -6,6 +6,27 @@ li {
 	list-style-type: none;
 }
 
+/* Permissions Tables */
+#main .article td.header {
+	background-color:#292929;
+	font: 18px Arial, Sans-serif;
+	color: #c0c0c0;
+	padding: 0px 4px 0px 4px;
+	border: 1px solid #3e3e3e;
+	border-right: 3px double #3e3e3e;
+}
+#main .article td.footer {
+	background-color:#292929;
+	border:1px solid #3e3e3e;
+	color:#c0c0c0;
+	font: 14px Arial, Sans-serif;
+}
+#main .article td.subheader {
+	background-color:#292929;
+	border:1px solid #3e3e3e;
+	color:#c0c0c0;
+}
+
 /* Template Editor */
 #main .article .template_text {
 	font: 12px 'courier new', courier, monospaced, serif;

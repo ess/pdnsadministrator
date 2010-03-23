@@ -45,16 +45,23 @@ class settings extends admin
 			$this->tree($this->lang->settings_new_add);
 
 			if(!isset($this->post['submit'])) {
+				$token = $this->generate_token();
+
 				return $this->message($this->lang->settings_new, "
 				<form action='{$this->self}?a=settings&amp;s=add' method='post'>
 				<div>
 				{$this->lang->settings_new_name}:  <input class='input' name='new_setting' type='text' value='' /><br /><br />
 				{$this->lang->settings_new_value}: <input class='input' name='new_value' type='text' value='' /><br />
+				<input type='hidden' name='token' value='$token' />
 				<input type='submit' name='submit' value='{$this->lang->submit}' />
 				</div>
 				</form>" );
 			}
 			else {
+				if( !$this->is_valid_token() ) {
+					return $this->message( $this->lang->settings_new_add, $this->lang->invalid_token );
+				}
+
 				if(empty($this->post['new_setting'])) {
 					return $this->message($this->lang->settings_new, $this->lang->settings_new_required);
 				}
@@ -77,6 +84,8 @@ class settings extends admin
 			$this->set_title($this->lang->settings_db);
 			$this->tree($this->lang->settings_db);
 
+			$token = $this->generate_token();
+
 			return eval($this->template('ADMIN_EDIT_DB_SETTINGS'));
 			break;
 
@@ -90,10 +99,16 @@ class settings extends admin
 			// Set data for use in skin
 			$selectSkins = $this->htmlwidgets->select_skins($this->sets['default_skin']);
 
+			$token = $this->generate_token();
+
 			return eval($this->template('ADMIN_EDIT_BOARD_SETTINGS'));
 			break;
 
 		case 'update':
+			if( !$this->is_valid_token() ) {
+				return $this->message( $this->lang->settings_basic, $this->lang->invalid_token );
+			}
+
 			if (!$this->post) {
 				return $this->message($this->lang->settings, $this->lang->settings_nodata);
 				break;

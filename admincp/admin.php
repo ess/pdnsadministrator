@@ -69,7 +69,7 @@ class admin extends pdnsadmin
 		$this->table  = eval($this->template('ADMIN_TABLE'));
 		$this->etable = eval($this->template('ADMIN_ETABLE'));
 	}
-	
+
 	/**
 	 * Formats a message (admin cp version)
 	 *

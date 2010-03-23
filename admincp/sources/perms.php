@@ -82,6 +82,8 @@ class perms extends admin
 		);
 
 		if (!isset($this->post['submit'])) {
+			$token = $this->generate_token();
+
 			if ($mode == 'user') {
 				$query = $this->db->fetch('SELECT user_name, user_perms FROM users WHERE user_id=%d', $this->post['group']);
 				$label = "{$this->lang->perms_user} '{$query['user_name']}'";
@@ -94,7 +96,7 @@ class perms extends admin
 			<script type='text/javascript' src='../javascript/permissions.js'></script>
 
 			<form id='form' action='$this->self?a=perms$link' method='post'>
-			<div align='center'><span style='font-size:14px;'><b>" . $this->lang->perms_for . " $label</b></span>";
+			<div class='article'><div class='title'>{$this->lang->perms_for} $label</div>";
 
 			if ($mode == 'user') {
 				$out .= "<br />{$this->lang->perms_override_user}<br /><br />
@@ -125,9 +127,16 @@ class perms extends admin
 
 			return $out . "
 			<tr>
-				<td colspan='2' class='tabledark' align='center'><input type='hidden' name='group' value='{$this->post['group']}' /><input type='submit' name='submit' value='Update Permissions' /></td>
+				<td colspan='2' class='footer' align='center'><input type='hidden' name='group' value='{$this->post['group']}' />
+					<input type='hidden' name='token' value='$token' />
+					<input type='submit' name='submit' value='{$this->lang->perms_update}' />
+				</td>
 			</tr>" . $this->etable . "</form>";
 		} else {
+			if( !$this->is_valid_token() ) {
+				return $this->message( $this->lang->perms, $this->lang->invalid_token );
+			}
+
 			if (($mode == 'user') && isset($this->post['usegroup'])) {
 				$perms_obj->cube = '';
 				$perms_obj->update();

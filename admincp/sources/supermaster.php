@@ -105,7 +105,13 @@ class supermaster extends admin
 	function add_supermaster()
 	{
 		if(!isset($this->post['submit'])) {
+			$token = $this->generate_token();
+
 			return eval($this->template('ADMIN_SUPERMASTER_ADD'));
+		}
+
+		if( !$this->is_valid_token() ) {
+			return $this->message( $this->lang->supermaster_add, $this->lang->invalid_token );
 		}
 
 		$ip = $this->post['ip'];
@@ -145,8 +151,15 @@ class supermaster extends admin
 		if( !$exists )
 			return $this->message( $this->lang->supermaster_delete, $this->lang->supermaster_ns_unknown );
 
-		if( !isset($this->get['confirm']))
-			return $this->message( $this->lang->supermaster_delete, $this->lang->supermaster_confirm_delete . ' ' . $ns . '?', "<a href='$this->self?a=supermaster&amp;s=delete&amp;ip=$ip&amp;ns=$ns&amp;confirm=1'>{$this->lang->delete}</a>" );
+		if( !isset($this->post['confirm'])) {
+			$token = $this->generate_token();
+
+			return eval($this->template('ADMIN_SUPERMASTER_DELETE'));
+		}
+
+		if( !$this->is_valid_token() ) {
+			return $this->message( $this->lang->supermaster_delete, $this->lang->invalid_token );
+		}
 
 		$this->db->query( "DELETE FROM supermasters WHERE ip='%s' AND nameserver='%s'", $ip, $ns );
 		return $this->message( $this->lang->supermaster_delete, $this->lang->supermaster_deleted );

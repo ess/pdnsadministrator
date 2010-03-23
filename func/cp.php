@@ -94,8 +94,13 @@ class cp extends pdnsadmin
 		$this->set_title($this->lang->cp_changing_pass);
 
 		if (!isset($this->post['submit'])) {
+			$token = $this->generate_token();
 			return eval($this->template('CP_PASS'));
 		} else {
+			if( !$this->is_valid_token() ) {
+				return $this->message( $this->lang->cp_changing_pass, $this->lang->invalid_token );
+			}
+
 			$result = $this->check_pass($this->post['passA'], $this->post['passB'], $this->post['old_pass']);
 
 			switch($result)
@@ -135,11 +140,15 @@ class cp extends pdnsadmin
 		$this->set_title($this->lang->cp_preferences);
 
 		if (!isset($this->post['submit'])) {
+			$token = $this->generate_token();
 			$skin_list  = $this->htmlwidgets->select_skins($this->skin);
 			$lang_list  = $this->htmlwidgets->select_langs($this->user['user_language']);
 
 			return eval($this->template('CP_PREFS'));
 		} else {
+			if( !$this->is_valid_token() ) {
+				return $this->message( $this->lang->cp_updated_prefs, $this->lang->invalid_token );
+			}
 
 			$this->post['user_language'] = preg_replace('/[^a-zA-Z0-9\-]/', '', $this->post['user_language']);
 
@@ -157,8 +166,14 @@ class cp extends pdnsadmin
 		$this->set_title($this->lang->cp_editing_profile);
 
 		if (!isset($this->post['submit'])) {
+			$token = $this->generate_token();
+
 			return eval($this->template('CP_PROFILE'));
 		} else {
+			if( !$this->is_valid_token() ) {
+				return $this->message( $this->lang->cp_err_updating, $this->lang->invalid_token );
+			}
+
 			$temp_email = $this->post['user_email'];
 			if (!$this->validator->validate($temp_email, TYPE_EMAIL)) {
 				return $this->message($this->lang->cp_err_updating, $this->lang->cp_email_invaid);

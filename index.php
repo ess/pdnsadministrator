@@ -26,6 +26,8 @@
 define('PDNSADMIN', true);
 define('PDNS_PUBLIC', true);
 
+date_default_timezone_set('America/Los_Angeles');
+
 $time_now   = explode(' ', microtime());
 $time_start = $time_now[1] + $time_now[0];
 
@@ -84,11 +86,9 @@ session_start();
 $pdns->user_cl = new $modules['user']($pdns);
 $pdns->user    = $pdns->user_cl->login();
 $pdns->lang    = $pdns->get_lang($pdns->user['user_language'], $pdns->get['a']);
-$pdns->session = &$_SESSION;
-$pdns->session['id'] = session_id();
 
-if( !isset($pdns->session['login']) && $pdns->user['user_id'] != USER_GUEST_UID ) {
-	$pdns->session['login'] = true;
+if( !isset($_SESSION['login']) && $pdns->user['user_id'] != USER_GUEST_UID ) {
+	$_SESSION['login'] = true;
 	$pdns->db->query( "UPDATE users SET user_lastlogon=%d, user_lastlogonip='%s' WHERE user_id=%d", $pdns->time, $pdns->ip, $pdns->user['user_id'] );
 }
 

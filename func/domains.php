@@ -101,12 +101,16 @@ class domains extends pdnsadmin
 		if( $rec['type'] == 'SOA' )
 			return $this->message($this->lang->domains_record_delete, $this->lang->domains_record_delete_soa);
 
-		if( !isset($this->get['confirm']) ) {
+		if( !isset($this->post['confirm']) ) {
+			$token = $this->generate_token();
+
 			$confirm = sprintf( $this->lang->domains_record_delete_confirm, $rec['type'], $rec['name'], $rec['content']);
 
-			return $this->message( $this->lang->domains_record_delete,
-			$confirm . "<br /><br />
-			<a href=\"{$this->self}?a=domains&amp;s=deleterecord&amp;id={$id}&amp;r={$rec_id}&amp;confirm=1\">{$this->lang->continue}</a>" );
+			return eval($this->template('DOMAIN_RECORD_DELETE'));
+		}
+
+		if( !$this->is_valid_token() ) {
+			return $this->message( $this->lang->domains_record_delete, $this->lang->invalid_token );
 		}
 
 		$this->db->query( 'DELETE FROM records WHERE id=%d', $rec_id );
@@ -144,6 +148,8 @@ class domains extends pdnsadmin
 		$record_types = array( 'A', 'AAAA', 'LOC', 'MX', 'NAPTR', 'NS', 'CNAME', 'SOA', 'SPF', 'SRV', 'TXT', 'PTR', 'URL' );
 
 		if( !isset($this->post['submit']) ) {
+			$token = $this->generate_token();
+
 			$rec_options = null;
 
 			$rname = str_replace( $domain['name'], '', $rec['name'] );
@@ -159,8 +165,12 @@ class domains extends pdnsadmin
 			return eval($this->template('DOMAIN_RECORD_EDIT'));
 		}
 
+		if( !$this->is_valid_token() ) {
+			return $this->message( $this->lang->domains_record_edit, $this->lang->invalid_token );
+		}
+
 		if (!isset($this->post['record']) || empty($this->post['record'])) {
-			return $this->message($this->lang->domains_record_add, $this->lang->domains_record_required);
+			return $this->message($this->lang->domains_record_edit, $this->lang->domains_record_required);
 		}
 
 		$record = $this->post['record'];
@@ -303,6 +313,7 @@ class domains extends pdnsadmin
 		$record_types = array( 'A', 'AAAA', 'LOC', 'MX', 'NAPTR', 'NS', 'CNAME', 'SOA', 'SPF', 'SRV', 'TXT', 'PTR', 'URL' );
 
 		if (!isset($this->post['submit'])) {
+			$token = $this->generate_token();
 			$rec_options = null;
 
 			foreach( $record_types as $rt )
@@ -310,6 +321,10 @@ class domains extends pdnsadmin
 				$rec_options .= "<option value=\"{$rt}\">{$rt}</option>";
 			}
 			return eval($this->template('DOMAIN_RECORD_ADD'));
+		}
+
+		if( !$this->is_valid_token() ) {
+			return $this->message( $this->lang->domains_record_add, $this->lang->invalid_token );
 		}
 
 		if (!isset($this->post['record']) || empty($this->post['record'])) {
@@ -445,10 +460,15 @@ class domains extends pdnsadmin
 		}
 
 		if (!isset($this->post['submit'])) {
+			$token = $this->generate_token();
 			$users = $this->htmlwidgets->select_users($this->user['user_id']);
 			$types = $this->htmlwidgets->select_domain_types('MASTER');
 
 			return eval($this->template('DOMAINS_ADD_REVERSE'));
+		}
+
+		if( !$this->is_valid_token() ) {
+			return $this->message( $this->lang->domains_new_reverse, $this->lang->invalid_token );
 		}
 
 		if (!isset($this->post['name']) || empty($this->post['name'])) {
@@ -568,10 +588,15 @@ class domains extends pdnsadmin
 		}
 
 		if (!isset($this->post['submit'])) {
+			$token = $this->generate_token();
 			$users = $this->htmlwidgets->select_users($this->user['user_id']);
 			$types = $this->htmlwidgets->select_domain_types('MASTER');
 
 			return eval($this->template('DOMAINS_ADD'));
+		}
+
+		if( !$this->is_valid_token() ) {
+			return $this->message( $this->lang->domains_new, $this->lang->invalid_token );
 		}
 
 		if (!isset($this->post['name']) || empty($this->post['name'])) {
@@ -737,6 +762,10 @@ class domains extends pdnsadmin
 			return $this->message($this->lang->domains_owner_change, $this->lang->domains_owner_cant_change);
 		}
 
+		if( !$this->is_valid_token() ) {
+			return $this->message( $this->lang->domains_owner_change, $this->lang->invalid_token );
+		}
+
 		if (!isset($this->get['id'])) {
 			return $this->message($this->lang->domains_owner_change, $this->lang->domains_id_invalid);
 		}
@@ -764,6 +793,10 @@ class domains extends pdnsadmin
 
 	function change_domain_type()
 	{
+		if( !$this->is_valid_token() ) {
+			return $this->message( $this->lang->domains_type_change, $this->lang->invalid_token );
+		}
+
 		if (!isset($this->get['id'])) {
 			return $this->message($this->lang->domains_type_change, $this->lang->domains_id_invalid);
 		}
@@ -833,6 +866,7 @@ class domains extends pdnsadmin
 			$records .= eval($this->template('DOMAINS_RECORD'));
 		}
 
+		$token = $this->generate_token();
 		$can_edit_domains = $this->perms->auth('edit_domains');
 		return eval($this->template('DOMAINS_EDIT'));
 	}
@@ -855,10 +889,14 @@ class domains extends pdnsadmin
 		$domain = $this->db->fetch('SELECT name FROM domains WHERE id=%d', $dom_id);
 		$owner = $this->db->fetch('SELECT owner FROM zones WHERE domain_id=%d', $dom_id);
 
-		if (!isset($this->get['confirm'])) {
-			return $this->message($this->lang->domains_delete,
-			$this->lang->domains_delete_confirm . " <b>{$domain['name']}</b> ?<br /><br />
-			<a href='$this->self?a=domains&amp;s=delete&amp;id=$dom_id&amp;confirm=1'>{$this->lang->continue}</a>");
+		if (!isset($this->post['confirm'])) {
+			$token = $this->generate_token();
+
+			return eval($this->template('DOMAINS_DELETE'));
+		}
+
+		if( !$this->is_valid_token() ) {
+			return $this->message( $this->lang->domains_delete, $this->lang->invalid_token );
 		}
 
 		$this->db->query('DELETE FROM domains WHERE id=%d', $dom_id);

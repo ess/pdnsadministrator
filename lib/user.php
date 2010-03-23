@@ -45,7 +45,6 @@ class user
 	{
 		$this->db  = &$pdns->db;
 		$this->pre = &$pdns->pre;
-		$this->session = &$pdns->session;
 		$this->server  = &$pdns->server;
 		$this->cookie  = &$pdns->cookie;
 		$this->sets    = &$pdns->sets;
@@ -69,9 +68,9 @@ class user
 				WHERE m.user_id='%s' AND m.user_password='%s' AND s.skin_dir=m.user_skin AND g.group_id=m.user_group LIMIT 1",
 				$cookie_user, $cookie_pass);
 
-		}else if(isset($this->session['user']) && isset($this->session['pass'])) {
-			$session_user = intval($this->session['user']);
-			$session_pass = $this->session['pass'];
+		}else if(isset($_SESSION['user']) && isset($_SESSION['pass'])) {
+			$session_user = intval($_SESSION['user']);
+			$session_pass = $_SESSION['pass'];
 			$user = $this->db->fetch("SELECT m.*, s.skin_dir, g.group_perms, g.group_name
 				FROM users m, skins s, groups g
 				WHERE m.user_id='%s' AND MD5(CONCAT(m.user_password,'%s'))='%s' AND s.skin_dir=m.user_skin AND g.group_id=m.user_group LIMIT 1",

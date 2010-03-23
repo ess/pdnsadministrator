@@ -223,6 +223,7 @@ class en
 		$this->groups_edited = 'Group Edited.';
 		$this->groups_formatting = 'Display Formatting';
 		$this->groups_i_confirm = 'I confirm that I want to delete this user group.';
+		$this->groups_name = 'Group Name:';
 		$this->groups_no_action = 'No action was taken.';
 		$this->groups_no_delete = 'There are no custom groups to delete.<br />The core groups are necessary for PDNS-Admin to function, and cannot be deleted.';
 		$this->groups_no_group = 'No group was specified.';
@@ -364,6 +365,7 @@ class en
 		$this->perms_override_user = 'This will override the group permissions for this user.';
 		$this->perms_site_view = 'Can view the index page.';
 		$this->perms_title = 'User Group Control';
+		$this->perms_update = 'Update Permissions';
 		$this->perms_updated = 'Permissions have been updated.';
 		$this->perms_user = 'User';
 		$this->perms_user_inherit = 'The user will inherit the group\'s permissions.';
@@ -490,6 +492,7 @@ class en
 		$this->credit = 'Please do not remove our only credit!';
 		$this->css_edited = 'CSS file has been updated.';
 		$this->css_fioerr = 'The file could not be written to, you will need to CHMOD the file manually.';
+		$this->deleted = 'Template Deleted';
 		$this->delete_template = 'Delete Template';
 		$this->directory = 'Directory';
 		$this->display_name = 'Display Name';
@@ -601,6 +604,7 @@ class en
 		$this->gmt_pos8 = '[GMT+8:00] Beijing, Hong Kong, Singapore';
 		$this->gmt_pos9 = '[GMT+9:00] Tokyo, Seoul';
 		$this->gmt_pos95 = '[GMT+9:30] Adelaide, Darwin';
+		$this->invalid_token = 'Invalid or expired security token. Please go back and try again.';
 		$this->master = 'Master';
 		$this->name = 'Name';
 		$this->no = 'No';

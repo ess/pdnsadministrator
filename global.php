@@ -87,7 +87,7 @@ class pdnsadmin
 		$this->cookie  = $_COOKIE;
 		$this->query   = htmlspecialchars($this->query);
 	}
-	
+
 	/**
 	 * Post constructor initaliser. By this time we have a user and a database
 	 *
@@ -113,7 +113,7 @@ class pdnsadmin
 		
 		$this->set_table();
 	}
-	
+
 	/**
 	 * Run actions that can be delayed until after output is sent
 	 *
@@ -123,7 +123,7 @@ class pdnsadmin
 	function cleanup()
 	{
 	}
-	
+
 	/**
 	 * Set values for $this->table and $this->etable
 	 *
@@ -135,7 +135,7 @@ class pdnsadmin
 		$this->table  = eval($this->template('MAIN_TABLE'));
 		$this->etable = eval($this->template('MAIN_ETABLE'));
 	}
-	
+
 	/**
 	 * Get the template for eval (templater interface)
 	 *
@@ -176,7 +176,6 @@ class pdnsadmin
 		return $in;
 	}
 
-
 	/**
 	 * Generates a random pronounceable password
 	 *
@@ -202,7 +201,7 @@ class pdnsadmin
 
 		return substr($password, 0, $length);
 	}
-	
+
 	/**
 	 * Loads a user_language. Bet you couldn't figure that out...
 	 *
@@ -520,6 +519,47 @@ if (!defined('PDNSADMIN')) {
 		}
 
 		$this->db->query("UPDATE settings SET settings_data='%s'", serialize($sets));
+	}
+
+	/**
+	 * Generates a random security token for forms.
+	 *
+	 * @author Roger Libiez
+	 * @return string Generated security token.
+	 * @since 1.1.9
+	 */
+	function generate_token()
+	{
+		$token = md5(uniqid(mt_rand(), true));
+		$_SESSION['token'] = $token;
+		$_SESSION['token_time'] = $this->time + 7200; // Token is valid for 2 hours.
+
+		return $token;
+	}
+
+	/**
+	 * Checks to be sure a submitted security token matches the one the form is expecting.
+	 *
+	 * @author Roger Libiez
+	 * @return false if invalid, true if valid
+	 * @since 1.1.9
+	 */
+	function is_valid_token()
+	{
+		if( !isset($_SESSION['token']) || !isset($_SESSION['token_time']) || !isset($this->post['token']) ) {
+			return false;
+		}
+
+		if( $_SESSION['token'] != $this->post['token'] ) {
+			return false;
+		}
+
+		$age = $this->time - $_SESSION['token_time'];
+
+		if( $age > 7200 )
+			return false;
+
+		return true;
 	}
 
 	/**
