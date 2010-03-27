@@ -156,7 +156,7 @@ class settings extends admin
 
 			foreach ($this->post as $var => $val)
 			{
-				if ($var == 'tos')
+				if ($var == 'tos' || $var == 'token')
 					continue;
 				if (($vartypes[$var] == 'int') || ($vartypes[$var] == 'bool')) {
 					$val = intval($val);

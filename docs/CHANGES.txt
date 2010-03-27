@@ -4,6 +4,9 @@ Bugs:
 
 * SECURITY: All forms in the application have been hardened against Cross-Site Request Forgery attacks.
   + Resolves Secunia Advisory 38736, part 3.
+
+Other:
+
 * Magic Quotes has been deprecated as of PHP 5.3.0 and is no longer advised to be used for any PHP version.
 * General optimization of the default skin. Removal of unused files.
 
