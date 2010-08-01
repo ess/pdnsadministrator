@@ -47,7 +47,11 @@ class upgrade extends pdnsadmin
 				echo "<tr><td colspan='2' align='center'><b>To determine what version you are running, check the bottom of your AdminCP page. Or check the CHANGES file and look for the latest revision mentioned there.</b></td></tr>
 				<tr><td colspan='2' align='center'><b>Upgrade from what version?</b></td></tr>
 				    <tr>
-				        <td><input type='radio' name='from' value='1.1.8' id='118' checked='checked' />
+				        <td><input type='radio' name='from' value='1.1.9' id='119' checked='checked' />
+					<label for='119'>PDNS-Admin 1.1.9</label></td>
+				    </tr>
+				    <tr>
+				        <td><input type='radio' name='from' value='1.1.8' id='118' />
 					<label for='118'>PDNS-Admin 1.1.8</label></td>
 				    </tr>
 				    <tr>
@@ -242,6 +246,9 @@ class upgrade extends pdnsadmin
 							$templates_update[] = 'DOMAINS_ADD';
 							$templates_update[] = 'DOMAIN_LIST';
 						}
+						break;
+
+					case '1.1.9': // 1.1.9 to 1.1.10
 						break;
 
 				}
