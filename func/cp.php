@@ -182,7 +182,7 @@ class cp extends pdnsadmin
 			if ($this->db->fetch("SELECT user_email FROM users WHERE user_email='%s' AND user_id != %d",
 				 $this->post['user_email'], $this->user['user_id']))
 			{
-				return $this->message($this->lang->cp_err_updating, $this->lang->cp_already_member);
+				return $this->message($this->lang->cp_err_updating, $this->lang->cp_already_user);
 			}
 
 			$this->db->query("UPDATE users SET user_email='%s' WHERE user_id=%d",
