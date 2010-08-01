@@ -249,6 +249,9 @@ class upgrade extends pdnsadmin
 						break;
 
 					case '1.1.9': // 1.1.9 to 1.1.10
+						if( $templates_update !== true ) {
+							$templates_update[] = 'DOMAIN_RECORD_DELETE';
+						}
 						break;
 
 				}

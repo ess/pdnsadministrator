@@ -1351,7 +1351,7 @@
 {$this->table}
  <div class="title">
   <img src="./skins/{$this->skin}/images/icons/table_add.png" alt="" />
-  {$this->lang->domains_record_delete}: {$domain['name']}
+  {$this->lang->domains_record_delete}: {$rec['name']}
  </div>
  $confirm
  <p class="line"></p>

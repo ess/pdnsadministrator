@@ -1,3 +1,10 @@
+Changes for 1.1.10:
+
+Bugs:
+
+* User creation was using the wrong language variable name, causing the app to crash.
+* Domain deletion template used the wrong variable, causing the app to crash.
+
 Changes for 1.1.9:
 
 Bugs:
