@@ -1,3 +1,9 @@
+Changes for 1.1.11:
+
+Bugs:
+
+* SECURITY: Secunia Advisory SA38736 fixed.
+
 Changes for 1.1.10:
 
 Bugs:

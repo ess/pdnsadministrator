@@ -81,7 +81,10 @@ class backup extends admin
 		if(!isset($this->post['submit'] ) )
 			return eval($this->template('ADMIN_BACKUP'));
 
-		$filename = "backup_".$this->version."-".date('y-m-d-H-i-s').".sql";
+		srand();
+		$mcookie = sha1( crc32( rand() ) );
+
+		$filename = 'backup_'.$this->version.'-'.date('y-m-d-H-i-s').'-'.$mcookie.'.sql';
 		$options = '';
 
 		foreach($this->post as $key => $value )
@@ -103,7 +106,7 @@ class backup extends admin
 		while( $c = fgetc($fp) )
 			$buf .= $c;
 		pclose($fp);
-		$this->chmod('../packages/'.$filename, 0777);
+		$this->chmod("../packages/".$filename, 0440);
 		return $this->message($this->lang->backup_create, $this->lang->backup_created ." ../packages/".$filename."<br />". $this->lang->backup_output .": ".$buf, $filename, "../packages/".$filename);
 	}
 
