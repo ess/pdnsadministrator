@@ -261,6 +261,8 @@ class upgrade extends pdnsadmin
 					case '1.1.10': // 1.1.10 to 1.1.11
 						unset($this->sets['output_buffer'];
 
+						$queries[] ="ALTER TABLE users CHANGE user_name user_name varchar(255) NOT NULL default ''";
+
 						if( $templates_add !== true ) {
 							$templates_add[] = 'DOMAINS_CLONE'; 
 						}

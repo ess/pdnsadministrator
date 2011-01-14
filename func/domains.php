@@ -94,7 +94,7 @@ class domains extends pdnsadmin
 			return $this->message($this->lang->domains_record_delete, $this->lang->domains_record_required2);
 		}
 
-		$rec_id = $this->get['r'];
+		$rec_id = intval($this->get['r']);
 		$rec = $this->db->fetch( 'SELECT * FROM records WHERE id=%d', $rec_id );
 		if( $rec['domain_id'] != $id ) {
 			return $this->message($this->lang->domains_record_delete, $this->lang->domains_record_delete_wrong);
