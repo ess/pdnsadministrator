@@ -197,7 +197,6 @@ class new_install extends pdnsadmin
 			$this->sets['cookie_domain'] = '';
 			$this->sets['cookie_secure'] = 0;
 			$this->sets['logintime'] = 31536000;
-			$this->sets['output_buffer'] = (extension_loaded('zlib') ? 1 : 0);
 			$this->sets['default_skin'] = 'default';
 			$this->sets['default_lang'] = 'en';
 			$this->sets['default_group'] = 3;
