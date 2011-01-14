@@ -28,7 +28,7 @@
 
 === Requirements ===
 
- PDNS-Admin works with PHP 5.2.0 or higher. This is necessary due to the IPv6 support.
+ PDNS-Admin works with PHP 5.3.0 or higher. This is necessary due to the IPv6 support.
  MySQL 3.22 or higher is required. PDNS-Admin works on any operating
  system and web server combination.
 
