@@ -98,11 +98,8 @@ if ($mode) {
 
 include 'header.php';
 
-if (substr(PHP_VERSION, 0, 1) == '3') {
-	echo 'Your PHP version is ' . PHP_VERSION . '.<br />Currently only PHP4 and PHP5 are supported.';
-	$failed = true;
-} else if (version_compare(PHP_VERSION, '4.3.0') == -1) {
-	echo 'Your PHP version is ' . PHP_VERSION . '.<br />Currently only PHP 4.3.0 and higher are supported.';
+if( version_compare( PHP_VERSION, "5.2.0", "<" ) ) {
+	echo 'PHP 5.2.0 or higher is required to run PDNS-Admin. Your version, ' . PHP_VERSION . ' is not recent enough.';
 	$failed = true;
 }
 

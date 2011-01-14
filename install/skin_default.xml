@@ -97,9 +97,9 @@
 </div>
 
 <div id="footer">
- {$admin->lang->powered} <a href="http://pdnsadmin.iguanadons.net/"><b>{$admin->name}</b></a> [{$admin->version}] &copy; 2006-2011 Roger Libiez<br />
- {$admin->lang->based_on} <a href="http://code.google.com/p/quicksilverforums/" class="small"><b>Quicksilver Forums</b></a> v1.3.1 &copy; 2005-2011 The Quicksilver Forums Development Team<br />
- Ashlander 3 by Roger Libiez [<a href="http://www.iguanadons.net">Samson</a>]. {$admin->lang->based_on} Syridium HForum v3 skin &copy; 2006-2007 <a href="http://www.syridium.com/">Syridium SC</a><br />
+ {$admin->lang->powered} <a href="http://pdnsadmin.iguanadons.net/"><b>{$admin->name}</b></a> [{$admin->version}] &copy; 2006-2010 Roger Libiez<br />
+ {$admin->lang->based_on} <a href="http://www.quicksilverforums.com" class="small"><b>Quicksilver Forums</b></a> v1.3.1 &copy; 2005-2009 The Quicksilver Forums Development Team<br />
+ Ashlander 3 by Roger Libiez [<a href="http://www.iguanadons.net">Samson</a>]. {$admin->lang->based_on} Syridium HForum v3 skin &copy; 2006-2008 <a href="http://www.syridium.com/">Syridium SC</a><br />
  {$time_exec} seconds - {$admin->db->querycount} queries - {$server_load} load
 </div>
       ]]></html>
@@ -399,9 +399,11 @@
  </span>
  <input type="submit" name="submitTemps" value="{$this->lang->edit_templates}" style="float:right" />
  {$data['template_description']}
+
  <p class="line"></p>
 
  <textarea onchange="this.style.backgroundColor='#FCFCF8'; changed=true" name="code[{$data['template_name']}]" class="template_text" rows="18" cols="80" wrap="off">{$data['template_html']}</textarea>
+
  <p class="line"></p>
 
  <input type="submit" name="submitTemps" value="{$this->lang->edit_templates}" />
@@ -1143,6 +1145,7 @@
  <span class="half">
   <span>{$this->lang->domains_type}: {$domain['type']}</span>
   <p class="line"></p>
+
   <span class="field">{$this->lang->domains_type_change}:</span>
   <span class="form">
    <select class="select" name="type">
@@ -1258,7 +1261,7 @@
       <displayname>Domain Listing</displayname>
       <description>List of domains administered by the site.</description>
       <html><![CDATA[
- {$this->table}
+{$this->table}
   {$pages}
  {$this->etable}
 
@@ -1332,7 +1335,7 @@
 <form action="{$this->self}?a=domains&amp;s=deleterecord&amp;id={$id}&amp;r={$rec_id}" method="post">
 {$this->table}
  <div class="title">
-  <img src="./skins/{$this->skin}/images/icons/table_add.png" alt="" />
+  <img src="./skins/{$this->skin}/images/icons/table_delete.png" alt="" />
   {$this->lang->domains_record_delete}: {$rec['name']}
  </div>
  $confirm
@@ -1443,7 +1446,6 @@
   <link rel="stylesheet" type="text/css" href="./skins/{$pdns->skin}/print.css" media="print" />
   <script src="./javascript/utils.js" type="text/javascript"></script>
  </head>
-
  <body>
   <div id="container">
    <div><a id="top"></a></div>
@@ -1484,8 +1486,8 @@
       <displayname>Copyright</displayname>
       <description>Format the look of the copyright on the board.&lt;br&gt;&lt;br&gt;&lt;b&gt;Warning: Modification to anything other than the style of this copyright will result in a violation of your terms of service&lt;/b&gt;</description>
       <html><![CDATA[
-{$pdns->lang->powered} <a href="http://pdnsadmin.iguanadons.net/"><b>{$pdns->name}</b></a> &copy; 2006-2011 Roger Libiez<br />
- {$pdns->lang->based_on} <a href="http://code.google.com/p/quicksilverforums/">Quicksilver Forums</a> &copy; 2005-2011 The Quicksilver Forums Development Team<br />
+{$pdns->lang->powered} <a href="http://pdnsadmin.iguanadons.net/"><b>{$pdns->name}</b></a> &copy; 2006-2010 Roger Libiez<br />
+ {$pdns->lang->based_on} <a href="http://www.quicksilverforums.com">Quicksilver Forums</a> &copy; 2005-2009 The Quicksilver Forums Development Team<br />
  Ashlander 3 by Roger Libiez [<a href="http://www.iguanadons.net">Samson</a>]. {$pdns->lang->based_on} HForumv3.1 skin &copy; 2006-2008 <a href="http://www.syridium.com/">Syridium SC</a>
       ]]></html>
     </template>

@@ -366,7 +366,7 @@ class templates extends admin
 			fwrite($xmlFile, "  </files>\n");
 			fwrite($xmlFile, "  <templates>\n");
 			
-        	$query = $this->db->query("SELECT * FROM templates WHERE template_skin='%s'", $skin['skin_dir']);
+        	$query = $this->db->query("SELECT * FROM templates WHERE template_skin = '%s' ORDER BY template_name ASC", $skin['skin_dir']);
 	        while ($row = $this->db->nqfetch($query))
 			{
 				fwrite($xmlFile, "    <template><set>{$row['template_set']}</set><name>{$row['template_name']}</name>\n");
