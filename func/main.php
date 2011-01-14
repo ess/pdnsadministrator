@@ -67,7 +67,7 @@ class main extends pdnsadmin
 		if ($check)
 			$sql .= " WHERE d.name LIKE '%%$search%%'";
 
-		if ($this->user['user_group'] == USER_MEMBER) {
+		if (!$this->perms->auth('edit_domains')) {
 			if ($check)
 				$sql .= " AND z.owner=$id";
 			else

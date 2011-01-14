@@ -22,7 +22,7 @@
  * GNU General Public License for more details.
  *
  **/
- 
+
 define('PDNSADMIN', true);
 define('PDNS_PUBLIC', true);
 
