@@ -198,42 +198,12 @@ class domains extends pdnsadmin
 			}
 		}
 
-		// Doesn't matter what name someone puts in. 
-		if( $record == 'TXT' || $record == 'URL' ) {
-			$name = $domain['name'];
-		}
-
-		// LOC
-		if( $record == 'LOC' ) {
+		if( $record == 'TXT' || $record == 'URL' || $record == 'LOC' || $record == 'NAPTR' || $record == 'SPF' || $record == 'SRV' ) {
 			if( $name != '' )
 				$name = $name . '.' . $domain['name'];
 			else
 				$name = $domain['name'];
-		}
-
-		// NAPTR
-		if( $record == 'NAPTR' ) {
-			if( $name != '' )
-				$name = $name . '.' . $domain['name'];
-			else
-				$name = $domain['name'];
-		}
-
-		// SPF
-		if( $record == 'SPF' ) {
-			if( $name != '' )
-				$name = $name . '.' . $domain['name'];
-			else
-				$name = $domain['name'];
-		}
-
-		// SRV
-		if( $record == 'SRV' ) {
-			if( $name != '' )
-				$name = $name . '.' . $domain['name'];
-			else
-				$name = $domain['name'];
-		}
+		} 
 
 		// Don't let it point to the same thing as CNAME
 		if( $record == 'MX' ) {
