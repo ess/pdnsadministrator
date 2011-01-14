@@ -3,6 +3,12 @@ Changes for 1.1.11:
 Bugs:
 
 * SECURITY: Secunia Advisory SA38736 fixed.
+* Set zlib compression to work properly.
+
+Other:
+
+* Added maysara's suggested clone domains function.
+* Do not report error details to the browser screen.
 
 Changes for 1.1.10:
 
