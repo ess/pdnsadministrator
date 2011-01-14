@@ -46,7 +46,7 @@ class new_install extends pdnsadmin
 			$url = preg_replace('/install\/?$/i', '', $this->server_url() . dirname($_SERVER['PHP_SELF']));
 
 			echo "<form action='{$this->self}?mode=new_install&amp;step=2' method='post'>
-                              <table border='0' cellpadding='4' cellspacing='0'>\n";
+                              <table width='100%' cellpadding='4' cellspacing='0'>\n";
 
 			check_writeable_files();
 
@@ -54,76 +54,76 @@ class new_install extends pdnsadmin
         <td class='subheader' colspan='2'>New Database Configuration</td>
     </tr>
     <tr>
-        <td><b>Host Server</b></td>
         <td><input class='input' type='text' name='db_host' value='{$this->sets['db_host']}' /></td>
+        <td>Host Server</td>
     </tr>
     <tr>
-        <td><b>Database Name</b></td>
         <td><input class='input' type='text' name='db_name' value='{$this->sets['db_name']}' /></td>
+        <td>Database Name</td>
     </tr>
     <tr>
-        <td><b>Database Username</b><br /><span class='tiny'>Username used by PowerDNS to access the database.</span></td>
         <td><input class='input' type='text' name='db_user' value='{$this->sets['db_user']}' /></td>
+        <td>Database Username<br /><span class='tiny'>Username used by PowerDNS to access the database.</span></td>
     </tr>
     <tr>
-        <td><b>Database Password</b><br /><span class='tiny'>Password used by PowerDNS to access the database.</span></td>
         <td><input class='input' type='password' name='db_pass' value='' /></td>
+        <td>Database Password<br /><span class='tiny'>Password used by PowerDNS to access the database.</span></td>
     </tr>
     <tr>
-        <td><b>Database Port</b><br /><span class='tiny'>Blank for none</span></td>
         <td><input class='input' type='text' name='db_port' value='{$this->sets['db_port']}' /></td>
+        <td>Database Port<br /><span class='tiny'>Blank for none</span></td>
     </tr>
     <tr>
-        <td><b>Database Socket</b><br /><span class='tiny'>Blank for none</span></td>
         <td><input class='input' type='text' name='db_socket' value='{$this->sets['db_socket']}' /></td>
+        <td>Database Socket<br /><span class='tiny'>Blank for none</span></td>
     </tr>
     <tr>
         <td class='subheader' colspan='2'>New Site Settings</td>
     </tr>
     <tr>
         <td><input class='input' type='text' name='site_name' value='PDNS-Admin' size='50' /></td>
-        <td><b>Site Name</b></td>
+        <td>Site Name</td>
     </tr>
     <tr>
         <td><input class='input' type='text' name='site_url' value='{$url}' size='50' /></td>
-        <td><b>Site URL</b></td>
+        <td>Site URL</td>
     </tr>
     <tr>
         <td><input class='input' type='text' name='master_ip' value='' size='50' /></td>
-        <td><b>Master IP</b><br /><span class='tiny'>Used for SLAVE domains</span></td>
+        <td>Master IP<br /><span class='tiny'>Used for SLAVE domains</span></td>
     </tr>
     <tr>
         <td><input class='input' type='text' name='primary_ns' value='' size='50' /></td>
-        <td><b>Primary Nameserver</b></td>
+        <td>Primary Nameserver</td>
     </tr>
     <tr>
         <td><input class='input' type='text' name='secondary_ns' value='' size='50' /></td>
-        <td><b>Secondary Nameserver</b></td>
+        <td>Secondary Nameserver</td>
     </tr>
     <tr>
         <td class='subheader' colspan='2'>Administrator Account Settings</td>
     </tr>
     <tr>
         <td><input class='input' type='text' name='admin_name' /></td>
-        <td><b>User Name</b></td>
+        <td>User Name</td>
     </tr>
     <tr>
         <td><input class='input' type='password' name='admin_pass' /></td>
-        <td><b>Password</b></td>
+        <td>Password</td>
     </tr>
     <tr>
         <td><input class='input' type='password' name='admin_pass2' /></td>
-        <td><b>Password (confirmation)</b></td>
+        <td>Password (confirmation)</td>
     </tr>
     <tr>
         <td><input class='input' type='text' name='admin_email' /></td>
-        <td><b>Email</b></td>
+        <td>Email</td>
     </tr>
-	<tr>
-                         <td class='subheader' colspan='2' align='center'><input type='submit' value='Continue' /></td>
-                         </tr>
-                         </table>
-                         </form>";
+    <tr>
+        <td class='subheader' colspan='2' align='center'><input type='submit' value='Continue' /></td>
+    </tr>
+   </table>
+   </form>";
 			break;
 
 		case 2:
@@ -259,17 +259,13 @@ class new_install extends pdnsadmin
 			$this->sets['admin_incoming'] = $this->post['admin_email'];
 			$this->sets['admin_outgoing'] = $this->post['admin_email'];
 			$this->sets['servertime'] = 0;
+			$this->sets['app_version'] = $this->version;
 
 			$writeSetsWorked = $this->write_db_sets('../settings.php');
 			$this->write_sets();
 
-			if( version_compare( PHP_VERSION, '5.2.0', '<' ) ) {
-				setcookie($this->sets['cookie_prefix'] . 'user', $admin_uid, $this->time + $this->sets['logintime'], $this->sets['cookie_path'], $this->sets['cookie_domain'].'; HttpOnly', $this->sets['cookie_secure']);
-				setcookie($this->sets['cookie_prefix'] . 'pass', $this->post['admin_pass'], $this->time + $this->sets['logintime'], $this->sets['cookie_path'], $this->sets['cookie_domain'].'; HttpOnly', $this->sets['cookie_secure']);
-			} else {
-				setcookie($this->sets['cookie_prefix'] . 'user', $admin_uid, $this->time + $this->sets['logintime'], $this->sets['cookie_path'], $this->sets['cookie_domain'], $this->sets['cookie_secure'], true );
-				setcookie($this->sets['cookie_prefix'] . 'pass', $this->post['admin_pass'], $this->time + $this->sets['logintime'], $this->sets['cookie_path'], $this->sets['cookie_domain'], $this->sets['cookie_secure'], true );
-			}
+			setcookie($this->sets['cookie_prefix'] . 'user', $admin_uid, $this->time + $this->sets['logintime'], $this->sets['cookie_path'], $this->sets['cookie_domain'], $this->sets['cookie_secure'], true );
+			setcookie($this->sets['cookie_prefix'] . 'pass', $this->post['admin_pass'], $this->time + $this->sets['logintime'], $this->sets['cookie_path'], $this->sets['cookie_domain'], $this->sets['cookie_secure'], true );
 
 			if (!$writeSetsWorked) {
 				echo "Congratulations! The install completed successfully.<br />

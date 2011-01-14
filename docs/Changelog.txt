@@ -10,6 +10,7 @@ Other:
 * Added maysara's suggested clone domains function.
 * Do not report error details to the browser screen.
 * User name field expanded to 255 characters.
+* It is now possible for PDNS-Admin to also install the necessary PDNS domain tables.
 
 Changes for 1.1.10:
 

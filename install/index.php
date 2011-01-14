@@ -58,7 +58,7 @@ function check_writeable_files()
 
 	if( !$writeable ) {
 		echo "<tr><td colspan='2'>The following directories are missing or not writeable. Some functions will be impaired unless these are changed to 0777 permission.</td></tr>";
-                echo "<tr><td colspan='2'><span style='font-weight:bold; color:red'>" . $fixme . "</span></td></tr>";
+                echo "<tr><td colspan='2'><span style='color:red'>" . $fixme . "</span></td></tr>";
 	}
 }
 
@@ -77,7 +77,7 @@ $self   = isset($_SERVER['PHP_SELF']) ? $_SERVER['PHP_SELF'] : 'index.php';
 $failed = false;
 
 if (!isset($_GET['step'])) {
-	$step = 1;
+	$step = 0;
 } else {
 	$step = $_GET['step'];
 }
@@ -122,6 +122,9 @@ if ($failed) {
 	{
 		default:
 			include 'choose_install.php';
+			break;
+		case 'full_install':
+			$pdns->install_all($step);
 			break;
 		case 'new_install':
 			$pdns->install_console($step);

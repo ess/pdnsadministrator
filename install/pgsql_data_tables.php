@@ -110,7 +110,7 @@ $queries[] = "CREATE TABLE zones (
 
 $queries[] = "INSERT INTO groups (group_id, group_name, group_type, group_perms) VALUES (1, 'Administrators', 'ADMIN', 'a:6:{s:14:\"create_domains\";b:1;s:14:\"delete_domains\";b:1;s:11:\"do_anything\";b:1;s:12:\"edit_domains\";b:1;s:8:\"is_admin\";b:1;s:9:\"site_view\";b:1;}')";
 $queries[] = "INSERT INTO groups (group_id, group_name, group_type, group_perms) VALUES (2, 'Domain Administrators', 'DOM_ADMIN', 'a:6:{s:14:\"create_domains\";b:1;s:14:\"delete_domains\";b:1;s:11:\"do_anything\";b:1;s:12:\"edit_domains\";b:1;s:8:\"is_admin\";b:0;s:9:\"site_view\";b:1;}')";
-$queries[] = "INSERT INTO groups (group_id, group_name, group_type, group_perms) VALUES (3, 'Users', 'USER', 'a:6:{s:14:\"create_domains\";b:0;s:14:\"delete_domains\";b:0;s:11:\"do_anything\";b:1;s:12:\"edit_domains\";b:0;s:8:\"is_admin\";b:0;s:9:\"site_view\";b:1;}')";
+$queries[] = "INSERT INTO groups (group_id, group_name, group_type, group_perms) VALUES (3, 'Users', 'USER', 'a:6:{s:14:\"create_domains\";b:1;s:14:\"delete_domains\";b:0;s:11:\"do_anything\";b:1;s:12:\"edit_domains\";b:0;s:8:\"is_admin\";b:0;s:9:\"site_view\";b:1;}')";
 $queries[] = "INSERT INTO groups (group_id, group_name, group_type, group_perms) VALUES (4, 'Guests', 'GUEST', 'a:6:{s:14:\"create_domains\";b:0;s:14:\"delete_domains\";b:0;s:11:\"do_anything\";b:1;s:12:\"edit_domains\";b:0;s:8:\"is_admin\";b:0;s:9:\"site_view\";b:1;}')";
 
 $queries[] = "INSERT INTO settings (settings_id, settings_data) VALUES (1, '{$settings}')";

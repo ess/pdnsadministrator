@@ -40,14 +40,34 @@ class upgrade extends pdnsadmin
 		{
 			default:
 				echo "<form action='{$this->self}?mode=upgrade&amp;step=2' method='post'>
-				<table border='0' cellpadding='4' cellspacing='0'>\n";
+				<table cellpadding='4' cellspacing='0'>
+				 <tr><td class='subheader' colspan='2' align='center'><b>Upgrade PDNS-Admin</b></td></tr>";
 
-				check_writeable_files();
+				$db = new $this->modules['database']($this->sets['db_host'], $this->sets['db_user'], $this->sets['db_pass'], $this->sets['db_name'],
+					$this->sets['db_port'], $this->sets['db_socket']);
 
-				echo "<tr><td colspan='2' align='center'><b>To determine what version you are running, check the bottom of your AdminCP page. Or check the CHANGES file and look for the latest revision mentioned there.</b></td></tr>
-				<tr><td colspan='2' align='center'><b>Upgrade from what version?</b></td></tr>
+				if ( !$db->connection )
+				{
+					echo 'Couldn\'t select database: <br />' . mysql_error();
+					break;
+				}
+				$this->db = $db;
+				$this->sets = $this->get_settings($this->sets);
+
+				$v_message = 'To determine what version you are running, check the bottom of your AdminCP page. Or check the CHANGES file and look for the latest revision mentioned there.';
+				if( isset($this->sets['app_version']) )
+					$v_message = 'The upgrade script has determined you are currently using ' . $this->sets['app_version'];
+
+				echo "<tr><td colspan='2' align='center'><b>{$v_message}</b></td></tr>";
+
+				if( $this->sets['app_version'] == $this->version ) {
+					echo "<tr><td colspan='2'><b>The detected version of PDNS-Admin is the same as the version you are trying to upgrade to. The upgrade cannot be processed.</b></td></tr>";
+				} else {
+					check_writeable_files();
+
+					echo "	<tr><td class='subheader' colspan='2' align='center'><b>Upgrade from what version?</b></td></tr>
 				    <tr>
-				        <td><input type='radio' name='from' value='1.1.10' id='1110' checked='checked' />
+				        <td><input type='radio' name='from' value='1.1.10' id='1110' />
 					<label for='1110'>PDNS-Admin 1.1.10</label></td>
 				    </tr>
 				    <tr>
@@ -96,8 +116,9 @@ class upgrade extends pdnsadmin
 				    </tr>
 				    <tr>
 				        <td colspan='2' align='center'><br /><input type='submit' value='Continue' /></td>
-				    </tr>
-				  </table>
+				    </tr>";
+				}
+				echo "				  </table>
 				</form>\n";
 			break;
 
@@ -259,7 +280,7 @@ class upgrade extends pdnsadmin
 						break;
 
 					case '1.1.10': // 1.1.10 to 1.1.11
-						unset($this->sets['output_buffer'];
+						unset($this->sets['output_buffer']);
 
 						$queries[] ="ALTER TABLE users CHANGE user_name user_name varchar(255) NOT NULL default ''";
 
@@ -315,6 +336,7 @@ class upgrade extends pdnsadmin
 					$xmlInfo = null;
 				}
 
+				$this->sets['app_version'] = $this->version;
 				$this->write_sets();
 
 				echo "Upgrade complete. You can <a href=\"../index.php\">return to your site</a> now.<br />";

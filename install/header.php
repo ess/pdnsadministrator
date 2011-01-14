@@ -19,46 +19,43 @@ echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.1//EN\" \"http://www.w3.org/TR
 <meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1' />
 
 <style type='text/css'>
- <!--
-  body        {background-color:#FFFFFF; color:#000000; font-size:10px; font-family:Verdana, Arial, Helvetica, sans-serif; margin-left:0px; margin-right:0px; margin-top:0px; margin-bottom:0px; cursor:default;}
-  .normal, td {font-size:11px; font-family:Verdana, Arial, Helvetica, sans-serif; font-weight:normal;}
-  .input      {font-size:11px; background-color:#FFFFFF; color:#000000; font-family:Verdana, Arial, Helvetica, sans-serif; border:1px solid #555555; padding:1px;}
-  .select     {font-size:11px; background-color:#FFFFFF; color:#000000; font-family:Verdana, Arial, Helvetica, sans-serif;}
-  a           {background-color:transparent; color:#000000;}
-  a:hover     {background-color:transparent; color:#FF0000;}
-  .main       {font-size:17px; background-color:#EEEEEE; color:#000000; font-weight:bold;}
-  .subheader  {font-size:14px; background-color:#B9DAFC; color:#000000; font-weight:bold; border:1px solid #555555; padding:1px; text-align:center;}
-  .left       {font-size:10px; background-color:#DDDDDD; color:#000000; width:30%;}
-  .copyright  {font-size:10px; text-align:center; line-height:14px;}
-  .grey       {background-color:transparent; color:#888888;}
-  .tiny       {font-size:9px;}
-  .avil_yes   {color: green;font-weight:bold;}
-  .avil_no    {color: red;font-weight:bold;}
-  hr          {height:1px; border:0px; border-top:1px solid; border-color:#666666;}
+  body        {background:black url('./background3.png'); color:#c0c0c0; font: 12px Arial, sans-serif; margin-left:0px; margin-right:0px; margin-top:0px; margin-bottom:0px; cursor:default;}
+  .input      {font:13px Arial, sans-serif; background-color:#a8a8a8; color:black; border:1px solid #292929; padding:1px;}
+  .select     {font:13px Arial, sans-serif; background-color:#a8a8a8; color:black;}
+  a           {color:#c0c0c0;}
+  a:hover     {color:white;}
+  .main       {font:bold 16px Arial, sans-serif; background-color:#292929; color:#c0c0c0; padding-right:10px; border: 1px solid #3e3e3e; border-left: 3px double #3e3e3e;}
+  .subheader  {font:bold 16px Arial, sans-serif; background-color:#292929; color:#c0c0c0; border:1px solid #3e3e3e; padding:1px; text-align:center; width:90%;}
+  .left       {font:10px Arial; background-color:#161616; color:#c0c0c0; border: 1px solid #3e3e3e; width:25%;}
+  .right      {font:14px Arial, sans-serif; background-color:#161616; color:#c0c0c0; border: 1px solid #3e3e3e; width:75%;}
+  .copyright  {font:10px Arial; text-align:center; line-height:14px;}
+  .tiny       {font-size:10px;}
+  .avil_yes   {color:green; font-weight:bold;}
+  .avil_no    {color:red; font-weight:bold;}
+  hr          {height:1px; border:0px; border-top:1px solid; border-color:#c0c0c0;}
   img         {border:0px;}
   form        {margin:0px;}
- //-->
 </style>
 
 </head>
 <body>
 
-<table width='100%' border='0' cellspacing='0' cellpadding='0'>
+<table width='100%' cellspacing='0' cellpadding='0'>
  <tr>
   <td align='center'>
    <br /><br />
-   <table width='75%' style='background-color:#454545' cellpadding='0' cellspacing='0' border='0'>
+   <table width='85%' style='background-color:#161616' cellpadding='0' cellspacing='0'>
     <tr>
      <td align='left'>
-      <table width='100%' cellpadding='8' cellspacing='1' border='0'>
+      <table width='100%' cellpadding='8' cellspacing='1'>
        <tr>
         <td colspan='2' style='padding:0px'>
          <table width='100%' cellpadding='0' cellspacing='0' border='0'>
           <tr>
-           <td style='margin:0px; background-color:#5CA0E6; padding-left:10px;'>
+           <td class='main'>
             <h1>$pdns->name Installer</h1>
            </td>
-           <td class='main' align='right' style='background-color:#5CA0E6; padding-right:10px;'>
+           <td class='main' align='right'>
             $pdns->version
            </td>
           </tr>
@@ -74,5 +71,5 @@ echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.1//EN\" \"http://www.w3.org/TR
          <b>Server Software:</b> $server<hr />
          <b>MySQL Client:</b> $mysql_client
         </td>
-        <td class='main'>";
+        <td class='right'>";
 ?>
