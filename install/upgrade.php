@@ -259,6 +259,8 @@ class upgrade extends pdnsadmin
 						break;
 
 					case '1.1.10': // 1.1.10 to 1.1.11
+						unset($this->sets['output_buffer'];
+
 						if( $templates_add !== true ) {
 							$templates_add[] = 'DOMAINS_CLONE'; 
 						}
