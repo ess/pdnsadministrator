@@ -224,7 +224,10 @@ class domains extends pdnsadmin
 
 		// Don't let it point to the same thing as CNAME
 		if( $record == 'NS' ) {
-			$name = $domain['name'];
+			if( $name != '' )
+				$name = $name . '.' . $domain['name'];
+			else
+				$name = $domain['name'];
 
 			if( $content == $name ) {
 				return $this->message($this->lang->domains_record_edit, $this->lang->domains_invalid_ns2);
@@ -382,7 +385,10 @@ class domains extends pdnsadmin
 
 		// Don't let it point to the same thing as CNAME
 		if( $record == 'NS' ) {
-			$name = $domain['name'];
+			if( $name != '' )
+				$name = $name . '.' . $domain['name'];
+			else
+				$name = $domain['name'];
 
 			if( $content == $name ) {
 				return $this->message($this->lang->domains_record_add, $this->lang->domains_invalid_ns2);
