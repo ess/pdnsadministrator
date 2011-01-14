@@ -50,8 +50,6 @@ $db = new $modules['database']($set['db_host'], $set['db_user'], $set['db_pass']
 if (!$db->connection) {
     error(PDNSADMIN_ERROR, 'A connection to the database could not be established and/or the specified database could not be found.', __FILE__, __LINE__);
 }
-$settings = $db->fetch('SELECT settings_data FROM settings LIMIT 1');
-$set = array_merge($set, unserialize($settings['settings_data']));
 
 if (!isset($_GET['a']) || !in_array($_GET['a'], $modules['public_modules'])) {
 	$module = $modules['default_module'];
@@ -64,7 +62,7 @@ require './func/' . $module . '.php';
 $pdns = new $module($db);
 
 $pdns->get['a'] = $module;
-$pdns->sets     = $set;
+$pdns->sets     = $pdns->get_settings($set);
 $pdns->modules  = $modules;
 
 ob_start('ob_gzhandler');
