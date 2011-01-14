@@ -14,4 +14,5 @@ $set['db_socket'] = '';
 $set['db_user'] = 'pdns';
 $set['dbtype'] = 'mysql';
 $set['installed'] = '0';
+$set['admin_email'] = 'webmaster@localhost';
 ?>
