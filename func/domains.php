@@ -48,6 +48,9 @@ class domains extends pdnsadmin
 		case 'new_reverse':
 			return $this->new_reverse_domain();
 
+		case 'clone':
+			return $this->clone_domain();
+
 		case 'edit':
 			return $this->edit_domain();
 
@@ -754,6 +757,127 @@ class domains extends pdnsadmin
 
 		$this->log_action( 'new_domain', $dom_id );
 		return $this->message($this->lang->domains_new, $this->lang->domains_new_created, $this->lang->continue, "{$this->self}?a=domains&s=edit&id={$dom_id}");
+	}
+
+	function clone_domain()
+	{
+		$this->set_title($this->lang->domains_clone_create);
+
+		if (!$this->perms->auth('create_domains')) {
+			return $this->message($this->lang->domains_clone_create, $this->lang->domains_new_cant_create);
+		}
+
+		if (!isset($this->post['submit'])) {
+			$token = $this->generate_token();
+			$users = $this->htmlwidgets->select_users($this->user['user_id']);
+			$types = $this->htmlwidgets->select_domain_types('MASTER');
+			$domains = $this->htmlwidgets->select_domains('');
+
+			return eval($this->template('DOMAINS_CLONE'));
+		}
+
+		if( !$this->is_valid_token() ) {
+			return $this->message( $this->lang->domains_clone_create, $this->lang->invalid_token );
+		}
+
+		if (!isset($this->post['name']) || empty($this->post['name'])) {
+			return $this->message($this->lang->domains_clone_create, $this->lang->domains_required);
+		}
+
+		if (!isset($this->post['type']) || empty($this->post['type'])) {
+			return $this->message($this->lang->domains_clone_create, $this->lang->domains_type_required);
+		}
+
+		if (!isset($this->post['owner'])) {
+			return $this->message($this->lang->domains_clone_create, $this->lang->domains_user_invalid);
+		}
+
+		if (!isset($this->post['master_ip']) && $this->post['type'] == 'SLAVE') {
+			return $this->message($this->lang->domains_clone_create, $this->lang->domains_master_ip_required);
+		}
+
+		$dom_name = $this->post['name'];
+		$dom_owner = intval($this->post['owner']);
+		$dom_type = $this->post['type'];
+		$domain_to_clone = $this->post['domain_to_clone'];
+
+		if ($this->user['user_group'] == USER_MEMBER && $dom_owner != $this->user['user_id']) {
+			return $this->message($this->lang->domains_clone_create, $this->lang->domains_user_mismatch);
+		}
+
+		if (!$this->is_valid_domain($dom_name)) {
+			return $this->message($this->lang->domains_clone_create, $this->lang->domains_invalid);
+		}
+
+		// Only a SLAVE domain needs to worry about the master IP being valid.
+		if ($dom_type == 'SLAVE' && !$this->is_valid_ip($master_ip)) {
+			return $this->message($this->lang->domains_clone_create, $this->domains_invalid_master);
+		}
+
+		if (!$this->db->fetch('SELECT user_id FROM users WHERE user_id=%d LIMIT 1', $dom_owner)) {
+			return $this->message($this->lang->domains_clone_create, $this->lang->domains_user_not_exist);
+		}
+
+		if ($this->db->fetch("SELECT name FROM domains WHERE name='%s' LIMIT 1", $dom_name)) {
+			return $this->message($this->lang->domains_clone_create, $this->lang->domains_exists);
+		}
+
+		$dom_master = '';
+		if ($dom_type == 'SLAVE')
+			$dom_master = $master_ip;
+
+		$dom_mail = 'mail.' . $dom_name;
+		$dom_cname = 'www.' . $dom_name;
+
+		// Insert the domain into the primary domain table
+		$this->db->query("INSERT INTO domains (name, type, master, notified_serial) VALUES( '%s', '%s', '%s', 1 )",
+			$dom_name, $dom_type, $dom_master);
+		$dom_id = $this->db->insert_id('domains');
+
+		// Set the owner in the zones table
+		$this->db->query("INSERT INTO zones (domain_id, owner, comment) VALUES( %d, %d, '%s' )", $dom_id, $dom_owner, 'New Domain');
+
+		// Increment the user's domain count
+		$this->db->query( 'UPDATE users SET user_domains=user_domains+1 WHERE user_id=%d', $dom_owner );
+
+		// Only adds the SOA and A records if the domain is not a SLAVE. SLAVEs should be pulling this from their regular updates.
+		if ($dom_type != 'SLAVE') {
+			// Pull Records from template ..
+			$dom_records = $this->db->query('SELECT * FROM records WHERE domain_id=%d', $domain_to_clone);
+			$old_domain = $this->db->fetch('SELECT name FROM domains WHERE id=%d', $domain_to_clone);
+			$len = strlen( $old_domain['name'] );
+			$rlen = 0 - $len;
+
+			while( $record = $this->db->nqfetch($dom_records) )
+			{
+				$dname = $dom_name;
+				$content = $record['content'];
+
+				if( $record['type'] == 'CNAME' ) {
+					$dname = $dom_cname;
+					$content = $dom_name;
+				}
+
+				if( $record['type'] == 'MX' ) {
+					$content = $dom_mail;
+				}
+
+				if( $record['type'] == 'A' || $record['type'] == 'AAAA' ) {
+					if( $record['name'] != $old_domain['name'] ) {
+						$st = substr( $old_domain['name'], $rlen, $len );
+						$dname = str_replace( $st, '', $record['name'] );
+						$dname = $dname . $dom_name;
+					}
+				}
+
+				$this->db->query("INSERT INTO records (domain_id, name, type, content, ttl, prio, change_date)
+				VALUES( %d, '%s', '%s', '%s', %d, %d, %d )",
+				$dom_id, $dname, $record['type'], $content, $record['ttl'], $record['prio'], $this->time);
+			}	
+		}
+
+		$this->log_action( 'clone_domain', $dom_id );
+		return $this->message($this->lang->domains_clone_create, $this->lang->domains_new_created, $this->lang->continue, "{$this->self}?a=domains&s=edit&id={$dom_id}");
 	}
 
 	function change_domain_owner()

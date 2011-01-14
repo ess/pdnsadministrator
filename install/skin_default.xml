@@ -1124,6 +1124,51 @@
 </form>
       ]]></html>
     </template>
+    <template><set>Domains</set><name>DOMAINS_CLONE</name>
+      <displayname>Clone a Domain</displayname>
+      <description>Form to clone a domain.</description>
+      <html><![CDATA[
+<form action="{$this->self}?a=domains&amp;s=clone" method="post">
+{$this->table}
+ <div class="title">
+  <img src="./skins/{$this->skin}/images/icons/computer_add.png" alt="" />
+  {$this->lang->domains_clone_create}
+ </div>
+
+ <span class="field">{$this->lang->domains_new_name}</span>
+ <span class="form"><input name="name" type="text" /></span>
+ <p class="line"></p>
+
+ <span class="field">{$this->lang->domains_type}</span>
+ <span class="form">
+  <select class="select" name="type">
+   {$types}
+  </select>
+ </span>
+ <p class="line"></p>
+
+ <span class="field">{$this->lang->domains_owner}</span>
+ <span class="form">
+  <select class="select" name="owner">
+   {$users}
+  </select>
+ </span>
+ <p class="line"></p>
+
+ <span class="field">{$this->lang->domains_clone_domain_to_clone}</span>
+ <span class="form">
+  <select class="select" name="domain_to_clone" value="{$this->sets['domain_master_ip']}" >
+   {$domains}
+  </select>
+ </span>
+ <p class="line"></p>
+
+ <input type="hidden" name="token" value="$token" />
+ <input name="submit" type="submit" value="{$this->lang->submit}" />
+{$this->etable}
+</form>
+      ]]></html>
+    </template>
     <template><set>Domains</set><name>DOMAINS_DELETE</name>
       <displayname>Delete Domain</displayname>
       <description>Confirmation form for domain deletion.</description>
@@ -1502,8 +1547,8 @@
       <displayname>Copyright</displayname>
       <description>Format the look of the copyright on the board.&lt;br&gt;&lt;br&gt;&lt;b&gt;Warning: Modification to anything other than the style of this copyright will result in a violation of your terms of service&lt;/b&gt;</description>
       <html><![CDATA[
-{$pdns->lang->powered} <a href="http://pdnsadmin.iguanadons.net/"><b>{$pdns->name}</b></a> &copy; 2006-2010 Roger Libiez<br />
- {$pdns->lang->based_on} <a href="http://www.quicksilverforums.com">Quicksilver Forums</a> &copy; 2005-2008 The Quicksilver Forums Development Team<br />
+{$pdns->lang->powered} <a href="http://pdnsadmin.iguanadons.net/"><b>{$pdns->name}</b></a> &copy; 2006-2011 Roger Libiez<br />
+ {$pdns->lang->based_on} <a href="http://code.google.com/p/quicksilverforums/">Quicksilver Forums</a> &copy; 2005-2011 The Quicksilver Forums Development Team<br />
  Ashlander 3 by Roger Libiez [<a href="http://www.iguanadons.net">Samson</a>]. {$pdns->lang->based_on} HForumv3.1 skin &copy; 2006-2008 <a href="http://www.syridium.com/">Syridium SC</a>
       ]]></html>
     </template>
@@ -1536,6 +1581,7 @@
  <IF $pdns->perms->auth('create_domains')>
   <span><a href="{$pdns->self}?a=domains&amp;s=new">{$pdns->lang->main_create_forward}</a></span>
   <span><a href="{$pdns->self}?a=domains&amp;s=new_reverse">{$pdns->lang->main_create_reverse}</a></span>
+  <span><a href="{$pdns->self}?a=domains&amp;s=clone">{$pdns->lang->main_clone_forward}</a></span>
  </IF>
  <span><a href="{$pdns->self}?a=cp">{$pdns->lang->main_cp}</a></span>
  <IF $pdns->perms->auth('is_admin')>

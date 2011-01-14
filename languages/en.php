@@ -1,11 +1,11 @@
 ﻿<?php
 /**
  * PDNS-Admin
- * Copyright (c) 2006-2010 Roger Libiez http://www.iguanadons.net
+ * Copyright (c) 2006-2011 Roger Libiez http://www.iguanadons.net
  *
  * Based on Quicksilver Forums
- * Copyright (c) 2005 The Quicksilver Forums Development Team
- *  http://www.quicksilverforums.com/
+ * Copyright (c) 2005-2011 The Quicksilver Forums Development Team
+ *  http://code.google.com/p/quicksilverforums/
  * 
  * Based on MercuryBoard
  * Copyright (c) 2001-2005 The Mercury Development Team
@@ -143,6 +143,8 @@ class en
 	{
 		$this->domains = 'Domains';
 		$this->domains_add_default_ns = 'Add default NS records';
+		$this->domains_clone_create = 'Create New Domain Clone';
+		$this->domains_clone_domain_to_clone = 'Domain to clone';
 		$this->domains_delete = 'Delete Domain';
 		$this->domains_delete_confirm = 'Are you sure you want to PERMANENTLY DELETE the domain';
 		$this->domains_delete_not_permitted = 'You are not permitted to delete domains you do not own.';
@@ -265,6 +267,7 @@ class en
 		$this->logs_action = 'Action';
 		$this->logs_change_owner = 'Change domain owner';
 		$this->logs_change_type = 'Change domain type';
+		$this->logs_clone_domain = 'Cloned a domain';
 		$this->logs_delete_a_record = 'Delete A record';
 		$this->logs_delete_cname_record = 'Delete CNAME record';
 		$this->logs_delete_domain = 'Delete domain';
@@ -311,7 +314,8 @@ class en
 	function main()
 	{
 		$this->main_admincp = 'Admin CP';
-		$this->main_banned = 'You have been banned from viewing any portion of this board.';
+		$this->main_banned = 'You have been banned from viewing any portion of this console.';
+		$this->main_clone_forward = 'Clone Domain';
 		$this->main_code = 'Code';
 		$this->main_cp = 'User CP';
 		$this->main_create_forward = 'Create New Domain';
@@ -604,7 +608,7 @@ class en
 		$this->gmt_pos8 = '[GMT+8:00] Beijing, Hong Kong, Singapore';
 		$this->gmt_pos9 = '[GMT+9:00] Tokyo, Seoul';
 		$this->gmt_pos95 = '[GMT+9:30] Adelaide, Darwin';
-		$this->invalid_token = 'Invalid or expired security token. Please go back and try again.';
+		$this->invalid_token = 'The security validation token used to verify you are authorized to perform this action is either invalid or expired. Please try again.';
 		$this->master = 'Master';
 		$this->name = 'Name';
 		$this->no = 'No';

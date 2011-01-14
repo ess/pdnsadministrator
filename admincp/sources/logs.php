@@ -64,6 +64,12 @@ class logs extends admin
 				$id = $dom_name['name'];
 				break;
 
+			case 'clone_domain':
+				$dom_name = $this->db->fetch( 'SELECT name FROM domains WHERE id=%d', $log['log_data1'] );
+				$action = $this->lang->logs_clone_domain;
+				$id = $dom_name['name'];
+				break;
+
 			case 'new_domain':
 				$dom_name = $this->db->fetch( 'SELECT name FROM domains WHERE id=%d', $log['log_data1'] );
 				$action = $this->lang->logs_new_domain;

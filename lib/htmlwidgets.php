@@ -170,6 +170,23 @@ class htmlwidgets extends tool
 		return "<span class=\"pagelinks\">$startlink $previouslink $badd $string $eadd $nextlink $endlink</span>";
 	}
 
+	/**
+	 * Create options of domains
+	**/
+	function select_domains($val)
+	{
+		$domains = $this->db->query('SELECT name, id FROM domains ORDER BY name');
+
+		$out = "<option value=\"\" selected=\"selected\"> ---- </option>";
+
+		while ($domain = $this->db->nqfetch($domains))
+		{
+			$out .= "<option value=\"{$domain['id']}\"" . (($val == $domain['name']) ? ' selected="selected"' : '') . ">{$domain['name']}</option>";
+		}
+
+		return $out;
+	}
+
 	function select_domain_types($type)
 	{
 		$dom_types = array( 'MASTER', 'SLAVE', 'NATIVE' );
