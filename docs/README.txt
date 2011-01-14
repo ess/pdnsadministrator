@@ -28,7 +28,7 @@
 
 === Requirements ===
 
- PDNS-Admin works with PHP 5.1.0 or higher. This is necessary due to the IPv6 support.
+ PDNS-Admin works with PHP 5.2.0 or higher. This is necessary due to the IPv6 support.
  MySQL 3.22 or higher is required. PDNS-Admin works on any operating
  system and web server combination.
 
@@ -46,13 +46,13 @@
 === How You Can Help ===
 
  If you know PHP and MySQL, and would like to help develop PDNS-Admin,
- please get in touch with Roger Libiez through the contact page at
- http://www.iguanadons.net
+ please get in touch with Roger Libiez at the Google Code project page:
+ https://code.google.com/p/pdnsadministrator/
 
  Feel free to send in feature requests, bugfixes, suggestions, or whatever.
 
 === Support ===
 
  If you're sure you've read the above information, and it simply will not work,
- please get in touch with Roger Libiez through the contact page at
- http://www.iguanadons.net
+ please get in touch with the PDNS-Admin support community at:
+ http://pdnsadmin.iguanadons.net/
