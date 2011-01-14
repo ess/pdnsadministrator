@@ -144,12 +144,10 @@
 
  <span class="field">{$this->lang->settings_site_name}</span>
  <span class="form"><input type="text" name="site_name" value="{$this->sets['site_name']}" size="40" /></span>
-
  <p class="line"></p>
 
  <span class="field">{$this->lang->settings_site_location}</span>
  <span class="form"><input type="text" name="site_url" value="{$this->sets['site_url']}" size="40" /></span>
-
  <p class="line"></p>
 
  <span class="field">{$this->lang->settings_debug_mode}</span>
@@ -157,8 +155,8 @@
   <input type="radio" name="debug_mode" value="0" <IF !$this->sets['debug_mode']>checked="checked"</IF> id="debug2" /><label for="debug2">{$this->lang->settings_disabled}</label><br />
   <input type="radio" name="debug_mode" value="1" <IF $this->sets['debug_mode']>checked="checked"</IF> id="debug1" /><label for="debug1">{$this->lang->settings_enabled}</label>
  </span>
-
  <p class="line"></p>
+
  <input type="submit" value="{$this->lang->submit}" />
 {$this->etable}
 
@@ -167,78 +165,64 @@
 
  <span class="field">{$this->lang->settings_domain_ns1}</span>
  <span class="form"><input type="text" name="primary_nameserver" value="{$this->sets['primary_nameserver']}" size="40" /></span>
-
  <p class="line"></p>
 
  <span class="field">{$this->lang->settings_domain_ns2}</span>
  <span class="form"><input type="text" name="secondary_nameserver" value="{$this->sets['secondary_nameserver']}" size="40" /></span>
-
  <p class="line"></p>
 
  <span class="field">{$this->lang->settings_domain_ns3}</span>
  <span class="form"><input type="text" name="tertiary_nameserver" value="{$this->sets['tertiary_nameserver']}" size="40" /></span>
-
  <p class="line"></p>
 
  <span class="field">{$this->lang->settings_domain_ns4}</span>
  <span class="form"><input type="text" name="quaternary_nameserver" value="{$this->sets['quaternary_nameserver']}" size="40" /></span>
-
  <p class="line"></p>
 
  <span class="field">{$this->lang->settings_domain_ns5}</span>
  <span class="form"><input type="text" name="quinary_nameserver" value="{$this->sets['quinary_nameserver']}" size="40" /></span>
-
  <p class="line"></p>
 
  <span class="field">{$this->lang->settings_domain_ns6}</span>
  <span class="form"><input type="text" name="senary_nameserver" value="{$this->sets['senary_nameserver']}" size="40" /></span>
-
  <p class="line"></p>
 
  <span class="field">{$this->lang->settings_domain_ns7}</span>
  <span class="form"><input type="text" name="septenary_nameserver" value="{$this->sets['septenary_nameserver']}" size="40" /></span>
-
  <p class="line"></p>
 
  <span class="field">{$this->lang->settings_domain_ns8}</span>
  <span class="form"><input type="text" name="octonary_nameserver" value="{$this->sets['octonary_nameserver']}" size="40" /></span>
-
  <p class="line"></p>
 
  <span class="field">{$this->lang->settings_domain_master}</span>
  <span class="form"><input type="text" name="domain_master_ip" value="{$this->sets['domain_master_ip']}" size="40" /></span>
-
  <p class="line"></p>
 
  <span class="field">{$this->lang->settings_domain_ttl}</span>
  <span class="form"><input type="text" name="default_ttl" value="{$this->sets['default_ttl']}" size="40" /></span>
-
  <p class="line"></p>
 
  <span class="field">{$this->lang->settings_domain_soa_refresh}</span>
  <span class="form"><input type="text" name="soa_refresh" value="{$this->sets['soa_refresh']}" size="40" /></span>
-
  <p class="line"></p>
 
  <span class="field">{$this->lang->settings_domain_soa_retry}</span>
  <span class="form"><input type="text" name="soa_retry" value="{$this->sets['soa_retry']}" size="40" /></span>
-
  <p class="line"></p>
 
  <span class="field">{$this->lang->settings_domain_soa_expire}</span>
  <span class="form"><input type="text" name="soa_expire" value="{$this->sets['soa_expire']}" size="40" /></span>
-
  <p class="line"></p>
 
  <span class="field">{$this->lang->settings_domains_per_page}</span>
  <span class="form"><input type="text" name="domains_per_page" value="{$this->sets['domains_per_page']}" size="40" /></span>
-
  <p class="line"></p>
 
  <span class="field">{$this->lang->settings_records_per_page}</span>
  <span class="form"><input type="text" name="records_per_page" value="{$this->sets['records_per_page']}" size="40" /></span>
-
  <p class="line"></p>
+
  <input type="submit" value="{$this->lang->submit}" />
 {$this->etable}
 
@@ -247,39 +231,33 @@
 
  <span class="field">{$this->lang->settings_default_skin}</span>
  <span class="form"><select name="default_skin">{$selectSkins}</select></span>
-
  <p class="line"></p>
 
  <span class="field">{$this->lang->settings_default_lang}</span>
  <span class="form"><select name="default_lang">{$defaultlang}</select></span>
-
  <p class="line"></p>
+
  <input type="submit" value="{$this->lang->submit}" />
 {$this->etable}
 
 {$this->table}
  <div class="title">{$this->lang->settings_cookie}</div>
-
  <p class="line"></p>
 
  <span class="field">{$this->lang->settings_cookie_time}<br /><span class="tiny">{$this->lang->seconds}</span></span>
  <span class="form"><input type="text" name="logintime" value="{$this->sets['logintime']}" size="40" /></span>
-
  <p class="line"></p>
 
  <span class="field">{$this->lang->settings_cookie_prefix}</span>
  <span class="form"><input type="text" name="cookie_prefix" value="{$this->sets['cookie_prefix']}" size="40" /></span>
-
  <p class="line"></p>
 
  <span class="field">{$this->lang->settings_cookie_path}</span>
  <span class="form"><input type="text" name="cookie_path" value="{$this->sets['cookie_path']}" size="40" /></span>
-
  <p class="line"></p>
 
  <span class="field">{$this->lang->settings_cookie_domain}</span>
  <span class="form"><input type="text" name="cookie_domain" value="{$this->sets['cookie_domain']}" size="40" /></span>
-
  <p class="line"></p>
 
  <span class="field">{$this->lang->settings_cookie_secure}<br /><span class="tiny">{$this->lang->settings_cookie_secured}</span></span>
@@ -287,7 +265,6 @@
   <input type="radio" name="cookie_secure" value="1" <IF $this->sets['cookie_secure']>checked="checked"</IF> id="cookie_secure1" /><label for="cookie_secure1">{$this->lang->yes}</label><br />
   <input type="radio" name="cookie_secure" value="0" <IF !$this->sets['cookie_secure']>checked="checked"</IF> id="cookie_secure2" /><label for="cookie_secure2">{$this->lang->no}</label>
  </span>
-
  <p class="line"></p>
 
  <span class="field">{$this->lang->settings_timezone}</span>
@@ -296,8 +273,8 @@
    {$timezones}
   </select>
  </span>
-
  <p class="line"></p>
+
  <input type="submit" value="{$this->lang->submit}" />
 {$this->etable}
 
@@ -306,26 +283,16 @@
 
  <span class="field">{$this->lang->settings_email_reply}<br /><span class="tiny">{$this->lang->settings_email_real}</span></span>
  <span class="form"><input type="text" name="admin_incoming" value="{$this->sets['admin_incoming']}" size="40" /></span>
-
  <p class="line"></p>
 
  <span class="field">{$this->lang->settings_email_smtp}</span>
  <span class="form"><input type="text" name="mailserver" value="{$this->sets['mailserver']}" size="40" /></span>
-
  <p class="line"></p>
 
  <span class="field">{$this->lang->settings_email_from}<br /><span class="tiny">{$this->lang->settings_email_fake}</span></span>
  <span class="form"><input type="text" name="admin_outgoing" value="{$this->sets['admin_outgoing']}" size="40" /></span>
-
  <p class="line"></p>
 
- <span class="field">{$this->lang->settings_server_gzip}<br /><span class="tiny">{$this->lang->settings_server_gzip_msg}</span></span>
- <span class="form">
-  <input type="radio" name="output_buffer" value="1" <IF $this->sets['output_buffer']>checked="checked"</IF> id="output_buffer1" /><label for="output_buffer1">{$this->lang->settings_enabled}</label><br />
-  <input type="radio" name="output_buffer" value="0" <IF !$this->sets['output_buffer']>checked="checked"</IF> id="output_buffer2" /><label for="output_buffer2">{$this->lang->settings_disabled}</label>
- </span>
-
- <p class="line"></p>
  <input type="submit" value="{$this->lang->submit}" />
 {$this->etable}
 </form>

@@ -37,7 +37,7 @@ if (!$set['installed']) {
 	header('Location: ../install/index.php');
 }
 
-ob_start();
+ob_start('ob_gzhandler');
 session_start();
 
 set_error_handler('error');
@@ -89,4 +89,6 @@ if (!$admin->nohtml) {
 } else {
 	echo $output;
 }
+@ob_end_flush();
+@flush();
 ?>

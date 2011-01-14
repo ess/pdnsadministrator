@@ -67,18 +67,7 @@ $pdns->get['a'] = $module;
 $pdns->sets     = $set;
 $pdns->modules  = $modules;
 
-// If zlib isn't available, then trying to use it doesn't make much sense.
-if (extension_loaded('zlib')) {
-	if ($pdns->sets['output_buffer'] && isset($pdns->server['HTTP_ACCEPT_ENCODING']) && stristr($pdns->server['HTTP_ACCEPT_ENCODING'], 'gzip')) {
-		if( !@ob_start('ob_gzhandler') ) {
-			ob_start();
-		}
-	} else {
-		ob_start();
-	}
-} else {
-	ob_start();
-}
+ob_start('ob_gzhandler');
 
 header( 'P3P: CP="CAO PSA OUR"' );
 session_start();

@@ -133,7 +133,6 @@ class settings extends admin
 				'cookie_path' => 'string',
 				'cookie_domain' => 'string',
 				'cookie_secure' => 'bool',
-				'output_buffer' => 'bool',
 				'domain_master_ip' => 'string',
 				'default_ttl' => 'int',
 				'soa_refresh' => 'int',

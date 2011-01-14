@@ -263,7 +263,8 @@ class upgrade extends pdnsadmin
 							$templates_add[] = 'DOMAINS_CLONE'; 
 						}
 						if( $templates_update !== true ) {
-							$templates_update[] = 'MAIN_HEADER_MEMBER'; 
+							$templates_update[] = 'MAIN_HEADER_MEMBER';
+							$templates_update[] = 'ADMIN_EDIT_BOARD_SETTINGS';
 						}
 						break;
 				}

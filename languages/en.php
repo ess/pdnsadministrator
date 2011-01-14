@@ -450,8 +450,6 @@ class en
 		$this->settings_one_per = 'One per line';
 		$this->settings_records_per_page = 'Number of records to display per page';
 		$this->settings_server = 'Server Settings';
-		$this->settings_server_gzip = 'GZIP Compression';
-		$this->settings_server_gzip_msg = 'Improves speed. Disable if the board appears jumbled or blank.';
 		$this->settings_server_maxload = 'Maximum Server Load';
 		$this->settings_server_maxload_msg = 'Disables site under excessive server strain. Enter 0 to disable.';
 		$this->settings_site_location = 'Site URL';
