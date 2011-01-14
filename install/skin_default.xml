@@ -5,36 +5,6 @@
   <version>v1.1.11</version>
   <description></description>
   <authorname>Skin Exporter</authorname>
-  <files>
-    <file>packages/skin_default-v1.1.9.xml</file>
-    <file>skins/default/images/Logo.gif</file>
-    <file>skins/default/images/background3.gif</file>
-    <file>skins/default/images/icons/new_record.png</file>
-    <file>skins/default/images/icons/phone.png</file>
-    <file>skins/default/images/icons/vcard_edit.png</file>
-    <file>skins/default/images/icons/members.png</file>
-    <file>skins/default/images/icons/table_add.png</file>
-    <file>skins/default/images/icons/user_online.png</file>
-    <file>skins/default/images/icons/key.png</file>
-    <file>skins/default/images/icons/login.png</file>
-    <file>skins/default/images/icons/table_multiple.png</file>
-    <file>skins/default/images/icons/layout_content.png</file>
-    <file>skins/default/images/icons/database_gear.png</file>
-    <file>skins/default/images/icons/delete_domain.png</file>
-    <file>skins/default/images/icons/edit.png</file>
-    <file>skins/default/images/icons/delete.png</file>
-    <file>skins/default/images/icons/computer.png</file>
-    <file>skins/default/images/icons/wrench.png</file>
-    <file>skins/default/images/icons/world_link.png</file>
-    <file>skins/default/images/icons/computer_add.png</file>
-    <file>skins/default/images/icons/table_edit.png</file>
-    <file>skins/default/images/icons/control_panel.png</file>
-    <file>skins/default/images/index.php</file>
-    <file>skins/default/styles.css</file>
-    <file>skins/default/print.css</file>
-    <file>skins/default/index.php</file>
-    <file>skins/default/acp.css</file>
-  </files>
   <templates>
     <template><set>templates</set><name>ADMIN_ADD_TEMPLATE</name>
       <displayname>Add New Template</displayname>
@@ -127,8 +97,8 @@
 </div>
 
 <div id="footer">
- {$admin->lang->powered} <a href="http://pdnsadmin.iguanadons.net/"><b>{$admin->name}</b></a> [{$admin->version}] &copy; 2006-2010 Roger Libiez<br />
- {$admin->lang->based_on} <a href="http://www.quicksilverforums.com" class="small"><b>Quicksilver Forums</b></a> v1.3.1 &copy; 2005-2008 The Quicksilver Forums Development Team<br />
+ {$admin->lang->powered} <a href="http://pdnsadmin.iguanadons.net/"><b>{$admin->name}</b></a> [{$admin->version}] &copy; 2006-2011 Roger Libiez<br />
+ {$admin->lang->based_on} <a href="http://code.google.com/p/quicksilverforums/" class="small"><b>Quicksilver Forums</b></a> v1.3.1 &copy; 2005-2011 The Quicksilver Forums Development Team<br />
  Ashlander 3 by Roger Libiez [<a href="http://www.iguanadons.net">Samson</a>]. {$admin->lang->based_on} Syridium HForum v3 skin &copy; 2006-2007 <a href="http://www.syridium.com/">Syridium SC</a><br />
  {$time_exec} seconds - {$admin->db->querycount} queries - {$server_load} load
 </div>

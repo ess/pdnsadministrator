@@ -1,7 +1,7 @@
 <?php
 /**
  * PDNS-Admin
- * Copyright (c) 2006-2010 Roger Libiez http://www.iguanadons.net
+ * Copyright (c) 2006-2011 Roger Libiez http://www.iguanadons.net
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License

@@ -1,11 +1,11 @@
 <?php
 /**
  * PDNS-Admin
- * Copyright (c) 2006-2010 Roger Libiez http://www.iguanadons.net
+ * Copyright (c) 2006-2011 Roger Libiez http://www.iguanadons.net
  *
  * Based on Quicksilver Forums
- * Copyright (c) 2005 The Quicksilver Forums Development Team
- *  http://www.quicksilverforums.com/
+ * Copyright (c) 2005-2011 The Quicksilver Forums Development Team
+ *  http://code.google.com/p/quicksilverforums/
  * 
  * Based on MercuryBoard
  * Copyright (c) 2001-2005 The Mercury Development Team
