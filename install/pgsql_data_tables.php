@@ -23,7 +23,7 @@
  *
  **/
 
-if (!defined('INSTALLER')) {
+if (!defined('PDNS_INSTALLER')) {
 	exit('Use index.php to install.');
 }
 
@@ -113,6 +113,8 @@ $queries[] = "INSERT INTO groups (group_id, group_name, group_type, group_perms)
 $queries[] = "INSERT INTO groups (group_id, group_name, group_type, group_perms) VALUES (3, 'Users', 'USER', 'a:6:{s:14:\"create_domains\";b:1;s:14:\"delete_domains\";b:0;s:11:\"do_anything\";b:1;s:12:\"edit_domains\";b:0;s:8:\"is_admin\";b:0;s:9:\"site_view\";b:1;}')";
 $queries[] = "INSERT INTO groups (group_id, group_name, group_type, group_perms) VALUES (4, 'Guests', 'GUEST', 'a:6:{s:14:\"create_domains\";b:0;s:14:\"delete_domains\";b:0;s:11:\"do_anything\";b:1;s:12:\"edit_domains\";b:0;s:8:\"is_admin\";b:0;s:9:\"site_view\";b:1;}')";
 
+$sets = array();
+$settings = serialize($sets);
 $queries[] = "INSERT INTO settings (settings_id, settings_data) VALUES (1, '{$settings}')";
 $queries[] = "INSERT INTO skins (skin_name, skin_dir) VALUES ('Ashlander', 'default')";
 $queries[] = "INSERT INTO users (user_id, user_name, user_group) VALUES (1, 'Guest', 4)";

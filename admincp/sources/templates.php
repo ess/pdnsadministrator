@@ -28,9 +28,6 @@ if (!defined('PDNSADMIN') || !defined('PDNS_ADMIN')) {
 	die;
 }
 
-require_once $set['include_path'] . '/admincp/admin.php';
-require_once $set['include_path'] . '/lib/tar.php';
-require_once $set['include_path'] . '/lib/xmlparser.php';
 require_once $set['include_path'] . '/lib/packageutil.php';
 
 class templates extends admin
@@ -334,21 +331,25 @@ class templates extends admin
 				return $this->message( $this->lang->export_skin, $this->lang->invalid_token );
 			}
 
+			if(!is_writeable('../packages')) {
+				return $this->message( $this->lang->export_skin, $this->lang->export_writeable );
+			}
+
 			// Dump the skin data into an XML file
 			$skin = $this->db->fetch("SELECT * FROM skins WHERE skin_dir='%s'", $this->post['skin']);
-			
+
 			$fullSkinName = $skin['skin_dir'] . "-" . $this->version;
-			
+
 			if (file_exists("../packages/skin_$fullSkinName.xml")) {
 				unlink("../packages/skin_$fullSkinName.xml");
 			}
 
 			$xmlFile = fopen("../packages/skin_$fullSkinName.xml", 'w');
-			
+
 			if ($xmlFile === false) {
 				return $this->message($this->lang->export_skin, "Error: Could not open file packages/skin_$fullSkinName.xml for writing");
 			}
-			
+
 			fwrite($xmlFile, "<?xml version='1.0' encoding='utf-8'?>\n");
 			fwrite($xmlFile, "<qsfmod>\n");
 			fwrite($xmlFile, "  <title>Skin: " . htmlspecialchars($skin['skin_name']) . "</title>\n");
@@ -761,7 +762,12 @@ class templates extends admin
 				}
 				if ($var == 'MAIN_COPYRIGHT' ) {
 					if (stristr($val, 'Quicksilver Forums') === false ||
-						stristr($val, 'http://www.quicksilverforums.com') === false)
+						stristr($val, 'http://code.google.com/p/quicksilverforums/') === false)
+					{
+						$evil = 1;
+						continue;
+					}
+					if (stristr($val, 'http://pdnsadmin.iguanadons.net/') === false)
 					{
 						$evil = 1;
 						continue;
@@ -769,7 +775,12 @@ class templates extends admin
 				}
 				if ($var == 'ADMIN_COPYRIGHT' ) {
 					if (stristr($val, 'Quicksilver Forums') === false ||
-						stristr($val, 'http://www.quicksilverforums.com') === false)
+						stristr($val, 'http://code.google.com/p/quicksilverforums/') === false)
+					{
+						$evil = 1;
+						continue;
+					}
+					if (stristr($val, 'http://pdnsadmin.iguanadons.net/') === false)
 					{
 						$evil = 1;
 						continue;

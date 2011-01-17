@@ -7,10 +7,6 @@
  * Copyright (c) 2005-2011 The Quicksilver Forums Development Team
  *  http://code.google.com/p/quicksilverforums/
  * 
- * Based on MercuryBoard
- * Copyright (c) 2001-2005 The Mercury Development Team
- *  http://www.mercuryboard.com/
- *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; either version 2
@@ -84,7 +80,7 @@ class db_mysql extends database
 	{
 		$data = array();
 		if (substr(trim(strtoupper($query)), 0, 6) == 'SELECT') {
-			$result = mysql_query("EXPLAIN $query", $this->connection) or error(PDNSADMIN_QUERY_ERROR, mysql_error($this->connection), $query, mysql_errno($this->connection));
+			$result = mysql_query("EXPLAIN $query", $this->connection) or error(QUICKSILVER_QUERY_ERROR, mysql_error($this->connection), $query, mysql_errno($this->connection));
 			$data = mysql_fetch_array($result, MYSQL_ASSOC);
 		}
 		return $data;
@@ -128,7 +124,8 @@ class db_mysql extends database
 		if (isset($this->get['debug'])) {
 			$this->debug($query);
 		}
-		$result = mysql_query($query, $this->connection) or error(PDNSADMIN_QUERY_ERROR, mysql_error($this->connection), $query, mysql_errno($this->connection));
+
+		$result = mysql_query($query, $this->connection) or error(QUICKSILVER_QUERY_ERROR, mysql_error($this->connection), $query, mysql_errno($this->connection));
 		return $result;
 	}
 
@@ -143,6 +140,11 @@ class db_mysql extends database
 	function nqfetch($query)
 	{
 		return mysql_fetch_array($query, MYSQL_ASSOC);
+	}
+
+	function nqfetch_row($query)
+	{
+		return mysql_fetch_row($query);
 	}
 
 	/**
@@ -194,11 +196,6 @@ class db_mysql extends database
 	function error_last()
 	{
 		return mysql_error($this->connection);
-	}
-
-	function version()
-	{
-		return mysql_result(mysql_query('SELECT VERSION() as version'), 0, 0);
 	}
 }
 ?>

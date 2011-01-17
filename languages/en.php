@@ -504,6 +504,7 @@ class en
 		$this->export_done = 'Skin exported to the skins directory.';
 		$this->export_select = 'Select a skin to export';
 		$this->export_skin = 'Export Skin';
+		$this->export_writeable = 'The packages folder on your server is not writeable. The skin cannot be exported.';
 		$this->install_done = 'The skin has been installed successfully.';
 		$this->install_exists1 = 'It appears that the skin';
 		$this->install_exists2 = 'is already installed.';
@@ -576,6 +577,8 @@ class en
 		$this->direction = 'ltr';
 		$this->edit = 'Edit';
 		$this->email = 'Email';
+		$this->error = 'Error';
+		$this->error_404 = 'The page you are trying to reach does not exist.';
 		$this->gmt = '[GMT] Greenwich Mean Time';
 		$this->gmt_nev1 = '[GMT-1:00] Azores, Cape Verde';
 		$this->gmt_nev10 = '[GMT-10:00] Hawaii, Aleutian Islands';

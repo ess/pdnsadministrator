@@ -36,7 +36,7 @@ require_once $set['include_path'] . '/lib/packageutil.php';
  *
  * @author Jason Warner <jason@mercuryboard.com>
  */
-class new_install extends pdnsadmin
+class full_install extends pdnsadmin
 {
 	function server_url()
 	{
@@ -53,9 +53,9 @@ class new_install extends pdnsadmin
 		default:
 			$url = preg_replace('/install\/?$/i', '', $this->server_url() . dirname($_SERVER['PHP_SELF']));
 
-echo "<form action='{$this->self}?mode=new_install&amp;step=2' method='post'>
+echo "<form action='{$this->self}?mode=full_install&amp;step=2' method='post'>
  <div class='article'>
-  <div class='title' style='text-align:center'>New {$this->name} Installation</div>
+  <div class='title' style='text-align:center'>Complete PDNS + {$this->name} Installation</div>
   <div class='title'>Directory Permissions</div>";
 
 			check_writeable_files();
@@ -166,7 +166,7 @@ break;
 
 		case 2:
   echo "<div class='article'>
-  <div class='title'>New {$this->name} Installation</div>";
+  <div class='title'>Complete PDNS + {$this->name} Installation</div>";
 			$db = new $this->modules['database']($this->post['db_host'], $this->post['db_user'], $this->post['db_pass'], $this->post['db_name'], $this->post['db_port'], $this->post['db_socket']);
 
 			if (!$db->connection) {
@@ -235,7 +235,10 @@ break;
 
 			$queries = array();
 
-			// Create tables
+			// Create PowerDNS domain tables
+			include './' . $this->sets['dbtype'] . '_pdns_tables.php';
+
+			// Create PDNS-Admin interface tables
 			include './' . $this->sets['dbtype'] . '_data_tables.php';
 
 			execute_queries($queries, $db);

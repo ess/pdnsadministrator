@@ -97,8 +97,8 @@
 </div>
 
 <div id="footer">
- {$admin->lang->powered} <a href="http://pdnsadmin.iguanadons.net/"><b>{$admin->name}</b></a> [{$admin->version}] &copy; 2006-2010 Roger Libiez<br />
- {$admin->lang->based_on} <a href="http://www.quicksilverforums.com" class="small"><b>Quicksilver Forums</b></a> v1.3.1 &copy; 2005-2009 The Quicksilver Forums Development Team<br />
+ {$admin->lang->powered} <a href="http://pdnsadmin.iguanadons.net/">{$admin->name}</a> [{$admin->version}] &copy; 2006-2011 Roger Libiez<br />
+ {$admin->lang->based_on} <a href="http://code.google.com/p/quicksilverforums/" class="small"><b>Quicksilver Forums</b></a> v1.3.1 &copy; 2005-2011 The Quicksilver Forums Development Team<br />
  Ashlander 3 by Roger Libiez [<a href="http://www.iguanadons.net">Samson</a>]. {$admin->lang->based_on} Syridium HForum v3 skin &copy; 2006-2008 <a href="http://www.syridium.com/">Syridium SC</a><br />
  {$time_exec} seconds - {$admin->db->querycount} queries - {$server_load} load
 </div>
@@ -307,32 +307,26 @@
  <div class="title">{$this->lang->settings_db}</div>
  <span class="field">{$this->lang->settings_db_host}</span>
  <span class="form"><input type="text" name="db_host" value="{$this->sets['db_host']}" size="40" /></span>
-
  <p class="line"></p>
 
  <span class="field">{$this->lang->settings_db_name}</span>
  <span class="form"><input type="text" name="db_name" value="{$this->sets['db_name']}" size="40" /></span>
-
  <p class="line"></p>
 
  <span class="field">{$this->lang->settings_db_username}</span>
  <span class="form"><input type="text" name="db_user" value="{$this->sets['db_user']}" size="40" /></span>
-
  <p class="line"></p>
 
  <span class="field">{$this->lang->settings_db_password}</span>
  <span class="form"><input type="password" name="db_pass" value="{$this->sets['db_pass']}" size="40" /></span>
-
  <p class="line"></p>
 
  <span class="field">{$this->lang->settings_db_port}<br /><span class="tiny">{$this->lang->settings_db_leave_blank}</span></span>
  <span class="form"><input type="text" name="db_port" value="{$this->sets['db_port']}" size="40" /></span>
-
  <p class="line"></p>
 
  <span class="field">{$this->lang->settings_db_socket}<br /><span class="tiny">{$this->lang->settings_db_leave_blank}</span></span>
  <span class="form"><input type="text" name="db_socket" value="{$this->sets['db_socket']}" size="40" /></span>
-
  <p class="line"></p>
 
  <input type="hidden" name="token" value="$token" />
@@ -652,6 +646,7 @@
   <span class="quarter">{$this->lang->logs_id}</span>
  </span>
  {$out}
+ <p></p>
 {$this->etable}
 
 {$this->table}
@@ -1461,9 +1456,8 @@
    <div id="main">
     {$pdnspage}
     {$pdns->table}
-     <a href="../" style="font-weight:bold">{$pdns->lang->main_your_board}</a>
      <IF $pdns->perms->auth('is_admin')>
-      -- <strong>{$time_exec}</strong> {$pdns->lang->seconds} - 
+      <strong>{$time_exec}</strong> {$pdns->lang->seconds} - 
       <strong>{$pdns->db->querycount}</strong> {$pdns->lang->main_queries} - 
       <strong>{$server_load}</strong> {$pdns->lang->main_load}
       [<a href="{$pdns->self}?{$pdns->query}&amp;debug=1" class="small">{$pdns->lang->main_full}</a>]
@@ -1486,8 +1480,8 @@
       <displayname>Copyright</displayname>
       <description>Format the look of the copyright on the board.&lt;br&gt;&lt;br&gt;&lt;b&gt;Warning: Modification to anything other than the style of this copyright will result in a violation of your terms of service&lt;/b&gt;</description>
       <html><![CDATA[
-{$pdns->lang->powered} <a href="http://pdnsadmin.iguanadons.net/"><b>{$pdns->name}</b></a> &copy; 2006-2010 Roger Libiez<br />
- {$pdns->lang->based_on} <a href="http://www.quicksilverforums.com">Quicksilver Forums</a> &copy; 2005-2009 The Quicksilver Forums Development Team<br />
+{$pdns->lang->powered} <a href="http://pdnsadmin.iguanadons.net/">{$pdns->name}</a> &copy; 2006-2011 Roger Libiez<br />
+ {$pdns->lang->based_on} <a href="http://code.google.com/p/quicksilverforums/">Quicksilver Forums</a> &copy; 2005-2011 The Quicksilver Forums Development Team<br />
  Ashlander 3 by Roger Libiez [<a href="http://www.iguanadons.net">Samson</a>]. {$pdns->lang->based_on} HForumv3.1 skin &copy; 2006-2008 <a href="http://www.syridium.com/">Syridium SC</a>
       ]]></html>
     </template>

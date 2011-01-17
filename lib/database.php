@@ -180,35 +180,6 @@ class database
 	}
 
 	/**
-	 * Clones a row
-	 *
-	 * @param string $table MySQL table to select from
-	 * @param string $unique_col Name of a unique column by which to find the row. This column is not given an explicit value in the cloned row.
-	 * @param string $unique_id The value of $unique_col in the original row
-	 * @author Jason Warner <jason@mercuryboard.com>
-	 * @since Beta 4.0
-	 * @return void
-	 */
-	function clone_row($table, $unique_col, $unique_id)
-	{
-		$cols = null;
-		$vals = null;
-
-		$result = $this->fetch('SELECT * FROM ' . $table . ' WHERE ' . $unique_col . '=' . $unique_id);
-		foreach ($result as $col => $val)
-		{
-			if ($col == $unique_col) {
-				continue;
-			}
-
-			$cols .= $col . ', ';
-			$vals .= '"' . $this->escape($val) . '", ';
-		}
-
-		$this->query('INSERT INTO ' . $table . ' (' . substr($cols, 0, -2) . ') VALUES (' . substr($vals, 0, -2) . ')');
-	}
-
-	/**
 	 * Gets the number of rows affected by the last executed UPDATE
 	 * Interface version
 	 *

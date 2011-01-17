@@ -20,8 +20,6 @@ if (!defined('PDNSADMIN')) {
 	die;
 }
 
-require_once $set['include_path'] . '/global.php';
-
 /**
  * Front page view
  *
@@ -78,13 +76,15 @@ class main extends pdnsadmin
 		    ORDER BY d.name';
 
 		$result = $this->db->query($sql);
+		$num = $this->db->num_rows( $result );
 
 		// Need to pick a default in case the setting doesn't exist for some reason.
 		$domains_per_page = isset($this->sets['domains_per_page']) ? $this->sets['domains_per_page'] : 50;
 
 		$this->get['min'] = isset($this->get['min']) ? intval($this->get['min']) : 0;
 		$this->get['num'] = isset($this->get['num']) ? intval($this->get['num']) : $domains_per_page;
-		$pages = $this->htmlwidgets->get_pages( $result, '', $this->get['min'], $this->get['num'] );
+
+		$pages = $this->htmlwidgets->get_pages( $num, '', $this->get['min'], $this->get['num'] );
 
 		$sql .= sprintf( ' LIMIT %d, %d', $this->get['min'], $this->get['num'] );
 		$result = $this->db->query( $sql );

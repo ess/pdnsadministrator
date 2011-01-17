@@ -1,9 +1,10 @@
-Changes for 1.1.11:
+Changes for 1.2:
 
 Bugs:
 
-* SECURITY: Secunia Advisory SA38736 fixed.
+* SECURITY: Secunia Advisory SA38736 fixed completely.
 * Set zlib compression to work properly.
+* Exporting skins crashes the interface if the packages folder is not writeable.
 
 Other:
 
@@ -16,6 +17,7 @@ Changes for 1.1.10:
 
 Bugs:
 
+* Bug #66: Cannot specify alternate NS records for subdomains.
 * Bug #103: Cannot enter TXT records with subdomains.
 * User creation was using the wrong language variable name, causing the app to crash.
 * Domain deletion template used the wrong variable, causing the app to crash.

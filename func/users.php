@@ -28,8 +28,6 @@ if (!defined('PDNSADMIN')) {
 	die;
 }
 
-require_once $set['include_path'] . '/global.php';
-
 class users extends pdnsadmin
 {
 	function execute()

@@ -28,22 +28,20 @@ if (!defined('PDNSADMIN') || !defined('PDNS_ADMIN')) {
 	die;
 }
 
-require_once $set['include_path'] . '/admincp/admin.php';
-
 class logs extends admin
 {
 	function execute()
 	{
 		$this->set_title($this->lang->logs_view);
 		$this->tree($this->lang->logs_view);
+		$this->lang->main();
 
 		$data = $this->db->query('SELECT l.*, u.user_name FROM logs l, users u WHERE u.user_id=l.log_user ORDER BY l.log_time DESC');
-
-		$this->lang->main();
+		$num = $this->db->num_rows($data);
 
 		$this->get['min'] = isset($this->get['min']) ? intval($this->get['min']) : 0;
 		$this->get['num'] = isset($this->get['num']) ? intval($this->get['num']) : 60;
-		$pages = $this->htmlwidgets->get_pages( $data, 'a=logs', $this->get['min'], $this->get['num'] );
+		$pages = $this->htmlwidgets->get_pages( $num, 'a=logs', $this->get['min'], $this->get['num'] );
 
 		$data = $this->db->query('SELECT l.*, u.user_name FROM logs l, users u WHERE u.user_id=l.log_user ORDER BY l.log_time DESC LIMIT %d, %d',
                        $this->get['min'], $this->get['num']);

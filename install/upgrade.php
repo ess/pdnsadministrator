@@ -28,7 +28,6 @@ if (!defined('PDNSADMIN')) {
 	die;
 }
 
-require_once $set['include_path'] . '/global.php';
 require_once $set['include_path'] . '/lib/xmlparser.php';
 require_once $set['include_path'] . '/lib/packageutil.php';
 
@@ -39,18 +38,22 @@ class upgrade extends pdnsadmin
 		switch($step)
 		{
 			default:
-				echo "<form action='{$this->self}?mode=upgrade&amp;step=2' method='post'>
-				<table cellpadding='4' cellspacing='0'>
-				 <tr><td class='subheader' colspan='2' align='center'><b>Upgrade PDNS-Admin</b></td></tr>";
+echo "<form action='{$this->self}?mode=upgrade&amp;step=2' method='post'>
+ <div class='article'>
+  <div class='title' style='text-align:center'>Upgrade {$this->name} Installation</div>
+  <div class='title'>Directory Permissions</div>";
 
 				$db = new $this->modules['database']($this->sets['db_host'], $this->sets['db_user'], $this->sets['db_pass'], $this->sets['db_name'],
 					$this->sets['db_port'], $this->sets['db_socket']);
 
 				if ( !$db->connection )
 				{
-					echo 'Couldn\'t select database: <br />' . mysql_error();
+					echo 'Couldn\'t select database: <br />' . $db->error();
 					break;
 				}
+
+				check_writeable_files();
+
 				$this->db = $db;
 				$this->sets = $this->get_settings($this->sets);
 
@@ -58,77 +61,84 @@ class upgrade extends pdnsadmin
 				if( isset($this->sets['app_version']) )
 					$v_message = 'The upgrade script has determined you are currently using ' . $this->sets['app_version'];
 
-				echo "<tr><td colspan='2' align='center'><b>{$v_message}</b></td></tr>";
+				echo "<br /><br /><strong>{$v_message}</strong>";
 
-				if( $this->sets['app_version'] == $this->version ) {
-					echo "<tr><td colspan='2'><b>The detected version of PDNS-Admin is the same as the version you are trying to upgrade to. The upgrade cannot be processed.</b></td></tr>";
+				if( isset($this->sets['app_version']) && $this->sets['app_version'] == $this->version ) {
+					echo "<br /><br /><strong>The detected version of {$this->name} is the same as the version you are trying to upgrade to. The upgrade cannot be processed.</strong>";
 				} else {
-					check_writeable_files();
+					echo "<div class='title' style='text-align:center'>Upgrade from what version?</div>
+					<span class='half'>
 
-					echo "	<tr><td class='subheader' colspan='2' align='center'><b>Upgrade from what version?</b></td></tr>
-				    <tr>
-				        <td><input type='radio' name='from' value='1.1.10' id='1110' />
-					<label for='1110'>PDNS-Admin 1.1.10</label></td>
-				    </tr>
-				    <tr>
-				        <td><input type='radio' name='from' value='1.1.9' id='119' />
-					<label for='119'>PDNS-Admin 1.1.9</label></td>
-				    </tr>
-				    <tr>
-				        <td><input type='radio' name='from' value='1.1.8' id='118' />
-					<label for='118'>PDNS-Admin 1.1.8</label></td>
-				    </tr>
-				    <tr>
-				        <td><input type='radio' name='from' value='1.1.7' id='117' />
-					<label for='117'>PDNS-Admin 1.1.7</label></td>
-				    </tr>
-				    <tr>
-				        <td><input type='radio' name='from' value='1.1.6' id='116' />
-					<label for='116'>PDNS-Admin 1.1.6</label></td>
-				    </tr>
-				    <tr>
-				        <td><input type='radio' name='from' value='1.1.5' id='115' />
-					<label for='115'>PDNS-Admin 1.1.5</label></td>
-				    </tr>
-				    <tr>
-				        <td><input type='radio' name='from' value='1.1.4' id='114' />
-					<label for='114'>PDNS-Admin 1.1.4</label></td>
-				    </tr>
-				    <tr>
-				        <td><input type='radio' name='from' value='1.1.3' id='113' />
-					<label for='113'>PDNS-Admin 1.1.3</label></td>
-				    </tr>
-				    <tr>
-				        <td><input type='radio' name='from' value='1.1.2' id='112' />
-					<label for='112'>PDNS-Admin 1.1.2</label></td>
-				    </tr>
-				    <tr>
-				        <td><input type='radio' name='from' value='1.1.1' id='111' />
-					<label for='111'>PDNS-Admin 1.1.1</label></td>
-				    </tr>
-				    <tr>
-				        <td><input type='radio' name='from' value='1.1' id='11' />
-					<label for='11'>PDNS-Admin 1.1</label></td>
-				    </tr>
-				    <tr>
-				        <td><input type='radio' name='from' value='1.0' id='10' />
-					<label for='10'>PDNS-Admin 1.0</label></td>
-				    </tr>
-				    <tr>
-				        <td colspan='2' align='center'><br /><input type='submit' value='Continue' /></td>
-				    </tr>";
-				}
-				echo "				  </table>
-				</form>\n";
+				<span class='field'><input type='radio' name='from' value='1.1.10' id='1110' /></span>
+				<span class='form'><label for='1110'>PDNS-Admin 1.1.10</label></span>
+				<p class='line'></p>
+
+				<span class='field'><input type='radio' name='from' value='1.1.9' id='119' /></span>
+				<span class='form'><label for='119'>PDNS-Admin 1.1.9</label></span>
+				<p class='line'></p>
+
+				<span class='field'><input type='radio' name='from' value='1.1.8' id='118' /></span>
+				<span class='form'><label for='118'>PDNS-Admin 1.1.8</label></span>
+				<p class='line'></p>
+
+				<span class='field'><input type='radio' name='from' value='1.1.7' id='117' /></span>
+				<span class='form'><label for='117'>PDNS-Admin 1.1.7</label></span>
+				<p class='line'></p>
+
+				<span class='field'><input type='radio' name='from' value='1.1.6' id='116' /></span>
+				<span class='form'><label for='116'>PDNS-Admin 1.1.6</label></span>
+				<p class='line'></p>
+
+				<span class='field'><input type='radio' name='from' value='1.1.5' id='115' /></span>
+				<span class='form'><label for='115'>PDNS-Admin 1.1.5</label></span>
+				<p class='line'></p>
+			       </span>
+
+			       <span class='half'>
+				<span class='field'><input type='radio' name='from' value='1.1.4' id='114' /></span>
+				<span class='form'><label for='114'>PDNS-Admin 1.1.4</label></span>
+				<p class='line'></p>
+
+				<span class='field'><input type='radio' name='from' value='1.1.3' id='113' /></span>
+				<span class='form'><label for='113'>PDNS-Admin 1.1.3</label></span>
+				<p class='line'></p>
+
+				<span class='field'><input type='radio' name='from' value='1.1.2' id='112' /></span>
+				<span class='form'><label for='112'>PDNS-Admin 1.1.2</label></span>
+				<p class='line'></p>
+
+				<span class='field'><input type='radio' name='from' value='1.1.1' id='111' /></span>
+				<span class='form'><label for='111'>PDNS-Admin 1.1.1</label></span>
+				<p class='line'></p>
+
+				<span class='field'><input type='radio' name='from' value='1.1' id='11' /></span>
+				<span class='form'><label for='11'>PDNS-Admin 1.1</label></span>
+				<p class='line'></p>
+
+				<span class='field'><input type='radio' name='from' value='1.0' id='10' /></span>
+				<span class='form'><label for='10'>PDNS-Admin 1.0</label></span>
+				<p class='line'></p>
+			       </span>
+			       <p></p>
+				<div style='text-align:center'>
+				 <input type='submit' value='Continue' />
+				 <input type='hidden' name='mode' value='upgrade' />
+				 <input type='hidden' name='step' value='2' />
+				</div>";
+			}
+			echo "    </div>
+			    </form>\n";
 			break;
 
 			case 2:
+echo" <div class='article'>
+  <div class='title' style='text-align:center'>Upgrade {$this->name}</div>";
 				$db = new $this->modules['database']($this->sets['db_host'], $this->sets['db_user'], $this->sets['db_pass'], $this->sets['db_name'],
 					$this->sets['db_port'], $this->sets['db_socket']);
 
 				if ( !$db->connection )
 				{
-					echo 'Couldn\'t select database: <br />' . mysql_error();
+					echo 'Couldn\'t select database: <br />' . $db->error();
 					break;
 				}
 				$this->db = $db;
@@ -226,11 +236,9 @@ class upgrade extends pdnsadmin
 							$templates_update[] = 'DOMAINS_EDIT';
 							$templates_update[] = 'MAIN';
 						}
-						break;
 
 					case '1.1.6': // 1.1.6 to 1.1.7
 						// No template changes
-						break;
 
 					case '1.1.7': // 1.1.7 to 1.1.8
 						if( $templates_update !== true ) {
@@ -239,7 +247,6 @@ class upgrade extends pdnsadmin
 							$templates_update[] = 'ADMIN_COPYRIGHT';
 							$templates_update[] = 'MAIN_COPYRIGHT';
 						}
-						break;
 
 					case '1.1.8': // 1.1.8 to 1.1.9
 						if( $templates_add !== true ) {
@@ -271,15 +278,13 @@ class upgrade extends pdnsadmin
 							$templates_update[] = 'DOMAINS_ADD';
 							$templates_update[] = 'DOMAIN_LIST';
 						}
-						break;
 
 					case '1.1.9': // 1.1.9 to 1.1.10
 						if( $templates_update !== true ) {
 							$templates_update[] = 'DOMAIN_RECORD_DELETE';
 						}
-						break;
 
-					case '1.1.10': // 1.1.10 to 1.1.11
+					case '1.1.10': // 1.1.10 to 1.2
 						unset($this->sets['output_buffer']);
 
 						$queries[] ="ALTER TABLE users CHANGE user_name user_name varchar(255) NOT NULL default ''";
@@ -288,8 +293,12 @@ class upgrade extends pdnsadmin
 							$templates_add[] = 'DOMAINS_CLONE'; 
 						}
 						if( $templates_update !== true ) {
+							$templates_update[] = 'ADMIN_COPYRIGHT';
+							$templates_update[] = 'MAIN_COPYRIGHT';
 							$templates_update[] = 'MAIN_HEADER_MEMBER';
 							$templates_update[] = 'ADMIN_EDIT_BOARD_SETTINGS';
+							$templates_update[] = 'ADMIN_MOD_LOGS';
+							$templates_update[] = 'MAIN';
 						}
 						break;
 				}
@@ -339,8 +348,10 @@ class upgrade extends pdnsadmin
 				$this->sets['app_version'] = $this->version;
 				$this->write_sets();
 
-				echo "Upgrade complete. You can <a href=\"../index.php\">return to your site</a> now.<br />";
-				echo "Please DELETE THE INSTALL DIRECTORY NOW for security purposes!!";
+				echo "<div class='title' style='text-align:center'>Upgrade Successful</div>
+					<a href='../index.php'>Go to your site.</a><br /><br />
+					<span style='color:yellow'>Please DELETE THE INSTALL DIRECTORY NOW for security purposes!!</span>
+				 </div>";
 				break;
 		}
 	}

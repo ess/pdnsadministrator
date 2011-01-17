@@ -36,6 +36,7 @@ srand((double)microtime() * 1234567);
 require './settings.php';
 $set['include_path'] = '.';
 require_once $set['include_path'] . '/defaultutils.php';
+require_once $set['include_path'] . '/global.php';
 
 if (!$set['installed']) {
 	header('Location: ./install/index.php');
@@ -51,10 +52,27 @@ if (!$db->connection) {
     error(PDNSADMIN_ERROR, 'A connection to the database could not be established and/or the specified database could not be found.', __FILE__, __LINE__);
 }
 
-if (!isset($_GET['a']) || !in_array($_GET['a'], $modules['public_modules'])) {
+/*
+ * Logic here:
+ * If 'a' is not set, but some other query is, it's a bogus request for this software.
+ * If 'a' is set, but the module doesn't exist, it's either a malformed URL or a bogus request.
+ * Otherwise $missing remains false and no error is generated later.
+ */
+$missing = false;
+if (!isset($_GET['a']) ) {
 	$module = $modules['default_module'];
+	if( isset($_SERVER['QUERY_STRING']) && !empty($_SERVER['QUERY_STRING']) )
+		$missing = true;
+} elseif ( !file_exists( 'func/' . $_GET['a'] . '.php' ) ) {
+	$module = $modules['default_module'];
+	$missing = true;
 } else {
 	$module = $_GET['a'];
+}
+
+if ( strstr($module, '/') || strstr($module, '\\') ) {
+	header('HTTP/1.0 403 Forbidden');
+	exit( 'You have been banned from this site.' );
 }
 
 require './func/' . $module . '.php';
@@ -89,7 +107,13 @@ $pdns->init();
 
 $server_load = $pdns->get_load();
 
-$output = $pdns->execute();
+if( $missing ) {
+	header( 'HTTP/1.0 404 Not Found' );
+	$output = $pdns->message( $pdns->lang->error, $pdns->lang->error_404 );
+} else {
+	$output = $pdns->execute();
+}
+
 $users = $pdns->db->fetch( 'SELECT COUNT(user_id) count FROM users' );
 $domains = $pdns->db->fetch( 'SELECT COUNT(id) count FROM domains' );
 

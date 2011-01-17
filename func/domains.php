@@ -20,8 +20,6 @@ if (!defined('PDNSADMIN')) {
 	die;
 }
 
-require_once $set['include_path'] . '/global.php';
-
 /**
  * Domain Control Panel
  *
@@ -950,13 +948,14 @@ class domains extends pdnsadmin
 		$types = $this->htmlwidgets->select_domain_types($domain['type']);
 
 		$dom_records = $this->db->query('SELECT * FROM records WHERE domain_id=%d ORDER BY name ASC', $dom_id);
+		$num = $this->db->num_rows($dom_records);
 
 		// Need to pick a default in case the setting doesn't exist for some reason.
 		$records_per_page = isset($this->sets['records_per_page']) ? $this->sets['records_per_page'] : 5;
 
 		$this->get['min'] = isset($this->get['min']) ? intval($this->get['min']) : 0;
 		$this->get['num'] = isset($this->get['num']) ? intval($this->get['num']) : $records_per_page;
-		$pages = $this->htmlwidgets->get_pages( $dom_records, 'a=domains&amp;s=edit&amp;id=' . $dom_id, $this->get['min'], $this->get['num'] );
+		$pages = $this->htmlwidgets->get_pages( $num, 'a=domains&amp;s=edit&amp;id=' . $dom_id, $this->get['min'], $this->get['num'] );
 
 		$dom_records = $this->db->query('SELECT * FROM records WHERE domain_id=%d ORDER BY name ASC LIMIT %d, %d', $dom_id, $this->get['min'], $this->get['num']);
 

@@ -28,8 +28,6 @@ if (!defined('PDNSADMIN') || !defined('PDNS_ADMIN')) {
 	die;
 }
 
-require_once $set['include_path'] . '/admincp/admin.php';
-
 /**
  * Database backup
  *

@@ -1,25 +1,31 @@
-	 <form action='<?php echo $self; ?>' method='get'>
-          <table width='100%' cellpadding='4' cellspacing='0'>
-           <tr>
-            <td class='subheader' colspan='2'>Choose Installation Type:</td>
-           </tr>
-           <tr>
-            <td><input id='fullinstall' type='radio' name='mode' value='full_install' /></td>
-            <td>
-             <label for='fullinstall'>Complete PowerDNS install + PDNS-Admin Console install.<br />
-             NOTE: Only use if you have NOT already installed PowerDNS as this will destroy all existing database information!
-            </td>
-           </tr>
-           <tr>
-            <td><input id='install' type='radio' name='mode' value='new_install' checked='checked' /></td>
-            <td><label for='install'>New PDNS-Administrator Console install.</label></td>
-           </tr>
-           <tr>
-            <td><input id='upgrade' type='radio' name='mode' value='upgrade' /></td>
-            <td><label for='upgrade'>Upgrade an existing PDNS-Administrator Console.</label></td>
-           </tr>
-           <tr>
-            <td colspan='2' align='center'><br /><input type='submit' value='Continue' /></td>
-           </tr>
-          </table>
+	 <form action='<?php echo $pdns->self; ?>' method='get'>
+	  <div class='article'>
+	   <div class='title'>Choose Installation Type:</div>
+
+           <span class='field'><input id='fullinstall' type='radio' name='mode' value='full_install' /><label for='fullinstall'>Complete Installation</label></span>
+           <span class='form'>
+            Perform a complete install of the PowerDNS domain tables as well as the PDNS-Admin console. This option WILL wipe out all previous PowerDNS *AND* PDNS-Admin information.</span>
+           </span>
+           <p class='line'></p>
+
+           <span class='field'><input id='install' type='radio' name='mode' value='new_install' checked='checked' /><label for='install'>New Installation</label></span>
+           <span class='form'>            
+            This can be used to install a fresh copy of PDNS-Admin, either brand new or while wiping out a previous installation. This will not touch any existing PDNS domain tables.
+           </span>
+           <p class='line'></p>
+
+           <span class='field'><input id='upgrade' type='radio' name='mode' value='upgrade' /><label for='upgrade'>Upgrade Existing Site</label></span>
+           <span class='form'>
+            Used to upgrade an existing installation to the latest version of PDNS-Admin.
+           </span>
+           <p class='line'></p>
+<!--
+           <span class='field'><input id='convert' type='radio' name='mode' value='convert' /><label for='convert'>Convert From Another Package</label></span>
+           <span class='form'>
+            If you are running an existing forum, but wish to switch to PDNS-Admin while preserving your data, use this option.
+           </span>
+           <p class='line'></p>
+-->
+           <div style='text-align:center'><input type='submit' name='submit' value='Continue' /></div>
+	  </div>
          </form>

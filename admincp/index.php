@@ -32,6 +32,8 @@ $time_start = $time_now[1] + $time_now[0];
 require '../settings.php';
 $set['include_path'] = '..';
 require_once $set['include_path'] . '/defaultutils.php';
+require_once $set['include_path'] . '/global.php';
+require_once $set['include_path'] . '/admincp/admin.php';
 
 if (!$set['installed']) {
 	header('Location: ../install/index.php');
@@ -44,10 +46,28 @@ set_error_handler('error');
 
 error_reporting(E_ALL);
 
-if (!isset($_GET['a']) || !in_array($_GET['a'], $modules['admin_modules'])) {
+/*
+ * Logic here:
+ * If 'a' is not set, but some other query is, it's a bogus request for this software.
+ * If 'a' is set, but the module doesn't exist, it's either a malformed URL or a bogus request.
+ * Otherwise $missing remains false and no error is generated later.
+ */
+$missing = false;
+if (!isset($_GET['a']) ) {
 	$module = $modules['default_admin_module'];
+	if( isset($_SERVER['QUERY_STRING']) && !empty($_SERVER['QUERY_STRING']) )
+		$missing = true;
+} elseif ( !file_exists( 'sources/' . $_GET['a'] . '.php' ) ) {
+	$module = $modules['default_admin_module'];
+
+	$missing = true;
 } else {
 	$module = $_GET['a'];
+}
+
+if ( strstr($module, '/') || strstr($module, '\\') ) {
+	header('HTTP/1.0 403 Forbidden');
+	exit( 'You have been banned from this site.' );
 }
 
 require './sources/' . $module . '.php';
@@ -76,7 +96,12 @@ if (!isset($admin->get['skin'])) {
 
 $admin->init();
 
-$output = $admin->execute();
+if( $missing ) {
+	header( 'HTTP/1.0 404 Not Found' );
+	$output = $admin->message( $admin->lang->error, $admin->lang->error_404 );
+} else {
+	$output = $admin->execute();
+}
 
 $title = isset($pdns->title) ? $pdns->title : $admin->name .' Admin CP';
 
