@@ -203,7 +203,7 @@ class db_pgsql extends database
 	 **/
 	function optimize($tables)
 	{
-		$result = $this->db->dbquery( 'VACUUM ' . $tables );
+		$result = $this->db->query( 'VACUUM ' . $tables );
 
 		return $result;
 	}
@@ -218,7 +218,7 @@ class db_pgsql extends database
 	 **/
 	function repair($tables)
 	{
-		$result = $this->db->dbquery( 'VACUUM FULL ' . $tables );
+		$result = $this->db->query( 'VACUUM FULL ' . $tables );
 
 		return $result;
 	}

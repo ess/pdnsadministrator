@@ -197,7 +197,7 @@ class db_mysql extends database
 	 **/
 	function optimize($tables)
 	{
-		$result = $this->db->dbquery( 'OPTIMIZE TABLE ' . $tables );
+		$result = $this->dbquery( 'OPTIMIZE TABLE ' . $tables );
 
 		return $result;
 	}
@@ -212,7 +212,7 @@ class db_mysql extends database
 	 **/
 	function repair($tables)
 	{
-		$result = $this->db->dbquery( 'REPAIR TABLE ' . $tables );
+		$result = $this->dbquery( 'REPAIR TABLE ' . $tables );
 
 		return $result;
 	}

@@ -94,7 +94,7 @@ $pdns->lang    = $pdns->get_lang($pdns->user['user_language'], $pdns->get['a']);
 
 if( !isset($_SESSION['login']) && $pdns->user['user_id'] != USER_GUEST_UID ) {
 	$_SESSION['login'] = true;
-	$pdns->db->query( "UPDATE users SET user_lastlogon=%d, user_lastlogonip='%s' WHERE user_id=%d", $pdns->time, $pdns->ip, $pdns->user['user_id'] );
+	$pdns->db->dbquery( "UPDATE users SET user_lastlogon=%d, user_lastlogonip='%s' WHERE user_id=%d", $pdns->time, $pdns->ip, $pdns->user['user_id'] );
 }
 
 if (!isset($pdns->get['skin'])) {
