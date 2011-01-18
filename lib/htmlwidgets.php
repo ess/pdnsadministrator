@@ -80,7 +80,7 @@ class htmlwidgets extends tool
 		// preliminary row handling
 		if (!is_resource($rows)) {
 			if (!is_numeric($rows)) {
-				$rows = $this->db->num_rows($this->db->query($rows));
+				$rows = $this->db->num_rows($this->db->dbquery($rows));
 			}
 		} else {
 			$rows = $this->db->num_rows($rows);
@@ -175,7 +175,7 @@ class htmlwidgets extends tool
 	**/
 	function select_domains($val)
 	{
-		$domains = $this->db->query('SELECT name, id FROM domains ORDER BY name');
+		$domains = $this->db->dbquery('SELECT name, id FROM domains ORDER BY name');
 
 		$out = "<option value=\"\" selected=\"selected\"> ---- </option>";
 
@@ -211,7 +211,7 @@ class htmlwidgets extends tool
 	 **/
 	function select_users($val)
 	{
-		$users = $this->db->query('SELECT user_name, user_id FROM users ORDER BY user_name');
+		$users = $this->db->dbquery('SELECT user_name, user_id FROM users ORDER BY user_name');
 
 		$out = null;
 
@@ -239,9 +239,9 @@ class htmlwidgets extends tool
 	function select_groups($val, $custom_only = false)
 	{
 		if ($custom_only) {
-			$groups = $this->db->query('SELECT group_name, group_id FROM groups WHERE group_type="" ORDER BY group_name');
+			$groups = $this->db->dbquery('SELECT group_name, group_id FROM groups WHERE group_type="" ORDER BY group_name');
 		} else {
-			$groups = $this->db->query('SELECT group_name, group_id FROM groups ORDER BY group_name');
+			$groups = $this->db->dbquery('SELECT group_name, group_id FROM groups ORDER BY group_name');
 		}
 
 		$out = null;
@@ -266,7 +266,7 @@ class htmlwidgets extends tool
 	{
 		$out = null;
 
-		$query = $this->db->query('SELECT * FROM skins');
+		$query = $this->db->dbquery('SELECT * FROM skins');
 		while ($s = $this->db->nqfetch($query))
 		{
 			if ($s['skin_dir'] == 'default') {

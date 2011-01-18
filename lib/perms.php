@@ -181,9 +181,9 @@ class permissions
 			$start = false;
 
 			if ($users) {
-				$query = $this->db->query("SELECT user_id, user_perms FROM users WHERE user_perms != ''");
+				$query = $this->db->dbquery("SELECT user_id, user_perms FROM users WHERE user_perms != ''");
 			} else {
-				$query = $this->db->query('SELECT group_id, group_perms FROM groups');
+				$query = $this->db->dbquery('SELECT group_id, group_perms FROM groups');
 			}
 
 			while ($group = $this->db->nqfetch($query))
@@ -224,10 +224,10 @@ class permissions
 		}
 
 		if ($this->user == -1) {
-			$this->db->query("UPDATE groups SET group_perms='%s' WHERE group_id=%d",
+			$this->db->dbquery("UPDATE groups SET group_perms='%s' WHERE group_id=%d",
 				$serialized, $this->group);
 		} else {
-			$this->db->query("UPDATE users SET user_perms='%s' WHERE user_id=%d",
+			$this->db->dbquery("UPDATE users SET user_perms='%s' WHERE user_id=%d",
 				$serialized, $this->user);
 		}
 	}

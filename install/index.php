@@ -32,6 +32,8 @@ require_once( '../settings.php' );
 
 if ( isset( $_POST['dbtype'] ) )
 	$set['dbtype'] = $_POST['dbtype'];
+else
+	$set['dbtype'] = 'database';
 
 $set['include_path'] = '..';
 require_once $set['include_path'] . '/defaultutils.php';
@@ -41,7 +43,7 @@ function execute_queries($queries, $db)
 {
 	foreach ($queries as $query)
 	{
-		$db->query($query);
+		$db->dbquery($query);
 	}
 }
 
@@ -108,6 +110,8 @@ if ($mode) {
 	$db_fail = 0;
 	$mysql = false;
 	$mysqli = false;
+	$sqlite = false;
+	$pgsql = false;
 
 	if (!extension_loaded('mysql'))
 		$db_fail++;
@@ -117,18 +121,32 @@ if ($mode) {
 	if (!extension_loaded('mysqli')) {
 		$db_fail++;
 	} else {
-		if( mysqli_get_client_version() >= 40103 )
+		if( mysqli_get_client_version() >= 40103 ) {
 			$mysql = false;
 			$mysqli = true;
+		}
 	}
 
-	if ( $db_fail > 1 )
+	if( !extension_loaded('pgsql')) {
+		$db_fail++;
+	} else {
+		$pgsql = true;
+	}
+
+	/* THIS IS BROKEN RIGHT NOW! ONLY ENABLE IF YOU ARE TESTING!!!!!
+	if( !extension_loaded('sqlite3')) {
+		$db_fail++;
+	} else {
+		$sqlite = true;
+	} */
+
+	if ( $db_fail > 3 ) // To 4 if sqlite ever gets working
 	{
 		if ($failed) { // If we have already shown a message, show the next one two lines down
 			echo '<br /><br />';
 		}
 
-		echo 'Your PHP installation does not support MySQL or MySQLi.';
+		echo 'Your PHP installation does not support MySQL, MySQLi, pgSQL, or SQLite.';
 		$failed = true;
 	}
 
@@ -147,6 +165,20 @@ if ($mode) {
 		$mysqli_client = '<li>MySQLi Client: (' . mysqli_get_client_info() . ')</li><hr />';
 	} else {
 		$mysqli_client = '';
+	}
+
+	if($pgsql) {
+		$pgsql_client = '<li>pgSQL Client: Available</li><hr />';
+	} else {
+		$pgsql_client = '';
+	}
+
+	if($sqlite) {
+		$sv = SQLite3::version();
+		$version = $sv['versionString'];
+		$sqlite_client = '<li>SQLite3 Client: (' . $version . ')</li><hr />';
+	} else {
+		$sqlite_client = '';
 	}
 
 	echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.1//EN\" \"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd\">
@@ -182,6 +214,8 @@ if ($mode) {
      <li>Server Software: $server</li><hr />
      $mysql_client
      $mysqli_client
+     $sqlite_client
+     $pgsql_client
     </ul>
    </div>
   </div>
@@ -194,16 +228,16 @@ if ($mode) {
 			include "choose_install.php";
 			break;
 		case 'full_install':
-			$pdns->install_console($step, $mysqli);
+			$pdns->install_console($step, $mysqli, $sqlite, $pgsql);
 			break;
 		case 'new_install':
-			$pdns->install_console($step, $mysqli);
+			$pdns->install_console($step, $mysqli, $sqlite, $pgsql);
 			break;
 		case 'upgrade':
 			$pdns->upgrade_console($step);
 			break;
 /*		case 'convert':
-			$pdns->convert_console($step, $mysqli);
+			$pdns->convert_console($step, $mysqli, $sqlite, $pgsql);
 			break; */
 	}
 

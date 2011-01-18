@@ -5,6 +5,7 @@ Bugs:
 * SECURITY: Secunia Advisory SA38736 fixed completely.
 * Set zlib compression to work properly.
 * Exporting skins crashes the interface if the packages folder is not writeable.
+* SQL query errors were generating the wrong error code to the error handler.
 
 Other:
 
@@ -12,6 +13,8 @@ Other:
 * Do not report error details to the browser screen.
 * User name field expanded to 255 characters.
 * It is now possible for PDNS-Admin to also install the necessary PDNS domain tables.
+* Added MySQLi support.
+* Added SQLite 3 support by Marco Wessel.
 
 Changes for 1.1.10:
 

@@ -114,7 +114,7 @@ class domains extends pdnsadmin
 			return $this->message( $this->lang->domains_record_delete, $this->lang->invalid_token );
 		}
 
-		$this->db->query( 'DELETE FROM records WHERE id=%d', $rec_id );
+		$this->db->dbquery( 'DELETE FROM records WHERE id=%d', $rec_id );
 		$this->update_soa_serial( $id );
 
 		$this->log_action( 'delete_' . $rec['type'] . '_record', $id );
@@ -261,7 +261,7 @@ class domains extends pdnsadmin
 			$name = $domain['name'];
 		}
 
-		$this->db->query( "UPDATE records SET name='%s', type='%s', content='%s', ttl=%d, prio=%d, change_date=%d
+		$this->db->dbquery( "UPDATE records SET name='%s', type='%s', content='%s', ttl=%d, prio=%d, change_date=%d
 		    WHERE id=%d", $name, $record, $content, $ttl, $priority, $this->time, $rec_id );
 
 		$this->update_soa_serial( $id );
@@ -418,7 +418,7 @@ class domains extends pdnsadmin
 			$name = $name . '.' . $domain['name'];
 		}
 
-		$this->db->query( "INSERT INTO records (domain_id, name, type, content, ttl, prio, change_date)
+		$this->db->dbquery( "INSERT INTO records (domain_id, name, type, content, ttl, prio, change_date)
 		    VALUES( %d, '%s', '%s', '%s', %d, %d, %d )",
 		    $id, $name, $record, $content, $ttl, $priority, $this->time );
 
@@ -481,18 +481,18 @@ class domains extends pdnsadmin
 			$dom_master = $this->sets['domain_master_ip'];
 
 		// Insert the domain into the primary domain table
-		$this->db->query("INSERT INTO domains (name, type, master, notified_serial) VALUES( '%s', '%s', '%s', 1 )",
+		$this->db->dbquery("INSERT INTO domains (name, type, master, notified_serial) VALUES( '%s', '%s', '%s', 1 )",
 			$dom_name, $dom_type, $dom_master);
 		$dom_id = $this->db->insert_id('domains');
 
 		// Set the owner in the zones table
-		$this->db->query("INSERT INTO zones (domain_id, owner, comment) VALUES( %d, %d, '%s' )", $dom_id, $dom_owner, 'New Domain');
+		$this->db->dbquery("INSERT INTO zones (domain_id, owner, comment) VALUES( %d, %d, '%s' )", $dom_id, $dom_owner, 'New Domain');
 
 		// Insert the SOA record for the new domain, but not if it's a SLAVE domain.
 		if ($dom_type != 'SLAVE') {
 			$new_serial = date('Ymd') . '00';
 			$soa = $this->sets['primary_nameserver'] . ' ' . $this->sets['admin_incoming'] . ' ' . $new_serial . ' ' . $this->sets['soa_refresh'] . ' ' . $this->sets['soa_retry'] . ' ' . $this->sets['soa_expire'] . ' ' . $this->sets['default_ttl'];
-			$this->db->query("INSERT INTO records (domain_id, name, type, content, ttl, prio, change_date)
+			$this->db->dbquery("INSERT INTO records (domain_id, name, type, content, ttl, prio, change_date)
 				VALUES( %d, '%s', 'SOA', '%s', %d, 0, %d )",
 				$dom_id, $dom_name, $soa, $this->sets['default_ttl'], $this->time);
 		}
@@ -500,53 +500,53 @@ class domains extends pdnsadmin
 		// Add default NS records if desired
 		if(isset($this->post['new_ns_records'])) {
 			// Insert the primary NS record for the new domain.
-			$this->db->query("INSERT INTO records (domain_id, name, type, content, ttl, prio, change_date)
+			$this->db->dbquery("INSERT INTO records (domain_id, name, type, content, ttl, prio, change_date)
 				VALUES( %d, '%s', 'NS', '%s', %d, 0, %d )",
 				$dom_id, $dom_name, $this->sets['primary_nameserver'], $this->sets['default_ttl'], $this->time);
 
 			// Insert the secondary NS record for the new domain.
-			$this->db->query("INSERT INTO records (domain_id, name, type, content, ttl, prio, change_date)
+			$this->db->dbquery("INSERT INTO records (domain_id, name, type, content, ttl, prio, change_date)
 				VALUES( %d, '%s', 'NS', '%s', %d, 0, %d )",
 				$dom_id, $dom_name, $this->sets['secondary_nameserver'], $this->sets['default_ttl'], $this->time);
 
 			// Insert the tertiary NS record for the new domain, if it exists.
 			if( isset( $this->sets['tertiary_nameserver'] ) && $this->sets['tertiary_nameserver'] != '' ) {
-				$this->db->query("INSERT INTO records (domain_id, name, type, content, ttl, prio, change_date)
+				$this->db->dbquery("INSERT INTO records (domain_id, name, type, content, ttl, prio, change_date)
 					VALUES( %d, '%s', 'NS', '%s', %d, 0, %d )",
 					$dom_id, $dom_name, $this->sets['tertiary_nameserver'], $this->sets['default_ttl'], $this->time);
 			}
 
 			// Insert the quaternary NS record for the new domain, if it exists.
 			if( isset( $this->sets['quaternary_nameserver'] ) && $this->sets['quaternary_nameserver'] != '' ) {
-				$this->db->query("INSERT INTO records (domain_id, name, type, content, ttl, prio, change_date)
+				$this->db->dbquery("INSERT INTO records (domain_id, name, type, content, ttl, prio, change_date)
 					VALUES( %d, '%s', 'NS', '%s', %d, 0, %d )",
 					$dom_id, $dom_name, $this->sets['quaternary_nameserver'], $this->sets['default_ttl'], $this->time);
 			}
 
 			// Insert the quinary NS record for the new domain, if it exists.
 			if( isset( $this->sets['quinary_nameserver'] ) && $this->sets['quinary_nameserver'] != '' ) {
-				$this->db->query("INSERT INTO records (domain_id, name, type, content, ttl, prio, change_date)
+				$this->db->dbquery("INSERT INTO records (domain_id, name, type, content, ttl, prio, change_date)
 					VALUES( %d, '%s', 'NS', '%s', %d, 0, %d )",
 					$dom_id, $dom_name, $this->sets['quinary_nameserver'], $this->sets['default_ttl'], $this->time);
 			}
 
 			// Insert the senary NS record for the new domain, if it exists.
 			if( isset( $this->sets['senary_nameserver'] ) && $this->sets['senary_nameserver'] != '' ) {
-				$this->db->query("INSERT INTO records (domain_id, name, type, content, ttl, prio, change_date)
+				$this->db->dbquery("INSERT INTO records (domain_id, name, type, content, ttl, prio, change_date)
 					VALUES( %d, '%s', 'NS', '%s', %d, 0, %d )",
 					$dom_id, $dom_name, $this->sets['senary_nameserver'], $this->sets['default_ttl'], $this->time);
 			}
 
 			// Insert the septenary NS record for the new domain, if it exists.
 			if( isset( $this->sets['septenary_nameserver'] ) && $this->sets['septenary_nameserver'] != '' ) {
-				$this->db->query("INSERT INTO records (domain_id, name, type, content, ttl, prio, change_date)
+				$this->db->dbquery("INSERT INTO records (domain_id, name, type, content, ttl, prio, change_date)
 					VALUES( %d, '%s', 'NS', '%s', %d, 0, %d )",
 					$dom_id, $dom_name, $this->sets['septenary_nameserver'], $this->sets['default_ttl'], $this->time);
 			}
 
 			// Insert the octonary NS record for the new domain, if it exists.
 			if( isset( $this->sets['octonary_nameserver'] ) && $this->sets['octonary_nameserver'] != '' ) {
-				$this->db->query("INSERT INTO records (domain_id, name, type, content, ttl, prio, change_date)
+				$this->db->dbquery("INSERT INTO records (domain_id, name, type, content, ttl, prio, change_date)
 					VALUES( %d, '%s', 'NS', '%s', %d, 0, %d )",
 					$dom_id, $dom_name, $this->sets['octonary_nameserver'], $this->sets['default_ttl'], $this->time);
 			}
@@ -630,27 +630,27 @@ class domains extends pdnsadmin
 		$dom_cname = 'www.' . $dom_name;
 
 		// Insert the domain into the primary domain table
-		$this->db->query("INSERT INTO domains (name, type, master, notified_serial) VALUES( '%s', '%s', '%s', 1 )",
+		$this->db->dbquery("INSERT INTO domains (name, type, master, notified_serial) VALUES( '%s', '%s', '%s', 1 )",
 			$dom_name, $dom_type, $dom_master);
 		$dom_id = $this->db->insert_id("domains");
 
 		// Set the owner in the zones table
-		$this->db->query("INSERT INTO zones (domain_id, owner, comment) VALUES( %d, %d, '%s' )", $dom_id, $dom_owner, 'New Domain');
+		$this->db->dbquery("INSERT INTO zones (domain_id, owner, comment) VALUES( %d, %d, '%s' )", $dom_id, $dom_owner, 'New Domain');
 
 		// Increment the user's domain count
-		$this->db->query( 'UPDATE users SET user_domains=user_domains+1 WHERE user_id=%d', $dom_owner );
+		$this->db->dbquery( 'UPDATE users SET user_domains=user_domains+1 WHERE user_id=%d', $dom_owner );
 
 		// Only adds the SOA and A records if the domain is not a SLAVE. SLAVEs should be pulling this from their regular updates.
 		if ($dom_type != 'SLAVE') {
 			// Insert the SOA record for the new domain.
 			$new_serial = date('Ymd') . '00';
 			$soa = $this->sets['primary_nameserver'] . ' ' . $this->sets['admin_incoming'] . ' ' . $new_serial . ' ' . $this->sets['soa_refresh'] . ' ' . $this->sets['soa_retry'] . ' ' . $this->sets['soa_expire'] . ' ' . $this->sets['default_ttl'];
-			$this->db->query("INSERT INTO records (domain_id, name, type, content, ttl, prio, change_date)
+			$this->db->dbquery("INSERT INTO records (domain_id, name, type, content, ttl, prio, change_date)
 				VALUES( %d, '%s', 'SOA', '%s', %d, 0, %d )",
 				$dom_id, $dom_name, $soa, $this->sets['default_ttl'], $this->time);
 
 			// Insert the A record for the new domain.
-			$this->db->query("INSERT INTO records (domain_id, name, type, content, ttl, prio, change_date)
+			$this->db->dbquery("INSERT INTO records (domain_id, name, type, content, ttl, prio, change_date)
 				VALUES( %d, '%s', 'A', '%s', %d, 0, %d )",
 				$dom_id, $dom_name, $dom_ip, $this->sets['default_ttl'], $this->time);
 		}
@@ -658,53 +658,53 @@ class domains extends pdnsadmin
 		// Add default NS records if desired
 		if(isset($this->post['new_ns_records'])) {
 			// Insert the primary NS record for the new domain.
-			$this->db->query("INSERT INTO records (domain_id, name, type, content, ttl, prio, change_date)
+			$this->db->dbquery("INSERT INTO records (domain_id, name, type, content, ttl, prio, change_date)
 				VALUES( %d, '%s', 'NS', '%s', %d, 0, %d )",
 				$dom_id, $dom_name, $this->sets['primary_nameserver'], $this->sets['default_ttl'], $this->time);
 
 			// Insert the secondary NS record for the new domain.
-			$this->db->query("INSERT INTO records (domain_id, name, type, content, ttl, prio, change_date)
+			$this->db->dbquery("INSERT INTO records (domain_id, name, type, content, ttl, prio, change_date)
 				VALUES( %d, '%s', 'NS', '%s', %d, 0, %d )",
 				$dom_id, $dom_name, $this->sets['secondary_nameserver'], $this->sets['default_ttl'], $this->time);
 
 			// Insert the tertiary NS record for the new domain, if it exists.
 			if( isset( $this->sets['tertiary_nameserver'] ) && $this->sets['tertiary_nameserver'] != '' ) {
-				$this->db->query("INSERT INTO records (domain_id, name, type, content, ttl, prio, change_date)
+				$this->db->dbquery("INSERT INTO records (domain_id, name, type, content, ttl, prio, change_date)
 					VALUES( %d, '%s', 'NS', '%s', %d, 0, %d )",
 					$dom_id, $dom_name, $this->sets['tertiary_nameserver'], $this->sets['default_ttl'], $this->time);
 			}
 
 			// Insert the quaternary NS record for the new domain, if it exists.
 			if( isset( $this->sets['quaternary_nameserver'] ) && $this->sets['quaternary_nameserver'] != '' ) {
-				$this->db->query("INSERT INTO records (domain_id, name, type, content, ttl, prio, change_date)
+				$this->db->dbquery("INSERT INTO records (domain_id, name, type, content, ttl, prio, change_date)
 					VALUES( %d, '%s', 'NS', '%s', %d, 0, %d )",
 					$dom_id, $dom_name, $this->sets['quaternary_nameserver'], $this->sets['default_ttl'], $this->time);
 			}
 
 			// Insert the quinary NS record for the new domain, if it exists.
 			if( isset( $this->sets['quinary_nameserver'] ) && $this->sets['quinary_nameserver'] != '' ) {
-				$this->db->query("INSERT INTO records (domain_id, name, type, content, ttl, prio, change_date)
+				$this->db->dbquery("INSERT INTO records (domain_id, name, type, content, ttl, prio, change_date)
 					VALUES( %d, '%s', 'NS', '%s', %d, 0, %d )",
 					$dom_id, $dom_name, $this->sets['quinary_nameserver'], $this->sets['default_ttl'], $this->time);
 			}
 
 			// Insert the senary NS record for the new domain, if it exists.
 			if( isset( $this->sets['senary_nameserver'] ) && $this->sets['senary_nameserver'] != '' ) {
-				$this->db->query("INSERT INTO records (domain_id, name, type, content, ttl, prio, change_date)
+				$this->db->dbquery("INSERT INTO records (domain_id, name, type, content, ttl, prio, change_date)
 					VALUES( %d, '%s', 'NS', '%s', %d, 0, %d )",
 					$dom_id, $dom_name, $this->sets['senary_nameserver'], $this->sets['default_ttl'], $this->time);
 			}
 
 			// Insert the septenary NS record for the new domain, if it exists.
 			if( isset( $this->sets['septenary_nameserver'] ) && $this->sets['septenary_nameserver'] != '' ) {
-				$this->db->query("INSERT INTO records (domain_id, name, type, content, ttl, prio, change_date)
+				$this->db->dbquery("INSERT INTO records (domain_id, name, type, content, ttl, prio, change_date)
 					VALUES( %d, '%s', 'NS', '%s', %d, 0, %d )",
 					$dom_id, $dom_name, $this->sets['septenary_nameserver'], $this->sets['default_ttl'], $this->time);
 			}
 
 			// Insert the octonary NS record for the new domain, if it exists.
 			if( isset( $this->sets['octonary_nameserver'] ) && $this->sets['octonary_nameserver'] != '' ) {
-				$this->db->query("INSERT INTO records (domain_id, name, type, content, ttl, prio, change_date)
+				$this->db->dbquery("INSERT INTO records (domain_id, name, type, content, ttl, prio, change_date)
 					VALUES( %d, '%s', 'NS', '%s', %d, 0, %d )",
 					$dom_id, $dom_name, $this->sets['octonary_nameserver'], $this->sets['default_ttl'], $this->time);
 			}
@@ -712,19 +712,19 @@ class domains extends pdnsadmin
 
 		// Insert the MX record for the new domain. Priority defaults to 10.
 		if(isset($this->post['new_mx_record'])) {
-			$this->db->query("INSERT INTO records (domain_id, name, type, content, ttl, prio, change_date)
+			$this->db->dbquery("INSERT INTO records (domain_id, name, type, content, ttl, prio, change_date)
 				VALUES( %d, '%s', 'MX', '%s', %d, 10, %d )",
 				$dom_id, $dom_name, $dom_mail, $this->sets['default_ttl'], $this->time);
 
 			// Insert the mail.domain.com A record for the new domain.
-			$this->db->query("INSERT INTO records (domain_id, name, type, content, ttl, prio, change_date)
+			$this->db->dbquery("INSERT INTO records (domain_id, name, type, content, ttl, prio, change_date)
 				VALUES( %d, '%s', 'A', '%s', %d, 0, %d )",
 				$dom_id, $dom_mail, $dom_ip, $this->sets['default_ttl'], $this->time);
 		}
 
 		// Insert the CNAME record for the new domain.
 		if(isset($this->post['new_cname_record'])) {
-			$this->db->query("INSERT INTO records (domain_id, name, type, content, ttl, prio, change_date)
+			$this->db->dbquery("INSERT INTO records (domain_id, name, type, content, ttl, prio, change_date)
 				VALUES( %d, '%s', 'CNAME', '%s', %d, 0, %d )",
 				$dom_id, $dom_cname, $dom_name, $this->sets['default_ttl'], $this->time);
 		}
@@ -804,20 +804,20 @@ class domains extends pdnsadmin
 		$dom_cname = 'www.' . $dom_name;
 
 		// Insert the domain into the primary domain table
-		$this->db->query("INSERT INTO domains (name, type, master, notified_serial) VALUES( '%s', '%s', '%s', 1 )",
+		$this->db->dbquery("INSERT INTO domains (name, type, master, notified_serial) VALUES( '%s', '%s', '%s', 1 )",
 			$dom_name, $dom_type, $dom_master);
 		$dom_id = $this->db->insert_id('domains');
 
 		// Set the owner in the zones table
-		$this->db->query("INSERT INTO zones (domain_id, owner, comment) VALUES( %d, %d, '%s' )", $dom_id, $dom_owner, 'New Domain');
+		$this->db->dbquery("INSERT INTO zones (domain_id, owner, comment) VALUES( %d, %d, '%s' )", $dom_id, $dom_owner, 'New Domain');
 
 		// Increment the user's domain count
-		$this->db->query( 'UPDATE users SET user_domains=user_domains+1 WHERE user_id=%d', $dom_owner );
+		$this->db->dbquery( 'UPDATE users SET user_domains=user_domains+1 WHERE user_id=%d', $dom_owner );
 
 		// Only adds the SOA and A records if the domain is not a SLAVE. SLAVEs should be pulling this from their regular updates.
 		if ($dom_type != 'SLAVE') {
 			// Pull Records from template ..
-			$dom_records = $this->db->query('SELECT * FROM records WHERE domain_id=%d', $domain_to_clone);
+			$dom_records = $this->db->dbquery('SELECT * FROM records WHERE domain_id=%d', $domain_to_clone);
 			$old_domain = $this->db->fetch('SELECT name FROM domains WHERE id=%d', $domain_to_clone);
 			$len = strlen( $old_domain['name'] );
 			$rlen = 0 - $len;
@@ -844,7 +844,7 @@ class domains extends pdnsadmin
 					}
 				}
 
-				$this->db->query("INSERT INTO records (domain_id, name, type, content, ttl, prio, change_date)
+				$this->db->dbquery("INSERT INTO records (domain_id, name, type, content, ttl, prio, change_date)
 				VALUES( %d, '%s', '%s', '%s', %d, %d, %d )",
 				$dom_id, $dname, $record['type'], $content, $record['ttl'], $record['prio'], $this->time);
 			}	
@@ -876,14 +876,14 @@ class domains extends pdnsadmin
 		$owner = intval($this->post['owner']);
 
 		if( $zone_exists ) {
-			$this->db->query( "UPDATE zones SET owner=%d, comment='%s' WHERE domain_id=%d",
+			$this->db->dbquery( "UPDATE zones SET owner=%d, comment='%s' WHERE domain_id=%d",
 				$owner, 'Ownership Change', $this->get['id'] );
-			$this->db->query( 'UPDATE users SET user_domains=user_domains-1 WHERE user_id=%d', $zone_exists['owner'] );
-			$this->db->query( 'UPDATE users SET user_domains=user_domains+1 WHERE user_id=%d', $owner );
+			$this->db->dbquery( 'UPDATE users SET user_domains=user_domains-1 WHERE user_id=%d', $zone_exists['owner'] );
+			$this->db->dbquery( 'UPDATE users SET user_domains=user_domains+1 WHERE user_id=%d', $owner );
 		} else {
-			$this->db->query( "INSERT INTO zones (domain_id, owner, comment) VALUES(%d, %d, '%s')",
+			$this->db->dbquery( "INSERT INTO zones (domain_id, owner, comment) VALUES(%d, %d, '%s')",
 				$this->get['id'], $owner, 'New Domain Owner' );
-			$this->db->query( 'UPDATE users SET user_domains=user_domains+1 WHERE user_id=%d', $owner );
+			$this->db->dbquery( 'UPDATE users SET user_domains=user_domains+1 WHERE user_id=%d', $owner );
 		}
 		$this->log_action( 'change_owner', $this->get['id'] );
 		return $this->message($this->lang->domains_owner_change, $this->lang->domains_owner_changed, $this->lang->continue, "{$this->self}?a=domains&s=edit&id={$this->get['id']}");
@@ -911,10 +911,10 @@ class domains extends pdnsadmin
 				return $this->message($this->lang->domains_record_add, $this->lang->domains_ip_invalid);
 			}
 
-			$this->db->query("UPDATE domains SET type='%s', master='%s' WHERE id=%d",
+			$this->db->dbquery("UPDATE domains SET type='%s', master='%s' WHERE id=%d",
 				$this->post['type'], $this->post['master_ip'], $this->get['id']);
 		} else {
-			$this->db->query("UPDATE domains SET type='%s', master='' WHERE id=%d",
+			$this->db->dbquery("UPDATE domains SET type='%s', master='' WHERE id=%d",
 				$this->post['type'], $this->get['id']);
 		}
 
@@ -947,7 +947,7 @@ class domains extends pdnsadmin
 		$users = $this->htmlwidgets->select_users($domain['owner']);
 		$types = $this->htmlwidgets->select_domain_types($domain['type']);
 
-		$dom_records = $this->db->query('SELECT * FROM records WHERE domain_id=%d ORDER BY name ASC', $dom_id);
+		$dom_records = $this->db->dbquery('SELECT * FROM records WHERE domain_id=%d ORDER BY name ASC', $dom_id);
 		$num = $this->db->num_rows($dom_records);
 
 		// Need to pick a default in case the setting doesn't exist for some reason.
@@ -957,7 +957,7 @@ class domains extends pdnsadmin
 		$this->get['num'] = isset($this->get['num']) ? intval($this->get['num']) : $records_per_page;
 		$pages = $this->htmlwidgets->get_pages( $num, 'a=domains&amp;s=edit&amp;id=' . $dom_id, $this->get['min'], $this->get['num'] );
 
-		$dom_records = $this->db->query('SELECT * FROM records WHERE domain_id=%d ORDER BY name ASC LIMIT %d, %d', $dom_id, $this->get['min'], $this->get['num']);
+		$dom_records = $this->db->dbquery('SELECT * FROM records WHERE domain_id=%d ORDER BY name ASC LIMIT %d, %d', $dom_id, $this->get['min'], $this->get['num']);
 
 		while( $record = $this->db->nqfetch($dom_records) )
 		{
@@ -998,10 +998,10 @@ class domains extends pdnsadmin
 			return $this->message( $this->lang->domains_delete, $this->lang->invalid_token );
 		}
 
-		$this->db->query('DELETE FROM domains WHERE id=%d', $dom_id);
-		$this->db->query('DELETE FROM records WHERE domain_id=%d', $dom_id);
-		$this->db->query('DELETE FROM zones WHERE domain_id=%d', $dom_id);
-		$this->db->query('UPDATE users SET user_domains=user_domains-1 WHERE user_id=%d', $owner['owner'] );
+		$this->db->dbquery('DELETE FROM domains WHERE id=%d', $dom_id);
+		$this->db->dbquery('DELETE FROM records WHERE domain_id=%d', $dom_id);
+		$this->db->dbquery('DELETE FROM zones WHERE domain_id=%d', $dom_id);
+		$this->db->dbquery('UPDATE users SET user_domains=user_domains-1 WHERE user_id=%d', $owner['owner'] );
 
 		$this->log_action( 'delete_domain_name', $dom_id );
 		return $this->message($this->lang->domains_delete, $this->lang->domains_deleted, $this->lang->continue, $this->self);
@@ -1077,7 +1077,7 @@ class domains extends pdnsadmin
 			// Trim that final space off
 			$new_soa = trim($new_soa);
 
-			$this->db->query( "UPDATE records SET content='%s'
+			$this->db->dbquery( "UPDATE records SET content='%s'
 			    WHERE domain_id=%d AND type='SOA'", $new_soa, $domain_id );
 		}
 	}  

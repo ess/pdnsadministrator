@@ -64,7 +64,7 @@ class templates extends admin
 
 		$skins = array();
 
-		$query = $this->db->query('SELECT * FROM skins');
+		$query = $this->db->dbquery('SELECT * FROM skins');
 		while ($s = $this->db->nqfetch($query))
 		{
 			$skins[$s['skin_dir']] = $s['skin_name'];
@@ -166,16 +166,16 @@ class templates extends admin
 
 			/* find missing templates and dump code from default */
 			$sql = "SELECT * FROM templates WHERE template_skin='default'";
-			$query = $this->db->query($sql);
+			$query = $this->db->dbquery($sql);
 
 			while ($row = $this->db->nqfetch($query))
 			{
 					$sql = "SELECT template_name FROM templates WHERE template_skin='%s' AND template_name='%s'";
-					$miss = $this->db->query($sql, $skin, $row['template_name']);
+					$miss = $this->db->dbquery($sql, $skin, $row['template_name']);
 
 					if ($this->db->num_rows($miss) < 1)
 					{
-						$this->db->query("INSERT INTO templates (template_skin, template_set, template_name, template_html, template_displayname, template_description)
+						$this->db->dbquery("INSERT INTO templates (template_skin, template_set, template_name, template_html, template_displayname, template_description)
 							VALUES( '%s', '%s', '%s', '%s', '%s', '%s')", $skin, $row['template_set'], $row['template_name'], $row['template_html'], $row['template_displayname'], $row['template_description']);
 
 						$didsomething = true;
@@ -367,7 +367,7 @@ class templates extends admin
 			fwrite($xmlFile, "  </files>\n");
 			fwrite($xmlFile, "  <templates>\n");
 			
-        	$query = $this->db->query("SELECT * FROM templates WHERE template_skin = '%s' ORDER BY template_name ASC", $skin['skin_dir']);
+        	$query = $this->db->dbquery("SELECT * FROM templates WHERE template_skin = '%s' ORDER BY template_name ASC", $skin['skin_dir']);
 	        while ($row = $this->db->nqfetch($query))
 			{
 				fwrite($xmlFile, "    <template><set>{$row['template_set']}</set><name>{$row['template_name']}</name>\n");
@@ -454,9 +454,9 @@ class templates extends admin
 
 					$this->remove_dir("../skins/{$this->post['skin']}");
 
-					$this->db->query("DELETE FROM skins WHERE skin_dir='%s'", $this->post['skin']);
-					$this->db->query("DELETE FROM templates WHERE template_skin='%s'", $this->post['skin']);
-					$this->db->query("UPDATE users SET user_skin='%s' WHERE user_skin='%s'", $existing['skin_dir'], $this->post['skin']);
+					$this->db->dbquery("DELETE FROM skins WHERE skin_dir='%s'", $this->post['skin']);
+					$this->db->dbquery("DELETE FROM templates WHERE template_skin='%s'", $this->post['skin']);
+					$this->db->dbquery("UPDATE users SET user_skin='%s' WHERE user_skin='%s'", $existing['skin_dir'], $this->post['skin']);
 
 					return $this->message($this->lang->edit_skin, $this->lang->skin_deleted);
 				} else {
@@ -478,11 +478,11 @@ class templates extends admin
 
 						rename("../skins/{$this->post['skin']}", "../skins/{$this->post['skin_dir']}");
 
-						$this->db->query("UPDATE templates SET template_skin='%s' WHERE template_skin='%s'", $this->post['skin_dir'], $this->post['skin']);
-						$this->db->query("UPDATE users SET user_skin='%s' WHERE user_skin='%s'", $this->post['skin_dir'], $this->post['skin']);
+						$this->db->dbquery("UPDATE templates SET template_skin='%s' WHERE template_skin='%s'", $this->post['skin_dir'], $this->post['skin']);
+						$this->db->dbquery("UPDATE users SET user_skin='%s' WHERE user_skin='%s'", $this->post['skin_dir'], $this->post['skin']);
 					}
 
-					$this->db->query("UPDATE skins SET skin_name='%s', skin_dir='%s' WHERE skin_dir='%s'",
+					$this->db->dbquery("UPDATE skins SET skin_name='%s', skin_dir='%s' WHERE skin_dir='%s'",
 						$this->post['skin_name'], $this->post['skin_dir'], $this->post['skin']);
 
 					if (!$dup) {
@@ -587,7 +587,7 @@ class templates extends admin
 
 		$out = "";
 		$action = 'delete';
-		$query = $this->db->query("SELECT DISTINCT(template_set) as temp_set FROM templates WHERE template_skin='%s'", $template);
+		$query = $this->db->dbquery("SELECT DISTINCT(template_set) as temp_set FROM templates WHERE template_skin='%s'", $template);
 		while ($data = $this->db->nqfetch($query))
 		{
 			if (!isset($sections[$data['temp_set']])) {
@@ -604,7 +604,7 @@ class templates extends admin
 
 		$out = "";
 		$action = 'edit';
-		$query = $this->db->query("SELECT DISTINCT(template_set) as temp_set FROM templates WHERE template_skin='%s'", $template);
+		$query = $this->db->dbquery("SELECT DISTINCT(template_set) as temp_set FROM templates WHERE template_skin='%s'", $template);
 		while ($data = $this->db->nqfetch($query))
 		{
 			if (!isset($sections[$data['temp_set']])) {
@@ -636,7 +636,7 @@ class templates extends admin
 			$token = $this->generate_token();
 			$template_box = '';
 
-			$query = $this->db->query("SELECT DISTINCT(template_set) as temp_set FROM templates WHERE template_skin='%s'", $template);
+			$query = $this->db->dbquery("SELECT DISTINCT(template_set) as temp_set FROM templates WHERE template_skin='%s'", $template);
 			while ($data = $this->db->nqfetch($query))
 			{
 				if (!isset($sections[$data['temp_set']])) {
@@ -662,7 +662,7 @@ class templates extends admin
 				return $this->message($this->lang->add, $this->lang->all_fields_required);
 			}
 
-		        $this->db->query("INSERT INTO templates (template_skin, template_set, template_name, template_html, template_displayname, template_description)
+		        $this->db->dbquery("INSERT INTO templates (template_skin, template_set, template_name, template_html, template_displayname, template_description)
 					VALUES ('%s', '%s', '%s', '%s', '%s', '%s')",
 					$template, $template_set, $name, $html, $title, $desc);
 		        return $this->message($this->lang->templates, $this->lang->template_added, $this->lang->continue, "$this->self?a=templates&amp;skin=$template");
@@ -675,7 +675,7 @@ class templates extends admin
 		$this->tree($title);
 
 		if (!isset($this->post['submit']) &&!isset($this->post['submitTemp'])) {
-			$query = $this->db->query("SELECT template_displayname, template_description, template_name, template_html, template_set
+			$query = $this->db->dbquery("SELECT template_displayname, template_description, template_name, template_html, template_set
 				FROM templates WHERE template_skin='%s' AND template_set='%s'", $this->get['skin'], $this->get['section']);
 
 			$out = "";
@@ -697,7 +697,7 @@ class templates extends admin
 				<input type='submit' name='submit' value='{$this->lang->delete_template}' />
 				</div></form>");
 		} elseif( !isset($this->get['i'])) {
-			$query = $this->db->query("SELECT template_displayname, template_description, template_name, template_html
+			$query = $this->db->dbquery("SELECT template_displayname, template_description, template_name, template_html
 				FROM templates WHERE template_skin='%s' AND template_name='%s'", $template, $this->post['template']);
 
 			$name = $this->post['template'];
@@ -720,7 +720,7 @@ class templates extends admin
 				return $this->message( $this->lang->delete_template, $this->lang->invalid_token );
 			}
 
-			$this->db->query("DELETE FROM templates WHERE template_skin='%s' AND template_name='%s'", $this->get['skin'], $this->post['submitTemp']);
+			$this->db->dbquery("DELETE FROM templates WHERE template_skin='%s' AND template_name='%s'", $this->get['skin'], $this->post['submitTemp']);
 			return $this->message($this->lang->delete_template,$this->lang->deleted);
 		}
 	}
@@ -733,7 +733,7 @@ class templates extends admin
 		if (!isset($this->post['submitTemps'])) {
 			$token = $this->generate_token();
 
-			$query = $this->db->query("SELECT template_displayname, template_description, template_name, template_html
+			$query = $this->db->dbquery("SELECT template_displayname, template_description, template_name, template_html
 				FROM templates WHERE template_skin='%s' AND template_set='%s' ORDER BY template_name", $template, $this->get['section']);
 
 			$out = "";
@@ -787,7 +787,7 @@ class templates extends admin
 					}
 				}
 
-				$this->db->query("UPDATE templates SET template_html='%s' WHERE template_skin='%s' AND template_name='%s' AND template_set='%s'",
+				$this->db->dbquery("UPDATE templates SET template_html='%s' WHERE template_skin='%s' AND template_name='%s' AND template_set='%s'",
 					$val, $template, $var, $this->get['section']);
 			}
 
@@ -837,12 +837,12 @@ class templates extends admin
 			}
 			$this->chmod("../skins/$name/",0775,true);
 
-			$this->db->query("INSERT INTO skins (skin_name, skin_dir) VALUES ('%s', '%s')", $this->post['new_name'], $name);
+			$this->db->dbquery("INSERT INTO skins (skin_name, skin_dir) VALUES ('%s', '%s')", $this->post['new_name'], $name);
 
-			$query = $this->db->query("SELECT * FROM templates WHERE template_skin='%s'", $this->post['new_based']);
+			$query = $this->db->dbquery("SELECT * FROM templates WHERE template_skin='%s'", $this->post['new_based']);
 			while ($r = $this->db->nqfetch($query))
 			{
-				$this->db->query("INSERT INTO templates (template_skin, template_set, template_name, template_html, template_displayname, template_description)
+				$this->db->dbquery("INSERT INTO templates (template_skin, template_set, template_name, template_html, template_displayname, template_description)
 					VALUES('%s', '%s', '%s', '%s', '%s', '%s')",
 					$name, $r['template_set'], $r['template_name'], $r['template_html'], $r['template_displayname'], $r['template_description']);
 			}
@@ -897,7 +897,6 @@ class templates extends admin
 		}
 	}
 
-
 	/**
 	 * Executes an array of queries
 	 *
@@ -916,7 +915,7 @@ class templates extends admin
 			$query = str_replace('%', '%%', $query);
 			// Strip out reference to template position!
 			$query = preg_replace('/^(.+), template_position\)(.+), \d+\)$/s', '\1)\2)', $query);
-			$this->db->query($query);
+			$this->db->dbquery($query);
 		}
 	}
 }

@@ -64,7 +64,7 @@ class query extends admin
 				return $this->message( $this->lang->query, $this->lang->invalid_token );
 			}
 
-			$result = $this->db->query($this->post['sql']);
+			$result = $this->db->dbquery($this->post['sql']);
 
 			if (is_resource($result)) {
 				$sql = htmlspecialchars($this->post['sql']);

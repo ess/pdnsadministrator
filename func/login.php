@@ -111,7 +111,7 @@ class login extends pdnsadmin
 		if (!isset($this->get['sure']) && !$this->perms->is_guest) {
 			return $this->message($this->lang->login_out, sprintf($this->lang->login_sure, $this->user['user_name']), $this->lang->continue, "$this->self?a=login&amp;s=off&amp;sure=1");
 		} else {
-			$this->db->query("UPDATE users SET user_lastlogon=%d, user_lastlogonip='%s' WHERE user_id=%d",
+			$this->db->dbquery("UPDATE users SET user_lastlogon=%d, user_lastlogonip='%s' WHERE user_id=%d",
 				$this->time, $this->ip, $this->user['user_id']);
 
 			setcookie($this->sets['cookie_prefix'] . 'user', '', $this->time - 9000, $this->sets['cookie_path'], $this->sets['cookie_domain'], $this->sets['cookie_secure'], true );
@@ -188,7 +188,7 @@ class login extends pdnsadmin
 		$mailer->setServer($this->sets['mailserver']);
 		$mailer->doSend();
 
-		$this->db->query("UPDATE users SET user_password='%s' WHERE user_id=%d",
+		$this->db->dbquery("UPDATE users SET user_password='%s' WHERE user_id=%d",
 			md5($newpass), $target['user_id']);
 
 		return $this->message($this->lang->login_pass_reset, $this->lang->login_pass_sent);

@@ -32,8 +32,9 @@ if (!defined('PDNSADMIN') || !defined('PDNS_ADMIN')) {
  * Miscellaneous functions specific to the admin center
  *
  * @author Jason Warner <jason@mercuryboard.com>
- * @since Beta 2.1
- */
+ * @author Roger Libiez [Samson] http://www.iguanadons.net
+ * @since 1.0
+ **/
 class admin extends pdnsadmin
 {
 	/**
@@ -171,9 +172,9 @@ class admin extends pdnsadmin
 		$out = "<select name=\"$select\">";
 
 		if ($custom_only) {
-			$groups = $this->db->query('SELECT group_name, group_id FROM groups WHERE group_type="" ORDER BY group_name');
+			$groups = $this->db->dbquery('SELECT group_name, group_id FROM groups WHERE group_type="" ORDER BY group_name');
 		} else {
-			$groups = $this->db->query('SELECT group_name, group_id FROM groups ORDER BY group_name');
+			$groups = $this->db->dbquery('SELECT group_name, group_id FROM groups ORDER BY group_name');
 		}
 
 		while ($group = $this->db->nqfetch($groups))
@@ -207,7 +208,7 @@ class admin extends pdnsadmin
 		$tarray = array();
 
 		// This looks a bit strange, but it will pull all of the proper prefixed tables.
-		$tb = $this->db->query( 'SHOW TABLES' );
+		$tb = $this->db->dbquery( 'SHOW TABLES' );
 		while( $tb1 = $this->db->nqfetch($tb) )
 		{
 			foreach( $tb1 as $col => $data )

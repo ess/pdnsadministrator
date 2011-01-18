@@ -59,14 +59,14 @@ class database
 	 * @since Beta 2.0
 	 * @return void
 	 **/
-	function database($db_host, $db_user, $db_pass, $db_name, $db_port, $db_socket)
+	function database($db_name, $db_user, $db_pass, $db_host, $db_port, $db_socket)
 	{
 		$this->get    = $_GET;
 		$this->post   = $_POST;
-		$this->host   = $db_host;
+		$this->db     = $db_name;
 		$this->user   = $db_user;
 		$this->pass   = $db_pass;
-		$this->db     = $db_name;
+		$this->host   = $db_host;
 		$this->port   = $db_port;
 	}
 
@@ -129,7 +129,7 @@ class database
 	 * @param string $query SQL query
 	 * @return resource Executed query
 	 **/
-	function query($query)
+	function dbquery($query)
 	{
 		return null;
 	}
@@ -152,7 +152,7 @@ class database
 			$args  = func_get_args();
 		}
 
-		return $this->nqfetch($this->query($args));
+		return $this->nqfetch($this->dbquery($args));
 	}
 
 	/**

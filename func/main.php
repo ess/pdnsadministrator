@@ -75,7 +75,7 @@ class main extends pdnsadmin
 		$sql .= ' GROUP BY d.name, d.id
 		    ORDER BY d.name';
 
-		$result = $this->db->query($sql);
+		$result = $this->db->dbquery($sql);
 		$num = $this->db->num_rows( $result );
 
 		// Need to pick a default in case the setting doesn't exist for some reason.
@@ -87,7 +87,7 @@ class main extends pdnsadmin
 		$pages = $this->htmlwidgets->get_pages( $num, '', $this->get['min'], $this->get['num'] );
 
 		$sql .= sprintf( ' LIMIT %d, %d', $this->get['min'], $this->get['num'] );
-		$result = $this->db->query( $sql );
+		$result = $this->db->dbquery( $sql );
 
 		while( $domain = $this->db->nqfetch($result) )
 		{

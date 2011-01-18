@@ -46,7 +46,7 @@ class optimize extends admin
 	{
 		$tables = implode( ', ', $this->get_db_tables() );
 
-		$result = $this->db->query('OPTIMIZE TABLE ' . $tables);
+		$result = $this->db->optimize($tables);
 
 		$show_headers = true;
 

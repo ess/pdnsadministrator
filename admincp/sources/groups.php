@@ -82,7 +82,7 @@ class groups extends admin
 
 				$copying = $this->db->fetch('SELECT group_perms FROM groups WHERE group_id=%d', $this->post['user_group']);
 
-				$this->db->query("INSERT INTO groups (group_name, group_perms)
+				$this->db->dbquery("INSERT INTO groups (group_name, group_perms)
 					VALUES ('%s', '%s')",
 					$this->format($this->post['group_name'], FORMAT_HTMLCHARS), $copying['group_perms']);
 
@@ -136,7 +136,7 @@ class groups extends admin
 					return $this->message($this->lang->groups_edit, $this->lang->groups_no_name);
 				}
 
-				$this->db->query("UPDATE groups SET group_name='%s' WHERE group_id=%d",
+				$this->db->dbquery("UPDATE groups SET group_name='%s' WHERE group_id=%d",
 					$this->format($this->post['group_name'], FORMAT_HTMLCHARS), $this->post['group']);
 
 				return $this->message($this->lang->groups_edit, $this->lang->groups_edited);
@@ -181,8 +181,8 @@ class groups extends admin
 					$this->post['new_group'] = USER_MEMBER;
 				}
 
-				$this->db->query("DELETE FROM groups WHERE group_id=%d AND group_type=''", $this->post['old_group']);
-				$this->db->query('UPDATE users SET user_group=%d WHERE user_group=%d', $this->post['new_group'], $this->post['old_group']);
+				$this->db->dbquery("DELETE FROM groups WHERE group_id=%d AND group_type=''", $this->post['old_group']);
+				$this->db->dbquery('UPDATE users SET user_group=%d WHERE user_group=%d', $this->post['new_group'], $this->post['old_group']);
 
 				return $this->message($this->lang->groups_delete, $this->lang->groups_deleted);
 			}

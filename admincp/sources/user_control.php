@@ -72,7 +72,7 @@ class user_control extends admin
 			$lang = $this->post['lang'];
 			$newpass = $this->generate_pass(8);
 
-			$this->db->query("INSERT INTO users (user_name, user_email, user_password, user_group, user_language, user_created)
+			$this->db->dbquery("INSERT INTO users (user_name, user_email, user_password, user_group, user_language, user_created)
 			  VALUES( '%s', '%s', '%s', %d, '%s', %d )", $name, $email, md5($newpass), $group, $lang, $this->time );
 
 			$this->sets['users'] += 1;
@@ -106,7 +106,7 @@ class user_control extends admin
 				</div>
 				</form>");
 			} else {
-				$query = $this->db->query("SELECT user_id, user_name FROM users WHERE user_name LIKE '%%%s%%' LIMIT 250", $this->post['username']);
+				$query = $this->db->dbquery("SELECT user_id, user_name FROM users WHERE user_name LIKE '%%%s%%' LIMIT 250", $this->post['username']);
 
 				if (!$this->db->num_rows($query)) {
 					return $this->message($this->lang->mc, "{$this->lang->mc_not_found} \"{$this->post['username']}\"");
@@ -154,8 +154,8 @@ class user_control extends admin
 					return $this->message( $this->lang->mc_delete, $this->lang->invalid_token );
 				}
 
-				$this->db->query('UPDATE logs SET log_user=%d WHERE log_user=%d', USER_GUEST_UID, $this->get['id']);
-				$this->db->query('DELETE FROM users WHERE user_id=%d', $this->get['id']);
+				$this->db->dbquery('UPDATE logs SET log_user=%d WHERE log_user=%d', USER_GUEST_UID, $this->get['id']);
+				$this->db->dbquery('DELETE FROM users WHERE user_id=%d', $this->get['id']);
 
 				$user = $this->db->fetch('SELECT user_id, user_name FROM users ORDER BY user_id DESC LIMIT 1');
 				$counts = $this->db->fetch('SELECT COUNT(user_id) AS count FROM users');
@@ -283,7 +283,7 @@ class user_control extends admin
 				$user_language = $this->post['user_language'];
 				$user_skin = $this->post['user_skin'];
 
-				$this->db->query( "UPDATE users SET user_name='%s', user_email='%s', user_group=%d,
+				$this->db->dbquery( "UPDATE users SET user_name='%s', user_email='%s', user_group=%d,
 				  user_language='%s', user_skin='%s' WHERE user_id=%d",
 				  $user_name, $guest_email, $user_group, $user_language, $user_skin, $this->get['id'] );
 
@@ -299,7 +299,7 @@ class user_control extends admin
 	function list_groups($val)
 	{
 		$out = "<select name='user_group'>";
-		$groups = $this->db->query('SELECT group_name, group_id FROM groups ORDER BY group_name');
+		$groups = $this->db->dbquery('SELECT group_name, group_id FROM groups ORDER BY group_name');
 
 		while ($group = $this->db->nqfetch($groups))
 		{
@@ -312,7 +312,7 @@ class user_control extends admin
 	function list_skins($val)
 	{
 		$out = "<select name='user_skin'>";
-		$groups = $this->db->query('SELECT skin_name, skin_dir FROM skins ORDER BY skin_name');
+		$groups = $this->db->dbquery('SELECT skin_name, skin_dir FROM skins ORDER BY skin_name');
 
 		while ($group = $this->db->nqfetch($groups))
 		{

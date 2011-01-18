@@ -72,7 +72,7 @@ if ( strstr($module, '/') || strstr($module, '\\') ) {
 
 require './sources/' . $module . '.php';
 
-$db = new $modules['database']($set['db_host'], $set['db_user'], $set['db_pass'], $set['db_name'], $set['db_port'], $set['db_socket']);
+$db = new $modules['database']($set['db_name'], $set['db_user'], $set['db_pass'], $set['db_host'], $set['db_port'], $set['db_socket']);
 
 if (!$db->connection) {
 	exit('<center><font face="verdana" size="4" color="#000000"><b>A connection to the database could not be established and/or the specified database could not be found.</font></center>');

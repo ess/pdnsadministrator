@@ -46,7 +46,7 @@ class db_repair extends admin
 	{
 		$tables = implode( ', ', $this->get_db_tables() );
 
-		$result = $this->db->query('REPAIR TABLE ' . $tables);
+		$result = $this->db->repair($tables);
 
 		$show_headers = true;
 

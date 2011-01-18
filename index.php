@@ -47,7 +47,7 @@ set_error_handler('error');
 error_reporting(E_ALL);
 
 // Open connection to database
-$db = new $modules['database']($set['db_host'], $set['db_user'], $set['db_pass'], $set['db_name'], $set['db_port'], $set['db_socket']);
+$db = new $modules['database']($set['db_name'], $set['db_user'], $set['db_pass'], $set['db_host'], $set['db_port'], $set['db_socket']);
 if (!$db->connection) {
     error(PDNSADMIN_ERROR, 'A connection to the database could not be established and/or the specified database could not be found.', __FILE__, __LINE__);
 }

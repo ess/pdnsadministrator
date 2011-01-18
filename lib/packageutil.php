@@ -69,7 +69,7 @@ class packageutil
 
 				if ($query) {
 					array_unshift($data, $query);
-					$db->query($data);
+					$db->dbquery($data);
 				}
 			}
 		}
@@ -162,7 +162,7 @@ class packageutil
 					return "ERROR: No data available for template\n";
 				}
 				if ($template_names === null || in_array($temp_name, $template_names)) {
-					$db->query("REPLACE INTO templates
+					$db->dbquery("REPLACE INTO templates
 						(template_skin, template_set, template_name, template_html, template_displayname, template_description)
 						VALUES ('%s', '%s', '%s', '%s', '%s', '%s')",
 						$skin_dir, $temp_set, $temp_name, $temp_html, $temp_display, $temp_desc);

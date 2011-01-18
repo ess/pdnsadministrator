@@ -109,7 +109,7 @@ class db_pgsql extends database
 	 * @since 1.1.9
 	 * @return resource Executed query
 	 **/
-	function query($query)
+	function dbquery($query)
 	{
 		$args = array();
 		if (is_array($query)) {
@@ -191,6 +191,36 @@ class db_pgsql extends database
 	function escape($string)
 	{
 		return pg_escape_string($string);
+	}
+
+	/**
+	 * Returns an array containing the optimize results
+	 *
+	 * @author Roger Libiez [Samson] http://www.iguanadons.net
+	 * @since 1.2
+	 * @return array An array containing the results of the optimize operation
+	 * @param string $tables The list of tables to optimize
+	 **/
+	function optimize($tables)
+	{
+		$result = $this->db->dbquery( 'VACUUM ' . $tables );
+
+		return $result;
+	}
+
+	/**
+	 * Returns an array containing the repair results
+	 *
+	 * @author Roger Libiez [Samson] http://www.iguanadons.net
+	 * @since 1.2
+	 * @return array An array containing the results of the repair operation
+	 * @param string $tables The list of tables to repair
+	 **/
+	function repair($tables)
+	{
+		$result = $this->db->dbquery( 'VACUUM FULL ' . $tables );
+
+		return $result;
 	}
 }
 ?>

@@ -32,7 +32,8 @@ if (!defined('PDNSADMIN')) {
  * The PDNS-Admin Core
  *
  * @author Jason Warner <jason@mercuryboard.com>
- * @since Beta 2.0
+ * @author Roger Libiez [Samson] http://www.iguanadons.net
+ * @since 1.0
  **/
 class pdnsadmin
 {
@@ -285,6 +286,9 @@ class pdnsadmin
 	{
 		$settings = $this->db->fetch('SELECT settings_data FROM settings LIMIT 1');
 
+		if( !is_array($settings) )
+			return $sets;
+
 		return array_merge($sets, unserialize($settings['settings_data']));
 	}
 
@@ -432,12 +436,12 @@ class pdnsadmin
 	function create_settings_file()
 	{
 		$settings = array(
-			'db_host'   => $this->sets['db_host'],
 			'db_name'   => $this->sets['db_name'],
 			'db_pass'   => $this->sets['db_pass'],
+			'db_user'   => $this->sets['db_user'],
+			'db_host'   => $this->sets['db_host'],
 			'db_port'   => $this->sets['db_port'],
 			'db_socket' => $this->sets['db_socket'],
-			'db_user'   => $this->sets['db_user'],
 			'dbtype'    => $this->sets['dbtype'],
 			'installed' => $this->sets['installed'],
 			'admin_email' => $this->sets['admin_email']
@@ -518,7 +522,7 @@ if (!defined('PDNSADMIN')) {
 			}
 		}
 
-		$this->db->query("UPDATE settings SET settings_data='%s'", serialize($sets));
+		$this->db->dbquery("UPDATE settings SET settings_data='%s'", serialize($sets));
 	}
 
 	/**
@@ -619,7 +623,7 @@ if (!defined('PDNSADMIN')) {
 	 **/
 	function log_action($action, $data1, $data2 = 0, $data3 = 0)
 	{
-		$this->db->query("INSERT INTO logs (log_user, log_time, log_action, log_data1, log_data2, log_data3)
+		$this->db->dbquery("INSERT INTO logs (log_user, log_time, log_action, log_data1, log_data2, log_data3)
 			VALUES (%d, %d, '%s', %d, %d, %d)",
 			$this->user['user_id'], $this->time, $action, $data1, $data2, $data3);
 	}

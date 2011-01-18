@@ -91,15 +91,15 @@ class templater extends tool
 	function get_templates($a, $getMain = true, $getAdmin = false)
 	{
 		if ($getMain) {
-			$temp_query = $this->db->query("SELECT template_name, template_html FROM templates
+			$temp_query = $this->db->dbquery("SELECT template_name, template_html FROM templates
 				WHERE template_skin='%s' AND (template_set='Main' OR template_set='%s')",
 				$this->skin, $a);
 		} elseif ($getAdmin) {
-			$temp_query = $this->db->query("SELECT template_name, template_html FROM templates
+			$temp_query = $this->db->dbquery("SELECT template_name, template_html FROM templates
 				WHERE template_skin='%s' AND (template_set='Admin' OR template_set='%s')",
 				$this->skin, $a);
 		} else {
-			$temp_query = $this->db->query("SELECT template_name, template_html FROM templates
+			$temp_query = $this->db->dbquery("SELECT template_name, template_html FROM templates
 				WHERE template_skin='%s' AND template_set='%s'",
 				$this->skin, $a);
 		}

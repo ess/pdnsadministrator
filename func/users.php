@@ -101,7 +101,7 @@ class users extends pdnsadmin
 			"a=users&amp;l={$l}&amp;order=$order&amp;asc=$lasc", $this->get['min'], $this->get['num']);
 		}
 
-		$result = $this->db->query("
+		$result = $this->db->dbquery("
 			SELECT
 				m.user_created, m.user_email, m.user_name, m.user_id, m.user_domains, g.group_name
 			FROM
@@ -140,7 +140,7 @@ class users extends pdnsadmin
 		$domain_list = '';
 		$domain_count = 0;
 		if( $user['user_domains'] > 0 ) {
-			$domains = $this->db->query( 'SELECT z.domain_id, d.name
+			$domains = $this->db->dbquery( 'SELECT z.domain_id, d.name
 			   FROM zones z
 			   LEFT JOIN domains d ON d.id=z.domain_id
 			   WHERE z.owner=%d

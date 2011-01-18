@@ -71,7 +71,7 @@ class supermaster extends admin
 		$count = 0;
 		$content = '';
 
-		$masters = $this->db->query( 'SELECT * FROM supermasters' );
+		$masters = $this->db->dbquery( 'SELECT * FROM supermasters' );
 
 		while( $master = $this->db->nqfetch( $masters ) )
 		{
@@ -130,7 +130,7 @@ class supermaster extends admin
 		if( !$this->is_valid_domain($ns) )
 			return $this->message( $this->lang->supermaster_add, $this->lang->supermaster_ns_invalid );
 
-		$this->db->query( "INSERT INTO supermasters (ip,nameserver,account) VALUES( '%s', '%s', 'Internal' )", $ip, $ns );
+		$this->db->dbquery( "INSERT INTO supermasters (ip,nameserver,account) VALUES( '%s', '%s', 'Internal' )", $ip, $ns );
 		return $this->message( $this->lang->supermaster_add, $this->lang->supermaster_added );
 	}
 
@@ -159,7 +159,7 @@ class supermaster extends admin
 			return $this->message( $this->lang->supermaster_delete, $this->lang->invalid_token );
 		}
 
-		$this->db->query( "DELETE FROM supermasters WHERE ip='%s' AND nameserver='%s'", $ip, $ns );
+		$this->db->dbquery( "DELETE FROM supermasters WHERE ip='%s' AND nameserver='%s'", $ip, $ns );
 		return $this->message( $this->lang->supermaster_delete, $this->lang->supermaster_deleted );
 	}
 }

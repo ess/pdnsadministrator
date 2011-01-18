@@ -187,7 +187,7 @@ echo" <div class='article'>
 						$queries[] = "ALTER TABLE users ADD user_domains int(10) unsigned NOT NULL default '0' AFTER user_email";
 						$queries[] = 'ALTER TABLE users ADD user_lastlogonip varchar(255) NOT NULL AFTER user_lastlogon';
 
-						$users = $this->db->query( 'SELECT user_id FROM users' );
+						$users = $this->db->dbquery( 'SELECT user_id FROM users' );
 						while( $user = $this->db->nqfetch( $users ) )
 						{
 							$domains = $this->db->fetch( 'SELECT COUNT(id) count FROM zones WHERE owner=%d', $user['user_id'] );

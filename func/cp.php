@@ -117,7 +117,7 @@ class cp extends pdnsadmin
 
 			case PASS_SUCCESS:
 				$hashed_pass = md5($this->post['passA']);
-				$this->db->query("UPDATE users SET user_password='%s' WHERE user_id=%d", $hashed_pass, $this->user['user_id']);
+				$this->db->dbquery("UPDATE users SET user_password='%s' WHERE user_id=%d", $hashed_pass, $this->user['user_id']);
 
 				setcookie($this->sets['cookie_prefix'] . 'pass', $hashed_pass, $this->time + $this->sets['logintime'], $this->sets['cookie_path'], $this->sets['cookie_domain'], $this->sets['cookie_secure'], true );
 
@@ -147,7 +147,7 @@ class cp extends pdnsadmin
 
 			$this->post['user_language'] = preg_replace('/[^a-zA-Z0-9\-]/', '', $this->post['user_language']);
 
-			$this->db->query("
+			$this->db->dbquery("
 				UPDATE users SET user_skin='%s', user_language='%s'
 				WHERE user_id=%d",
 				$this->post['user_skin'], $this->post['user_language'], $this->user['user_id']);
@@ -180,7 +180,7 @@ class cp extends pdnsadmin
 				return $this->message($this->lang->cp_err_updating, $this->lang->cp_already_user);
 			}
 
-			$this->db->query("UPDATE users SET user_email='%s' WHERE user_id=%d",
+			$this->db->dbquery("UPDATE users SET user_email='%s' WHERE user_id=%d",
 				$this->post['user_email'], $this->user['user_id']);
 
 			return $this->message($this->lang->cp_updated, $this->lang->cp_been_updated);

@@ -28,13 +28,13 @@ if (!defined('PDNSADMIN')) {
 	die;
 }
 
-require_once $set['include_path'] . '/lib/xmlparser.php';
 require_once $set['include_path'] . '/lib/packageutil.php';
 
 /**
- * New Board Installation
+ * New Console Installation
  *
  * @author Jason Warner <jason@mercuryboard.com>
+ * @author Roger Libiez [Samson] http://www.iguanadons.net
  */
 class full_install extends pdnsadmin
 {
@@ -47,7 +47,7 @@ class full_install extends pdnsadmin
 	   return $proto . $server;
 	}
 
-	function install_console( $step, $mysqli )
+	function install_console( $step, $mysqli, $sqlite, $pgsql )
 	{
 		switch($step) {
 		default:
@@ -72,16 +72,24 @@ echo "    <p></p>
   <p class='line'></p>
 
   <span class='field'>Database Type:</span>
-  <span class='form'>";
+  <span class='form'>
+   <select name='dbtype'>";
+
   if ($mysqli) {
-    echo 'MySQLi';
+    echo "<option value='mysqli'>MySQLi</option>";
   } else {
-    echo 'MySQL';
+    echo "<option value='mysql'>MySQL</option>";
   }
-  echo "</span>
+  if( $sqlite )
+    echo "<option value='sqlite3'>SQLite3</option>";
+  if( $pgsql )
+    echo "<option value='pgsql'>pgSQL</option>";
+
+  echo "</select>
+  </span>
   <p class='line'></p>
 
-  <span class='field'>Database Name:</span>
+  <span class='field'>Database Name:</span> For SQLite, this is the database filename you will be using. Will be stored in the sqlite3db folder, which must be writeable.
   <span class='form'><input class='input' type='text' name='db_name' value='{$this->sets['db_name']}' /></span>
   <p class='line'></p>
 
@@ -151,15 +159,9 @@ echo "    <p></p>
   </span>
   <p class='line'></p>
 
-  <div style='text-align:center'>";
-
-  if ($mysqli) {
-    echo "<input type='hidden' name='dbtype' value='mysqli' />";
-  } else {
-    echo "<input type='hidden' name='dbtype' value='mysql' />";
-  }
-
-  echo "<input type='submit' name='submit' value='Continue' /></div>
+  <div style='text-align:center'>
+   <input type='submit' name='submit' value='Continue' />
+  </div>
  </div>
 </form>";
 break;
@@ -167,18 +169,24 @@ break;
 		case 2:
   echo "<div class='article'>
   <div class='title'>Complete PDNS + {$this->name} Installation</div>";
-			$db = new $this->modules['database']($this->post['db_host'], $this->post['db_user'], $this->post['db_pass'], $this->post['db_name'], $this->post['db_port'], $this->post['db_socket']);
+			if( $this->post['dbtype'] == 'sqlite3' ) {
+				if(!is_writeable('../sqlite3db/')) {
+					echo "The sqlite3db folder is not writeable, your SQLite3 database file cannot be created. Please correct this error and try again.";
+					break 2;
+				}
+				@unlink( '../sqlite3db/' . $this->post['db_name'] );
+			}
+			$db = new $this->modules['database']($this->post['db_name'], $this->post['db_user'], $this->post['db_pass'], $this->post['db_host'], $this->post['db_port'], $this->post['db_socket']);
 
 			if (!$db->connection) {
-				echo "Couldn't connect to a database using the specified information.";
-				break;
+					echo "Couldn't connect to a database using the specified information.";
 			}
 			$this->db = &$db;
 
-			$this->sets['db_host']   = $this->post['db_host'];
+			$this->sets['db_name']   = $this->post['db_name'];
 			$this->sets['db_user']   = $this->post['db_user'];
 			$this->sets['db_pass']   = $this->post['db_pass'];
-			$this->sets['db_name']   = $this->post['db_name'];
+			$this->sets['db_host']   = $this->post['db_host'];
 			$this->sets['db_port']   = $this->post['db_port'];
 			$this->sets['db_socket'] = $this->post['db_socket'];
 			$this->sets['dbtype']    = $this->post['dbtype'];
@@ -191,10 +199,10 @@ break;
 				echo "so you can later place it on the website manually<br/>\n";
 				echo "<form action=\"{$this->self}?mode=new_install&amp;step=2\" method=\"post\">\n
 					<input type=\"hidden\" name=\"downloadsettings\" value=\"yes\" />\n
-					<input type=\"hidden\" name=\"db_host\" value=\"" . htmlspecialchars($this->post['db_host']) . "\" />\n
 					<input type=\"hidden\" name=\"db_name\" value=\"" . htmlspecialchars($this->post['db_name']) . "\" />\n
 					<input type=\"hidden\" name=\"db_user\" value=\"" . htmlspecialchars($this->post['db_user']) . "\" />\n
 					<input type=\"hidden\" name=\"db_pass\" value=\"" . htmlspecialchars($this->post['db_pass']) . "\" />\n
+					<input type=\"hidden\" name=\"db_host\" value=\"" . htmlspecialchars($this->post['db_host']) . "\" />\n
 					<input type=\"hidden\" name=\"db_port\" value=\"" . htmlspecialchars($this->post['db_port']) . "\" />\n
 					<input type=\"hidden\" name=\"db_socket\" value=\"" . htmlspecialchars($this->post['db_socket']) . "\" />\n
 					<input type=\"hidden\" name=\"dbtype\" value=\"" . htmlspecialchars($this->post['dbtype']) . "\" />\n
@@ -282,7 +290,7 @@ break;
 			$this->sets['debug_mode'] = 0;
 			$this->sets['mailserver'] = 'localhost';
 
-			$this->db->query("INSERT INTO users (user_name, user_password, user_group, user_email, user_created)
+			$this->db->dbquery("INSERT INTO users (user_name, user_password, user_group, user_email, user_created)
 				VALUES ('%s', '%s', %d, '%s', %d)",
 				$this->post['admin_name'], $this->post['admin_pass'], USER_ADMIN, $this->post['admin_email'], $this->time);
 			$admin_uid = $this->db->insert_id("users");
@@ -322,10 +330,10 @@ break;
 				An administrator account was registered.<br />";
 				echo "Click here to download your settings.php file. You must put this file on the webhost before the board is ready to use<br/>\n";
 				echo "<form action=\"{$this->self}?mode=new_install&amp;step=3\" method=\"post\">\n
-					<input type=\"hidden\" name=\"db_host\" value=\"" . htmlspecialchars($this->post['db_host']) . "\" />\n
 					<input type=\"hidden\" name=\"db_name\" value=\"" . htmlspecialchars($this->post['db_name']) . "\" />\n
 					<input type=\"hidden\" name=\"db_user\" value=\"" . htmlspecialchars($this->post['db_user']) . "\" />\n
 					<input type=\"hidden\" name=\"db_pass\" value=\"" . htmlspecialchars($this->post['db_pass']) . "\" />\n
+					<input type=\"hidden\" name=\"db_host\" value=\"" . htmlspecialchars($this->post['db_host']) . "\" />\n
 					<input type=\"hidden\" name=\"db_port\" value=\"" . htmlspecialchars($this->post['db_port']) . "\" />\n
 					<input type=\"hidden\" name=\"db_socket\" value=\"" . htmlspecialchars($this->post['db_socket']) . "\" />\n
 					<input type=\"hidden\" name=\"dbtype\" value=\"" . htmlspecialchars($this->post['dbtype']) . "\" />\n
@@ -348,10 +356,10 @@ break;
 
 		case 3:
 			// Give them the settings.php file
-			$this->sets['db_host']   = $this->post['db_host'];
+			$this->sets['db_name']   = $this->post['db_name'];
 			$this->sets['db_user']   = $this->post['db_user'];
 			$this->sets['db_pass']   = $this->post['db_pass'];
-			$this->sets['db_name']   = $this->post['db_name'];
+			$this->sets['db_host']   = $this->post['db_host'];
 			$this->sets['db_port']   = $this->post['db_port'];
 			$this->sets['db_socket'] = $this->post['db_socket'];
 			$this->sets['dbtype']    = $this->post['dbtype'];

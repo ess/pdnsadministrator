@@ -191,7 +191,7 @@ class settings extends admin
 					return $this->message($this->lang->settings, $this->lang->settings_db_file_write);
 				}
 			} else {
-				$this->db->query("UPDATE users SET user_language='%s', user_skin='%s' WHERE user_id=%d",
+				$this->db->dbquery("UPDATE users SET user_language='%s', user_skin='%s' WHERE user_id=%d",
 					$this->post['default_lang'], $this->post['default_skin'], USER_GUEST_UID);
 				$this->write_sets();
 			}

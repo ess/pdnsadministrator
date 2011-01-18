@@ -49,22 +49,23 @@ class db_mysql extends database
 	 * @since Beta 2.0
 	 * @return void
 	 **/
-	function db_mysql($db_host, $db_user, $db_pass, $db_name, $db_port = 3306, $db_socket = '')
+	function db_mysql($db_name, $db_user, $db_pass, $db_host, $db_port = 3306, $db_socket = '')
 	{
-		parent::database($db_host, $db_user, $db_pass, $db_name, $db_port, $db_socket);
+		parent::database($db_name, $db_user, $db_pass, $db_host, $db_port, $db_socket);
 		$this->socket = $db_socket;
 
 		$this->connection = @mysql_connect("$db_host:$db_port" . (!$this->socket ? '' : ":$db_socket"), $db_user, $db_pass, true);
 
-		if (!@mysql_select_db($db_name, $this->connection)) {
+		if (!@mysql_select_db($db_name, $this->connection))
 			$this->connection = false;
-		}
+
+		$this->db = $this->connection;
 	}
 
 	function close()
 	{
 		if( $this->connection )
-			@mysql_close( $this->connection );
+			@mysql_close( $this->db );
 	}
 
 	/**
@@ -80,7 +81,7 @@ class db_mysql extends database
 	{
 		$data = array();
 		if (substr(trim(strtoupper($query)), 0, 6) == 'SELECT') {
-			$result = mysql_query("EXPLAIN $query", $this->connection) or error(QUICKSILVER_QUERY_ERROR, mysql_error($this->connection), $query, mysql_errno($this->connection));
+			$result = mysql_query("EXPLAIN $query", $this->db) or error(PDNSADMIN_QUERY_ERROR, mysql_error($this->db), $query, mysql_errno($this->db));
 			$data = mysql_fetch_array($result, MYSQL_ASSOC);
 		}
 		return $data;
@@ -96,7 +97,7 @@ class db_mysql extends database
 	 **/
 	function insert_id($table)
 	{
-		return mysql_insert_id($this->connection);
+		return mysql_insert_id($this->db);
 	}
 
 	/**
@@ -108,7 +109,7 @@ class db_mysql extends database
 	 * @since Beta 2.0
 	 * @return resource Executed query
 	 **/
-	function query($query)
+	function dbquery($query)
 	{
 		$args = array();
 		if (is_array($query)) {
@@ -125,7 +126,7 @@ class db_mysql extends database
 			$this->debug($query);
 		}
 
-		$result = mysql_query($query, $this->connection) or error(QUICKSILVER_QUERY_ERROR, mysql_error($this->connection), $query, mysql_errno($this->connection));
+		$result = mysql_query($query, $this->db) or error(PDNSADMIN_QUERY_ERROR, mysql_error($this->db), $query, mysql_errno($this->db));
 		return $result;
 	}
 
@@ -161,18 +162,6 @@ class db_mysql extends database
 	}
 
 	/**
-	 * Gets the number of rows affected by the last executed UPDATE
-	 *
-	 * @author Jason Warner <jason@mercuryboard.com>
-	 * @since Beta 2.1
-	 * @return int Number of affected rows
-	 **/
-	function aff_rows()
-	{
-		return mysql_affected_rows($this->connection);
-	}
-
-	/**
 	 * Returns a escaped string
 	 *
 	 * @author Matthew Lawrence <matt@quicksilverforums.com>
@@ -182,7 +171,7 @@ class db_mysql extends database
 	 **/
 	function escape($string)
 	{
-		return mysql_real_escape_string($string, $this->connection);
+		return mysql_real_escape_string($string, $this->db);
 	}
 
 	function invalid($errmsg)
@@ -195,7 +184,37 @@ class db_mysql extends database
 
 	function error_last()
 	{
-		return mysql_error($this->connection);
+		return mysql_error($this->db);
+	}
+
+	/**
+	 * Returns an array containing the optimize results
+	 *
+	 * @author Roger Libiez [Samson] http://www.iguanadons.net
+	 * @since 1.2
+	 * @return array An array containing the results of the optimize operation
+	 * @param string $tables The list of tables to optimize
+	 **/
+	function optimize($tables)
+	{
+		$result = $this->db->dbquery( 'OPTIMIZE TABLE ' . $tables );
+
+		return $result;
+	}
+
+	/**
+	 * Returns an array containing the repair results
+	 *
+	 * @author Roger Libiez [Samson] http://www.iguanadons.net
+	 * @since 1.2
+	 * @return array An array containing the results of the repair operation
+	 * @param string $tables The list of tables to repair
+	 **/
+	function repair($tables)
+	{
+		$result = $this->db->dbquery( 'REPAIR TABLE ' . $tables );
+
+		return $result;
 	}
 }
 ?>
