@@ -30,9 +30,9 @@ error_reporting(E_ALL);
 
 require_once( '../settings.php' );
 
-if ( isset( $_POST['dbtype'] ) )
+if( isset( $_POST['dbtype'] ) )
 	$set['dbtype'] = $_POST['dbtype'];
-else
+elseif( $set['dbtype'] == '' )
 	$set['dbtype'] = 'database';
 
 $set['include_path'] = '..';
