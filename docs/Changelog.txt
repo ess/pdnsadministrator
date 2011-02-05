@@ -3,6 +3,7 @@ Changes for 1.2.1:
 Bugs:
 
 * Upgrading a system using PDNS-Admin was not possible due to an error in the installer index.
+* Can't view past the first page on the domain list.
 
 Changes for 1.2:
 

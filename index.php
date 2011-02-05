@@ -54,15 +54,12 @@ if (!$db->connection) {
 
 /*
  * Logic here:
- * If 'a' is not set, but some other query is, it's a bogus request for this software.
  * If 'a' is set, but the module doesn't exist, it's either a malformed URL or a bogus request.
  * Otherwise $missing remains false and no error is generated later.
  */
 $missing = false;
 if (!isset($_GET['a']) ) {
 	$module = $modules['default_module'];
-	if( isset($_SERVER['QUERY_STRING']) && !empty($_SERVER['QUERY_STRING']) )
-		$missing = true;
 } elseif ( !file_exists( 'func/' . $_GET['a'] . '.php' ) ) {
 	$module = $modules['default_module'];
 	$missing = true;
