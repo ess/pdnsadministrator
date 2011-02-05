@@ -69,6 +69,10 @@ echo "<form action='{$this->self}?mode=upgrade&amp;step=2' method='post'>
 					echo "<div class='title' style='text-align:center'>Upgrade from what version?</div>
 					<span class='half'>
 
+				<span class='field'><input type='radio' name='from' value='1.2' id='1200' /></span>
+				<span class='form'><label for='1200'>PDNS-Admin 1.2</label></span>
+				<p class='line'></p>
+
 				<span class='field'><input type='radio' name='from' value='1.1.10' id='1110' /></span>
 				<span class='form'><label for='1110'>PDNS-Admin 1.1.10</label></span>
 				<p class='line'></p>
@@ -300,6 +304,7 @@ echo" <div class='article'>
 							$templates_update[] = 'ADMIN_MOD_LOGS';
 							$templates_update[] = 'MAIN';
 						}
+					case '1.2': // 1.2 to 1.21
 						break;
 				}
 
