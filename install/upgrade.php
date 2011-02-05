@@ -69,6 +69,10 @@ echo "<form action='{$this->self}?mode=upgrade&amp;step=2' method='post'>
 					echo "<div class='title' style='text-align:center'>Upgrade from what version?</div>
 					<span class='half'>
 
+				<span class='field'><input type='radio' name='from' value='1.21' id='1210' /></span>
+				<span class='form'><label for='1210'>PDNS-Admin 1.21</label></span>
+				<p class='line'></p>
+
 				<span class='field'><input type='radio' name='from' value='1.2' id='1200' /></span>
 				<span class='form'><label for='1200'>PDNS-Admin 1.2</label></span>
 				<p class='line'></p>
@@ -92,13 +96,13 @@ echo "<form action='{$this->self}?mode=upgrade&amp;step=2' method='post'>
 				<span class='field'><input type='radio' name='from' value='1.1.6' id='116' /></span>
 				<span class='form'><label for='116'>PDNS-Admin 1.1.6</label></span>
 				<p class='line'></p>
-
-				<span class='field'><input type='radio' name='from' value='1.1.5' id='115' /></span>
-				<span class='form'><label for='115'>PDNS-Admin 1.1.5</label></span>
-				<p class='line'></p>
 			       </span>
 
 			       <span class='half'>
+				<span class='field'><input type='radio' name='from' value='1.1.5' id='115' /></span>
+				<span class='form'><label for='115'>PDNS-Admin 1.1.5</label></span>
+				<p class='line'></p>
+
 				<span class='field'><input type='radio' name='from' value='1.1.4' id='114' /></span>
 				<span class='form'><label for='114'>PDNS-Admin 1.1.4</label></span>
 				<p class='line'></p>
@@ -305,6 +309,7 @@ echo" <div class='article'>
 							$templates_update[] = 'MAIN';
 						}
 					case '1.2': // 1.2 to 1.21
+					case '1.21': // 1.21 to 1.22
 						break;
 				}
 
