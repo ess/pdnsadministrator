@@ -48,7 +48,7 @@ echo "<form action='{$this->self}?mode=upgrade&amp;step=2' method='post'>
 
 				if ( !$db->connection )
 				{
-					echo 'Couldn\'t select database: <br />' . $db->error();
+					echo 'Could not connect to a database using the configured information.';
 					break;
 				}
 

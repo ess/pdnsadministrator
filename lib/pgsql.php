@@ -141,7 +141,6 @@ class db_pgsql extends database
 		return $this->last;
 	}
 
-
 	/**
 	 * Fetches an executed query into an array
 	 *
@@ -167,7 +166,6 @@ class db_pgsql extends database
 	{
 		return pg_num_rows($query);
 	}
-
 
 	/**
 	 * Gets the number of rows affected by the last executed UPDATE
