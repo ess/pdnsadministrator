@@ -19,13 +19,13 @@ if (!defined('PDNS_INSTALLER')) {
 	exit('Use index.php to install.');
 }
 
-$queries[] = "DROP SEQUENCE domains_id_seq";
-$queries[] = "DROP SEQUENCE records_id_seq";
+$queries[] = "DROP SEQUENCE IF EXISTS domains_id_seq";
+$queries[] = "DROP SEQUENCE IF EXISTS records_id_seq";
 
 $queries[] = "CREATE SEQUENCE domains_id_seq START 1 INCREMENT 1 MAXVALUE 2147483647 MINVALUE 1 CACHE 1";
 $queries[] = "CREATE SEQUENCE records_id_seq START 1 INCREMENT 1 MAXVALUE 2147483647 MINVALUE 1 CACHE 1";
 
-$queries[] = "DROP TABLE domains";
+$queries[] = "DROP TABLE IF EXISTS domains";
 $queries[] = "CREATE TABLE domains (
   id int2 DEFAULT nextval('domains_id_seq') NOT NULL,
   name varchar(255) NOT NULL DEFAULT '',

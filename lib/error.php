@@ -160,7 +160,7 @@ function error_fatal($type, $message, $file, $line = 0)
 		$details2";
 	} else {
 		$details .= "$type_str [$line]:\n
-		This type of error is reported by MySQL.\n\n
+		This type of error is reported by SQL.\n\n
 		Query:\n$file\n";
 	}
 

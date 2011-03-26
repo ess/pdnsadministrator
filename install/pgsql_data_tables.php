@@ -27,17 +27,17 @@ if (!defined('PDNS_INSTALLER')) {
 	exit('Use index.php to install.');
 }
 
-$queries[] = "DROP SEQUENCE groups_id_seq";
-$queries[] = "DROP SEQUENCE logs_id_seq";
-$queries[] = "DROP SEQUENCE users_id_seq";
-$queries[] = "DROP SEQUENCE zone_id_seq";
+$queries[] = "DROP SEQUENCE IF EXISTS groups_id_seq";
+$queries[] = "DROP SEQUENCE IF EXISTS logs_id_seq";
+$queries[] = "DROP SEQUENCE IF EXISTS users_id_seq";
+$queries[] = "DROP SEQUENCE IF EXISTS zone_id_seq";
 
 $queries[] = "CREATE SEQUENCE groups_id_seq START 1 INCREMENT 1 MAXVALUE 2147483647 MINVALUE 1 CACHE 1";
 $queries[] = "CREATE SEQUENCE logs_id_seq START 1 INCREMENT 1 MAXVALUE 2147483647 MINVALUE 1 CACHE 1";
 $queries[] = "CREATE SEQUENCE users_id_seq START 1 INCREMENT 1 MAXVALUE 2147483647 MINVALUE 1 CACHE 1";
 $queries[] = "CREATE SEQUENCE zone_id_seq START 1 INCREMENT 1 MAXVALUE 2147483647 MINVALUE 1 CACHE 1";
 
-$queries[] = "DROP TABLE groups";
+$queries[] = "DROP TABLE IF EXISTS groups";
 $queries[] = "CREATE TABLE groups (
   group_id int2 DEFAULT nextval('groups_id_seq') NOT NULL,
   group_name varchar(255) NOT NULL,
@@ -46,7 +46,7 @@ $queries[] = "CREATE TABLE groups (
   PRIMARY KEY  (group_id)
 )";
 
-$queries[] = "DROP TABLE logs";
+$queries[] = "DROP TABLE IF EXISTS logs";
 $queries[] = "CREATE TABLE logs (
   log_id int4 DEFAULT nextval('logs_id_seq') NOT NULL,
   log_user int4 NOT NULL default '0',
@@ -58,21 +58,21 @@ $queries[] = "CREATE TABLE logs (
   PRIMARY KEY  (log_id)
 )";
 
-$queries[] = "DROP TABLE settings";
+$queries[] = "DROP TABLE IF EXISTS settings";
 $queries[] = "CREATE TABLE settings (
   settings_id int2 NOT NULL default '0',
   settings_data text NOT NULL,
   PRIMARY KEY  (settings_id)
 )";
 
-$queries[] = "DROP TABLE skins";
+$queries[] = "DROP TABLE IF EXISTS skins";
 $queries[] = "CREATE TABLE skins (
   skin_name varchar(32) NOT NULL,
   skin_dir varchar(32) NOT NULL,
   PRIMARY KEY  (skin_dir)
 )";
 
-$queries[] = "DROP TABLE templates";
+$queries[] = "DROP TABLE IF EXISTS templates";
 $queries[] = "CREATE TABLE templates (
   template_skin varchar(32) NOT NULL default 'default',
   template_set varchar(20) NOT NULL,
@@ -83,7 +83,7 @@ $queries[] = "CREATE TABLE templates (
   UNIQUE (template_name,template_skin)
 )";
 
-$queries[] = "DROP TABLE users";
+$queries[] = "DROP TABLE IF EXISTS users";
 $queries[] = "CREATE TABLE users (
   user_id int4 DEFAULT nextval('users_id_seq') NOT NULL,
   user_name varchar(255) NOT NULL default '',
