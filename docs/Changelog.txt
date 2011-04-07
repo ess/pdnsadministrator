@@ -1,9 +1,15 @@
+Changes for 1.22:
+
+Bugs:
+
+* Issue #9: New installs fail for pgSQL 8 and 9.
+
 Changes for 1.21:
 
 Bugs:
 
-* Upgrading a system using PDNS-Admin was not possible due to an error in the installer index.
-* Can't view past the first page on the domain list.
+* Issue #5: Upgrading a system using PDNS-Admin was not possible due to an error in the installer index.
+* Issue #4: Can't view past the first page on the domain list.
 
 Changes for 1.2:
 
@@ -16,7 +22,7 @@ Bugs:
 
 Other:
 
-* Added maysara's suggested clone domains function.
+* Issue #2: Added maysara's suggested clone domains function.
 * Do not report error details to the browser screen.
 * User name field expanded to 255 characters.
 * It is now possible for PDNS-Admin to also install the necessary PDNS domain tables.
