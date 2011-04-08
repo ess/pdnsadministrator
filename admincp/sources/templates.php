@@ -767,7 +767,7 @@ class templates extends admin
 						$evil = 1;
 						continue;
 					}
-					if (stristr($val, 'http://pdnsadmin.iguanadons.net/') === false)
+					if (stristr($val, 'http://code.google.com/p/pdnsadministrator/') === false)
 					{
 						$evil = 1;
 						continue;
@@ -780,7 +780,7 @@ class templates extends admin
 						$evil = 1;
 						continue;
 					}
-					if (stristr($val, 'http://pdnsadmin.iguanadons.net/') === false)
+					if (stristr($val, 'http://code.google.com/p/pdnsadministrator/') === false)
 					{
 						$evil = 1;
 						continue;

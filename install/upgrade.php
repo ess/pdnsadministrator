@@ -310,6 +310,10 @@ echo" <div class='article'>
 						}
 					case '1.2': // 1.2 to 1.21
 					case '1.21': // 1.21 to 1.22
+						if( $templates_update !== true ) {
+							$templates_update[] = 'ADMIN_COPYRIGHT';
+							$templates_update[] = 'MAIN_COPYRIGHT';
+						}
 						break;
 				}
 
