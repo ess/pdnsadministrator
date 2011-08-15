@@ -150,6 +150,7 @@ class en
 		$this->domains_delete_not_permitted = 'You are not permitted to delete domains you do not own.';
 		$this->domains_deleted = 'The domain has been successfully deleted.';
 		$this->domains_delte_this = 'Delete this domain';
+		$this->domains_duplicate_cname = 'There is already a CNAME record in the domain with the same name.';
 		$this->domains_edit = 'Edit Domain';
 		$this->domains_edit_not_permitted = 'You are not permitted to edit domains you do not own.';
 		$this->domains_exists = 'That domain name already exists.';
