@@ -43,8 +43,7 @@ echo "<form action='{$this->self}?mode=upgrade&amp;step=2' method='post'>
   <div class='title' style='text-align:center'>Upgrade {$this->name} Installation</div>
   <div class='title'>Directory Permissions</div>";
 
-				$db = new $this->modules['database']($this->sets['db_host'], $this->sets['db_user'], $this->sets['db_pass'], $this->sets['db_name'],
-					$this->sets['db_port'], $this->sets['db_socket']);
+				$db = new $this->modules['database']($this->sets['db_name'], $this->sets['db_user'], $this->sets['db_pass'], $this->sets['db_host'], $this->sets['db_port'], $this->sets['db_socket']);
 
 				if ( !$db->connection )
 				{
@@ -69,6 +68,10 @@ echo "<form action='{$this->self}?mode=upgrade&amp;step=2' method='post'>
 					echo "<div class='title' style='text-align:center'>Upgrade from what version?</div>
 					<span class='half'>
 
+				<span class='field'><input type='radio' name='from' value='1.22' id='1220' /></span>
+				<span class='form'><label for='1220'>PDNS-Admin 1.22</label></span>
+				<p class='line'></p>
+
 				<span class='field'><input type='radio' name='from' value='1.21' id='1210' /></span>
 				<span class='form'><label for='1210'>PDNS-Admin 1.21</label></span>
 				<p class='line'></p>
@@ -92,13 +95,13 @@ echo "<form action='{$this->self}?mode=upgrade&amp;step=2' method='post'>
 				<span class='field'><input type='radio' name='from' value='1.1.7' id='117' /></span>
 				<span class='form'><label for='117'>PDNS-Admin 1.1.7</label></span>
 				<p class='line'></p>
-
-				<span class='field'><input type='radio' name='from' value='1.1.6' id='116' /></span>
-				<span class='form'><label for='116'>PDNS-Admin 1.1.6</label></span>
-				<p class='line'></p>
 			       </span>
 
 			       <span class='half'>
+				<span class='field'><input type='radio' name='from' value='1.1.6' id='116' /></span>
+				<span class='form'><label for='116'>PDNS-Admin 1.1.6</label></span>
+				<p class='line'></p>
+
 				<span class='field'><input type='radio' name='from' value='1.1.5' id='115' /></span>
 				<span class='form'><label for='115'>PDNS-Admin 1.1.5</label></span>
 				<p class='line'></p>
@@ -308,12 +311,15 @@ echo" <div class='article'>
 							$templates_update[] = 'ADMIN_MOD_LOGS';
 							$templates_update[] = 'MAIN';
 						}
+
 					case '1.2': // 1.2 to 1.21
 					case '1.21': // 1.21 to 1.22
 						if( $templates_update !== true ) {
 							$templates_update[] = 'ADMIN_COPYRIGHT';
 							$templates_update[] = 'MAIN_COPYRIGHT';
 						}
+
+					case '1.22': // 1.22 to 1.23
 						break;
 				}
 

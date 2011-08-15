@@ -248,6 +248,11 @@ class domains extends pdnsadmin
 			if( $rec ) {
 				return $this->message($this->lang->domains_record_edit, $this->lang->domains_invalid_cname);
 			}
+
+			$rec2 = $this->db->fetch( "SELECT type, content FROM records WHERE content='%s' AND type='CNAME'", $content );
+			if( $rec2 ) {
+				return $this->message($this->lang->domains_record_edit, $this->lang->domains_duplicate_cname);
+			}
 		}
 
 		// PTR record requires in-addr.arpa, so check for it.

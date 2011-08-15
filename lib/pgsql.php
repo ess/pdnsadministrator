@@ -47,9 +47,9 @@ class db_pgsql extends database
 	 * @since 1.1.9
 	 * @return void
 	 **/
-	function db_pgsql($db_host, $db_user, $db_pass, $db_name, $db_port = 5432, $db_socket)
+	function db_pgsql($db_name, $db_user, $db_pass, $db_host, $db_port = 5432, $db_socket = '')
 	{
-		parent::database($db_host, $db_user, $db_pass, $db_name, $db_port, $db_socket);
+		parent::database($db_name, $db_user, $db_pass, $db_host, $db_port, $db_socket);
 		$pg_connstr = "host=$db_host port=$db_port dbname=$db_name user=$db_user password=$db_pass";
 
 		$this->connection = @pg_connect($pg_connstr);

@@ -2,8 +2,11 @@ Changes for 1.22:
 
 Bugs:
 
+* Issue #3: Internal Server Error 500 on a new install due to trying to include a phantom DB library.
+* Issue #6: Install and/or upgrade fails for pgSQL due to parameters being reversed in the library, as well as the upgrade function having the parameter list backward in the function call.
 * Issue #9: New installs fail for pgSQL 8 and 9.
 * Issue #15: Invalid IP check should not try to validate a MASTER IP on a MASTER server.
+* Issue #18: Duplicate CNAME records are not allowed and should be rejected as an error.
 * Issue #20: Allow any TLD to comply with recent ICANN rulings.
 
 Changes for 1.21:
