@@ -610,7 +610,7 @@ class domains extends pdnsadmin
 			return $this->message($this->lang->domains_new, $this->lang->domains_invalid);
 		}
 
-		if (!$this->is_valid_ip($dom_ip) || !$this->is_valid_ip($master_ip)) {
+		if (!$this->is_valid_ip($dom_ip) || ($dom_type =='SLAVE' && !$this->is_valid_ip($master_ip))) {
 			return $this->message($this->lang->domains_new, $this->lang->domains_ip_invalid);
 		}
 
