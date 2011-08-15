@@ -43,8 +43,7 @@ echo "<form action='{$this->self}?mode=upgrade&amp;step=2' method='post'>
   <div class='title' style='text-align:center'>Upgrade {$this->name} Installation</div>
   <div class='title'>Directory Permissions</div>";
 
-				$db = new $this->modules['database']($this->sets['db_host'], $this->sets['db_user'], $this->sets['db_pass'], $this->sets['db_name'],
-					$this->sets['db_port'], $this->sets['db_socket']);
+				$db = new $this->modules['database']($this->sets['db_name'], $this->sets['db_user'], $this->sets['db_pass'], $this->sets['db_host'], $this->sets['db_port'], $this->sets['db_socket']);
 
 				if ( !$db->connection )
 				{
