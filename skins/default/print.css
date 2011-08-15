@@ -1,0 +1,281 @@
+/*
+	Please Note:
+	Print CSS is intended for a compromise between priting optimisation, and
+	good looks on normal mode. This means print CSS isn't quite as good as I
+	would have liked.
+*/
+
+body {
+	background: #FFFFFF;
+	font: 12px Arial, Sans-serif;
+	text-align: center;
+	margin: 0px;
+	padding: 0px;
+}
+a {
+	color: #161616;
+	text-decoration: none;
+}
+a:hover {
+	text-decoration: underline;
+}
+a:active, a:focus {
+	outline: none;
+}
+img {
+	border: none;
+}
+hr {
+	height: 1px;
+	border: none;
+	border-top: 1px solid #EBEBD8;
+}
+form {
+	padding: 0px;
+	margin: 0px;
+}
+input,
+select {
+	background:	#FFFFFF;
+	font: 13px Arial, Sans-serif;
+	color: #739EB9;
+	margin: 1px;
+	padding: 1px 2px;
+	border: 1px solid #EBEBD8;
+	cursor: pointer;
+}
+input.check {
+	border: none;
+	margin: 2px;
+}
+label {
+	margin: 1px 4px;
+	cursor: pointer;
+}
+input:focus {
+	background:	#FCFCF8;
+}
+input:active {
+	padding: 1px 2px;
+}
+textarea {
+	width: 99%;
+	font: 13px Arial, Sans-serif;
+	color: #161616;
+	padding: 1px 2px 0px 0px;
+	border: 1px solid #EBEBD8;
+}
+
+/* Container */
+#container {
+	color: #313131;
+	margin: 0px 5px;
+	text-align: left;
+}
+
+/* Company */
+#header {
+	margin: 0px;
+}
+#header #company {
+	padding: 0px 6px 10px;
+}
+#header #company .title {
+	font-size: 32px;
+	color: #000000;
+}
+
+/* Title */
+#title {
+	margin: 0px 0px 4px;
+	height: 1%; /* IE Hack */
+	padding: 5px;
+	border-top: 3px double #FFFFFF;
+	border-bottom: 3px double #FFFFFF;
+	text-align: center;
+}
+
+/* Blocks */
+#blocks {
+	display: none;
+}
+
+/* Main */
+#main {
+	width: 100%;
+	float: right;
+}
+#main .article {
+	background: #FFFFFF;
+	margin: 0px 0px 5px;
+	padding: 4px 6px;
+	border-top: 1px solid #EBEBD8;
+	border-bottom: 3px double #EBEBD8;
+}
+#main .title {
+	font: 18px Arial, Sans-serif;
+	color: #161616;
+	margin: 0px -2px 4px -7px;
+	padding: 0px 4px 2px 7px;
+	border-bottom: 1px solid #EBEBD8;
+	position: relative; /* IE Hack */
+}
+#main .title img {
+	display: none;
+}
+
+/* Button effects */
+.button a {
+	background-repeat: no-repeat;
+	font: 10px Arial, Sans-serif;
+	text-align: center;
+	text-decoration: none;
+	width: 40px;
+	margin: 1px 2px;
+	padding: 2px;
+	border: 1px solid #FFFFFF;
+	border-bottom: 1px solid #EBEBD8;
+	float: left;
+	position: relative; /* IE Hack */
+}
+.button a:hover {
+	background-color: #FCFCF8;
+	text-decoration: none;
+	border: 1px solid #EBEBD8;
+}
+
+.bigbutton a {
+	background-repeat: no-repeat;
+	font: 15px Arial, Sans-serif;
+	text-align: center;
+	text-decoration: none;
+	margin: 0px 1px;
+	padding: 4px 6px;
+	border: 1px solid #FFFFFF;
+	border-bottom: 1px solid #EBEBD8;
+	float: left;
+	display: none;
+}
+.bigbutton a:hover {
+	background-color: #FCFCF8;
+	text-decoration: none;
+	border: 1px solid #EBEBD8;
+}
+
+/* Topic Icons */
+#main .article div.topic_icon div {
+	display: none;
+}
+
+/* Forum-specific Rules */
+#main .article .head span,
+#main .article .head strong {
+	font: bold italic 13px Arial, Sans-serif;
+	border-bottom: 1px solid #EBEBD8;
+	margin: 0px 0px 3px;
+	display: block;
+	position: relative;
+	width: 100%;
+}
+#main .article span {
+	padding: 2px 0px;
+}
+#main .article span.right {
+	padding: 0px;
+	float: right;
+}
+#main .article .left {
+	padding: 0px;
+	float: left;
+}
+#main .article span.icon,
+#main .article div.topic_icon {
+	display: none;;
+}
+#main .article p {
+	height: 0px;
+	margin: 0px;
+	overflow: hidden;
+	clear: both;
+}
+#main .article p.line {
+	margin: 3px 0px;
+	border-bottom: 1px solid #EBEBD8;
+}
+#main .article p.list_line {
+	margin: 0px 0px 3px;
+	border-bottom: 1px solid #EBEBD8;
+}
+#main .article .tiny {
+	font: 10px Arial, Sans-serif;
+}
+
+/* Forms */
+#main .article span.field {
+	font-weight: bold;
+	width: 30%;
+	margin: 5px 0px;
+	float: left;
+}
+#main .article span.field span {
+	font-weight: normal;
+}
+#main .article span.form,
+#main .article div.form {
+	width: 70%;
+	float: left;
+}
+#main .article span.half {
+	width: 48%;
+	padding: 0px 2% 0px 0px;
+	overflow: hidden;
+	float: left;
+}
+#main .article span.quarter {
+	width: 25%;
+	float: left;
+	padding: 0px 0px 4px;
+}
+#main .article span.quarter a {
+	margin: 2px 0px 1px;
+	float: left;
+}
+
+/* Listings */
+#main .article span.number {
+	text-align: center;
+	width: 15%;
+	padding: 2px 0px;
+	float: left;
+}
+#main .article span.name {
+	width: 37%;
+	margin: 0px 0px 2px;
+	overflow-x: auto;
+	float: left;
+}
+#main .article span.owner {
+	width: 13%;
+	margin: 0px 0px 2px;
+	float: left;
+	text-align: center;
+}
+
+/* Bottom */
+#bottom {
+	height: 1px;
+	clear: both;
+}
+
+/* Footer */
+#footer, #copyright {
+	font: 10px Arial, Sans-serif;
+	color: #161616;
+	text-align: center;
+	height: 12px;
+	overflow: hidden;
+	margin: 0px 0px 4px;
+}
+#footer a, #copyright a {
+	color: #000000;
+}

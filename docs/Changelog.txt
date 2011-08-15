@@ -1,0 +1,154 @@
+Changes for 1.22:
+
+Bugs:
+
+* Issue #3: Internal Server Error 500 on a new install due to trying to include a phantom DB library.
+* Issue #6: Install and/or upgrade fails for pgSQL due to parameters being reversed in the library, as well as the upgrade function having the parameter list backward in the function call.
+* Issue #9: New installs fail for pgSQL 8 and 9.
+* Issue #15: Invalid IP check should not try to validate a MASTER IP on a MASTER server.
+* Issue #18: Duplicate CNAME records are not allowed and should be rejected as an error.
+* Issue #20: Allow any TLD to comply with recent ICANN rulings.
+
+Changes for 1.21:
+
+Bugs:
+
+* Issue #5: Upgrading a system using PDNS-Admin was not possible due to an error in the installer index.
+* Issue #4: Can't view past the first page on the domain list.
+
+Changes for 1.2:
+
+Bugs:
+
+* SECURITY: Secunia Advisory SA38736 fixed completely.
+* Set zlib compression to work properly.
+* Exporting skins crashes the interface if the packages folder is not writeable.
+* SQL query errors were generating the wrong error code to the error handler.
+
+Other:
+
+* Issue #2: Added maysara's suggested clone domains function.
+* Do not report error details to the browser screen.
+* User name field expanded to 255 characters.
+* It is now possible for PDNS-Admin to also install the necessary PDNS domain tables.
+* Added MySQLi support.
+* Added SQLite 3 support by Marco Wessel.
+
+Changes for 1.1.10:
+
+Bugs:
+
+* Bug #66: Cannot specify alternate NS records for subdomains.
+* Bug #103: Cannot enter TXT records with subdomains.
+* User creation was using the wrong language variable name, causing the app to crash.
+* Domain deletion template used the wrong variable, causing the app to crash.
+* egrgi() is deprecated in PHP >= 5.3.0, requiring the code for adding new domains to be changed.
+
+Changes for 1.1.9:
+
+Bugs:
+
+* SECURITY: All forms in the application have been hardened against Cross-Site Request Forgery attacks.
+  + Resolves Secunia Advisory 38736, part 3.
+
+Other:
+
+* Magic Quotes has been deprecated as of PHP 5.3.0 and is no longer advised to be used for any PHP version.
+* General optimization of the default skin. Removal of unused files.
+
+Changes for 1.1.8:
+
+* BUG-SECURITY: Secunia Advisory SA32823 fixed.
+* Database repair option added.
+* Functions added to allow "select all" and "unselect all" on forms.
+* Removed obsolete IE6 pngfix.js file. The skin is no longer using it.
+
+Changes for 1.1.7:
+
+* BUG: Master IP validation should only be done on SLAVE zones.
+* BUG: Adding a user does not send the username to the recipient.
+* BUG: Attempting to edit a group name through the AdminCP results in a crash.
+* BUG: Entering an NS or MX record incorrectly reports being the same as a CNAME record even for other domains. [RayKeckler]
+* BUG: Restored the missing chmod function still being used by skins and the DB backup code.
+* SOA records need to be deletable as well because importing domains using other utilities can duplicate them.
+* Reduction in code size for 3rd through 8th domain name servers provided by uwe.
+* Users can now submit new domains under their own control.
+
+Changes for 1.1.6:
+
+* BUG: lang->domains_record_delete_wrong definition missing.
+* BUG: SOA serial update needed to trim whitespace chars or it would cause the record entry to keep growing.
+* BUG: It was not possible to delete a supermaster that had been entered.
+* Added missing log messages to the logging functions.
+* Removed unnecessary skin upgrade code.
+* Better handling for user created domains.
+* Default SOA expiry time raised to 3 weeks based on diagnostic recommendations.
+* Added the ability to set the Master IP for a Slave domain.
+* Added a "Your Console" link to the universal template for all users.
+* Added master IP in main listing for slaves.
+* SLAVE domains shouldn't add an SOA record so they can get updated properly from their MASTER. - ericgearhart
+
+Changes for 1.1.5:
+
+* Removed the unused chmod function. Files should be manually altered if needed.
+* User's last logon IP was not updated from the index page login check.
+* Changed vairable names throughout the program to reflect pdnsadmin instead of QSF.
+* Settable number of domains to display per page.
+* Settable number of records to display per page.
+* Added support for LOC, SRV, NAPTR, and SPF records. No validation in place yet!
+* Settable default SOA record values in AdminCP.
+* Optional to insert MX, NS, and CNAME records when a domain is created.
+* Added support for configuring supermasters.
+
+Changes for 1.1.4:
+
+NOTE: IPv6 support raises minimum system requirements to PHP >= 5.1.0
+
+* Fixed a bug where PTR records were being added or edited incorrectly. [Josh Speer]
+* Removed a bad template section that dealt with database prefixes, which the package does not use.
+* Corrected an undefined indexes error in the error library file.
+* Added a new user module to list the users in the system along with their domain information.
+* A running total of users and domains will now be shown on the main screen below the navigation menu.
+* Support added for IPv6 AAAA records.
+* Support added for up to 8 nameservers to be specified.
+
+Changes for 1.1.3:
+
+* Fixed some hardcoded English in the PHP source.
+* Editing users in the AdminCP wont't change an email address.
+* Added pagination links to the front page domain listing.
+* Updated all copyright headers for 2008.
+* Fixed another installer bug that prevented new installs.
+
+Changes for 1.1.2:
+
+* SECURITY: Users were capable of creating new domains without the permission setting.
+* Users are unable to reset their passwords due to bad variable names in the login code.
+* Domain owners should not be allowed to change the domain type without administrative access.
+* Domain type and owner dialogue should not appear in the interface if the user is not allowed to use them.
+* Skin templating system can now allow for nested <IF><ELSE> blocks.
+* Added an upgrade script to handle template and query changes in the future when updating.
+
+Changes for 1.1.1:
+
+* SECURITY: Error reporting library will reveal database info if a connection error is displayed.
+* Close out database connection when the page is completed.
+
+Changes for 1.1:
+
+* Fixed the installer so that it actually works now. Rather amazed this wasn't mentioned!
+* Fixed all instances of hardcoded English in the code.
+* Added paging tags to the administration logs.
+* Javascript for the permissions checkboxes was moved to an external file.
+* Removed the table class color switchers.
+* New interface skin.
+* Added a safety check to prevent locking out the site from all users, including the admin.
+* Editing CSS didn't provide a continue link when submitted.
+* Removed unnecessary checks on password validity.
+* mail.domain.com A record is not added when a new forward domain is created, even though the MX record is.
+* Error messages shown to users will be emailed to the site administrator.
+
+Changes for 1.0:
+
+* Initial Release. Nothing's changed yet!
+* Stripped out all of the unneeded junk from the QSF core code that wasn't useful for domain management.
