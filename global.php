@@ -268,7 +268,7 @@ class pdnsadmin
 				return 0;
 			}
 
-			$load = split('load averages?: ', $load);
+			$load = preg_split('/load average:/', $load);
 			$load = explode(',', $load[1]);
 		}
 

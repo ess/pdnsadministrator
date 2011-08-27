@@ -1,3 +1,9 @@
+Changes for 1.23:
+
+Bugs:
+
+* Issue #22: Fixed uncaught deprecated use of the split() function.
+
 Changes for 1.22:
 
 Bugs:
