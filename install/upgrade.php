@@ -144,7 +144,7 @@ echo "<form action='{$this->self}?mode=upgrade&amp;step=2' method='post'>
 			case 2:
 echo" <div class='article'>
   <div class='title' style='text-align:center'>Upgrade {$this->name}</div>";
-				$db = new $this->modules['database']($this->sets['db_host'], $this->sets['db_user'], $this->sets['db_pass'], $this->sets['db_name'],
+				$db = new $this->modules['database']($this->sets['db_name'], $this->sets['db_user'], $this->sets['db_pass'], $this->sets['db_host'],
 					$this->sets['db_port'], $this->sets['db_socket']);
 
 				if ( !$db->connection )

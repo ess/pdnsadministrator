@@ -3,6 +3,7 @@ Changes for 1.23:
 Bugs:
 
 * Issue #22: Fixed uncaught deprecated use of the split() function.
+* Issue #24: Yet another reversed set of parameters to the database library breaking the upgrade installer.
 
 Changes for 1.22:
 
